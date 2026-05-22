@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A&P Atlas — Bones, Joints & Body Map</title>
+<title>A&P Atlas — Body Map, Bones, Joints & Muscles</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -17,89 +17,88 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
-header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
-.logo{font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--text)}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:200;flex-wrap:wrap;gap:8px}
+.logo{font-family:'Fraunces',serif;font-size:19px;font-weight:400}
 .logo span{color:var(--accent);font-style:italic}
-.nav{display:flex;gap:4px;flex-wrap:wrap}
-.nav-btn{padding:7px 14px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:all 0.2s}
-.nav-btn:hover{background:var(--bg4);color:var(--text)}
-.nav-btn.active{background:var(--accent2);color:#fff}
-.page{display:none;padding:28px;max-width:1200px;margin:0 auto}
-.page.active{display:block}
-.section-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:16px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px}
-.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
-.badge-blue{background:rgba(124,158,248,0.15);color:var(--accent)}
-.badge-green{background:rgba(82,209,138,0.15);color:var(--green)}
-.badge-amber{background:rgba(245,200,66,0.15);color:var(--amber)}
-.badge-coral{background:rgba(240,112,96,0.15);color:var(--coral)}
-.badge-purple{background:rgba(176,132,245,0.15);color:var(--purple)}
-.badge-teal{background:rgba(78,205,196,0.15);color:var(--teal)}
-.badge-pink{background:rgba(244,114,182,0.15);color:var(--pink)}
-
-/* ── BODY MAP ── */
-.atlas-layout{display:grid;grid-template-columns:1fr 360px;gap:24px;min-height:600px}
-.map-container{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative}
-.map-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
-.map-toggle{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.map-toggle:hover{background:var(--bg4)}
-.map-toggle.active{background:var(--accent2);border-color:var(--accent2);color:#fff}
-.svg-wrap{display:flex;gap:16px;justify-content:center;overflow-x:auto}
-.skeleton-svg path,.skeleton-svg ellipse,.skeleton-svg circle,.skeleton-svg polygon,.skeleton-svg rect{cursor:pointer;transition:fill 0.15s,opacity 0.15s}
-.skeleton-svg path:hover,.skeleton-svg ellipse:hover,.skeleton-svg circle:hover,.skeleton-svg polygon:hover{opacity:0.8}
-.skeleton-svg .bone-region.selected{filter:drop-shadow(0 0 4px var(--accent))}
-.info-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;height:fit-content;position:sticky;top:80px}
-.info-panel-placeholder{color:var(--text3);font-size:14px;text-align:center;padding:40px 20px}
-.info-panel h2{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:6px}
-.info-panel .region-tag{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px}
-.info-section{margin-bottom:14px}
-.info-section-label{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:6px;font-weight:600}
-.bone-list{list-style:none;display:flex;flex-direction:column;gap:4px}
-.bone-list li{font-size:13px;color:var(--text2);padding:5px 10px;background:var(--bg3);border-radius:6px;border-left:2px solid var(--accent2)}
-.bone-list li span{color:var(--text);font-weight:500}
-.marking-pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:12px;background:var(--bg3);color:var(--text2);margin:2px;border:1px solid var(--border)}
-.quiz-btn{display:block;width:100%;padding:10px;border-radius:var(--radius-sm);border:1px solid var(--accent2);background:transparent;color:var(--accent);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;margin-top:14px;transition:all 0.15s;text-align:center}
-.quiz-btn:hover{background:rgba(85,119,232,0.1)}
-
-/* ── BONES TABLE ── */
-.bone-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.filter-pill{padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.filter-pill:hover{background:var(--bg4);color:var(--text)}
-.filter-pill.active{background:var(--accent2);border-color:var(--accent2);color:#fff}
-.bones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.bone-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all 0.15s}
-.bone-card:hover{border-color:var(--border2);transform:translateY(-1px)}
-.bone-card h3{font-size:14px;font-weight:500;margin-bottom:4px}
-.bone-card .bone-meta{font-size:12px;color:var(--text3);margin-bottom:8px}
-.bone-card .bone-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent)}
-.expanded-bone{background:var(--bg3);border-radius:var(--radius-sm);padding:14px;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7;display:none}
-.bone-card.open .expanded-bone{display:block}
-
-/* ── JOINTS TABLE ── */
-.joints-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.joint-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
-.joint-card h3{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text)}
-.joint-card .joint-type{font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.6px}
-.movement-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.move-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg4);color:var(--text2);border:1px solid var(--border)}
-
-/* ── QUIZ ── */
-.atlas-quiz-area{max-width:600px;margin:0 auto}
-.quiz-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
-.quiz-q{font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin-bottom:20px;line-height:1.4}
-.quiz-choices{display:flex;flex-direction:column;gap:8px}
-.quiz-choice{padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg2);cursor:pointer;font-size:14px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.quiz-choice:hover:not(:disabled){border-color:var(--accent);background:rgba(124,158,248,0.05)}
-.quiz-choice.correct{border-color:var(--green);background:rgba(82,209,138,0.08);color:var(--green)}
-.quiz-choice.wrong{border-color:var(--coral);background:rgba(240,112,96,0.08);color:var(--coral)}
-.quiz-next{padding:10px 28px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;margin-top:14px}
-.score-display{text-align:center;padding:40px}
-.score-big{font-family:'Fraunces',serif;font-size:64px;font-weight:300;color:var(--accent)}
-
-@media(max-width:800px){
-  .atlas-layout{grid-template-columns:1fr}
-  .joints-layout{grid-template-columns:1fr}
-  .info-panel{position:static}
+.nav{display:flex;gap:3px;flex-wrap:wrap}
+.nb{padding:6px 12px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:all 0.15s}
+.nb:hover{background:var(--bg4);color:var(--text)}
+.nb.active{background:var(--accent2);color:#fff}
+.pg{display:none;padding:20px 24px;max-width:1280px;margin:0 auto}
+.pg.active{display:block}
+.sec-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:14px}
+/* ATLAS LAYOUT */
+.atlas-wrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px}
+.map-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.ctrl-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.tog{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap}
+.tog:hover{background:var(--bg4)}
+.tog.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.tog.bone-on{background:#1e3060;border-color:#7c9ef8;color:#7c9ef8}
+.tog.muscle-on{background:#2a1e30;border-color:#b084f5;color:#b084f5}
+.svg-row{display:flex;gap:12px;justify-content:center;overflow-x:auto}
+/* body SVG clickable areas */
+.bod path,.bod ellipse,.bod circle,.bod polygon,.bod rect{transition:opacity 0.15s}
+.bod .clickable:hover{opacity:0.75;cursor:pointer}
+.bod .hi{filter:drop-shadow(0 0 5px currentColor)}
+/* info panel */
+.info-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:sticky;top:70px;max-height:calc(100vh - 90px);overflow-y:auto}
+.info-empty{color:var(--text3);text-align:center;padding:40px 16px;font-size:14px}
+.info-name{font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin-bottom:2px}
+.info-sub{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px}
+.info-sec{margin-bottom:12px}
+.info-sec-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:6px;font-weight:600}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg3);color:var(--text2);margin:2px;border:1px solid var(--border)}
+.detail-row{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.detail-row:last-child{border-bottom:none}
+.detail-lbl{color:var(--text3);font-size:12px}
+.detail-val{color:var(--text2)}
+.mnem-box{background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--amber);margin-top:10px}
+.qbtn{display:block;width:100%;padding:9px;border-radius:var(--radius-sm);border:1px solid var(--accent2);background:transparent;color:var(--accent);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;margin-top:12px;text-align:center;transition:all 0.15s}
+.qbtn:hover{background:rgba(85,119,232,0.1)}
+/* BONES PAGE */
+.bf-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.fp{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.fp:hover{background:var(--bg4)}
+.fp.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.bg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.bc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:all 0.15s}
+.bc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.bc h3{font-size:14px;font-weight:500;margin-bottom:3px}
+.bc-meta{font-size:11px;color:var(--text3);margin-bottom:6px;display:flex;gap:8px;flex-wrap:wrap}
+.bc-exp{display:none;background:var(--bg3);border-radius:8px;padding:12px;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7}
+.bc.open .bc-exp{display:block}
+/* MUSCLES PAGE */
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:all 0.15s}
+.mc:hover{border-color:var(--border2)}
+.mc h3{font-size:14px;font-weight:500;margin-bottom:3px}
+.mc-exp{display:none;background:var(--bg3);border-radius:8px;padding:12px;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.8}
+.mc.open .mc-exp{display:block}
+.oi-row{display:grid;grid-template-columns:80px 1fr;gap:6px;padding:4px 0;font-size:12px}
+.oi-lbl{color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;font-size:10px}
+/* JOINTS PAGE */
+.jg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.jc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.jc h3{font-size:14px;font-weight:500;margin-bottom:2px}
+.jc-type{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px}
+.mv-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.mvt{font-size:10px;padding:2px 7px;border-radius:8px;background:var(--bg4);color:var(--text2);border:1px solid var(--border)}
+.move-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:14px}
+/* QUIZ */
+.qwrap{max-width:620px;margin:0 auto}
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:14px}
+.qq{font-family:'Fraunces',serif;font-size:19px;font-weight:300;margin-bottom:18px;line-height:1.4}
+.qcs{display:flex;flex-direction:column;gap:8px}
+.qc{padding:11px 15px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg2);cursor:pointer;font-size:13px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.qc:hover:not(:disabled){border-color:var(--accent);background:rgba(124,158,248,0.05)}
+.qc.ok{border-color:var(--green);background:rgba(82,209,138,0.08);color:var(--green)}
+.qc.no{border-color:var(--coral);background:rgba(240,112,96,0.08);color:var(--coral)}
+.qnext{padding:9px 26px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;margin-top:12px}
+.score-big{font-family:'Fraunces',serif;font-size:60px;font-weight:300;color:var(--accent)}
+@media(max-width:860px){
+  .atlas-wrap{grid-template-columns:1fr}
+  .info-box{position:static;max-height:none}
 }
 </style>
 </head>
@@ -107,714 +106,773 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 <header>
   <div class="logo">A&amp;P <span>Atlas</span></div>
   <nav class="nav">
-    <button class="nav-btn active" onclick="showPage('bodymap')">🗺️ Body Map</button>
-    <button class="nav-btn" onclick="showPage('bones')">🦴 All Bones</button>
-    <button class="nav-btn" onclick="showPage('joints')">🔗 Joints</button>
-    <button class="nav-btn" onclick="showPage('atlas-quiz')">🧠 Quiz</button>
+    <button class="nb active" onclick="showPg('bodymap')">🗺️ Body Map</button>
+    <button class="nb" onclick="showPg('bones')">🦴 All Bones</button>
+    <button class="nb" onclick="showPg('muscles')">💪 Muscles</button>
+    <button class="nb" onclick="showPg('joints')">🔗 Joints</button>
+    <button class="nb" onclick="showPg('nerves')">⚡ Nerves</button>
+    <button class="nb" onclick="showPg('ligtend')">🩹 Lig &amp; Tend</button>
+    <button class="nb" onclick="showPg('senses')">👁️ Eye &amp; Ear</button>
+    <button class="nb" onclick="showPg('atlas-quiz')">🧠 Quiz</button>
   </nav>
-  <a href="index.html" style="padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif">← Back to Study Lab</a>
+  <a href="index.html" style="padding:6px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);color:var(--text2);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif">← Study Lab</a>
 </header>
 
-<!-- ═══════════ BODY MAP ═══════════ -->
-<div id="page-bodymap" class="page active">
-  <div style="margin-bottom:20px">
-    <div class="section-title">Interactive Body Map</div>
-    <div style="font-size:14px;color:var(--text2)">Click any region on the skeleton to explore bones, markings, and details. Toggle between anterior and posterior views.</div>
-  </div>
-  <div class="atlas-layout">
-    <div class="map-container">
-      <div class="map-controls">
-        <button class="map-toggle active" id="btnAnterior" onclick="setView('anterior')">Anterior (Front)</button>
-        <button class="map-toggle" id="btnPosterior" onclick="setView('posterior')">Posterior (Back)</button>
-        <span style="font-size:12px;color:var(--text3);margin-left:8px">Click a region to learn more</span>
+<!-- ══════════ BODY MAP ══════════ -->
+<div id="pg-bodymap" class="pg active">
+  <div class="atlas-wrap">
+    <div class="map-box">
+      <div class="ctrl-row">
+        <button class="tog on" id="tbones" onclick="setLayer('bones')">🦴 Bones</button>
+        <button class="tog" id="tmuscles" onclick="setLayer('muscles')">💪 Muscles</button>
+        <span style="width:1px;height:20px;background:var(--border);margin:0 2px"></span>
+        <button class="tog on" id="tant" onclick="setView('ant')">Anterior</button>
+        <button class="tog" id="tpost" onclick="setView('post')">Posterior</button>
+        <span style="font-size:11px;color:var(--text3);margin-left:6px">Click a region to explore</span>
       </div>
-      <div class="svg-wrap" id="svgWrap"></div>
+      <div class="svg-row" id="svgRow"></div>
     </div>
-    <div class="info-panel" id="infoPanel">
-      <div class="info-panel-placeholder" id="infoPanelPlaceholder">
-        <div style="font-size:32px;margin-bottom:12px">👆</div>
-        <div>Click any region on the skeleton to see bone details, markings, and key facts</div>
-      </div>
-      <div id="infoPanelContent" style="display:none"></div>
+    <div class="info-box">
+      <div class="info-empty" id="infoEmpty"><div style="font-size:30px;margin-bottom:10px">👆</div>Click any highlighted region on the body map</div>
+      <div id="infoContent" style="display:none"></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ ALL BONES ═══════════ -->
-<div id="page-bones" class="page">
-  <div class="section-title">All Named Bones — Full Reference</div>
-  <div class="bone-filter-row" id="boneFilterRow"></div>
-  <div class="bones-grid" id="bonesGrid"></div>
+<!-- ══════════ ALL BONES ══════════ -->
+<div id="pg-bones" class="pg">
+  <div class="sec-title">All Named Bones — Full Reference</div>
+  <div class="bf-row" id="bfr"></div>
+  <div class="bg" id="bgrid"></div>
 </div>
 
-<!-- ═══════════ JOINTS ═══════════ -->
-<div id="page-joints" class="page">
-  <div class="section-title">Joints — Classification, Structure & Movement</div>
-
-  <div class="card" style="margin-bottom:24px">
-    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);margin-bottom:12px">Joint Classification Overview</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
-      ${[
-        ['Fibrous','No joint cavity; CT connects bones','Skull sutures, gomphoses, syndesmoses','Synarthrosis (immovable) to amphiarthrosis','#7c9ef8'],
-        ['Cartilaginous','No joint cavity; cartilage connects','Pubic symphysis, epiphyseal plates, costal','Synarthrosis to amphiarthrosis','#52d18a'],
-        ['Synovial','Joint cavity + synovial fluid','Most limb joints','Diarthrosis (freely movable)','#f5c842'],
-      ].map(([t,d,ex,mob,col])=>`
-        <div style="background:var(--bg3);border-radius:10px;padding:14px;border-left:3px solid ${col}">
-          <div style="font-size:13px;font-weight:600;color:${col};margin-bottom:6px">${t}</div>
-          <div style="font-size:12px;color:var(--text2);margin-bottom:4px">${d}</div>
-          <div style="font-size:11px;color:var(--text3)">E.g.: ${ex}</div>
-          <div style="font-size:11px;color:${col};margin-top:4px">${mob}</div>
-        </div>`).join('')}
-    </div>
-  </div>
-
-  <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin-bottom:14px">Synovial Joint Types</div>
-  <div class="joints-layout" id="jointsGrid"></div>
-
-  <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin:24px 0 14px">Movement Terms</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px" id="movementsGrid"></div>
+<!-- ══════════ MUSCLES ══════════ -->
+<div id="pg-muscles" class="pg">
+  <div class="sec-title">Major Muscles — Origin, Insertion, Action & Innervation</div>
+  <div class="bf-row" id="mfr"></div>
+  <div class="mg" id="mgrid"></div>
 </div>
 
-<!-- ═══════════ ATLAS QUIZ ═══════════ -->
-<div id="page-atlas-quiz" class="page">
-  <div class="section-title">Anatomy Quiz</div>
-  <div id="quizSetupArea">
-    <div style="max-width:500px">
-      <p style="color:var(--text2);margin-bottom:20px;font-size:14px">Test your knowledge of bones, joint types, movements, and bone markings.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="quizTypeGrid"></div>
-      <button onclick="startAtlasQuiz()" style="padding:12px 32px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer">Start Quiz →</button>
-    </div>
+<!-- ══════════ JOINTS ══════════ -->
+<div id="pg-joints" class="pg">
+  <div class="sec-title">Joints & Movement</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px">
+    ${[['Fibrous','No cavity, CT connects','Sutures, gomphoses, syndesmoses','#7c9ef8'],['Cartilaginous','No cavity, cartilage connects','Discs, symphyses, epiphyseal plates','#52d18a'],['Synovial','Joint cavity + fluid','All limb joints','#f5c842']].map(([t,d,ex,c])=>`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;border-top:3px solid ${c}">
+      <div style="font-size:13px;font-weight:600;color:${c};margin-bottom:4px">${t}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">${d}</div>
+      <div style="font-size:11px;color:var(--text3)">e.g. ${ex}</div>
+    </div>`).join('')}
   </div>
-  <div id="atlasQuizArea" style="display:none"></div>
+  <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:300;margin-bottom:12px">Synovial Joint Types</div>
+  <div class="jg" id="jgrid"></div>
+  <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:300;margin:20px 0 12px">Anatomical Movement Terms</div>
+  <div class="move-grid" id="movgrid"></div>
+</div>
+
+<!-- ══════════ NERVES ══════════ -->
+<div id="pg-nerves" class="pg">
+  <div class="sec-title">Nervous System — Cranial Nerves, Spinal Nerves & Plexuses</div>
+  <div class="bf-row" id="nfr"></div>
+  <div id="ngrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px"></div>
+</div>
+
+<!-- ══════════ LIGAMENTS & TENDONS ══════════ -->
+<div id="pg-ligtend" class="pg">
+  <div class="sec-title">Ligaments &amp; Tendons</div>
+  <div class="bf-row" id="ltfr"></div>
+  <div id="ltgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px"></div>
+</div>
+
+<!-- ══════════ SPECIAL SENSES ══════════ -->
+<div id="pg-senses" class="pg">
+  <div class="sec-title">Special Senses — Eye &amp; Ear</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px" id="sensesHeader"></div>
+  <div id="sensesDetail"></div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="pg-atlas-quiz" class="pg">
+  <div class="sec-title">Anatomy Quiz</div>
+  <div id="qsetup">
+    <p style="color:var(--text2);font-size:14px;margin-bottom:18px">Choose a topic to be tested on.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;max-width:700px;margin-bottom:20px" id="qtypegrid"></div>
+    <button onclick="startQ()" style="padding:11px 30px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer">Start Quiz →</button>
+  </div>
+  <div id="qactive" style="display:none"></div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA — BONE REGIONS for body map
-// ═══════════════════════════════════════════════
+// ═══════════════════════ BONE DATA ═══════════════════════
 const REGIONS = {
-  skull: {
-    name: 'Skull', region: 'Axial', color: '#7c9ef8',
-    bones: [
-      {name:'Frontal bone', count:1, notes:'Forms forehead + roof of orbits. Contains frontal sinuses.', markings:['Supraorbital foramen/notch','Glabella','Frontal sinuses']},
-      {name:'Parietal bones', count:2, notes:'Form superior and lateral walls of cranium. Meet at sagittal suture.', markings:['Sagittal suture (between them)','Coronal suture (with frontal)','Temporal lines']},
-      {name:'Temporal bones', count:2, notes:'Form inferior lateral skull. House middle + inner ear structures.', markings:['External acoustic meatus','Mastoid process','Styloid process','Zygomatic process','Carotid canal','Jugular foramen']},
-      {name:'Occipital bone', count:1, notes:'Forms posterior and inferior cranium. Articulates with C1 (atlas).', markings:['Foramen magnum','Occipital condyles','External occipital protuberance','Hypoglossal canal']},
-      {name:'Sphenoid bone', count:1, notes:'Bat-shaped; keystone of cranium, articulates with all other cranial bones.', markings:['Sella turcica (houses pituitary)','Optic foramen','Superior orbital fissure','Pterygoid processes','Greater & lesser wings']},
-      {name:'Ethmoid bone', count:1, notes:'Delicate, between orbits. Forms nasal septum and cribriform plate.', markings:['Cribriform plate (olfactory nerve CN I)','Crista galli','Perpendicular plate','Superior & middle nasal conchae']},
+  skull:{name:'Skull',region:'Axial',color:'#7c9ef8',
+    bones:[
+      {name:'Frontal bone',count:1,type:'Flat',ossification:'Intramembranous',notes:'Forms forehead and roof of orbits. Contains frontal sinuses. Key landmark: supraorbital margin.',
+       markings:['Supraorbital foramen/notch','Glabella (between eyebrows)','Frontal sinuses','Orbital plates (roof of orbit)']},
+      {name:'Parietal bones',count:2,type:'Flat',ossification:'Intramembranous',notes:'Form superior and lateral cranial walls. Meet each other at sagittal suture.',
+       markings:['Sagittal suture (between the two)','Coronal suture (with frontal)','Lambdoid suture (with occipital)','Temporal lines (temporalis attachment)']},
+      {name:'Temporal bones',count:2,type:'Irregular',ossification:'Endochondral + intramembranous',notes:'Inferior lateral cranium. House the entire middle and inner ear apparatus.',
+       markings:['External acoustic meatus (ear canal)','Mastoid process (SCM attachment)','Styloid process (hyoid muscles)','Zygomatic process (forms zygomatic arch)','Carotid canal (internal carotid)','Jugular foramen (CN IX, X, XI + jugular vein)','Petrous part (inner ear)','Mandibular fossa (TMJ)']},
+      {name:'Occipital bone',count:1,type:'Flat',ossification:'Endochondral + intramembranous',notes:'Posterior and inferior cranium. Articulates with C1 (atlas) at occipital condyles.',
+       markings:['Foramen magnum (brainstem passes through)','Occipital condyles (articulate with C1)','External occipital protuberance (EOP)','Superior + inferior nuchal lines (muscle attachment)','Hypoglossal canal (CN XII)','Basilar part (anterior to foramen magnum)']},
+      {name:'Sphenoid bone',count:1,type:'Irregular',ossification:'Endochondral + intramembranous',notes:'Bat-shaped keystone of cranium. Articulates with all other cranial bones.',
+       markings:['Sella turcica (hypophyseal fossa — houses pituitary gland)','Optic canal (CN II + ophthalmic artery)','Superior orbital fissure (CN III, IV, V1, VI)','Inferior orbital fissure (CN V2, zygomatic nerve)','Foramen rotundum (CN V2)','Foramen ovale (CN V3)','Foramen spinosum (middle meningeal artery)','Greater and lesser wings','Pterygoid processes','Pterygoid canal']},
+      {name:'Ethmoid bone',count:1,type:'Irregular',ossification:'Endochondral',notes:'Delicate, sieve-like bone between orbits. Forms most of nasal septum and part of orbit medial wall.',
+       markings:['Cribriform plate (olfactory nerve CN I — "cribriform" = sieve-like)','Crista galli (dural attachment point)','Perpendicular plate (nasal septum)','Superior nasal conchae','Middle nasal conchae','Orbital plate (medial wall of orbit)']},
     ],
-    facial: [
-      {name:'Mandible', count:1, notes:'Lower jaw. Only movable skull bone. Site of TMJ.', markings:['Mental foramen','Mandibular foramen','Coronoid process','Condylar process','Mental protuberance','Body + rami']},
-      {name:'Maxillae', count:2, notes:'Upper jaw; form hard palate, floor of orbits, cheeks.', markings:['Infraorbital foramen','Palatine process','Alveolar process']},
-      {name:'Zygomatic bones', count:2, notes:'Cheekbones. Form zygomatic arch with temporal bone.', markings:[]},
-      {name:'Nasal bones', count:2, notes:'Form bridge of nose.', markings:[]},
-      {name:'Lacrimal bones', count:2, notes:'Smallest facial bones; medial wall of orbit; contain lacrimal fossa.', markings:['Lacrimal fossa (nasolacrimal duct)']},
-      {name:'Palatine bones', count:2, notes:'Form posterior hard palate and floor of nasal cavity.', markings:[]},
-      {name:'Vomer', count:1, notes:'Inferior nasal septum.', markings:[]},
-      {name:'Inferior nasal conchae', count:2, notes:'Scroll-like; increase nasal cavity surface area for humidifying air.', markings:[]},
+    facial:[
+      {name:'Mandible',count:1,type:'Irregular',ossification:'Intramembranous',notes:'Lower jaw. Only movable skull bone (via TMJ). Formed by 2 ossification centers that fuse at symphysis menti.',
+       markings:['Mental protuberance (chin)','Mental foramen (CN V3 — mental nerve)','Mandibular foramen (inferior alveolar nerve)','Coronoid process (temporalis insertion)','Condylar process (TMJ articulation)','Mandibular notch','Body + rami + angle','Alveolar process (tooth sockets)','Mylohyoid line']},
+      {name:'Maxillae',count:2,type:'Irregular',ossification:'Intramembranous',notes:'Form upper jaw, hard palate, cheek, floor of orbit, lateral nose. Cleft palate = failure of maxillary palatine processes to fuse.',
+       markings:['Infraorbital foramen (CN V2 — infraorbital nerve)','Palatine process (anterior hard palate)','Alveolar process (upper tooth sockets)','Frontal process (side of nose)','Zygomatic process','Maxillary sinus (paranasal sinus)']},
+      {name:'Zygomatic bones',count:2,type:'Irregular',ossification:'Intramembranous',notes:'Cheekbones. Form lateral orbit and zygomatic arch (with temporal zygomatic process).',markings:['Temporal process (forms zygomatic arch)','Frontal process','Infraorbital margin','Zygomaticofacial foramen']},
+      {name:'Nasal bones',count:2,type:'Flat',ossification:'Intramembranous',notes:'Small flat bones forming the bony bridge of nose. Articulate with each other and with frontal and maxillae.',markings:['Articulate at internasal suture']},
+      {name:'Lacrimal bones',count:2,type:'Irregular',ossification:'Intramembranous',notes:'Smallest facial bones. Medial wall of orbit. Contain the lacrimal groove for nasolacrimal duct.',markings:['Lacrimal groove (nasolacrimal duct — drains tears into nasal cavity)','Posterior lacrimal crest']},
+      {name:'Palatine bones',count:2,type:'Irregular',ossification:'Intramembranous',notes:'L-shaped. Form posterior hard palate, part of nasal cavity floor, and small part of orbit floor.',markings:['Horizontal plate (posterior hard palate)','Perpendicular plate (lateral nasal wall)','Greater and lesser palatine foramina']},
+      {name:'Vomer',count:1,type:'Irregular',ossification:'Intramembranous',notes:'Inferior posterior nasal septum. Articulates with perpendicular plate of ethmoid (above) and maxillae/palatine (below).',markings:['Forms inferior nasal septum']},
+      {name:'Inferior nasal conchae',count:2,type:'Irregular',ossification:'Endochondral',notes:'Scroll-like bones projecting medially into nasal cavity. Increase surface area for air humidification and filtration. Only facial bone NOT a process of another bone.',markings:['Increase nasal cavity turbulence for air conditioning']},
     ],
-    mnemonic: 'Cranial 8: "Fried Eggs Taste Particularly Salty On Oatmeal" (Frontal, Ethmoid, Temporal×2, Parietal×2, Sphenoid, Occipital). Facial 14: includes mandible, maxillae, zygomatic, nasal, lacrimal, palatine, vomer, inferior conchae.'
+    mnemonic:'Cranial 8: "Fried Eggs Taste Particularly Salty On Oatmeal" = Frontal, Ethmoid, Temporal×2, Parietal×2, Sphenoid, Occipital. Facial 14.'
   },
-  vertebral: {
-    name: 'Vertebral Column', region: 'Axial', color: '#52d18a',
-    overview: '26 bones total. 33 vertebrae but S and coccyx fuse. Curvatures: cervical (lordosis) → thoracic (kyphosis) → lumbar (lordosis) → sacral (kyphosis).',
-    sections: [
-      {name:'Cervical (C1–C7)', count:7, notes:'Smallest vertebrae. C1 = Atlas (no body; supports skull via occipital condyles). C2 = Axis (has dens/odontoid process → pivot for head rotation). C3–C7 = typical. All have foramen transversarium for vertebral artery.', markings:['Vertebral foramen (large, triangular)','Bifid spinous processes C2–C6','Transverse foramina','Anterior + posterior tubercles']},
-      {name:'Thoracic (T1–T12)', count:12, notes:'Articulate with ribs (costal facets). Heart-shaped body. Long spinous processes project inferiorly.', markings:['Costal facets (superior + inferior)','Long inferiorly-directed spinous process','Circular vertebral foramen']},
-      {name:'Lumbar (L1–L5)', count:5, notes:'Largest bodies (weight-bearing). Short, thick spinous processes. No costal facets, no transverse foramina.', markings:['Massive rectangular body','Short blunt spinous process','Triangular vertebral foramen','Mammillary processes']},
-      {name:'Sacrum', count:'5 fused', notes:'Triangular; forms posterior wall of pelvis. Articulates with ilium at sacroiliac joints.', markings:['Sacral promontory','Sacral canal','Sacral foramina (4 pairs)','Auricular surface (SI joint)','Median sacral crest']},
-      {name:'Coccyx', count:'3–4 fused', notes:'Vestigial tail; attachment point for ligaments and muscles of pelvic floor.', markings:['Coccygeal cornua']},
+  vertebral:{name:'Vertebral Column',region:'Axial',color:'#52d18a',
+    bones:[
+      {name:'Atlas (C1)',count:1,type:'Irregular',ossification:'Endochondral',notes:'No vertebral body or spinous process. Ring-shaped. Supports skull at atlanto-occipital joint (nodding "yes"). Has anterior + posterior arches and lateral masses.',
+       markings:['Anterior arch (articulates with dens of axis)','Posterior arch (groove for vertebral artery)','Superior articular facets (occipital condyles)','Transverse foramina (vertebral artery)','Transverse processes']},
+      {name:'Axis (C2)',count:1,type:'Irregular',ossification:'Endochondral',notes:'Has dens (odontoid process) projecting superiorly — pivot for C1 rotation (shaking "no"). Held by transverse ligament of atlas.',
+       markings:['Dens/Odontoid process (C1 pivots around this)','Bifid spinous process','Superior articular facets (face superolaterally)','Transverse foramina']},
+      {name:'Cervical vertebrae C3–C7',count:5,type:'Irregular',ossification:'Endochondral',notes:'Smallest vertebrae. Allow greatest range of motion. C7 = vertebra prominens (longest spinous process, first palpable).',
+       markings:['Bifid spinous processes (C2–C6)','Transverse foramina (vertebral artery — unique to cervical)','Large triangular vertebral foramen','Anterior + posterior tubercles of transverse processes','Uncinate processes (C3–C7)']},
+      {name:'Thoracic vertebrae T1–T12',count:12,type:'Irregular',ossification:'Endochondral',notes:'Heart-shaped bodies. Articulate with ribs via costal facets. Long spinous processes project inferiorly, overlap like shingles.',
+       markings:['Superior + inferior costal facets (rib articulation)','Transverse process costal facets (T1–T10)','Long inferiorly-directed spinous process','Circular vertebral foramen','Relatively immobile (ribs + long spinous processes limit motion)']},
+      {name:'Lumbar vertebrae L1–L5',count:5,type:'Irregular',ossification:'Endochondral',notes:'Largest vertebral bodies — weight-bearing. Short blunt spinous processes project posteriorly (not inferiorly). No costal facets, no transverse foramina.',
+       markings:['Massive rectangular body','Short thick spinous process','Triangular vertebral foramen','Mammillary processes (multifidus attachment)','Accessory processes','Iliolumbar ligament at L5 transverse process']},
+      {name:'Sacrum',count:'5 fused',type:'Irregular',ossification:'Endochondral',notes:'Triangular. Forms posterior wall of pelvis. Articulates with L5 above and coccyx below. SI joints on lateral surfaces.',
+       markings:['Sacral promontory (S1 anterosuperior rim — obstetric landmark)','Sacral canal (continuation of vertebral canal)','4 pairs of sacral foramina (anterior + posterior)','Median sacral crest (fused spinous processes)','Intermediate sacral crest (fused articular processes)','Lateral sacral crest (fused transverse processes)','Auricular surface (SI joint with ilium)','Sacral hiatus (caudal epidural injection site)','Sacral cornu']},
+      {name:'Coccyx',count:'3–4 fused',type:'Irregular',ossification:'Endochondral',notes:'Vestigial tail. Attachment for gluteus maximus, coccygeus, levator ani, and sacrotuberous ligament. Coccydynia = pain from coccyx.',
+       markings:['Coccygeal cornua (articulate with sacral cornua)','Attachment of anococcygeal ligament']},
     ],
-    intervertebral: 'Intervertebral discs between C2/C3 through L5/S1 (23 total). Each has: Nucleus pulposus (gel core — absorbs shock) + Annulus fibrosus (fibrocartilage rings). Herniation = nucleus pulposus ruptures through annulus → compresses nerve roots.',
-    mnemonic: 'C7 T12 L5 = "Breakfast at 7, Lunch at 12, Dinner at 5."'
+    extra:'Intervertebral discs (23 total, C2/3 to L5/S1): nucleus pulposus (gel, H2O) + annulus fibrosus (fibrocartilage rings). Herniation = nucleus ruptures → nerve root compression.',
+    mnemonic:'C7, T12, L5 = "Breakfast at 7, Lunch at 12, Dinner at 5." Curvatures: Cervical/Lumbar = lordosis (concave posterior). Thoracic/Sacral = kyphosis (convex posterior).'
   },
-  thoracic_cage: {
-    name: 'Thoracic Cage', region: 'Axial', color: '#f5c842',
-    bones: [
-      {name:'Sternum', count:1, notes:'Flat bone; 3 parts: Manubrium (top — clavicle + 1st rib articulate), Body (ribs 2–7 attach via costal cartilage), Xiphoid process (ossifies ~40 yrs; attachment for diaphragm).', markings:['Jugular (suprasternal) notch','Clavicular notches','Sternal angle (of Louis) = T4/T5 junction = rib 2 landmark']},
-      {name:'True ribs (1–7)', count:7, notes:'Attach to sternum directly via their own costal cartilage.', markings:['Costal groove (inferior — neurovascular bundle)','Head + neck + tubercle','Angle of rib']},
-      {name:'False ribs (8–10)', count:3, notes:'Costal cartilage joins rib 7\'s cartilage, not sternum directly.', markings:[]},
-      {name:'Floating ribs (11–12)', count:2, notes:'No anterior attachment. Short, end freely in abdominal musculature.', markings:[]},
+  thorax:{name:'Thoracic Cage',region:'Axial',color:'#f5c842',
+    bones:[
+      {name:'Sternum',count:1,type:'Flat',ossification:'Intramembranous (manubrium) + Endochondral',notes:'3 parts: Manubrium (top) + Body + Xiphoid process. Sternal angle (angle of Louis) = junction manubrium/body = T4/T5 level = rib 2 attachment = aortic arch level.',
+       markings:['Jugular (suprasternal) notch — T2 level','Clavicular notches (SCJ)','Manubriosternal joint (sternal angle of Louis) — rib 2 landmark','Xiphisternal joint — rib 7 and T9 level','Xiphoid process (diaphragm + rectus abdominis)']},
+      {name:'True ribs 1–7',count:7,type:'Flat',ossification:'Endochondral',notes:'Connect directly to sternum via their own costal cartilage. Rib 1 is flat, short, broad — articulates with manubrium and T1.',
+       markings:['Head (2 articular facets — articulate with 2 vertebral bodies)','Neck','Tubercle (articulates with transverse process)','Angle (sharpest bend — most common fracture site)','Costal groove (inferior surface — intercostal NVB: vein-artery-nerve VAN)','Shaft/body']},
+      {name:'False ribs 8–10',count:3,type:'Flat',ossification:'Endochondral',notes:'Costal cartilage connects to cartilage of rib 7, not sternum directly. Form costal margin.',markings:['Costal margin','Costal groove']},
+      {name:'Floating ribs 11–12',count:2,type:'Flat',ossification:'Endochondral',notes:'No anterior attachment. Ends freely in abdominal musculature. Short and rudimentary. Only have 1 costal facet (not 2).',
+       markings:['Only single articular facet on head','No tubercle articular facet (T11 and T12)']},
     ],
-    mnemonic: '"True 1–7, False 8–10, Floating 11–12." Total 24 ribs (12 pairs).'
+    mnemonic:'True 1–7, False 8–10, Floating 11–12. Costal groove VAN from top down: Vein, Artery, Nerve — remember: VAN goes UNDER each rib.'
   },
-  pectoral: {
-    name: 'Pectoral Girdle & Upper Limb', region: 'Appendicular', color: '#b084f5',
-    bones: [
-      {name:'Clavicle', count:2, notes:'S-shaped. Only bony connection between upper limb and axial skeleton. Most commonly fractured bone.', markings:['Sternal end (SCJ)','Acromial end (ACJ)','Conoid tubercle','Costal tuberosity']},
-      {name:'Scapula', count:2, notes:'Triangular flat bone on posterior thorax (T2–T7). Suspended by muscles — NOT directly attached to thorax.', markings:['Glenoid cavity (shoulder joint)','Coracoid process','Acromion process','Spine of scapula','Supraspinous + infraspinous fossa','Subscapular fossa','Superior + inferior angles','Medial (vertebral) + lateral (axillary) borders']},
-      {name:'Humerus', count:2, notes:'Longest bone of upper limb. Surgical neck = common fracture site.', markings:['Head (articulates with glenoid)','Anatomical neck','Surgical neck (axillary nerve here)','Greater + lesser tubercles','Intertubercular groove (biceps tendon)','Deltoid tuberosity','Radial groove (radial nerve + deep brachial artery)','Medial + lateral epicondyles','Olecranon fossa','Coronoid fossa','Capitulum (radius)','Trochlea (ulna)']},
-      {name:'Radius', count:2, notes:'Lateral forearm bone. Rotates during pronation/supination.', markings:['Head (proximal)','Radial tuberosity (biceps attachment)','Styloid process (distal-lateral)','Ulnar notch']},
-      {name:'Ulna', count:2, notes:'Medial forearm bone. Stabilizes forearm; forms hinge of elbow.', markings:['Olecranon process (elbow point)','Coronoid process','Trochlear notch (articulates with trochlea)','Radial notch','Styloid process (distal-medial)','Head (distal)']},
-      {name:'Carpal bones', count:16, notes:'8 per hand × 2. Proximal row: Scaphoid, Lunate, Triquetrum, Pisiform. Distal row: Trapezium, Trapezoid, Capitate, Hamate.', markings:['Scaphoid — most commonly fractured carpal','Hook of hamate','Tubercle of scaphoid']},
-      {name:'Metacarpals', count:10, notes:'5 per hand × 2. Numbered 1–5 (thumb to pinky). Metacarpal 1 (thumb) is shortest.', markings:['Base (proximal)','Body/shaft','Head (distal — "knuckles")']},
-      {name:'Phalanges (hand)', count:28, notes:'14 per hand. Thumb = 2 (proximal + distal). Fingers 2–5 = 3 each (proximal, middle, distal).', markings:['Proximal phalanx','Middle phalanx','Distal phalanx','Tuberosity of distal phalanx']},
+  upper:{name:'Pectoral Girdle & Upper Limb',region:'Appendicular',color:'#b084f5',
+    bones:[
+      {name:'Clavicle',count:2,type:'Long',ossification:'Intramembranous (only long bone!)',notes:'S-shaped. ONLY bony connection upper limb to axial skeleton. First bone to ossify (week 5 fetal). Last to fully ossify (25 yrs). Most commonly fractured bone overall.',
+       markings:['Sternal end — SCJ (sternoclavicular joint)','Acromial end — ACJ (acromioclavicular joint)','Conoid tubercle (coracoclavicular lig.)','Costal tuberosity (costoclavicular lig.)','Subclavian groove (subclavian muscle)']},
+      {name:'Scapula',count:2,type:'Flat',ossification:'Intramembranous',notes:'Triangular. T2–T7 posterior thorax. Suspended by 17 muscles — NOT directly articulating with thorax (serratus anterior holds it against ribs).',
+       markings:['Glenoid cavity (shoulder socket — shallow)','Coracoid process ("bent finger" — short head biceps, coracobrachialis, pec minor)','Acromion process (highest point of shoulder — ACJ)','Spine of scapula (divides posterior surface)','Supraspinous fossa (supraspinatus)','Infraspinous fossa (infraspinatus)','Subscapular fossa (subscapularis)','Teres minor fossa','Superior/inferior angles','Medial (vertebral) + lateral (axillary) borders','Supraglenoid tubercle (long head biceps)','Infraglenoid tubercle (long head triceps)','Suprascapular notch (suprascapular nerve)']},
+      {name:'Humerus',count:2,type:'Long',ossification:'Endochondral',notes:'Longest bone of upper limb. Head faces medially and superiorly into glenoid cavity (30° retroversion).',
+       markings:['Head (articulates with glenoid — 3:1 size mismatch)','Anatomical neck (growth plate)','Surgical neck (most common fracture — axillary nerve and anterior circumflex humeral artery at risk)','Greater tubercle (supra/infraspinatus, teres minor)','Lesser tubercle (subscapularis)','Intertubercular (bicipital) groove (long head biceps tendon)','Deltoid tuberosity (deltoid insertion)','Radial groove (spiral groove — radial nerve + deep brachial artery)','Medial epicondyle (common flexor origin — ulnar nerve behind it)','Lateral epicondyle (common extensor origin)','Capitulum (articulates with radial head)','Trochlea (articulates with trochlear notch of ulna)','Olecranon fossa (posterior — olecranon sits in extension)','Coronoid fossa (anterior — coronoid in flexion)','Radial fossa (anterior — radial head in flexion)']},
+      {name:'Radius',count:2,type:'Long',ossification:'Endochondral',notes:'Lateral forearm. Rotates around ulna during pronation/supination. Radius = proximal narrow, distal wide (opposite of ulna).',
+       markings:['Head — proximal (articulates with capitulum + radial notch of ulna)','Radial tuberosity (biceps brachii insertion)','Anterior oblique line','Interosseous border (interosseous membrane)','Styloid process — distal lateral (longer than ulnar styloid)','Ulnar notch (articulates with ulnar head)','Dorsal tubercle (Lister\'s tubercle — EPL tendon)','Scaphoid + lunate fossa (wrist joint)']},
+      {name:'Ulna',count:2,type:'Long',ossification:'Endochondral',notes:'Medial forearm. Main stabilizer of elbow hinge. Ulna = proximal wide, distal narrow (opposite of radius).',
+       markings:['Olecranon process (elbow point — triceps insertion)','Coronoid process (anterior — brachialis insertion)','Trochlear (semilunar) notch (articulates with humeral trochlea — elbow hinge)','Radial notch (proximal radioulnar joint)','Supinator crest','Interosseous border','Styloid process — distal medial','Head — distal','Ulnar tuberosity']},
+      {name:'Carpal bones (proximal row)',count:8,type:'Short',ossification:'Endochondral',notes:'Proximal row: Scaphoid, Lunate, Triquetrum, Pisiform. Distal row: Trapezium, Trapezoid, Capitate, Hamate.',
+       markings:['Scaphoid — most commonly fractured carpal (fall on outstretched hand FOOSH)','Scaphoid tubercle (palpable)','Lunate — most commonly dislocated carpal','Pisiform — sesamoid in FCU tendon','Hook of hamate (ulnar nerve + artery in Guyon\'s canal)','Capitate — largest carpal, keystone of wrist','Trapezium — thumb CMC saddle joint']},
+      {name:'Metacarpals',count:10,type:'Long',ossification:'Endochondral',notes:'5 per hand × 2 sides. Numbered 1–5 from thumb to pinky. Base (proximal), shaft, head (distal = "knuckle"). MC1 is shortest/most mobile.',
+       markings:['Base (articulates with carpals)','Head (forms knuckle — MC phalangeal joint)','Tuberosity of 1st MC (flexor pollicis brevis)','Styloid process of 3rd MC']},
+      {name:'Phalanges (hand)',count:28,type:'Long',ossification:'Endochondral',notes:'14 per hand. Thumb (digit 1) = 2 phalanges (proximal + distal). Fingers 2–5 = 3 phalanges each (proximal, middle, distal).',
+       markings:['Base (proximal end)','Head (distal end)','Tuberosity of distal phalanx (fingertip)','Proximal/middle/distal designation']},
     ],
-    mnemonic: 'Carpals proximal row: "She Looks Too Pretty" (Scaphoid, Lunate, Triquetrum, Pisiform). Distal: "Try To Catch Her" (Trapezium, Trapezoid, Capitate, Hamate).'
+    mnemonic:'Carpals proximal: "She Looks Too Pretty" (Scaphoid, Lunate, Triquetrum, Pisiform). Distal: "Try To Catch Her" (Trapezium, Trapezoid, Capitate, Hamate).'
   },
-  pelvis: {
-    name: 'Pelvic Girdle & Lower Limb', region: 'Appendicular', color: '#f07060',
-    bones: [
-      {name:'Hip bone (Os coxa)', count:2, notes:'Each formed by fusion of 3 bones: Ilium + Ischium + Pubis (fuse at acetabulum ~23 yrs). With sacrum + coccyx = pelvis.', markings:['Acetabulum (hip socket)','Iliac crest','ASIS + PIIS + AIIS','Iliac fossa','Ischial tuberosity ("sit bones")','Ischial spine','Lesser + greater sciatic notches','Pubic symphysis','Obturator foramen']},
-      {name:'Femur', count:2, notes:'Longest, heaviest, strongest bone in body. Angled medially (valgus) = knees closer than hips.', markings:['Head (articulates with acetabulum)','Fovea capitis (ligamentum teres)','Neck (common fracture in elderly)','Greater + lesser trochanters','Intertrochanteric line + crest','Linea aspera (posterior — major muscle attachment)','Medial + lateral condyles','Medial + lateral epicondyles','Patellar surface','Intercondylar fossa','Gluteal tuberosity']},
-      {name:'Patella', count:2, notes:'Largest sesamoid bone. Embedded in quadriceps tendon. Increases mechanical advantage of quads.', markings:['Base (superior)','Apex (inferior)','Articular facets']},
-      {name:'Tibia', count:2, notes:'Medial leg bone; weight-bearing. "Shin bone." Stronger than fibula.', markings:['Medial + lateral condyles','Tibial plateau','Tibial tuberosity (patellar tendon)','Anterior crest (shin)','Medial malleolus','Fibular notch']},
-      {name:'Fibula', count:2, notes:'Lateral leg bone; NON-weight-bearing. Provides surface for muscle attachment and ankle stability.', markings:['Head (proximal)','Lateral malleolus (distal — forms lateral ankle mortise)']},
-      {name:'Tarsal bones', count:14, notes:'7 per foot × 2. Calcaneus (heel), Talus (ankle), Navicular, Cuboid, 3 Cuneiforms (medial, intermediate, lateral).', markings:['Calcaneus = largest tarsal','Sustentaculum tali (calcaneus)','Calcaneal (Achilles) tuberosity','Talus = transmits body weight to foot','Trochlea of talus']},
-      {name:'Metatarsals', count:10, notes:'5 per foot × 2. Numbered 1–5 (big toe to little). Base of 5th MT = peroneus brevis attachment (avulsion fracture site).', markings:['Tuberosity of 5th metatarsal']},
-      {name:'Phalanges (foot)', count:28, notes:'Same number as hand: 14 per foot. Big toe = 2 phalanges; toes 2–5 = 3 each.', markings:['Proximal + middle + distal phalanges']},
+  lower:{name:'Pelvic Girdle & Lower Limb',region:'Appendicular',color:'#f07060',
+    bones:[
+      {name:'Hip bone (Os coxa)',count:2,type:'Irregular',ossification:'Endochondral',notes:'Each formed by fusion of 3 bones at acetabulum (~23 yrs): Ilium (superior 2/5) + Ischium (posteroinferior 2/5) + Pubis (anteroinferior 1/5). Together with sacrum + coccyx = pelvis.',
+       markings:['Acetabulum (hip socket — faces anterolaterally and inferiorly)','Lunate surface of acetabulum (articular)','Acetabular notch','Iliac crest (L4 level — landmark for lumbar puncture)','ASIS (anterior superior iliac spine — sartorius + TFL)','AIIS (anterior inferior iliac spine — rectus femoris)','PSIS (posterior superior iliac spine — overlies sacroiliac joint)','Iliac fossa (iliacus)','Iliac tuberosity (sacrospinous lig.)','Ischial tuberosity ("sitting bone" — hamstrings + sacrotuberous lig.)','Ischial spine (sacrospinous ligament — divides greater/lesser sciatic notch)','Greater sciatic notch (sciatic nerve exits here)','Lesser sciatic notch (obturator internus tendon)','Pubic symphysis','Pubic tubercle (inguinal ligament attachment)','Pecten pubis (pectineal line)','Obturator foramen (obturator nerve + vessels)']},
+      {name:'Femur',count:2,type:'Long',ossification:'Endochondral',notes:'Longest, heaviest, strongest bone in body. Angled medially ~7° (coxa valga). Neck-shaft angle ~126°. Blood supply to femoral head via retinacular arteries (from medial femoral circumflex).',
+       markings:['Head (2/3 sphere — articulates with acetabulum)','Fovea capitis (ligamentum teres attachment)','Neck (connects head to shaft — fracture site in osteoporosis)','Greater trochanter (glute med/min, obturators, piriformis, gemelli)','Lesser trochanter (iliopsoas insertion)','Intertrochanteric line (anterior — iliofemoral lig.)','Intertrochanteric crest (posterior — quadratus femoris)','Trochanteric fossa (obturator internus)','Gluteal tuberosity (gluteus maximus)','Linea aspera (major posterior ridge — adductors, vastus medialis/lateralis)','Pectineal line','Medial + lateral supracondylar ridges','Medial + lateral condyles (articulate with tibia)','Medial + lateral epicondyles','Adductor tubercle (medial epicondyle — adductor magnus)','Patellar surface (trochlear groove)','Intercondylar fossa (cruciate ligaments)']},
+      {name:'Patella',count:2,type:'Sesamoid',ossification:'Endochondral (in quadriceps tendon)',notes:'Largest sesamoid bone in body. Embedded in quadriceps tendon. Increases mechanical advantage of quads by ~30%. Ossifies 3–6 years.',
+       markings:['Base (superior border — quadriceps attachment)','Apex (inferior — patellar ligament)','Articular surface (medial + lateral facets for femur)','Odd facet (medial — only contacts femur in full flexion)']},
+      {name:'Tibia',count:2,type:'Long',ossification:'Endochondral',notes:'Medial leg bone. Transmits most body weight to foot. Shin bone. Anterior crest is subcutaneous (no muscle covering).',
+       markings:['Medial + lateral condyles (tibial plateau — articulates with femur)','Intercondylar eminence (cruciate ligaments)','Tibial tuberosity (patellar ligament / quadriceps insertion)','Anterior crest (shin — subcutaneous, no muscle)','Medial surface (subcutaneous)','Gerdy\'s tubercle (IT band)','Soleal line (posterior — soleus origin)','Medial malleolus (medial ankle mortise)','Fibular notch (distal tibiofibular joint)','Inferior articular surface (articulates with talus)']},
+      {name:'Fibula',count:2,type:'Long',ossification:'Endochondral',notes:'Lateral leg. NON-weight-bearing (carries <10% body weight). Provides extensive muscle attachment. Most commonly fractured long bone.',
+       markings:['Head — proximal (fibular collateral lig. + biceps femoris)','Fibular neck (common fibular/peroneal nerve wraps around!)','Anterior + posterior borders','Interosseous border','Lateral malleolus (lateral ankle mortise — extends more inferiorly than medial)','Malleolar fossa (posterior talofibular lig.)']},
+      {name:'Tarsal bones',count:14,type:'Short',ossification:'Endochondral',notes:'7 per foot × 2. Calcaneus largest. Talus only tarsal with no muscle attachments (transmits weight to all directions).',
+       markings:['Calcaneus: calcaneal tuberosity (Achilles/triceps surae), sustentaculum tali (FHL tendon, spring lig.), peroneal trochlea, anterior articular surface','Talus: trochlea (ankle mortise), head (talonavicular), neck, posterior process, lateral process','Navicular: tuberosity (posterior tibial tendon)','Cuboid: peroneal groove (fibularis longus)','Cuneiforms: medial/intermediate/lateral — articulate with metatarsals 1-2-3']},
+      {name:'Metatarsals',count:10,type:'Long',ossification:'Endochondral',notes:'5 per foot × 2. MT1 is shortest + widest (sesamoids under head). MT5 tuberosity = fibularis brevis insertion (avulsion fracture common).',
+       markings:['Base (proximal — tarsometatarsal joints)','Shaft','Head (distal — metatarsophalangeal joints)','Tuberosity of 5th metatarsal (fibularis brevis — avulsion fracture)','Sesamoid bones under 1st MT head']},
+      {name:'Phalanges (foot)',count:28,type:'Long',ossification:'Endochondral',notes:'14 per foot. Hallux (big toe) = 2 phalanges. Toes 2–5 = 3 each. Similar to hand but less mobile.',
+       markings:['Proximal/middle/distal designation','Tuberosity of distal phalanx']},
     ],
-    mnemonic: 'Tarsals: "The Cunning Ninja Caught Many Tricky Lemons" (Talus, Calcaneus, Navicular, Cuboid, Medial/Intermediate/Lateral cuneiform).'
-  },
+    mnemonic:'Tarsals: "The Cunning Ninja Caught Many Tricky Lemons" (Talus, Calcaneus, Navicular, Cuboid, Medial/Intermediate/Lateral cuneiform). Fibula neck = common fibular nerve danger zone!'
+  }
 };
 
-// ═══════════════════════════════════════════════
-// JOINTS DATA
-// ═══════════════════════════════════════════════
+// ═══════════════════════ MUSCLE DATA ═══════════════════════
+const MUSCLES = [
+  // HEAD & NECK
+  {name:'Sternocleidomastoid (SCM)',group:'Head & Neck',origin:'Sternal head: manubrium; Clavicular head: medial clavicle',insertion:'Mastoid process of temporal bone + superior nuchal line',action:'Both: flex neck. One side: ipsilateral lateral flexion + contralateral rotation',nerve:'Accessory nerve (CN XI) + C2-C3 (sensation)',color:'#7c9ef8',notes:'Torticollis = wryneck from SCM spasm. Divides neck into anterior + posterior triangles.'},
+  {name:'Trapezius',group:'Head & Neck',origin:'External occipital protuberance, nuchal ligament, spinous processes C7–T12',insertion:'Lateral clavicle, acromion, spine of scapula',action:'Upper: elevate scapula + extend head. Middle: retract scapula. Lower: depress scapula. All: upwardly rotate glenoid',nerve:'Accessory nerve (CN XI) + C3-C4 (sensation)',color:'#7c9ef8',notes:'Largest muscle of back. "Shrug" muscle (upper). Damage to CN XI = dropped shoulder, inability to shrug.'},
+  // ROTATOR CUFF
+  {name:'Supraspinatus',group:'Rotator Cuff',origin:'Supraspinous fossa of scapula',insertion:'Superior facet of greater tubercle of humerus',action:'Initiates abduction (0–15°), assists deltoid',nerve:'Suprascapular nerve (C5, C6)',color:'#b084f5',notes:'Most commonly torn rotator cuff muscle. Passes under coracoacromial arch (impingement). "Empty can" test.'},
+  {name:'Infraspinatus',group:'Rotator Cuff',origin:'Infraspinous fossa of scapula',insertion:'Middle facet of greater tubercle of humerus',action:'Lateral rotation of humerus; stabilizes glenohumeral joint',nerve:'Suprascapular nerve (C5, C6)',color:'#b084f5',notes:'"External rotation" muscle. 2nd most commonly injured rotator cuff.'},
+  {name:'Teres minor',group:'Rotator Cuff',origin:'Lateral border of scapula (upper 2/3)',insertion:'Inferior facet of greater tubercle of humerus',action:'Lateral rotation; weak adduction; stabilizes glenohumeral joint',nerve:'Axillary nerve (C5, C6)',color:'#b084f5',notes:'Part of SITS muscles with subscapularis. Works with infraspinatus.'},
+  {name:'Subscapularis',group:'Rotator Cuff',origin:'Subscapular fossa',insertion:'Lesser tubercle of humerus',action:'Medial (internal) rotation; adduction; stabilizes glenohumeral joint',nerve:'Upper + lower subscapular nerves (C5, C6, C7)',color:'#b084f5',notes:'Only SITS muscle on anterior scapula. Powerful internal rotator. "Lift-off" test.'},
+  // SHOULDER / ARM
+  {name:'Deltoid',group:'Shoulder & Arm',origin:'Anterior: lateral clavicle. Middle: acromion. Posterior: spine of scapula',insertion:'Deltoid tuberosity of humerus',action:'Anterior: flex + medially rotate. Middle: abduct (main 15–180°). Posterior: extend + laterally rotate',nerve:'Axillary nerve (C5, C6)',color:'#52d18a',notes:'Main abductor of shoulder (after supraspinatus initiates 0–15°). Axillary nerve at surgical neck of humerus — injury → deltoid paralysis → flat shoulder.'},
+  {name:'Biceps brachii',group:'Shoulder & Arm',origin:'Long head: supraglenoid tubercle. Short head: coracoid process',insertion:'Radial tuberosity + bicipital aponeurosis',action:'Elbow flexion; forearm supination; weak shoulder flexion',nerve:'Musculocutaneous nerve (C5, C6)',color:'#52d18a',notes:'"Biceps" = two heads. Supination > flexion in strength. Long head tendon runs through bicipital groove — can rupture ("Popeye sign").'},
+  {name:'Triceps brachii',group:'Shoulder & Arm',origin:'Long head: infraglenoid tubercle. Lateral head: posterior humerus above radial groove. Medial head: posterior humerus below radial groove',insertion:'Olecranon process of ulna',action:'Elbow extension; long head: shoulder adduction + extension',nerve:'Radial nerve (C6, C7, C8)',color:'#52d18a',notes:'Only extensor of elbow. Radial nerve in spiral groove — fracture of humeral shaft can damage nerve → wrist drop.'},
+  {name:'Brachialis',group:'Shoulder & Arm',origin:'Anterior distal humerus (lower 2/3)',insertion:'Coronoid process + ulnar tuberosity',action:'Elbow flexion (most powerful flexor regardless of forearm position)',nerve:'Musculocutaneous nerve (C5, C6) + small radial nerve branch',color:'#52d18a',notes:'"Workhorse" of elbow flexion. Works in all forearm positions (unlike biceps which loses power in pronation).'},
+  // FOREARM
+  {name:'Pronator teres',group:'Forearm',origin:'Medial epicondyle (common flexor origin) + coronoid process of ulna',insertion:'Lateral shaft of radius (middle)',action:'Forearm pronation; assists elbow flexion',nerve:'Median nerve (C6, C7)',color:'#f5c842',notes:'Pronator syndrome: median nerve compression in pronator teres. Forms medial border of cubital fossa.'},
+  {name:'Flexor carpi radialis (FCR)',group:'Forearm',origin:'Medial epicondyle (common flexor origin)',insertion:'Base of metacarpals 2 and 3',action:'Wrist flexion + radial deviation (abduction)',nerve:'Median nerve (C6, C7)',color:'#f5c842',notes:'Tendon is landmark in carpal tunnel anatomy. Passes through its own tunnel in flexor retinaculum.'},
+  {name:'Extensor carpi radialis longus (ECRL)',group:'Forearm',origin:'Lateral supracondylar ridge of humerus',insertion:'Base of 2nd metacarpal',action:'Wrist extension + radial deviation',nerve:'Radial nerve (C6, C7)',color:'#f5c842',notes:'Tennis elbow = lateral epicondylitis — affects common extensor origin (ECRB most commonly).'},
+  // ANTERIOR TRUNK
+  {name:'Pectoralis major',group:'Anterior Trunk',origin:'Clavicular head: medial clavicle. Sternal head: sternum + costal cartilages 1–6',insertion:'Lateral lip of intertubercular groove of humerus',action:'Adduction + medial rotation of humerus; clavicular head flexes; sternal head extends from flexion',nerve:'Medial + lateral pectoral nerves (C5–T1)',color:'#f07060',notes:'"Pecs." Largest anterior chest muscle. Used in bench press. Medial pectoral nerve pierces pec minor to reach pec major.'},
+  {name:'Pectoralis minor',group:'Anterior Trunk',origin:'Anterior surfaces of ribs 3–5',insertion:'Coracoid process of scapula',action:'Protracts + depresses scapula; tilts scapula anteriorly; elevates ribs 3–5 during forced inspiration',nerve:'Medial pectoral nerve (C8, T1)',color:'#f07060',notes:'Landmark for axillary artery and brachial plexus (they pass posterior to it). Pec minor syndrome: compression of neurovascular structures.'},
+  {name:'Serratus anterior',group:'Anterior Trunk',origin:'Outer surfaces of ribs 1–8/9 (lateral)',insertion:'Costal surface of medial border of scapula',action:'Protracts + holds scapula against thorax; rotates glenoid upward; essential for arm elevation >90°',nerve:'Long thoracic nerve (C5, C6, C7)',color:'#f07060',notes:'"Boxer\'s muscle." Long thoracic nerve injury → winged scapula (scapula lifts off thorax). "Long thoracic = serratus anterior."'},
+  {name:'Rectus abdominis',group:'Anterior Trunk',origin:'Pubic crest + pubic symphysis',insertion:'Costal cartilages 5–7 + xiphoid process',action:'Trunk flexion (sit-ups); compresses abdominal viscera; posterior pelvic tilt',nerve:'Intercostal nerves T7–T12',color:'#f07060',notes:'Separated by linea alba (midline). Enclosed in rectus sheath. Tendinous intersections create "6-pack." Linea semilunaris = lateral edge.'},
+  {name:'External oblique',group:'Anterior Trunk',origin:'External surfaces of ribs 5–12',insertion:'Linea alba + anterior iliac crest + pubic tubercle (inguinal ligament)',action:'Trunk flexion; contralateral rotation; lateral flexion; compresses abdomen',nerve:'Intercostal nerves T7–T12 + subcostal + iliohypogastric + ilioinguinal',color:'#f07060',notes:'Fingers point DOWN like hands in front pocket. Aponeurosis forms inguinal ligament (ASIS to pubic tubercle). Superficial inguinal ring in aponeurosis.'},
+  // GLUTEAL / HIP
+  {name:'Gluteus maximus',group:'Gluteal & Hip',origin:'Posterior ilium, posterior sacrum + coccyx, sacrotuberous ligament',insertion:'Iliotibial band + gluteal tuberosity of femur',action:'Hip extension (primary); lateral rotation; assists abduction in extension',nerve:'Inferior gluteal nerve (L5, S1, S2)',color:'#4ecdc4',notes:'Largest, most powerful muscle in body. Most active on stairs, rising from chair, running. NOT active during normal walking.'},
+  {name:'Gluteus medius',group:'Gluteal & Hip',origin:'External surface of ilium (between anterior + posterior gluteal lines)',insertion:'Greater trochanter (lateral surface)',action:'Hip abduction; medial rotation (anterior fibers); stabilizes pelvis during single-leg stance',nerve:'Superior gluteal nerve (L4, L5, S1)',color:'#4ecdc4',notes:'TRENDELENBURG SIGN: gluteus medius weakness → pelvis drops on opposite side during single-leg stance. Critical for gait — active during stance phase.'},
+  {name:'Gluteus minimus',group:'Gluteal & Hip',origin:'External surface of ilium (between anterior + inferior gluteal lines)',insertion:'Greater trochanter (anterior surface)',action:'Hip abduction; medial rotation; stabilizes pelvis',nerve:'Superior gluteal nerve (L4, L5, S1)',color:'#4ecdc4',notes:'Deep to gluteus medius. Same function. Together they are "hip abductors." Both tested by Trendelenburg.'},
+  {name:'Iliopsoas',group:'Gluteal & Hip',origin:'Iliacus: iliac fossa. Psoas major: T12–L5 vertebral bodies + transverse processes',insertion:'Lesser trochanter of femur',action:'Hip flexion (primary + most powerful); psoas: lateral flexion of lumbar spine',nerve:'Femoral nerve L2-L4 (iliacus) + lumbar plexus L1-L4 (psoas)',color:'#4ecdc4',notes:'"Hip flexor." Tight iliopsoas = anterior pelvic tilt + lower back pain. Thomas test assesses flexibility. Only muscle connecting spine to lower limb.'},
+  // THIGH — QUADRICEPS
+  {name:'Rectus femoris',group:'Quadriceps',origin:'Anterior inferior iliac spine (AIIS) + acetabular rim (reflected head)',insertion:'Tibial tuberosity (via patellar tendon)',action:'Knee extension; hip flexion (crosses both joints)',nerve:'Femoral nerve (L2, L3, L4)',color:'#f472b6',notes:'Only quadriceps muscle that crosses hip AND knee. Straight head from AIIS (direct). Reflected head from acetabular rim. Vulnerable to strain near AIIS.'},
+  {name:'Vastus lateralis',group:'Quadriceps',origin:'Greater trochanter + lateral lip of linea aspera',insertion:'Lateral patella + tibial tuberosity (via patellar tendon)',action:'Knee extension; lateral patellar stabilization',nerve:'Femoral nerve (L2, L3, L4)',color:'#f472b6',notes:'Largest quadriceps muscle. Injection site for IM injections (vastus lateralis preferred in infants). Pulls patella laterally.'},
+  {name:'Vastus medialis',group:'Quadriceps',origin:'Intertrochanteric line + medial lip of linea aspera',insertion:'Medial patella + tibial tuberosity (via patellar tendon)',action:'Knee extension; medial patellar stabilization (VMO — oblique fibers)',nerve:'Femoral nerve (L2, L3, L4)',color:'#f472b6',notes:'VMO (vastus medialis oblique) = distal fibers that are the primary medial patellar stabilizer. Atrophies first with knee pathology. Last to recover.'},
+  {name:'Vastus intermedius',group:'Quadriceps',origin:'Anterior + lateral shaft of femur',insertion:'Tibial tuberosity (via patellar tendon)',action:'Knee extension',nerve:'Femoral nerve (L2, L3, L4)',color:'#f472b6',notes:'Deepest quadriceps. Lies beneath rectus femoris. All four quads share the quadriceps tendon → patella → patellar ligament → tibial tuberosity.'},
+  // THIGH — HAMSTRINGS
+  {name:'Biceps femoris',group:'Hamstrings',origin:'Long head: ischial tuberosity. Short head: lateral lip of linea aspera',insertion:'Head of fibula + lateral condyle of tibia',action:'Knee flexion + lateral rotation; long head: hip extension',nerve:'Long head: tibial nerve (L5–S2). Short head: common fibular nerve (L5–S2)',color:'#52d18a',notes:'Lateral hamstring. Common fibular nerve at fibular head — vulnerable to compression (leg crossing, tight casts). "2 heads, 2 nerves."'},
+  {name:'Semitendinosus',group:'Hamstrings',origin:'Ischial tuberosity',insertion:'Medial tibia (pes anserinus)',action:'Knee flexion + medial rotation; hip extension',nerve:'Tibial nerve (L5–S2)',color:'#52d18a',notes:'"Pes anserinus" = goose foot — semitendinosus + gracilis + sartorius insert on medial tibia. Pes anserine bursitis common site of knee pain.'},
+  {name:'Semimembranosus',group:'Hamstrings',origin:'Ischial tuberosity',insertion:'Medial condyle of tibia (posterior)',action:'Knee flexion + medial rotation; hip extension',nerve:'Tibial nerve (L5–S2)',color:'#52d18a',notes:'Membranous tendon of origin (flat). Forms popliteal fossa floor. Oblique popliteal ligament = expansion of semimembranosus.'},
+  // LEG
+  {name:'Gastrocnemius',group:'Leg',origin:'Lateral + medial condyles of femur (2 heads)',insertion:'Calcaneus via calcaneal (Achilles) tendon',action:'Plantarflexion; assists knee flexion (crosses knee)',nerve:'Tibial nerve (S1, S2)',color:'#f07060',notes:'"Calf muscle." Only leg muscle crossing knee. Achilles tendon = strongest tendon in body. Achilles tendon rupture: positive Thompson test (squeeze calf — no plantarflexion).'},
+  {name:'Soleus',group:'Leg',origin:'Posterior head of fibula + soleal line of tibia',insertion:'Calcaneus via calcaneal (Achilles) tendon',action:'Plantarflexion (does NOT cross knee — active even when knee is flexed)',nerve:'Tibial nerve (S1, S2)',color:'#f07060',notes:'"Postural pump." Active during standing. DVT most common in soleus sinuses. Together with gastrocnemius = "triceps surae."'},
+  {name:'Tibialis anterior',group:'Leg',origin:'Lateral condyle + upper 2/3 of tibia + interosseous membrane',insertion:'Medial cuneiform + base of 1st metatarsal',action:'Dorsiflexion; inversion of foot',nerve:'Deep fibular (peroneal) nerve (L4, L5)',color:'#f07060',notes:'Primary dorsiflexor. L4 myotome. Foot drop = loss of dorsiflexion — L4 radiculopathy or deep fibular nerve injury. Palpable tendon medial to shin.'},
+  {name:'Fibularis (Peroneus) longus',group:'Leg',origin:'Head + upper 2/3 of fibula',insertion:'Medial cuneiform + base of 1st metatarsal (crosses sole)',action:'Eversion of foot; assists plantarflexion',nerve:'Superficial fibular nerve (L5, S1)',color:'#f07060',notes:'Tendon crosses sole of foot diagonally — supports transverse arch. Superficial fibular nerve = eversion; deep fibular nerve = dorsiflexion.'},
+  {name:'Fibularis (Peroneus) brevis',group:'Leg',origin:'Lower 2/3 of fibula',insertion:'Tuberosity of 5th metatarsal',action:'Eversion of foot; assists plantarflexion',nerve:'Superficial fibular nerve (L5, S1)',color:'#f07060',notes:'Avulsion fracture of 5th MT base (peroneus brevis pulls off the tuberosity) is the most common ankle X-ray finding after inversion sprain.'},
+];
+
+// ═══════════════════════ JOINT DATA ═══════════════════════
 const JOINTS = [
-  {name:'Hinge', type:'Synovial — uniaxial', examples:'Elbow (humeroulnar), knee (tibiofemoral), ankle (talocrural), interphalangeal joints', movement:'Flexion + extension only', ligaments:'Medial (MCL) + lateral (LCL) collateral ligaments stabilize', notes:'Like a door hinge — movement in one plane only'},
-  {name:'Ball & Socket', type:'Synovial — multiaxial', examples:'Hip (coxofemoral), shoulder (glenohumeral)', movement:'Flexion, extension, abduction, adduction, medial/lateral rotation, circumduction', ligaments:'Hip: iliofemoral, pubofemoral, ischiofemoral, ligamentum teres. Shoulder: glenohumeral ligaments (weaker)', notes:'Most mobile joint type. Hip is more stable (deep socket), shoulder is more mobile (shallow glenoid)'},
-  {name:'Pivot', type:'Synovial — uniaxial', examples:'Atlantoaxial (C1–C2 "no" rotation), proximal radioulnar (pronation/supination)', movement:'Rotation only', ligaments:'Transverse ligament of atlas (C1) holds dens in place', notes:'Rotation around a longitudinal axis'},
-  {name:'Saddle', type:'Synovial — biaxial', examples:'1st carpometacarpal (thumb CMC)', movement:'Flexion, extension, abduction, adduction, limited circumduction — NO rotation', ligaments:'Palmar, dorsal, radial collateral ligaments', notes:'Each articular surface is concave in one direction and convex in another. Only in thumb.'},
-  {name:'Condyloid / Ellipsoid', type:'Synovial — biaxial', examples:'Metacarpophalangeal joints (knuckles), radiocarpal (wrist), metatarsophalangeal', movement:'Flexion, extension, abduction, adduction, circumduction', ligaments:'Palmar, dorsal, collateral ligaments', notes:'Oval convex surface into elliptical concave depression'},
-  {name:'Gliding / Plane', type:'Synovial — nonaxial', examples:'Intercarpal, intertarsal, acromioclavicular, sternocostal (2–7), vertebral facet joints', movement:'Gliding / sliding in multiple directions — limited range', ligaments:'Joint capsule + short ligaments', notes:'Flat or slightly curved articular surfaces; slide past each other'},
-  {name:'Suture', type:'Fibrous — immovable', examples:'Coronal, sagittal, lambdoid, squamous sutures of skull', movement:'None (synarthrosis)', ligaments:'Sutural (Sharpey\'s) fibers — interdigitating bone edges', notes:'Completely fused in adults. Allow slight movement in infants (fontanelles)'},
-  {name:'Synchondrosis', type:'Cartilaginous (hyaline) — immovable', examples:'Epiphyseal plates, 1st sternocostal joint', movement:'None until ossification', ligaments:'Hyaline cartilage plate', notes:'Temporary — epiphyseal plates disappear with skeletal maturity (18–25 yrs)'},
-  {name:'Symphysis', type:'Cartilaginous (fibrocartilage) — slightly movable', examples:'Pubic symphysis, intervertebral discs, manubriosternal joint', movement:'Slight (amphiarthrosis)', ligaments:'Fibrocartilage pad + surrounding ligaments', notes:'Designed for strength and slight give — widens during childbirth'},
-  {name:'Gomphosis', type:'Fibrous — immovable', examples:'Teeth in dental alveoli', movement:'None (synarthrosis)', ligaments:'Periodontal ligament (really just dense CT)', notes:'Peg-in-socket. Only example of gomphosis is teeth.'},
-  {name:'Syndesmosis', type:'Fibrous — slightly movable', examples:'Distal tibiofibular joint, interosseous membranes', movement:'Slight (amphiarthrosis)', ligaments:'Interosseous membrane or ligament', notes:'Bones connected by interosseous ligament — more give than suture'},
+  {name:'Hinge',type:'Synovial — uniaxial',color:'#7c9ef8',examples:'Elbow (humeroulnar), knee (tibiofemoral), ankle (talocrural), interphalangeal joints',movements:['Flexion','Extension'],ligaments:'Medial + lateral collateral ligaments; posterior capsule',notes:'1 degree of freedom. Like a door hinge.'},
+  {name:'Ball & Socket',type:'Synovial — multiaxial',color:'#52d18a',examples:'Hip (coxofemoral), shoulder (glenohumeral)',movements:['Flexion','Extension','Abduction','Adduction','Medial rotation','Lateral rotation','Circumduction'],ligaments:'Hip: iliofemoral (strongest joint ligament in body), pubofemoral, ischiofemoral, ligamentum teres. Shoulder: glenohumeral ligaments (weaker — mobility > stability)',notes:'3 degrees of freedom. Most mobile joint type. Hip stability > shoulder mobility.'},
+  {name:'Pivot',type:'Synovial — uniaxial',color:'#f5c842',examples:'Atlantoaxial (C1–C2 — "no" shake), proximal + distal radioulnar joints',movements:['Rotation only'],ligaments:'Transverse ligament of atlas (holds dens); annular ligament (radial head)',notes:'Rotation around longitudinal axis only. Nursemaid\'s elbow = annular lig. slips over radial head in children.'},
+  {name:'Saddle',type:'Synovial — biaxial',color:'#f07060',examples:'1st carpometacarpal joint (thumb CMC — ONLY example)',movements:['Flexion','Extension','Abduction','Adduction','Circumduction'],ligaments:'Palmar + dorsal + radial oblique ligaments',notes:'Concave in one direction, convex in another. Biaxial but NO axial rotation. Unique to human thumb — opposable grip.'},
+  {name:'Condyloid / Ellipsoid',type:'Synovial — biaxial',color:'#b084f5',examples:'Metacarpophalangeal (knuckles), radiocarpal (wrist), metatarsophalangeal, atlanto-occipital',movements:['Flexion','Extension','Abduction','Adduction','Circumduction'],ligaments:'Palmar plate + collateral ligaments',notes:'Oval convex surface into elliptical concave depression. Biaxial, no rotation.'},
+  {name:'Gliding / Plane',type:'Synovial — nonaxial (multiaxial but limited)',color:'#4ecdc4',examples:'Intercarpal, intertarsal, acromioclavicular, sternocostal (2–7), facet joints',movements:['Gliding/translational movement','Limited ROM in all directions'],ligaments:'Joint capsule + short interosseous ligaments',notes:'Flat or slightly curved surfaces. Nonaxial — translation not rotation. Small accessory movements.'},
+  {name:'Suture',type:'Fibrous — synarthrosis',color:'#9099b0',examples:'Coronal, sagittal, lambdoid, squamous sutures of skull',movements:['Immovable (synarthrosis)'],ligaments:'Sutural (Sharpey\'s) fibers; interdigitating bone edges',notes:'Fontanelles in infant skull allow slight movement/growth. Close by ~2 yrs (anterior fontanelle last).'},
+  {name:'Syndesmosis',type:'Fibrous — amphiarthrosis',color:'#7c9ef8',examples:'Distal tibiofibular joint, interosseous membrane (radius-ulna, tibia-fibula)',movements:['Slight movement'],ligaments:'Interosseous ligament or membrane',notes:'More give than suture but less than synovial. Crucial for ankle stability — disrupted in "high ankle sprain."'},
+  {name:'Gomphosis',type:'Fibrous — synarthrosis',color:'#f5c842',examples:'Teeth in alveolar sockets',movements:['None (peg-in-socket)'],ligaments:'Periodontal ligament (dense CT)',notes:'Only example of gomphosis is tooth in socket. Periodontal disease destroys this joint.'},
+  {name:'Synchondrosis',type:'Cartilaginous (hyaline) — synarthrosis',color:'#52d18a',examples:'Epiphyseal growth plates, 1st sternocostal joint (rib 1 to manubrium)',movements:['None during growth; ossify at maturity'],ligaments:'Hyaline cartilage plate',notes:'Epiphyseal plates = synchondroses. Close with age (growth stops). Early closure = dwarfism.'},
+  {name:'Symphysis',type:'Cartilaginous (fibrocartilage) — amphiarthrosis',color:'#f07060',examples:'Pubic symphysis, intervertebral discs, manubriosternal joint',movements:['Slight movement (amphiarthrosis)'],ligaments:'Fibrocartilage pad + surrounding ligaments',notes:'Designed for strength + slight give. Pubic symphysis widens during childbirth (relaxin). IVDs are largest symphyses.'},
 ];
 
 const MOVEMENTS = [
-  {term:'Flexion',def:'Decreases angle between bones (bends joint). E.g., curling bicep, bending knee.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
-  {term:'Extension',def:'Increases angle between bones (straightens joint). Opposite of flexion.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
-  {term:'Hyperextension',def:'Extension beyond anatomical position. E.g., bending head back, arching lumbar spine.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
-  {term:'Abduction',def:'Movement away from midline of body. "ABduction = ABsent from body." E.g., raising arm laterally.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
-  {term:'Adduction',def:'Movement toward midline. "ADDuction = ADDs to body." E.g., lowering raised arm.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
-  {term:'Circumduction',def:'Circular movement combining flexion, abduction, extension, adduction. Cone-shaped path. E.g., swinging arm in a circle.',plane:'Multiple',axis:'Multiple',color:'#f5c842'},
-  {term:'Rotation',def:'Turning around bone\'s own long axis. Medial rotation = toward midline. Lateral rotation = away from midline.',plane:'Transverse',axis:'Vertical/longitudinal',color:'#f07060'},
-  {term:'Pronation',def:'Medial rotation of forearm so palm faces posteriorly (down). Radius crosses over ulna.',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
-  {term:'Supination',def:'Lateral rotation of forearm so palm faces anteriorly (up). Radius and ulna parallel. "Supination = holding a bowl of soup."',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
-  {term:'Dorsiflexion',def:'Flexion of ankle — bringing toes up toward shin. E.g., walking on heels.',plane:'Sagittal',axis:'Frontal/coronal',color:'#4ecdc4'},
-  {term:'Plantar flexion',def:'Extension of ankle — pointing toes away from shin (downward). E.g., standing on tiptoe.',plane:'Sagittal',axis:'Frontal/coronal',color:'#4ecdc4'},
-  {term:'Inversion',def:'Turning the sole of foot INWARD (medially). Most common ankle sprain direction.',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
-  {term:'Eversion',def:'Turning the sole of foot OUTWARD (laterally).',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
-  {term:'Protraction',def:'Movement anteriorly (forward). E.g., jutting jaw forward, rounding shoulders.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
-  {term:'Retraction',def:'Movement posteriorly (backward). Opposite of protraction. E.g., pulling shoulders back.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
-  {term:'Elevation',def:'Moving superiorly. E.g., shrugging shoulders, closing mouth.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
-  {term:'Depression',def:'Moving inferiorly. E.g., opening mouth, lowering shoulders.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
-  {term:'Opposition',def:'Movement of thumb to touch fingertips. Unique to primates. Saddle joint at 1st CMC.',plane:'Multiple',axis:'Multiple',color:'#7c9ef8'},
-  {term:'Lateral flexion',def:'Bending spine to the side (left or right). Cervical and lumbar spine most mobile.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+  {term:'Flexion',def:'Decreases joint angle. Bending. E.g., elbow curl, knee bend.',plane:'Sagittal',axis:'Frontal (coronal)',color:'#7c9ef8'},
+  {term:'Extension',def:'Increases joint angle. Straightening. Opposite of flexion.',plane:'Sagittal',axis:'Frontal (coronal)',color:'#7c9ef8'},
+  {term:'Hyperextension',def:'Extension beyond anatomical position. E.g., neck back, lumbar arch.',plane:'Sagittal',axis:'Frontal (coronal)',color:'#7c9ef8'},
+  {term:'Abduction',def:'Away from midline. "ABsent from body." E.g., raise arm laterally, spread fingers.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+  {term:'Adduction',def:'Toward midline. "ADDed to body." E.g., lower raised arm, close fingers.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+  {term:'Circumduction',def:'Circular cone-shaped movement — combines flex/abd/ext/add. Ball-and-socket and condyloid joints.',plane:'All planes',axis:'Multiple',color:'#f5c842'},
+  {term:'Medial (Internal) rotation',def:'Rotating toward midline. E.g., turning foot/arm inward.',plane:'Transverse',axis:'Longitudinal',color:'#f07060'},
+  {term:'Lateral (External) rotation',def:'Rotating away from midline. E.g., turning foot/arm outward.',plane:'Transverse',axis:'Longitudinal',color:'#f07060'},
+  {term:'Pronation',def:'Medial rotation of forearm — palm faces posteriorly/downward. Radius crosses ulna.',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
+  {term:'Supination',def:'Lateral rotation of forearm — palm faces anteriorly/upward. Radius + ulna parallel. "Hold a bowl of soup."',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
+  {term:'Dorsiflexion',def:'Ankle flexion — toes toward shin. Walking on heels. L4 myotome.',plane:'Sagittal',axis:'Frontal',color:'#4ecdc4'},
+  {term:'Plantar flexion',def:'Ankle extension — toes point down. Standing on tiptoe. S1 myotome.',plane:'Sagittal',axis:'Frontal',color:'#4ecdc4'},
+  {term:'Inversion',def:'Sole turns inward (medially). Subtalar joint. Most common ankle sprain direction.',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
+  {term:'Eversion',def:'Sole turns outward (laterally). Subtalar joint. Peronei/fibularis muscles.',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
+  {term:'Protraction',def:'Anterior movement in transverse plane. E.g., jaw forward, shoulders rounded.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
+  {term:'Retraction',def:'Posterior movement. E.g., jaw back, shoulders pinched back.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
+  {term:'Elevation',def:'Superior movement. E.g., shrug, close jaw.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
+  {term:'Depression',def:'Inferior movement. E.g., open jaw, lower shoulders.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
+  {term:'Opposition',def:'Thumb pad to finger pad. Unique to humans + primates. Saddle joint at 1st CMC.',plane:'Multiple',axis:'Multiple',color:'#7c9ef8'},
+  {term:'Lateral flexion',def:'Spine bends left or right in frontal plane. Cervical + lumbar spine most mobile.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
 ];
 
-// ═══════════════════════════════════════════════
-// FLAT BONE LIST for flashcards/quiz
-// ═══════════════════════════════════════════════
-const ALL_BONES = [];
-Object.values(REGIONS).forEach(r => {
-  const pushBones = (arr) => arr && arr.forEach(b => ALL_BONES.push({...b, region: r.name, regionColor: r.color}));
-  pushBones(r.bones);
-  pushBones(r.facial);
-  pushBones(r.sections);
+// flat lists
+const ALL_BONES=[];
+Object.values(REGIONS).forEach(r=>{
+  const add=arr=>arr&&arr.forEach(b=>ALL_BONES.push({...b,region:r.name,regionColor:r.color}));
+  add(r.bones);add(r.facial);add(r.sections);
 });
 
-// ═══════════════════════════════════════════════
-// BODY MAP SVGs
-// ═══════════════════════════════════════════════
-function getSkeletonSVG(view) {
-  const common = `font-family="'DM Sans',sans-serif"`;
-  if (view === 'anterior') {
-    return `<svg class="skeleton-svg" viewBox="0 0 240 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px" ${common}>
-      <!-- ── SKULL ── -->
-      <g class="bone-region" id="reg-skull" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.5">
-        <ellipse cx="120" cy="30" rx="34" ry="30"/>
-        <rect x="100" y="52" width="40" height="20" rx="4"/>
-        <title>Skull</title>
-      </g>
-      <!-- ── MANDIBLE ── -->
-      <g class="bone-region" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.2">
-        <path d="M100,72 Q88,85 92,92 Q100,98 120,100 Q140,98 148,92 Q152,85 140,72"/>
-      </g>
-      <!-- Cervical spine -->
-      <g class="bone-region" onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
-        <rect x="113" y="100" width="14" height="30" rx="3"/>
-      </g>
-      <!-- ── CLAVICLES ── -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="none" stroke="#b084f5" stroke-width="2.5" stroke-linecap="round">
-        <path d="M120,115 Q100,112 82,118"/>
-        <path d="M120,115 Q140,112 158,118"/>
-      </g>
-      <!-- ── SCAPULAE (visible edges ant) ── -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1a1e28" stroke="#b084f5" stroke-width="1">
-        <path d="M75,125 L68,160 L80,165 Z"/>
-        <path d="M165,125 L172,160 L160,165 Z"/>
-      </g>
-      <!-- ── STERNUM ── -->
-      <g class="bone-region" onclick="selectRegion('thoracic_cage')" fill="#1e2235" stroke="#f5c842" stroke-width="1.5">
-        <rect x="113" y="115" width="14" height="70" rx="4"/>
-      </g>
-      <!-- ── RIBS ── -->
-      <g class="bone-region" onclick="selectRegion('thoracic_cage')" fill="none" stroke="#f5c842" stroke-width="1.2">
-        ${[0,1,2,3,4,5,6].map(i=>`
-          <path d="M120,${120+i*10} Q${95-i*2},${118+i*10} ${78+i},${128+i*10}"/>
-          <path d="M120,${120+i*10} Q${145+i*2},${118+i*10} ${162-i},${128+i*10}"/>
-        `).join('')}
-      </g>
-      <!-- Thoracic + Lumbar spine -->
-      <g class="bone-region" onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
-        <rect x="113" y="130" width="14" height="80" rx="3"/>
-      </g>
-      <!-- ── PELVIS ── -->
-      <g class="bone-region" id="reg-pelvis" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
-        <path d="M100,215 Q78,215 74,232 Q72,250 86,258 Q100,264 120,265 Q140,264 154,258 Q168,250 166,232 Q162,215 140,215 Z"/>
-        <!-- Sacrum -->
-        <rect x="112" y="210" width="16" height="40" rx="4" fill="#1e2235" stroke="#52d18a"/>
-        <title>Pelvis</title>
-      </g>
-      <!-- ── FEMUR ── -->
-      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
-        <rect x="89" y="265" width="18" height="105" rx="6"/>
-        <rect x="133" y="265" width="18" height="105" rx="6"/>
-        <!-- femoral heads -->
-        <circle cx="98" cy="262" r="9" fill="#1e2235" stroke="#f07060" stroke-width="1.5"/>
-        <circle cx="142" cy="262" r="9" fill="#1e2235" stroke="#f07060" stroke-width="1.5"/>
-      </g>
-      <!-- ── PATELLA ── -->
-      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f5c842" stroke-width="1.5">
-        <ellipse cx="98" cy="375" rx="8" ry="9"/>
-        <ellipse cx="142" cy="375" rx="8" ry="9"/>
-      </g>
-      <!-- ── TIBIA + FIBULA ── -->
-      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.3">
-        <!-- tibia -->
-        <rect x="90" y="385" width="14" height="90" rx="5"/>
-        <rect x="134" y="385" width="14" height="90" rx="5"/>
-        <!-- fibula -->
-        <rect x="105" y="390" width="8" height="82" rx="4" stroke-width="1"/>
-        <rect x="122" y="390" width="8" height="82" rx="4" stroke-width="1"/>
-      </g>
-      <!-- ── FOOT ── -->
-      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.2">
-        <!-- tarsals/metatarsals rough block -->
-        <path d="M82,478 Q84,492 88,500 Q100,506 110,505 L112,490 L97,477 Z"/>
-        <path d="M158,478 Q156,492 152,500 Q140,506 130,505 L128,490 L143,477 Z"/>
-      </g>
-      <!-- ── HUMERUS ── -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
-        <rect x="62" y="130" width="14" height="90" rx="6"/>
-        <rect x="164" y="130" width="14" height="90" rx="6"/>
-      </g>
-      <!-- ── RADIUS + ULNA ── -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.2">
-        <rect x="56" y="222" width="10" height="80" rx="5"/>
-        <rect x="68" y="222" width="10" height="80" rx="5"/>
-        <rect x="162" y="222" width="10" height="80" rx="5"/>
-        <rect x="174" y="222" width="10" height="80" rx="5"/>
-      </g>
-      <!-- ── HAND ── -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1">
-        <path d="M52,304 Q48,320 50,332 Q56,340 66,338 Q74,336 76,324 L78,304 Z"/>
-        <path d="M164,304 Q160,320 162,332 Q168,340 178,338 Q186,336 188,324 L190,304 Z"/>
-      </g>
-      <!-- Labels -->
-      <text x="120" y="16" text-anchor="middle" fill="#7c9ef8" font-size="7" font-weight="600">Skull</text>
-      <text x="65" y="126" text-anchor="middle" fill="#b084f5" font-size="6">Clavicle</text>
-      <text x="52" y="178" text-anchor="middle" fill="#b084f5" font-size="6">Humerus</text>
-      <text x="120" y="150" text-anchor="middle" fill="#f5c842" font-size="6">Sternum</text>
-      <text x="120" y="240" text-anchor="middle" fill="#f07060" font-size="6">Pelvis</text>
-      <text x="98" y="320" text-anchor="middle" fill="#f07060" font-size="6">Femur</text>
-      <text x="57" y="270" text-anchor="middle" fill="#b084f5" font-size="6">Radius</text>
-      <text x="98" y="430" text-anchor="middle" fill="#f07060" font-size="6">Tibia</text>
-      <text x="10" y="15" fill="#9099b0" font-size="8" font-weight="500">ANTERIOR</text>
+const MUSCLE_GROUPS=[...new Set(MUSCLES.map(m=>m.group))];
+
+// ═══════════════════════ STATE ═══════════════════════
+let currentLayer='bones', currentView='ant', selectedRegion=null;
+let boneFilter='All', muscleFilter='All';
+let qPool=[], qIdx=0, qScore=0, qAnswered=false, qType='bones';
+
+// ═══════════════════════ NAVIGATION ═══════════════════════
+function showPg(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(id==='bodymap')renderMap();
+  if(id==='bones')renderBonesPage();
+  if(id==='muscles')renderMusclesPage();
+  if(id==='joints')renderJointsPage();
+  if(id==='atlas-quiz')renderQSetup();
+}
+
+// ═══════════════════════ BODY MAP ═══════════════════════
+function renderMap(){
+  document.getElementById('svgRow').innerHTML=getBodySVG(currentLayer,currentView);
+}
+function setLayer(l){
+  currentLayer=l;
+  document.getElementById('tbones').className='tog'+(l==='bones'?' on bone-on':'');
+  document.getElementById('tmuscles').className='tog'+(l==='muscles'?' on muscle-on':'');
+  selectedRegion=null;
+  document.getElementById('infoEmpty').style.display='block';
+  document.getElementById('infoContent').style.display='none';
+  renderMap();
+}
+function setView(v){
+  currentView=v;
+  document.getElementById('tant').className='tog'+(v==='ant'?' on':'');
+  document.getElementById('tpost').className='tog'+(v==='post'?' on':'');
+  renderMap();
+}
+
+function getBodySVG(layer,view){
+  const isAnt=view==='ant';
+  const boneColor='#7c9ef8'; const muscleColor='#b084f5';
+  // Each region: id, label, cx, cy, shape path or ellipse, clickable
+  if(layer==='bones'){
+    return `<svg class="bod" viewBox="0 0 220 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <text x="5" y="13" fill="#9099b0" font-size="9" font-family="'DM Sans',sans-serif" font-weight="500">${isAnt?'ANTERIOR':'POSTERIOR'}</text>
+      ${getBoneBodyParts(isAnt)}
     </svg>`;
   } else {
-    return `<svg class="skeleton-svg" viewBox="0 0 240 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px" ${common}>
-      <!-- SKULL POST -->
-      <g class="bone-region" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.5">
-        <ellipse cx="120" cy="30" rx="34" ry="30"/>
-        <rect x="104" y="52" width="32" height="15" rx="3"/>
-        <title>Skull (posterior)</title>
-      </g>
-      <!-- External occipital protuberance -->
-      <circle cx="120" cy="56" r="4" fill="#7c9ef8" opacity="0.5" onclick="selectRegion('skull')"/>
-      <!-- Cervical spine POST -->
-      <g onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
-        <rect x="113" y="65" width="14" height="30" rx="3"/>
-        <!-- spinous processes -->
-        ${[0,1,2,3,4,5,6].map(i=>`<rect x="117" y="${68+i*4}" width="6" height="3" rx="1" fill="#52d18a" opacity="0.5"/>`).join('')}
-      </g>
-      <!-- SCAPULAE POST (full) -->
-      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
-        <path d="M72,118 L65,155 Q68,168 80,170 Q90,165 95,145 Q98,130 92,118 Z"/>
-        <path d="M168,118 L175,155 Q172,168 160,170 Q150,165 145,145 Q142,130 148,118 Z"/>
-        <!-- spine of scapula -->
-        <line x1="72" y1="128" x2="92" y2="120" stroke="#b084f5" stroke-width="2.5"/>
-        <line x1="168" y1="128" x2="148" y2="120" stroke="#b084f5" stroke-width="2.5"/>
-      </g>
-      <!-- Thoracic + Lumbar spinous POST -->
-      <g onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
-        <rect x="113" y="95" width="14" height="115" rx="3"/>
-        ${Array.from({length:17},(_,i)=>`<rect x="117" y="${98+i*6}" width="6" height="4" rx="1" fill="#52d18a" opacity="0.4"/>`).join('')}
-      </g>
-      <!-- RIBS POST -->
-      <g onclick="selectRegion('thoracic_cage')" fill="none" stroke="#f5c842" stroke-width="1.2">
-        ${[0,1,2,3,4,5,6].map(i=>`
-          <path d="M120,${120+i*10} Q${95-i*2},${118+i*10} ${76+i},${130+i*10}"/>
-          <path d="M120,${120+i*10} Q${145+i*2},${118+i*10} ${164-i},${130+i*10}"/>
-        `).join('')}
-      </g>
-      <!-- PELVIS POST -->
-      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
-        <path d="M102,215 Q80,215 76,230 Q74,248 88,256 Q102,262 120,263 Q138,262 152,256 Q166,248 164,230 Q160,215 138,215 Z"/>
-        <rect x="112" y="210" width="16" height="40" rx="4" fill="#1e2235" stroke="#52d18a"/>
-        <!-- iliac crests highlighted -->
-        <path d="M102,215 Q90,208 82,214" fill="none" stroke="#f07060" stroke-width="2.5"/>
-        <path d="M138,215 Q150,208 158,214" fill="none" stroke="#f07060" stroke-width="2.5"/>
-      </g>
-      <!-- FEMUR POST -->
-      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
-        <rect x="89" y="265" width="18" height="105" rx="6"/>
-        <rect x="133" y="265" width="18" height="105" rx="6"/>
-        <!-- gluteal tuberosity -->
-        <rect x="89" y="275" width="5" height="20" rx="2" fill="#f07060" opacity="0.4"/>
-        <rect x="146" y="275" width="5" height="20" rx="2" fill="#f07060" opacity="0.4"/>
-        <!-- linea aspera -->
-        <line x1="98" y1="280" x2="98" y2="360" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>
-        <line x1="142" y1="280" x2="142" y2="360" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>
-      </g>
-      <!-- TIBIA + FIBULA POST -->
-      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.3">
-        <rect x="90" y="375" width="14" height="90" rx="5"/>
-        <rect x="134" y="375" width="14" height="90" rx="5"/>
-        <rect x="105" y="380" width="8" height="82" rx="4" stroke-width="1"/>
-        <rect x="122" y="380" width="8" height="82" rx="4" stroke-width="1"/>
-      </g>
-      <!-- FOOT POST -->
-      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.2">
-        <path d="M82,468 Q84,485 90,496 Q100,505 110,504 L112,490 L97,468 Z"/>
-        <path d="M158,468 Q156,485 150,496 Q140,505 130,504 L128,490 L143,468 Z"/>
-        <!-- calcaneus highlighted -->
-        <ellipse cx="94" cy="472" rx="8" ry="6" fill="#f07060" opacity="0.3"/>
-        <ellipse cx="146" cy="472" rx="8" ry="6" fill="#f07060" opacity="0.3"/>
-      </g>
-      <!-- HUMERUS POST -->
-      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
-        <rect x="62" y="130" width="14" height="90" rx="6"/>
-        <rect x="164" y="130" width="14" height="90" rx="6"/>
-      </g>
-      <!-- RADIUS + ULNA POST -->
-      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.2">
-        <rect x="56" y="222" width="10" height="80" rx="5"/>
-        <rect x="68" y="222" width="10" height="80" rx="5"/>
-        <rect x="162" y="222" width="10" height="80" rx="5"/>
-        <rect x="174" y="222" width="10" height="80" rx="5"/>
-        <!-- olecranon process -->
-        <rect x="67" y="218" width="12" height="8" rx="3" fill="#b084f5" opacity="0.5"/>
-        <rect x="161" y="218" width="12" height="8" rx="3" fill="#b084f5" opacity="0.5"/>
-      </g>
-      <!-- HAND POST -->
-      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1">
-        <path d="M52,304 Q48,320 50,332 Q56,340 66,338 Q74,336 76,324 L78,304 Z"/>
-        <path d="M164,304 Q160,320 162,332 Q168,340 178,338 Q186,336 188,324 L190,304 Z"/>
-      </g>
-      <text x="10" y="15" fill="#9099b0" font-size="8" font-weight="500">POSTERIOR</text>
-      <text x="120" y="16" text-anchor="middle" fill="#7c9ef8" font-size="7" font-weight="600">Skull</text>
-      <text x="78" y="148" text-anchor="middle" fill="#b084f5" font-size="6">Scapula</text>
-      <text x="97" y="320" text-anchor="middle" fill="#f07060" font-size="6">Femur</text>
-      <text x="97" y="430" text-anchor="middle" fill="#f07060" font-size="6">Tibia</text>
+    return `<svg class="bod" viewBox="0 0 220 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <text x="5" y="13" fill="#9099b0" font-size="9" font-family="'DM Sans',sans-serif" font-weight="500">${isAnt?'ANTERIOR':'POSTERIOR'}</text>
+      ${getMuscleBodyParts(isAnt)}
     </svg>`;
   }
 }
 
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
-let currentView = 'anterior';
-let selectedRegion = null;
-let activeBoneFilter = 'All';
-let quizPool = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizAnswered = false;
-let quizType = 'bones';
-
-// ═══════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════
-function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if (page === 'bodymap') renderBodyMap();
-  if (page === 'bones') renderBonesPage();
-  if (page === 'joints') renderJointsPage();
-  if (page === 'atlas-quiz') renderQuizSetup();
+function boneRegion(id,pathOrShape,label,cx,cy,color){
+  return `<g class="clickable" onclick="selectItem('${id}','bones')" title="${label}">
+    ${pathOrShape}
+    <text x="${cx}" y="${cy}" text-anchor="middle" fill="${color}" font-size="6.5" font-family="'DM Sans',sans-serif" font-weight="600" pointer-events="none">${label}</text>
+  </g>`;
+}
+function muscleRegion(id,pathOrShape,label,cx,cy,color){
+  return `<g class="clickable" onclick="selectItem('${id}','muscles')" title="${label}">
+    ${pathOrShape}
+    <text x="${cx}" y="${cy}" text-anchor="middle" fill="${color}" font-size="6" font-family="'DM Sans',sans-serif" pointer-events="none">${label}</text>
+  </g>`;
 }
 
-// ═══════════════════════════════════════════════
-// BODY MAP
-// ═══════════════════════════════════════════════
-function renderBodyMap() {
-  document.getElementById('svgWrap').innerHTML = getSkeletonSVG(currentView);
-}
-
-function setView(view) {
-  currentView = view;
-  document.getElementById('btnAnterior').className = 'map-toggle' + (view === 'anterior' ? ' active' : '');
-  document.getElementById('btnPosterior').className = 'map-toggle' + (view === 'posterior' ? ' active' : '');
-  renderBodyMap();
-  if (selectedRegion) selectRegion(selectedRegion);
-}
-
-function selectRegion(regionId) {
-  selectedRegion = regionId;
-  const region = REGIONS[regionId];
-  if (!region) return;
-  const panel = document.getElementById('infoPanelContent');
-  const placeholder = document.getElementById('infoPanelPlaceholder');
-  placeholder.style.display = 'none';
-  panel.style.display = 'block';
-  const allBones = [...(region.bones || []), ...(region.facial || []), ...(region.sections || [])];
-  panel.innerHTML = `
-    <div class="badge badge-${getBadgeClass(region.color)}" style="margin-bottom:8px">${region.region} Skeleton</div>
-    <h2>${region.name}</h2>
-    <div class="region-tag">${allBones.length} bone entries — click any for details</div>
-    ${region.overview ? `<div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;background:var(--bg3);padding:10px 14px;border-radius:8px">${region.overview}</div>` : ''}
-    ${region.intervertebral ? `<div style="font-size:13px;color:var(--amber);margin-bottom:14px;line-height:1.6;background:rgba(245,200,66,0.05);padding:10px 14px;border-radius:8px;border-left:2px solid var(--amber)"><strong>Intervertebral discs:</strong> ${region.intervertebral}</div>` : ''}
-    <div class="info-section">
-      <div class="info-section-label">Bones</div>
-      <ul class="bone-list">
-        ${allBones.map(b => `
-          <li>
-            <span>${b.name}</span> <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)">× ${b.count}</span>
-            ${b.notes ? `<div style="font-size:11px;color:var(--text3);margin-top:2px">${b.notes}</div>` : ''}
-            ${b.markings && b.markings.length ? `<div style="margin-top:4px">${b.markings.map(m=>`<span class="marking-pill">${m}</span>`).join('')}</div>` : ''}
-          </li>
-        `).join('')}
-      </ul>
-    </div>
-    ${region.mnemonic ? `<div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--amber);margin-top:10px"><strong>💡 Mnemonic:</strong> ${region.mnemonic}</div>` : ''}
-    <button class="quiz-btn" onclick="quizThisRegion('${regionId}')">Quiz me on ${region.name} →</button>
+function getBoneBodyParts(ant){
+  const bc='#7c9ef8';
+  if(ant) return `
+    <!-- SKULL -->
+    ${boneRegion('skull',`<ellipse cx="110" cy="28" rx="32" ry="28" fill="#1a2240" stroke="${bc}" stroke-width="1.5"/>
+      <path d="M95,48 Q90,60 93,68 Q102,76 110,77 Q118,76 127,68 Q130,60 125,48" fill="#1a2240" stroke="${bc}" stroke-width="1.2"/>`,
+      'Skull',110,30,bc)}
+    <!-- CLAVICLES -->
+    ${boneRegion('upper',`<path d="M110,93 Q93,90 75,97" fill="none" stroke="${bc}" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M110,93 Q127,90 145,97" fill="none" stroke="${bc}" stroke-width="2.5" stroke-linecap="round"/>`,
+      'Clavicle',110,88,'#c0a8ff')}
+    <!-- CERVICAL SPINE -->
+    ${boneRegion('vertebral',`<rect x="104" y="77" width="12" height="28" rx="3" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>`,
+      'C-spine',110,80,'#52d18a')}
+    <!-- STERNUM -->
+    ${boneRegion('thorax',`<rect x="104" y="97" width="12" height="60" rx="4" fill="#1a2010" stroke="#f5c842" stroke-width="1.5"/>`,
+      'Sternum',110,100,'#f5c842')}
+    <!-- RIBS -->
+    ${boneRegion('thorax',`${[0,1,2,3,4,5,6].map(i=>`
+      <path d="M110,${101+i*9} Q${88-i*1.5},${99+i*9} ${70+i},${109+i*9}" fill="none" stroke="#f5c842" stroke-width="1.1"/>
+      <path d="M110,${101+i*9} Q${132+i*1.5},${99+i*9} ${150-i},${109+i*9}" fill="none" stroke="#f5c842" stroke-width="1.1"/>
+    `).join('')}`,
+      'Ribs',58,125,'#f5c842')}
+    <!-- THORACIC+LUMBAR SPINE -->
+    ${boneRegion('vertebral',`<rect x="104" y="105" width="12" height="90" rx="3" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>
+      ${Array.from({length:12},(_,i)=>`<rect x="101" y="${108+i*6}" width="6" height="3" rx="1" fill="#52d18a" opacity="0.5"/>`).join('')}`,
+      '',110,150,'#52d18a')}
+    <!-- SCAPULAE (barely visible anterior) -->
+    ${boneRegion('upper',`<path d="M62,100 L56,135 L65,140 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>
+      <path d="M158,100 L164,135 L155,140 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>`,
+      '',110,100,'#b084f5')}
+    <!-- HUMERUS -->
+    ${boneRegion('upper',`<rect x="53" y="107" width="13" height="82" rx="6" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>
+      <rect x="154" y="107" width="13" height="82" rx="6" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>`,
+      'Humerus',53,150,'#c0a8ff')}
+    <!-- RADIUS + ULNA -->
+    ${boneRegion('upper',`<rect x="47" y="191" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="57" y="191" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="154" y="191" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="164" y="191" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>`,
+      'Radius/Ulna',52,230,'#c0a8ff')}
+    <!-- HAND -->
+    ${boneRegion('upper',`<path d="M42,265 Q38,280 40,294 Q47,304 57,302 Q65,300 66,286 L68,265 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>
+      <path d="M154,265 Q150,280 152,294 Q159,304 169,302 Q177,300 178,286 L180,265 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>`,
+      'Hand',44,285,'#c0a8ff')}
+    <!-- PELVIS -->
+    ${boneRegion('lower',`<path d="M88,197 Q68,196 64,213 Q62,230 74,238 Q88,244 110,246 Q132,244 146,238 Q158,230 156,213 Q152,196 132,197 Z" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <rect x="103" y="194" width="14" height="38" rx="4" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>`,
+      'Pelvis',110,220,'#f07060')}
+    <!-- FEMUR -->
+    ${boneRegion('lower',`<rect x="77" y="246" width="17" height="96" rx="6" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <rect x="126" y="246" width="17" height="96" rx="6" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <circle cx="85" cy="244" r="8" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <circle cx="135" cy="244" r="8" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>`,
+      'Femur',82,300,'#f08080')}
+    <!-- PATELLA -->
+    ${boneRegion('lower',`<ellipse cx="85" cy="347" rx="7" ry="8" fill="#240a0a" stroke="#f5c842" stroke-width="1.5"/>
+      <ellipse cx="135" cy="347" rx="7" ry="8" fill="#240a0a" stroke="#f5c842" stroke-width="1.5"/>`,
+      'Patella',85,347,'#f5c842')}
+    <!-- TIBIA + FIBULA -->
+    ${boneRegion('lower',`<rect x="78" y="357" width="13" height="84" rx="5" fill="#240a0a" stroke="#f07060" stroke-width="1.3"/>
+      <rect x="92" y="362" width="8" height="76" rx="4" fill="#240a0a" stroke="#f07060" stroke-width="1"/>
+      <rect x="122" y="357" width="13" height="84" rx="5" fill="#240a0a" stroke="#f07060" stroke-width="1.3"/>
+      <rect x="120" y="362" width="8" height="76" rx="4" fill="#240a0a" stroke="#f07060" stroke-width="1"/>`,
+      'Tibia/Fib',84,400,'#f08080')}
+    <!-- FOOT -->
+    ${boneRegion('lower',`<path d="M70,443 Q68,460 72,474 Q80,486 96,485 L98,468 L82,442 Z" fill="#240a0a" stroke="#f07060" stroke-width="1.2"/>
+      <path d="M150,443 Q152,460 148,474 Q140,486 124,485 L122,468 L138,442 Z" fill="#240a0a" stroke="#f07060" stroke-width="1.2"/>`,
+      'Foot',80,468,'#f08080')}
+  `;
+  else return `
+    <!-- SKULL POSTERIOR -->
+    ${boneRegion('skull',`<ellipse cx="110" cy="28" rx="32" ry="28" fill="#1a2240" stroke="${bc}" stroke-width="1.5"/>
+      <circle cx="110" cy="52" r="4" fill="${bc}" opacity="0.4"/>`,
+      'Skull',110,28,bc)}
+    <!-- CERVICAL -->
+    ${boneRegion('vertebral',`<rect x="104" y="57" width="12" height="32" rx="3" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>
+      ${[0,1,2,3,4,5,6].map(i=>`<rect x="110" y="${60+i*4}" width="8" height="3" rx="1" fill="#52d18a" opacity="0.5"/>`).join('')}`,
+      'C-spine',110,62,'#52d18a')}
+    <!-- SCAPULAE FULL -->
+    ${boneRegion('upper',`<path d="M58,90 L50,130 Q54,144 68,147 Q80,142 84,120 Q86,104 78,90 Z" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>
+      <path d="M162,90 L170,130 Q166,144 152,147 Q140,142 136,120 Q134,104 142,90 Z" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>
+      <line x1="58" y1="100" x2="78" y2="90" stroke="#b084f5" stroke-width="2.5"/>
+      <line x1="162" y1="100" x2="142" y2="90" stroke="#b084f5" stroke-width="2.5"/>`,
+      'Scapula',60,118,'#c0a8ff')}
+    <!-- THORACIC + LUMBAR SPINE -->
+    ${boneRegion('vertebral',`<rect x="104" y="89" width="12" height="110" rx="3" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>
+      ${Array.from({length:17},(_,i)=>`<rect x="110" y="${92+i*6}" width="8" height="4" rx="1" fill="#52d18a" opacity="0.4"/>`).join('')}`,
+      'T+L spine',110,140,'#52d18a')}
+    <!-- RIBS POSTERIOR -->
+    ${boneRegion('thorax',`${[0,1,2,3,4,5,6].map(i=>`
+      <path d="M110,${100+i*9} Q${88-i},${98+i*9} ${68+i},${110+i*9}" fill="none" stroke="#f5c842" stroke-width="1.1"/>
+      <path d="M110,${100+i*9} Q${132+i},${98+i*9} ${152-i},${110+i*9}" fill="none" stroke="#f5c842" stroke-width="1.1"/>
+    `).join('')}`,
+      'Ribs',58,120,'#f5c842')}
+    <!-- HUMERUS -->
+    ${boneRegion('upper',`<rect x="53" y="100" width="13" height="82" rx="6" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>
+      <rect x="154" y="100" width="13" height="82" rx="6" fill="#160a28" stroke="#b084f5" stroke-width="1.5"/>`,
+      'Humerus',53,140,'#c0a8ff')}
+    <!-- R+U POSTERIOR -->
+    ${boneRegion('upper',`<rect x="47" y="184" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="57" y="184" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="154" y="184" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="164" y="184" width="9" height="72" rx="4" fill="#160a28" stroke="#b084f5" stroke-width="1.2"/>
+      <rect x="55" y="180" width="13" height="8" rx="3" fill="#b084f5" opacity="0.5"/>
+      <rect x="152" y="180" width="13" height="8" rx="3" fill="#b084f5" opacity="0.5"/>`,
+      'Radius/Ulna',52,222,'#c0a8ff')}
+    <!-- HAND POST -->
+    ${boneRegion('upper',`<path d="M42,258 Q38,274 40,288 Q47,298 57,296 L68,258 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>
+      <path d="M154,258 Q150,274 152,288 Q159,298 169,296 L180,258 Z" fill="#160a28" stroke="#b084f5" stroke-width="1"/>`,
+      'Hand',44,278,'#c0a8ff')}
+    <!-- PELVIS POSTERIOR -->
+    ${boneRegion('lower',`<path d="M90,200 Q70,200 66,216 Q64,234 76,242 Q90,248 110,250 Q130,248 144,242 Q156,234 154,216 Q150,200 130,200 Z" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <path d="M90,200 Q80,194 72,200" fill="none" stroke="#f07060" stroke-width="2.5"/>
+      <path d="M130,200 Q140,194 148,200" fill="none" stroke="#f07060" stroke-width="2.5"/>
+      <rect x="103" y="196" width="14" height="40" rx="4" fill="#152818" stroke="#52d18a" stroke-width="1.2"/>`,
+      'Pelvis',110,224,'#f07060')}
+    <!-- FEMUR POST with linea aspera -->
+    ${boneRegion('lower',`<rect x="77" y="250" width="17" height="96" rx="6" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <rect x="126" y="250" width="17" height="96" rx="6" fill="#240a0a" stroke="#f07060" stroke-width="1.5"/>
+      <line x1="86" y1="265" x2="86" y2="335" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>
+      <line x1="130" y1="265" x2="130" y2="335" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>`,
+      'Femur',82,305,'#f08080')}
+    <!-- TIBIA + FIBULA POST -->
+    ${boneRegion('lower',`<rect x="78" y="350" width="13" height="84" rx="5" fill="#240a0a" stroke="#f07060" stroke-width="1.3"/>
+      <rect x="92" y="355" width="8" height="76" rx="4" fill="#240a0a" stroke="#f07060" stroke-width="1"/>
+      <rect x="122" y="350" width="13" height="84" rx="5" fill="#240a0a" stroke="#f07060" stroke-width="1.3"/>
+      <rect x="120" y="355" width="8" height="76" rx="4" fill="#240a0a" stroke="#f07060" stroke-width="1"/>`,
+      'Tibia/Fib',84,392,'#f08080')}
+    <!-- CALCANEUS highlighted -->
+    ${boneRegion('lower',`<ellipse cx="84" cy="445" rx="10" ry="7" fill="#3a1010" stroke="#f07060" stroke-width="2"/>
+      <ellipse cx="136" cy="445" rx="10" ry="7" fill="#3a1010" stroke="#f07060" stroke-width="2"/>`,
+      'Calcaneus',84,445,'#f08080')}
   `;
 }
 
-function getBadgeClass(color) {
-  const map = {'#7c9ef8':'blue','#52d18a':'green','#f5c842':'amber','#b084f5':'purple','#f07060':'coral','#4ecdc4':'teal','#f472b6':'pink'};
-  return map[color] || 'blue';
+function getMuscleBodyParts(ant){
+  const mc='#b084f5';
+  if(ant) return `
+    ${muscleRegion('Sternocleidomastoid (SCM)',`<path d="M105,57 Q96,68 94,80 Q96,88 103,90" fill="none" stroke="${mc}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M115,57 Q124,68 126,80 Q124,88 117,90" fill="none" stroke="${mc}" stroke-width="3" stroke-linecap="round"/>`,
+      'SCM',110,74,mc)}
+    ${muscleRegion('Pectoralis major',`<path d="M110,98 Q88,98 74,112 Q70,126 78,136 Q94,145 110,143" fill="#1e1028" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M110,98 Q132,98 146,112 Q150,126 142,136 Q126,145 110,143" fill="#1e1028" stroke="${mc}" stroke-width="1.5"/>`,
+      'Pec Major',110,120,mc)}
+    ${muscleRegion('Deltoid',`<path d="M67,104 Q58,110 56,128 Q60,142 68,145" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>
+      <path d="M153,104 Q162,110 164,128 Q160,142 152,145" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>`,
+      'Deltoid',58,125,'#c0a8ff')}
+    ${muscleRegion('Biceps brachii',`<path d="M57,148 Q52,162 53,182 Q57,188 63,186 Q68,183 67,148" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>
+      <path d="M163,148 Q168,162 167,182 Q163,188 157,186 Q152,183 153,148" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>`,
+      'Biceps',57,168,'#c0a8ff')}
+    ${muscleRegion('Rectus abdominis',`<rect x="102" y="143" width="16" height="52" rx="4" fill="#1e1028" stroke="${mc}" stroke-width="1.5"/>
+      ${[0,1,2].map(i=>`<line x1="102" y1="${153+i*14}" x2="118" y2="${153+i*14}" stroke="${mc}" stroke-width="1" opacity="0.5"/>`).join('')}`,
+      'Rectus Ab.',110,168,mc)}
+    ${muscleRegion('External oblique',`<path d="M102,143 Q82,148 72,165 Q68,180 74,196 L88,197" fill="#1e1028" stroke="${mc}" stroke-width="1.3"/>
+      <path d="M118,143 Q138,148 148,165 Q152,180 146,196 L132,197" fill="#1e1028" stroke="${mc}" stroke-width="1.3"/>`,
+      'Ext. Oblique',74,172,'#c0a8ff')}
+    ${muscleRegion('Iliopsoas',`<path d="M103,197 Q88,210 84,240 L90,244" fill="#1a1030" stroke="#f07060" stroke-width="1.5"/>
+      <path d="M117,197 Q132,210 136,240 L130,244" fill="#1a1030" stroke="#f07060" stroke-width="1.5"/>`,
+      'Iliopsoas',88,218,'#f07060')}
+    ${muscleRegion('Rectus femoris',`<path d="M88,246 Q80,280 80,320 L86,342 Q90,342 92,320 Q95,280 93,246 Z" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M132,246 Q140,280 140,320 L134,342 Q130,342 128,320 Q125,280 127,246 Z" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>`,
+      'Rectus Fem.',84,296,mc)}
+    ${muscleRegion('Vastus lateralis',`<path d="M93,248 Q100,280 100,330 L94,342 Q86,342 80,320 Q80,280 88,248 Z" fill="#1a0a20" stroke="#c0a8ff" stroke-width="1.3"/>
+      <path d="M127,248 Q120,280 120,330 L126,342 Q134,342 140,320 Q140,280 132,248 Z" fill="#1a0a20" stroke="#c0a8ff" stroke-width="1.3"/>`,
+      'Vast. Lat.',97,296,'#c0a8ff')}
+    ${muscleRegion('Tibialis anterior',`<path d="M80,360 Q75,385 76,435 L82,436 Q86,436 86,358" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M134,360 Q139,385 138,435 L132,436 Q128,436 128,358" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>`,
+      'Tib. Ant.',78,398,mc)}
+    ${muscleRegion('Gastrocnemius',`<path d="M94,360 Q102,385 100,425 L94,430 Q88,428 84,360" fill="#1a0a20" stroke="#f07060" stroke-width="1.3" opacity="0.7"/>
+      <path d="M126,360 Q118,385 120,425 L126,430 Q132,428 136,360" fill="#1a0a20" stroke="#f07060" stroke-width="1.3" opacity="0.7"/>`,
+      'Gastrocnem.',95,395,'#f07060')}
+  `;
+  else return `
+    ${muscleRegion('Trapezius',`<path d="M110,18 Q72,20 58,92 Q68,106 84,104 Q98,90 110,52" fill="#1a1030" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M110,18 Q148,20 162,92 Q152,106 136,104 Q122,90 110,52" fill="#1a1030" stroke="${mc}" stroke-width="1.5"/>`,
+      'Trapezius',110,64,mc)}
+    ${muscleRegion('Deltoid',`<path d="M60,92 Q52,100 50,122 Q54,138 64,140" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>
+      <path d="M160,92 Q168,100 170,122 Q166,138 156,140" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>`,
+      'Deltoid',55,118,'#c0a8ff')}
+    ${muscleRegion('Infraspinatus',`<path d="M64,118 L56,148 L68,150 Q82,143 84,128 L78,106 Z" fill="#1e1028" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M156,118 L164,148 L152,150 Q138,143 136,128 L142,106 Z" fill="#1e1028" stroke="${mc}" stroke-width="1.5"/>`,
+      'Infraspinatus',66,130,mc)}
+    ${muscleRegion('Triceps brachii',`<path d="M55,148 Q48,170 49,188 Q54,194 62,192 Q68,170 66,148" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>
+      <path d="M165,148 Q172,170 171,188 Q166,194 158,192 Q152,170 154,148" fill="#1a1030" stroke="#c0a8ff" stroke-width="1.5"/>`,
+      'Triceps',55,170,'#c0a8ff')}
+    ${muscleRegion('Gluteus maximus',`<path d="M90,200 Q68,206 64,230 Q64,250 80,258 Q94,265 110,266" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M130,200 Q152,206 156,230 Q156,250 140,258 Q126,265 110,266" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>`,
+      'Glut. Max.',88,236,mc)}
+    ${muscleRegion('Gluteus medius',`<path d="M90,198 Q72,196 68,212 Q70,226 84,228 Q94,222 96,206" fill="#1a0a20" stroke="#f07060" stroke-width="1.5"/>
+      <path d="M130,198 Q148,196 152,212 Q150,226 136,228 Q126,222 124,206" fill="#1a0a20" stroke="#f07060" stroke-width="1.5"/>`,
+      'Glut. Med.',74,214,'#f07060')}
+    ${muscleRegion('Biceps femoris',`<path d="M93,265 Q96,300 94,340 L88,342 Q80,338 80,268" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>
+      <path d="M127,265 Q124,300 126,340 L132,342 Q140,338 140,268" fill="#1a0a20" stroke="${mc}" stroke-width="1.5"/>`,
+      'Biceps Fem.',88,305,mc)}
+    ${muscleRegion('Semitendinosus',`<path d="M80,265 Q76,300 78,342 Q84,344 88,342 Q94,300 93,265 Z" fill="#1a0a20" stroke="#52d18a" stroke-width="1.3"/>
+      <path d="M140,265 Q144,300 142,342 Q136,344 132,342 Q126,300 127,265 Z" fill="#1a0a20" stroke="#52d18a" stroke-width="1.3"/>`,
+      'Semitend.',78,310,'#52d18a')}
+    ${muscleRegion('Gastrocnemius',`<path d="M82,354 Q78,380 80,425 L88,430 Q96,428 98,358" fill="#1a0a20" stroke="#f07060" stroke-width="1.5"/>
+      <path d="M138,354 Q142,380 140,425 L132,430 Q124,428 122,358" fill="#1a0a20" stroke="#f07060" stroke-width="1.5"/>`,
+      'Gastroc.',86,394,'#f07060')}
+    ${muscleRegion('Soleus',`<path d="M84,420 Q82,440 84,468 L90,468 Q98,440 96,420" fill="#1a0a20" stroke="#f07060" stroke-width="1.3" opacity="0.7"/>
+      <path d="M136,420 Q138,440 136,468 L130,468 Q122,440 124,420" fill="#1a0a20" stroke="#f07060" stroke-width="1.3" opacity="0.7"/>`,
+      'Soleus',86,444,'#f08080')}
+  `;
 }
 
-function quizThisRegion(regionId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-atlas-quiz').classList.add('active');
-  document.querySelectorAll('.nav-btn')[3].classList.add('active');
-  startAtlasQuizFromRegion(regionId);
+// ═══════════════════════ SELECT ITEM ═══════════════════════
+function selectItem(id, type){
+  document.getElementById('infoEmpty').style.display='none';
+  document.getElementById('infoContent').style.display='block';
+  const panel=document.getElementById('infoContent');
+  if(type==='bones'){
+    const region=REGIONS[id];
+    if(!region)return;
+    const allBones=[...(region.bones||[]),...(region.facial||[]),...(region.sections||[])];
+    panel.innerHTML=`
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);margin-bottom:6px">${region.region} Skeleton</div>
+      <div class="info-name">${region.name}</div>
+      ${region.extra?`<div style="font-size:12px;color:var(--amber);background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:8px 10px;margin-bottom:12px">${region.extra}</div>`:''}
+      <div class="info-sec">
+        <div class="info-sec-lbl">Bones & Details</div>
+        ${allBones.map(b=>`<div style="background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+            <span style="font-weight:500;font-size:13px;color:var(--text)">${b.name}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10px;color:${region.color}">×${b.count}</span>
+          </div>
+          ${b.type?`<div style="font-size:10px;color:var(--text3);margin-bottom:3px">Type: ${b.type} | Ossification: ${b.ossification}</div>`:''}
+          ${b.notes?`<div style="font-size:12px;color:var(--text2);margin-bottom:5px">${b.notes}</div>`:''}
+          ${b.markings&&b.markings.length?`<div>${b.markings.map(m=>`<span class="pill">${m}</span>`).join('')}</div>`:''}
+        </div>`).join('')}
+      </div>
+      ${region.mnemonic?`<div class="mnem-box"><strong>💡 Mnemonic:</strong> ${region.mnemonic}</div>`:''}
+      <button class="qbtn" onclick="quickQuizRegion('${id}')">Quiz on ${region.name} →</button>`;
+  } else {
+    // muscle click
+    const muscle=MUSCLES.find(m=>m.name===id);
+    if(!muscle)return;
+    panel.innerHTML=`
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);margin-bottom:6px">${muscle.group}</div>
+      <div class="info-name">${muscle.name}</div>
+      <div style="display:grid;gap:0">
+        ${[['Origin',muscle.origin],['Insertion',muscle.insertion],['Action',muscle.action],['Nerve',muscle.nerve]].map(([l,v])=>`
+        <div class="detail-row"><span class="detail-lbl">${l}</span><span class="detail-val">${v}</span></div>`).join('')}
+      </div>
+      ${muscle.notes?`<div style="font-size:13px;color:var(--text2);margin-top:12px;padding:10px;background:var(--bg3);border-radius:8px">${muscle.notes}</div>`:''}
+      <button class="qbtn" style="margin-top:12px" onclick="quickQuizMuscle('${id}')">Quiz on ${muscle.name.split(' ')[0]} →</button>`;
+  }
 }
 
-// ═══════════════════════════════════════════════
-// BONES PAGE
-// ═══════════════════════════════════════════════
-function renderBonesPage() {
-  const filters = ['All', ...Object.values(REGIONS).map(r => r.name)];
-  document.getElementById('boneFilterRow').innerHTML = filters.map(f =>
-    `<button class="filter-pill ${f === activeBoneFilter ? 'active' : ''}" onclick="filterBones('${f}')">${f}</button>`
-  ).join('');
+// ═══════════════════════ BONES PAGE ═══════════════════════
+function renderBonesPage(){
+  const filters=['All',...Object.values(REGIONS).map(r=>r.name)];
+  document.getElementById('bfr').innerHTML=filters.map(f=>`<button class="fp ${f===boneFilter?'on':''}" onclick="filterBones('${f}')">${f}</button>`).join('');
   renderBoneCards();
 }
-
-function filterBones(filter) {
-  activeBoneFilter = filter;
-  document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.textContent === filter));
-  renderBoneCards();
-}
-
-function renderBoneCards() {
-  const bones = activeBoneFilter === 'All' ? ALL_BONES : ALL_BONES.filter(b => b.region === activeBoneFilter);
-  document.getElementById('bonesGrid').innerHTML = bones.map((b, i) => `
-    <div class="bone-card" id="bcard-${i}" onclick="toggleBoneCard(${i})">
-      <div class="badge" style="background:${b.regionColor}22;color:${b.regionColor}">${b.region}</div>
+function filterBones(f){boneFilter=f;document.querySelectorAll('#bfr .fp').forEach(b=>b.classList.toggle('on',b.textContent===f));renderBoneCards();}
+function renderBoneCards(){
+  const bones=boneFilter==='All'?ALL_BONES:ALL_BONES.filter(b=>b.region===boneFilter);
+  document.getElementById('bgrid').innerHTML=bones.map((b,i)=>`
+    <div class="bc" id="bc${i}" onclick="togBC(${i})">
+      <div style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;background:${b.regionColor}22;color:${b.regionColor}">${b.region}</div>
       <h3>${b.name}</h3>
-      <div class="bone-meta">Count: <span class="bone-count">${b.count}</span></div>
-      ${b.markings && b.markings.length ? `<div style="font-size:11px;color:var(--text3)">${b.markings.length} markings</div>` : ''}
-      <div class="expanded-bone" id="bexp-${i}">
-        ${b.notes ? `<div style="margin-bottom:8px">${b.notes}</div>` : ''}
-        ${b.markings && b.markings.length ? `<div><strong style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px">Key markings:</strong><div style="margin-top:6px">${b.markings.map(m=>`<span class="marking-pill">${m}</span>`).join('')}</div></div>` : ''}
+      <div class="bc-meta">
+        <span>Count: <strong style="color:var(--accent);font-family:'DM Mono',monospace">${b.count}</strong></span>
+        ${b.type?`<span>Type: ${b.type}</span>`:''}
+        ${b.ossification?`<span>Ossif: ${b.ossification}</span>`:''}
+      </div>
+      <div class="bc-exp" id="bce${i}">
+        ${b.notes?`<div style="margin-bottom:8px">${b.notes}</div>`:''}
+        ${b.markings&&b.markings.length?`<div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:5px;font-weight:600">Key Markings</div>${b.markings.map(m=>`<span class="pill">${m}</span>`).join('')}</div>`:''}
       </div>
     </div>`).join('');
 }
+function togBC(i){const c=document.getElementById('bc'+i);const e=document.getElementById('bce'+i);c.classList.toggle('open');e.style.display=c.classList.contains('open')?'block':'none';}
 
-function toggleBoneCard(i) {
-  const card = document.getElementById('bcard-' + i);
-  const exp = document.getElementById('bexp-' + i);
-  card.classList.toggle('open');
-  exp.style.display = card.classList.contains('open') ? 'block' : 'none';
+// ═══════════════════════ MUSCLES PAGE ═══════════════════════
+function renderMusclesPage(){
+  document.getElementById('mfr').innerHTML=['All',...MUSCLE_GROUPS].map(g=>`<button class="fp ${g===muscleFilter?'on':''}" onclick="filterMuscles('${g}')">${g}</button>`).join('');
+  renderMuscleCards();
 }
+function filterMuscles(g){muscleFilter=g;document.querySelectorAll('#mfr .fp').forEach(b=>b.classList.toggle('on',b.textContent===g));renderMuscleCards();}
+function renderMuscleCards(){
+  const list=muscleFilter==='All'?MUSCLES:MUSCLES.filter(m=>m.group===muscleFilter);
+  document.getElementById('mgrid').innerHTML=list.map((m,i)=>`
+    <div class="mc" id="mc${i}" onclick="togMC(${i})">
+      <div style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;background:${m.color}22;color:${m.color}">${m.group}</div>
+      <h3>${m.name}</h3>
+      <div style="font-size:12px;color:var(--text3);margin-top:2px">${m.nerve.split('(')[0].trim()}</div>
+      <div class="mc-exp" id="mce${i}">
+        ${[['Origin',m.origin],['Insertion',m.insertion],['Action',m.action],['Nerve',m.nerve]].map(([l,v])=>`<div class="oi-row"><span class="oi-lbl">${l}</span><span>${v}</span></div>`).join('')}
+        ${m.notes?`<div style="margin-top:8px;padding:8px;background:var(--bg4);border-radius:6px;font-size:12px;color:var(--amber)">${m.notes}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+function togMC(i){const c=document.getElementById('mc'+i);const e=document.getElementById('mce'+i);c.classList.toggle('open');e.style.display=c.classList.contains('open')?'block':'none';}
 
-// ═══════════════════════════════════════════════
-// JOINTS PAGE
-// ═══════════════════════════════════════════════
-function renderJointsPage() {
-  document.getElementById('jointsGrid').innerHTML = JOINTS.map(j => `
-    <div class="joint-card">
+// ═══════════════════════ JOINTS PAGE ═══════════════════════
+function renderJointsPage(){
+  document.getElementById('jgrid').innerHTML=JOINTS.map(j=>`
+    <div class="jc" style="border-top:3px solid ${j.color}">
       <h3>${j.name}</h3>
-      <div class="joint-type">${j.type}</div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong style="color:var(--text)">Examples:</strong> ${j.examples}</div>
-      <div class="movement-tags">${j.movement.split(', ').map(m=>`<span class="move-tag">${m}</span>`).join('')}</div>
-      ${j.ligaments ? `<div style="font-size:12px;color:var(--text3);margin-top:8px;border-top:1px solid var(--border);padding-top:8px"><strong style="color:var(--text2)">Ligaments:</strong> ${j.ligaments}</div>` : ''}
-      <div style="font-size:12px;color:var(--amber);margin-top:6px;font-style:italic">${j.notes}</div>
+      <div class="jc-type">${j.type}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px"><strong style="color:var(--text)">Examples:</strong> ${j.examples}</div>
+      <div class="mv-tags">${j.movements.map(mv=>`<span class="mvt">${mv}</span>`).join('')}</div>
+      ${j.ligaments?`<div style="font-size:11px;color:var(--text3);margin-top:8px;border-top:1px solid var(--border);padding-top:7px"><strong style="color:var(--text2)">Ligaments:</strong> ${j.ligaments}</div>`:''}
+      <div style="font-size:12px;color:${j.color};margin-top:6px;font-style:italic">${j.notes}</div>
     </div>`).join('');
-
-  document.getElementById('movementsGrid').innerHTML = MOVEMENTS.map(m => `
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;border-left:3px solid ${m.color}">
+  document.getElementById('movgrid').innerHTML=MOVEMENTS.map(m=>`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;border-left:3px solid ${m.color}">
       <div style="font-weight:500;font-size:14px;color:${m.color};margin-bottom:4px">${m.term}</div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">${m.def}</div>
-      <div style="font-size:11px;color:var(--text3)">Plane: ${m.plane} &nbsp;|&nbsp; Axis: ${m.axis}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:5px">${m.def}</div>
+      <div style="font-size:11px;color:var(--text3)">Plane: ${m.plane} | Axis: ${m.axis}</div>
     </div>`).join('');
 }
 
-// ═══════════════════════════════════════════════
-// QUIZ
-// ═══════════════════════════════════════════════
-const QUIZ_TYPES = [
-  {id:'bones', label:'🦴 Bone Names', desc:'Identify bones by description or location'},
-  {id:'markings', label:'📍 Bone Markings', desc:'Name or identify specific bony features'},
-  {id:'joints', label:'🔗 Joint Types', desc:'Classify joints and their movements'},
-  {id:'movements', label:'💪 Movement Terms', desc:'Define anatomical movement terms'},
+// ═══════════════════════ QUIZ ═══════════════════════
+const QTYPES=[
+  {id:'bones',label:'🦴 Bone Names',desc:'Identify bones by description'},
+  {id:'markings',label:'📍 Bone Markings',desc:'Which bone has this marking?'},
+  {id:'joints',label:'🔗 Joint Types',desc:'Classify joints and movements'},
+  {id:'muscles',label:'💪 Muscle Origins',desc:'Origin, insertion, and action'},
+  {id:'movements',label:'🔄 Movement Terms',desc:'Define anatomical movements'},
 ];
 
-function renderQuizSetup() {
-  document.getElementById('quizSetupArea').style.display = 'block';
-  document.getElementById('atlasQuizArea').style.display = 'none';
-  document.getElementById('quizTypeGrid').innerHTML = QUIZ_TYPES.map(qt => `
-    <div onclick="selectQuizType('${qt.id}',this)" style="background:var(--bg2);border:1px solid ${qt.id===quizType?'var(--accent2)':'var(--border)'};border-radius:var(--radius);padding:14px;cursor:pointer;transition:all 0.15s;${qt.id===quizType?'background:rgba(85,119,232,0.08)':''}">
-      <div style="font-size:14px;font-weight:500;margin-bottom:3px">${qt.label}</div>
-      <div style="font-size:12px;color:var(--text3)">${qt.desc}</div>
+function renderQSetup(){
+  document.getElementById('qsetup').style.display='block';
+  document.getElementById('qactive').style.display='none';
+  document.getElementById('qtypegrid').innerHTML=QTYPES.map(qt=>`
+    <div onclick="pickQType('${qt.id}',this)" style="background:var(--bg2);border:1px solid ${qt.id===qType?'var(--accent2)':'var(--border)'};border-radius:var(--radius);padding:12px;cursor:pointer;transition:all 0.15s;${qt.id===qType?'background:rgba(85,119,232,0.08)':''}">
+      <div style="font-size:13px;font-weight:500;margin-bottom:2px">${qt.label}</div>
+      <div style="font-size:11px;color:var(--text3)">${qt.desc}</div>
     </div>`).join('');
 }
-
-function selectQuizType(id, el) {
-  quizType = id;
-  document.querySelectorAll('#quizTypeGrid > div').forEach(d => {
-    d.style.borderColor = 'var(--border)';
-    d.style.background = 'var(--bg2)';
-  });
-  el.style.borderColor = 'var(--accent2)';
-  el.style.background = 'rgba(85,119,232,0.08)';
+function pickQType(id,el){
+  qType=id;
+  document.querySelectorAll('#qtypegrid > div').forEach(d=>{d.style.borderColor='var(--border)';d.style.background='var(--bg2)';});
+  el.style.borderColor='var(--accent2)';el.style.background='rgba(85,119,232,0.08)';
 }
-
-function buildQuizPool(type) {
-  const pool = [];
-  if (type === 'bones') {
-    ALL_BONES.filter(b => b.notes).forEach(b => {
-      const wrong = ALL_BONES.filter(x => x.name !== b.name).sort(() => Math.random()-0.5).slice(0,3);
-      pool.push({q: b.notes, answer: b.name, choices: [...wrong.map(w=>w.name), b.name].sort(()=>Math.random()-0.5), hint: `Region: ${b.region}`});
-    });
-  } else if (type === 'markings') {
-    ALL_BONES.filter(b => b.markings && b.markings.length).forEach(b => {
-      b.markings.forEach(m => {
-        const wrongBones = ALL_BONES.filter(x => x.name !== b.name).sort(()=>Math.random()-0.5).slice(0,3);
-        pool.push({q: `The "${m}" is a marking found on which bone?`, answer: b.name, choices: [...wrongBones.map(w=>w.name), b.name].sort(()=>Math.random()-0.5), hint: `Region: ${b.region}`});
-      });
-    });
-  } else if (type === 'joints') {
-    JOINTS.forEach(j => {
-      const wrong = JOINTS.filter(x=>x.name!==j.name).sort(()=>Math.random()-0.5).slice(0,3);
-      pool.push({q:`Which joint type is found at: ${j.examples}?`, answer: j.name, choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-0.5), hint: j.movement});
-      pool.push({q:`A joint allowing: ${j.movement} — what type is it?`, answer: j.name, choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-0.5), hint: `Examples: ${j.examples}`});
-    });
-  } else if (type === 'movements') {
-    MOVEMENTS.forEach(m => {
-      const wrong = MOVEMENTS.filter(x=>x.term!==m.term).sort(()=>Math.random()-0.5).slice(0,3);
-      pool.push({q: m.def.replace(m.term,'_____'), answer: m.term, choices:[...wrong.map(w=>w.term),m.term].sort(()=>Math.random()-0.5), hint:`Plane: ${m.plane}`});
-    });
-  }
-  return pool.sort(() => Math.random()-0.5).slice(0, 15);
+function buildPool(type){
+  const pool=[];
+  if(type==='bones'){ALL_BONES.filter(b=>b.notes).forEach(b=>{const wrong=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:b.notes,ans:b.name,choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-.5),hint:`Region: ${b.region}`});});}
+  else if(type==='markings'){ALL_BONES.filter(b=>b.markings&&b.markings.length).forEach(b=>{b.markings.slice(0,3).forEach(m=>{const wrong=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`"${m}" — which bone?`,ans:b.name,choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-.5),hint:`Region: ${b.region}`});});});}
+  else if(type==='joints'){JOINTS.forEach(j=>{const wrong=JOINTS.filter(x=>x.name!==j.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`Joint at: ${j.examples} — what type?`,ans:j.name,choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-.5),hint:j.movements.join(', ')});pool.push({q:`Allows: ${j.movements.join(', ')} — what joint type?`,ans:j.name,choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-.5),hint:`Examples: ${j.examples}`});});}
+  else if(type==='muscles'){MUSCLES.forEach(m=>{const wrong=MUSCLES.filter(x=>x.name!==m.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`Which muscle originates from: ${m.origin.split(';')[0]}?`,ans:m.name,choices:[...wrong.map(w=>w.name),m.name].sort(()=>Math.random()-.5),hint:`Action: ${m.action}`});pool.push({q:`Action: ${m.action} — which muscle?`,ans:m.name,choices:[...wrong.map(w=>w.name),m.name].sort(()=>Math.random()-.5),hint:`Group: ${m.group}`});});}
+  else if(type==='movements'){MOVEMENTS.forEach(m=>{const wrong=MOVEMENTS.filter(x=>x.term!==m.term).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:m.def.replace(m.term,'_____'),ans:m.term,choices:[...wrong.map(w=>w.term),m.term].sort(()=>Math.random()-.5),hint:`Plane: ${m.plane}`});});}
+  return pool.sort(()=>Math.random()-.5).slice(0,15);
 }
-
-function startAtlasQuiz() {
-  quizPool = buildQuizPool(quizType);
-  quizIndex = 0; quizScore = 0; quizAnswered = false;
-  document.getElementById('quizSetupArea').style.display = 'none';
-  document.getElementById('atlasQuizArea').style.display = 'block';
-  renderAtlasQuestion();
+function startQ(){qPool=buildPool(qType);qIdx=0;qScore=0;qAnswered=false;document.getElementById('qsetup').style.display='none';document.getElementById('qactive').style.display='block';renderQQ();}
+function quickQuizRegion(id){
+  const r=REGIONS[id];const allB=[...(r.bones||[]),...(r.facial||[]),...(r.sections||[])].filter(b=>b.notes);
+  qPool=allB.map(b=>{const wrong=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);return{q:b.notes,ans:b.name,choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-.5),hint:`Region: ${r.name}`};}).sort(()=>Math.random()-.5).slice(0,10);
+  qIdx=0;qScore=0;qAnswered=false;document.getElementById('qsetup').style.display='none';document.getElementById('qactive').style.display='block';showPgDirect('atlas-quiz');renderQQ();
 }
-
-function startAtlasQuizFromRegion(regionId) {
-  const r = REGIONS[regionId];
-  const allBones = [...(r.bones||[]),...(r.facial||[]),...(r.sections||[])].filter(b=>b.notes);
-  quizPool = allBones.map(b => {
-    const wrong = ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-0.5).slice(0,3);
-    return {q:b.notes, answer:b.name, choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-0.5), hint:`Region: ${r.name}`};
-  }).sort(()=>Math.random()-0.5).slice(0,10);
-  quizIndex = 0; quizScore = 0; quizAnswered = false;
-  document.getElementById('quizSetupArea').style.display = 'none';
-  document.getElementById('atlasQuizArea').style.display = 'block';
-  renderAtlasQuestion();
+function quickQuizMuscle(name){
+  qPool=MUSCLES.map(m=>{const wrong=MUSCLES.filter(x=>x.name!==m.name).sort(()=>Math.random()-.5).slice(0,3);return{q:`Action: ${m.action}`,ans:m.name,choices:[...wrong.map(w=>w.name),m.name].sort(()=>Math.random()-.5)};}).sort(()=>Math.random()-.5).slice(0,10);
+  qIdx=0;qScore=0;qAnswered=false;document.getElementById('qsetup').style.display='none';document.getElementById('qactive').style.display='block';showPgDirect('atlas-quiz');renderQQ();
 }
-
-function renderAtlasQuestion() {
-  if (quizIndex >= quizPool.length) { showAtlasResults(); return; }
-  const q = quizPool[quizIndex];
-  const pct = Math.round(quizIndex/quizPool.length*100);
-  document.getElementById('atlasQuizArea').innerHTML = `
-    <div class="atlas-quiz-area">
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text3);margin-bottom:12px">
-        <span>Question ${quizIndex+1} of ${quizPool.length}</span>
-        <span style="color:var(--green)">Score: ${quizScore}</span>
-      </div>
-      <div style="height:3px;background:var(--bg4);border-radius:2px;margin-bottom:20px">
-        <div style="height:3px;width:${pct}%;background:var(--accent2);border-radius:2px;transition:width 0.4s"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">${q.q}</div>
-        ${q.hint ? `<div style="font-size:12px;color:var(--text3);margin-bottom:16px;font-style:italic">Hint: ${q.hint}</div>` : ''}
-        <div class="quiz-choices">
-          ${q.choices.map(c => `<button class="quiz-choice" onclick="answerAtlas(this,'${c.replace(/'/g,"\\'")}','${q.answer.replace(/'/g,"\\'")}')"> ${c}</button>`).join('')}
-        </div>
+function showPgDirect(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  document.querySelectorAll('.nb')[4].classList.add('active');
+}
+function renderQQ(){
+  if(qIdx>=qPool.length){showQResults();return;}
+  const q=qPool[qIdx];const pct=Math.round(qIdx/qPool.length*100);
+  document.getElementById('qactive').innerHTML=`
+    <div class="qwrap">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:10px"><span>Q ${qIdx+1} / ${qPool.length}</span><span style="color:var(--green)">${qScore} correct</span></div>
+      <div style="height:3px;background:var(--bg4);border-radius:2px;margin-bottom:18px"><div style="height:3px;width:${pct}%;background:var(--accent2);border-radius:2px;transition:width 0.4s"></div></div>
+      <div class="qcard">
+        <div class="qq">${q.q}</div>
+        ${q.hint?`<div style="font-size:11px;color:var(--text3);margin-bottom:14px;font-style:italic">Hint: ${q.hint}</div>`:''}
+        <div class="qcs">${q.choices.map(c=>`<button class="qc" onclick="ansQ(this,'${c.replace(/'/g,"\\'")}','${q.ans.replace(/'/g,"\\'")}')"> ${c}</button>`).join('')}</div>
       </div>
     </div>`;
 }
-
-function answerAtlas(el, answer, correct) {
-  if (quizAnswered) return;
-  quizAnswered = true;
-  if (answer === correct) quizScore++;
-  document.querySelectorAll('.quiz-choice').forEach(b => {
-    b.disabled = true;
-    if (b.textContent.trim() === correct) b.classList.add('correct');
-    else if (b.textContent.trim() === answer && answer !== correct) b.classList.add('wrong');
-  });
-  const card = document.querySelector('.quiz-card');
-  card.innerHTML += `<button class="quiz-next" onclick="nextAtlasQ()">${quizIndex < quizPool.length-1 ? 'Next →' : 'See Results →'}</button>`;
+function ansQ(el,ans,correct){
+  if(qAnswered)return;qAnswered=true;
+  if(ans===correct)qScore++;
+  document.querySelectorAll('.qc').forEach(b=>{b.disabled=true;if(b.textContent.trim()===correct)b.classList.add('ok');else if(b.textContent.trim()===ans&&ans!==correct)b.classList.add('no');});
+  document.querySelector('.qcard').innerHTML+=`<button class="qnext" onclick="nextQQ()">${qIdx<qPool.length-1?'Next →':'See Results →'}</button>`;
 }
-
-function nextAtlasQ() {
-  quizIndex++; quizAnswered = false;
-  renderAtlasQuestion();
+function nextQQ(){qIdx++;qAnswered=false;renderQQ();}
+function showQResults(){
+  const pct=Math.round(qScore/qPool.length*100);
+  const grade=pct>=90?'🎉 Excellent!':pct>=70?'👍 Solid work!':pct>=50?'📚 Keep drilling':'🔄 Review needed';
+  document.getElementById('qactive').innerHTML=`<div style="text-align:center;padding:50px 0">
+    <div class="score-big">${pct}%</div>
+    <div style="font-size:20px;margin:8px 0">${grade}</div>
+    <div style="color:var(--text2);margin-bottom:24px">${qScore} of ${qPool.length} correct</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button onclick="startQ()" style="padding:10px 22px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer">Retake</button>
+      <button onclick="renderQSetup()" style="padding:10px 22px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer">New Quiz</button>
+      <a href="index.html" style="padding:10px 22px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;text-decoration:none">← Study Lab</a>
+    </div>
+  </div>`;
 }
-
-function showAtlasResults() {
-  const pct = Math.round(quizScore/quizPool.length*100);
-  const grade = pct>=90?'🎉 Outstanding!':pct>=70?'👍 Solid work!':pct>=50?'📚 Keep drilling':'🔄 More review needed';
-  document.getElementById('atlasQuizArea').innerHTML = `
-    <div class="score-display">
-      <div class="score-big">${pct}%</div>
-      <div style="font-size:22px;margin:8px 0">${grade}</div>
-      <div style="color:var(--text2);margin-bottom:24px">${quizScore} of ${quizPool.length} correct</div>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <button onclick="startAtlasQuiz()" style="padding:10px 24px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer">Retake</button>
-        <button onclick="renderQuizSetup();document.getElementById('quizSetupArea').style.display='block';document.getElementById('atlasQuizArea').style.display='none'" style="padding:10px 24px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer">New Quiz</button>
-        <a href="index.html" style="padding:10px 24px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:14px;font-family:'DM Sans',sans-serif;text-decoration:none">Back to Study Lab</a>
-      </div>
-    </div>`;
-}
-
-// ── INIT ──
-renderBodyMap();
-renderBonesPage();
-renderJointsPage();
-renderQuizSetup();
+// INIT
+renderMap();
 </script>
 </body>
 </html>
