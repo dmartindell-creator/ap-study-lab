@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&P Study Lab — Human Anatomy & Physiology Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --bg4: #222736;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaf2;
+    --text2: #9099b0;
+    --text3: #5c6480;
+    --accent: #7c9ef8;
+    --accent2: #5577e8;
+    --green: #52d18a;
+    --amber: #f5c842;
+    --coral: #f07060;
+    --purple: #b084f5;
+    --teal: #4ecdc4;
+    --pink: #f472b6;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: var(--accent); font-style: italic; }
+  .nav {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--bg4); color: var(--text); }
+  .nav-btn.active { background: var(--accent2); color: #fff; }
+  .streak-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--amber);
+    background: rgba(245,200,66,0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(245,200,66,0.2);
+    font-weight: 500;
+  }
+
+  /* ── LAYOUT ── */
+  .page { display: none; padding: 32px; max-width: 1100px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* ── DASHBOARD ── */
+  .welcome-hero {
+    background: linear-gradient(135deg, #1a1e28 0%, #1e2235 100%);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 40px 48px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(124,158,248,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .welcome-hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .welcome-hero h1 em { color: var(--accent); font-style: italic; }
+  .welcome-hero p { color: var(--text2); font-size: 15px; max-width: 520px; }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .stat-label { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .stat-value { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 300; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.amber { color: var(--amber); }
+  .stat-value.blue { color: var(--accent); }
+  .stat-value.purple { color: var(--purple); }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .chapter-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .chapter-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .chapter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .chapter-card.blue::before { background: var(--accent); }
+  .chapter-card.green::before { background: var(--green); }
+  .chapter-card.purple::before { background: var(--purple); }
+  .chapter-card.amber::before { background: var(--amber); }
+  .chapter-card.coral::before { background: var(--coral); }
+  .chapter-card.teal::before { background: var(--teal); }
+  .chapter-card.pink::before { background: var(--pink); }
+  .chapter-card-icon { font-size: 28px; margin-bottom: 10px; }
+  .chapter-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .chapter-card p { font-size: 13px; color: var(--text2); }
+  .progress-bar { height: 4px; background: var(--bg4); border-radius: 2px; margin-top: 12px; }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+
+  /* ── NOTES ── */
+  .notes-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+  .notes-sidebar {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    height: fit-content;
+    position: sticky;
+    top: 80px;
+  }
+  .sidebar-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .sidebar-btn:hover { background: var(--bg4); color: var(--text); }
+  .sidebar-btn.active { background: var(--bg4); color: var(--accent); font-weight: 500; }
+  .sidebar-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .notes-content { }
+  .notes-chapter-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+  .notes-chapter-sub { color: var(--text2); font-size: 14px; margin-bottom: 28px; }
+  .notes-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .notes-section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .term-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .term-row:last-child { border-bottom: none; }
+  .term-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    padding-top: 2px;
+  }
+  .term-def { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .term-visual {
+    margin-top: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    text-align: center;
+  }
+
+  /* ── FLASHCARDS ── */
+  .fc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: gap;
+  }
+  .fc-filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { color: var(--text); border-color: var(--border2); }
+  .filter-btn.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+  .fc-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .fc-card-wrap {
+    width: 100%;
+    max-width: 600px;
+    perspective: 1200px;
+    cursor: pointer;
+    height: 340px;
+  }
+  .fc-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fc-inner.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+  }
+  .fc-front-face {
+    background: var(--bg2);
+  }
+  .fc-back-face {
+    background: var(--bg3);
+    transform: rotateY(180deg);
+  }
+  .fc-visual {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fc-term {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .fc-category-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+  }
+  .fc-def {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .fc-mnemonic {
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--amber);
+    width: 100%;
+    margin-top: 8px;
+  }
+  .fc-mnemonic-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.7; margin-bottom: 3px; }
+  .fc-hint { font-size: 11px; color: var(--text3); margin-top: 12px; }
+  .fc-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .fc-action-btn {
+    padding: 10px 24px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .fc-action-btn:hover { background: var(--bg4); }
+  .fc-action-btn.got-it { border-color: var(--green); color: var(--green); }
+  .fc-action-btn.got-it:hover { background: rgba(82,209,138,0.1); }
+  .fc-action-btn.review { border-color: var(--coral); color: var(--coral); }
+  .fc-action-btn.review:hover { background: rgba(240,112,96,0.1); }
+  .fc-action-btn.flip { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .fc-progress-row {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .fc-progress-row span { color: var(--text); font-weight: 500; }
+  .fc-counter { font-size: 13px; color: var(--text3); }
+
+  /* ── QUIZ ── */
+  .quiz-setup {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 0;
+  }
+  .quiz-setup h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 10px;
+  }
+  .quiz-setup p { color: var(--text2); margin-bottom: 32px; }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  .quiz-opt-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .quiz-opt-card:hover { border-color: var(--border2); }
+  .quiz-opt-card.selected { border-color: var(--accent2); background: rgba(85,119,232,0.08); }
+  .quiz-opt-card h4 { font-size: 14px; margin-bottom: 3px; }
+  .quiz-opt-card p { font-size: 12px; color: var(--text3); margin: 0; }
+  .start-quiz-btn {
+    padding: 14px 40px;
+    background: var(--accent2);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .start-quiz-btn:hover { background: #4466d8; transform: translateY(-1px); }
+  .quiz-question-area { max-width: 640px; margin: 0 auto; }
+  .quiz-q-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .quiz-progress-label { font-size: 13px; color: var(--text3); }
+  .quiz-score { font-size: 13px; color: var(--green); font-weight: 500; }
+  .quiz-q-bar { height: 3px; background: var(--bg4); border-radius: 2px; margin-bottom: 28px; }
+  .quiz-q-fill { height: 100%; background: var(--accent2); border-radius: 2px; transition: width 0.4s; }
+  .quiz-question {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+  .quiz-choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .quiz-choice {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+    cursor: pointer;
+    font-size: 14px;
+    text-align: left;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .quiz-choice:hover:not(:disabled) { border-color: var(--accent); background: rgba(124,158,248,0.05); }
+  .quiz-choice.correct { border-color: var(--green); background: rgba(82,209,138,0.08); color: var(--green); }
+  .quiz-choice.wrong { border-color: var(--coral); background: rgba(240,112,96,0.08); color: var(--coral); }
+  .quiz-next-btn {
+    padding: 12px 32px;
+    background: var(--accent2);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .quiz-results {
+    text-align: center;
+    padding: 60px 0;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .quiz-score-big {
+    font-family: 'Fraunces', serif;
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .quiz-score-pct { color: var(--accent); }
+  .results-breakdown { display: flex; justify-content: center; gap: 32px; margin: 24px 0; }
+  .results-breakdown div { font-size: 13px; color: var(--text2); }
+  .results-breakdown span { display: block; font-size: 22px; font-family: 'Fraunces', serif; font-weight: 300; color: var(--text); }
+
+  /* ── STUDY SCIENCE ── */
+  .science-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .science-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .science-card-icon { font-size: 32px; margin-bottom: 12px; }
+  .science-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 8px; }
+  .science-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+  .science-card .science-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag-blue { background: rgba(124,158,248,0.12); color: var(--accent); }
+  .tag-green { background: rgba(82,209,138,0.12); color: var(--green); }
+  .tag-amber { background: rgba(245,200,66,0.12); color: var(--amber); }
+  .tag-purple { background: rgba(176,132,245,0.12); color: var(--purple); }
+  .tag-coral { background: rgba(240,112,96,0.12); color: var(--coral); }
+  .tag-teal { background: rgba(78,205,196,0.12); color: var(--teal); }
+  .schedule-table {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .schedule-table table { width: 100%; border-collapse: collapse; }
+  .schedule-table th {
+    background: var(--bg3);
+    padding: 12px 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--text3);
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table td {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table td:first-child { color: var(--text); font-weight: 500; }
+  .sr-timeline {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .sr-timeline h3 { font-size: 16px; margin-bottom: 16px; }
+  .sr-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sr-row:last-child { border-bottom: none; }
+  .sr-day { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); }
+  .sr-bar-wrap { background: var(--bg4); border-radius: 3px; height: 6px; }
+  .sr-bar { height: 100%; border-radius: 3px; background: var(--accent); }
+  .sr-pct { font-size: 12px; color: var(--text3); min-width: 40px; text-align: right; }
+
+  /* ── SVG DIAGRAMS ── */
+  svg text { font-family: 'DM Sans', sans-serif; }
+
+  /* ── UTILITIES ── */
+  .btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--bg4); }
+  .btn-primary { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .btn-primary:hover { background: #4466d8; }
+
+  @media (max-width: 700px) {
+    .notes-layout { grid-template-columns: 1fr; }
+    header { padding: 12px 16px; }
+    .nav-btn { font-size: 12px; padding: 6px 10px; }
+    .page { padding: 16px; }
+    .welcome-hero { padding: 24px; }
+    .term-row { grid-template-columns: 1fr; }
+    .fc-card-wrap { height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">A&amp;P <span>Study Lab</span></div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-btn" onclick="showPage('notes')">Notes</button>
+    <button class="nav-btn" onclick="showPage('flashcards')">Flashcards</button>
+    <button class="nav-btn" onclick="showPage('quiz')">Quiz</button>
+    <button class="nav-btn" onclick="showPage('science')">Study Science</button>
+  </nav>
+  <div class="streak-badge" id="streakBadge">🔥 <span id="streakNum">1</span> day streak</div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     DASHBOARD
+═════════════════════════════════════════════ -->
+<div id="page-dashboard" class="page active">
+  <div class="welcome-hero">
+    <h1>Welcome to your<br><em>A&amp;P Review</em> lab.</h1>
+    <p>You've got one week before A&amp;P 2. This app uses spaced repetition, active recall, and visual learning to get everything back in long-term memory — not just cramming.</p>
+  </div>
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="stat-label">Cards Mastered</div><div class="stat-value green" id="masteredCount">0</div></div>
+    <div class="stat-card"><div class="stat-label">Needs Review</div><div class="stat-value coral" id="reviewStatCount">0</div></div>
+    <div class="stat-card"><div class="stat-label">Quiz Best Score</div><div class="stat-value blue" id="bestScore">—</div></div>
+    <div class="stat-card"><div class="stat-label">Sessions Today</div><div class="stat-value amber" id="sessionsToday">0</div></div>
+  </div>
+  <div class="section-title">Chapters to Review</div>
+  <div class="chapter-grid" id="chapterGrid"></div>
+  <div class="section-title">Today's Study Plan</div>
+  <div class="schedule-table">
+    <table>
+      <thead><tr><th>Time</th><th>Activity</th><th>Goal</th><th>Why it works</th></tr></thead>
+      <tbody>
+        <tr><td>15 min</td><td>Flashcard session (new cards)</td><td>20–30 cards</td><td>Active recall builds retrieval strength</td></tr>
+        <tr><td>20 min</td><td>Read notes + make connections</td><td>1–2 chapters</td><td>Elaborative interrogation — ask "why?"</td></tr>
+        <tr><td>10 min</td><td>Quiz yourself (no peeking)</td><td>70%+ correct</td><td>Testing effect > re-reading</td></tr>
+        <tr><td>5 min</td><td>Brain dump: write what you remember</td><td>Free recall</td><td>Retrieval practice > passive review</td></tr>
+        <tr><td>—</td><td>Sleep</td><td>7–9 hrs</td><td>Memory consolidation happens during sleep</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     NOTES
+═════════════════════════════════════════════ -->
+<div id="page-notes" class="page">
+  <div class="notes-layout">
+    <aside class="notes-sidebar" id="notesSidebar"></aside>
+    <main id="notesMain"></main>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     FLASHCARDS
+═════════════════════════════════════════════ -->
+<div id="page-flashcards" class="page">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-family:'Fraunces',serif;font-size:24px;font-weight:300;margin-bottom:4px">Flashcards</div>
+      <div style="font-size:13px;color:var(--text3)">Flip to reveal definition, diagram, and memory trick</div>
+    </div>
+    <div class="fc-progress-row" id="fcProgressRow">
+      <div>Mastered: <span id="fcMastered">0</span></div>
+      <div>Review: <span id="fcNeedsReview">0</span></div>
+      <div>Total: <span id="fcTotal">0</span></div>
+    </div>
+  </div>
+  <div class="fc-filter-row" id="fcFilterRow"></div>
+  <div class="fc-arena">
+    <div class="fc-counter" id="fcCounter"></div>
+    <div class="fc-card-wrap" id="fcCardWrap" onclick="flipFC()">
+      <div class="fc-inner" id="fcInner">
+        <div class="fc-face fc-front-face" id="fcFront"></div>
+        <div class="fc-face fc-back-face" id="fcBack"></div>
+      </div>
+    </div>
+    <div class="fc-actions">
+      <button class="fc-action-btn" onclick="fcNav(-1)">← Prev</button>
+      <button class="fc-action-btn review" onclick="fcMark('review')">Needs Review</button>
+      <button class="fc-action-btn flip" onclick="flipFC()">Flip Card</button>
+      <button class="fc-action-btn got-it" onclick="fcMark('mastered')">Got It ✓</button>
+      <button class="fc-action-btn" onclick="fcNav(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     QUIZ
+═════════════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+  <div id="quizSetup" class="quiz-setup">
+    <div style="font-size:40px;margin-bottom:16px">🧠</div>
+    <h2>Test Your Knowledge</h2>
+    <p>Choose a quiz mode. Active recall through testing is the single most effective study technique.</p>
+    <div class="quiz-options" id="quizModeOptions">
+      <div class="quiz-opt-card selected" data-mode="mixed" onclick="selectQuizMode(this,'mixed')">
+        <h4>🎯 Mixed Review</h4><p>All topics, random questions</p>
+      </div>
+      <div class="quiz-opt-card" data-mode="chapter" onclick="selectQuizMode(this,'chapter')">
+        <h4>📖 By Chapter</h4><p>Focus on one topic area</p>
+      </div>
+      <div class="quiz-opt-card" data-mode="weak" onclick="selectQuizMode(this,'weak')">
+        <h4>🔄 Weak Spots</h4><p>Cards marked "needs review"</p>
+      </div>
+      <div class="quiz-opt-card" data-mode="speed" onclick="selectQuizMode(this,'speed')">
+        <h4>⚡ Speed Round</h4><p>20 questions, fast fire</p>
+      </div>
+    </div>
+    <div id="chapterSelectForQuiz" style="display:none;margin-bottom:20px">
+      <select id="quizChapterSelect" style="padding:10px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;width:100%"></select>
+    </div>
+    <button class="start-quiz-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+  <div id="quizActive" style="display:none"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     STUDY SCIENCE
+═════════════════════════════════════════════ -->
+<div id="page-science" class="page">
+  <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;margin-bottom:6px">The Science of Remembering</div>
+  <div style="color:var(--text2);font-size:14px;margin-bottom:28px">Evidence-based techniques for long-term retention — not cramming</div>
+
+  <div class="science-grid">
+    <div class="science-card">
+      <div class="science-card-icon">🔁</div>
+      <h3>Spaced Repetition</h3>
+      <p>Review material at increasing intervals: 1 day → 3 days → 7 days → 14 days → 30 days. Each review before you forget strengthens the memory trace exponentially. This app tracks your cards to recommend reviews at the right time.</p>
+      <span class="science-tag tag-blue">Highest impact</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">🧩</div>
+      <h3>Active Recall</h3>
+      <p>Don't re-read — test yourself. Retrieving information from memory strengthens it far more than passive review. Every flashcard flip, every quiz question, every "brain dump" is active recall. Re-reading gives you fluency illusions without retention.</p>
+      <span class="science-tag tag-green">Core technique</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">🔗</div>
+      <h3>Elaborative Interrogation</h3>
+      <p>For every concept, ask: <em>"Why is this true? How does this connect to what I already know?"</em> Connecting A&P 1 to A&P 2 concepts creates richer memory networks. Example: Why does smooth ER detoxify? (lipid-soluble enzymes → membrane affinity)</p>
+      <span class="science-tag tag-amber">Deep learning</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">🎨</div>
+      <h3>Dual Coding</h3>
+      <p>Pair verbal information with visual diagrams. When you read "sarcomere" AND see the A/I band diagram, you create two memory traces that reinforce each other. The diagrams on these flashcards are there for this exact reason — don't skip them.</p>
+      <span class="science-tag tag-purple">Visual memory</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">😴</div>
+      <h3>Sleep & Consolidation</h3>
+      <p>Memory consolidation happens during sleep — especially slow-wave and REM sleep. Study in the evening, sleep 7–9 hours, and review the next morning. Pulling an all-nighter destroys consolidation. Short naps (20–30 min) after studying measurably improve retention.</p>
+      <span class="science-tag tag-teal">Non-negotiable</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">🧱</div>
+      <h3>Interleaving</h3>
+      <p>Don't study all of one chapter, then all of another. Mix topics in each session. It feels harder — that's the point. "Desirable difficulty" forces your brain to discriminate between concepts, building stronger retrieval cues. Use the Mixed mode in quiz.</p>
+      <span class="science-tag tag-coral">Counterintuitive</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">🗣️</div>
+      <h3>The Feynman Technique</h3>
+      <p>Pick a concept. Explain it out loud as if teaching a 10-year-old, using no jargon. Wherever you stumble, that's your knowledge gap. Go back, learn it, explain again. This technique exposes shallow understanding faster than any test.</p>
+      <span class="science-tag tag-blue">Self-teaching</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">📍</div>
+      <h3>Method of Loci</h3>
+      <p>Assign concepts to specific locations in a familiar place (your house, your walk to class). "Walk through" it mentally to retrieve. Great for ordered lists — cranial nerve order (I–XII), layers of the epidermis, vertebral levels. Spatial memory is ancient and powerful.</p>
+      <span class="science-tag tag-amber">Memory palace</span>
+    </div>
+    <div class="science-card">
+      <div class="science-card-icon">✍️</div>
+      <h3>Write It By Hand</h3>
+      <p>Handwriting activates more of the brain than typing. For complex diagrams (neuron, sarcomere, nephron), draw and label them from memory repeatedly. Each time you redraw it, you're doing active recall AND dual coding simultaneously.</p>
+      <span class="science-tag tag-green">Proven technique</span>
+    </div>
+  </div>
+
+  <div class="section-title">The Forgetting Curve — Why Timing Matters</div>
+  <div class="sr-timeline">
+    <h3>Without review, memory decays rapidly</h3>
+    <div class="sr-row"><div class="sr-day">Day 0 (learn)</div><div class="sr-bar-wrap"><div class="sr-bar" style="width:100%"></div></div><div class="sr-pct">100%</div></div>
+    <div class="sr-row"><div class="sr-day">Day 1</div><div class="sr-bar-wrap"><div class="sr-bar" style="width:58%"></div></div><div class="sr-pct">58%</div></div>
+    <div class="sr-row"><div class="sr-day">Day 3</div><div class="sr-bar-wrap"><div class="sr-bar" style="width:36%"></div></div><div class="sr-pct">36%</div></div>
+    <div class="sr-row"><div class="sr-day">Day 7</div><div class="sr-bar-wrap"><div class="sr-bar" style="width:22%"></div></div><div class="sr-pct">22%</div></div>
+    <div class="sr-row"><div class="sr-day">Day 30</div><div class="sr-bar-wrap"><div class="sr-bar" style="width:10%"></div></div><div class="sr-pct">~10%</div></div>
+    <p style="font-size:13px;color:var(--text3);margin-top:16px">Each spaced review resets AND raises the retention curve. After 3–4 spaced reviews, retention approaches 90%+ at 30 days.</p>
+  </div>
+
+  <div class="section-title">Optimal Weekly Study Schedule</div>
+  <div class="schedule-table">
+    <table>
+      <thead><tr><th>Day</th><th>Focus</th><th>Techniques</th><th>Duration</th></tr></thead>
+      <tbody>
+        <tr><td>Monday</td><td>New material: Cell Biology + Tissues</td><td>Notes → Flashcards → Feynman aloud</td><td>45–60 min</td></tr>
+        <tr><td>Tuesday</td><td>Review Monday + new: Skeletal</td><td>Active recall, draw from memory</td><td>45 min</td></tr>
+        <tr><td>Wednesday</td><td>Review + new: Muscular + Nervous</td><td>Quiz (mixed), interleaved flashcards</td><td>50 min</td></tr>
+        <tr><td>Thursday</td><td>Weak spots + Integumentary</td><td>Review flagged cards, Feynman on gaps</td><td>40 min</td></tr>
+        <tr><td>Friday</td><td>Full review, all chapters</td><td>Full mixed quiz, brain dump in writing</td><td>60 min</td></tr>
+        <tr><td>Weekend</td><td>Light maintenance review</td><td>20 min flashcards, sleep well</td><td>20 min</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const CHAPTERS = [
+  {
+    id:'org', label:'Organization & Chemistry', color:'blue', icon:'⚗️',
+    desc:'Atoms, molecules, organic chemistry basics, levels of organization',
+    sections:[
+      { title:'Levels of Organization', items:[
+        {term:'Chemical level',def:'Atoms and molecules — smallest level; includes water, proteins, lipids, DNA, ATP.',mnemonic:'Cells Can\'t Talk On Saturday Organically (Chemical→Cellular→Tissue→Organ→System→Organism)',svg:'levelsSVG'},
+        {term:'Cellular level',def:'Cells are the basic structural and functional units of life. All cells come from pre-existing cells.',mnemonic:'Just remember: CELL = CErtainly the smaLLest living unit.',svg:''},
+        {term:'Tissue level',def:'Groups of similar cells with a common function (epithelial, connective, muscle, nervous).',mnemonic:'Think of tissue paper — layers of similar material together.',svg:''},
+        {term:'Organ level',def:'Two or more tissue types working together to perform a specific function.',mnemonic:'An ORGAN is an ORGANized group of tissues.',svg:''},
+        {term:'Organ system level',def:'Several organs cooperating toward a common purpose (e.g., digestive system).',mnemonic:'',svg:''},
+        {term:'Organismal level',def:'All organ systems working together to sustain the life of one organism.',mnemonic:'',svg:''},
+      ]},
+      { title:'Basic Chemistry', items:[
+        {term:'Covalent bond',def:'Atoms share electrons. Can be polar (unequal sharing, e.g., water) or nonpolar (equal sharing, e.g., O₂). Strong bonds.',mnemonic:'"Co" = together → covalent = sharing together.',svg:'bondSVG'},
+        {term:'Ionic bond',def:'One atom gives electron(s) to another. Creates charged ions. Dissolved by water. E.g., NaCl.',mnemonic:'"I" gave my electron to you — ionic.',svg:''},
+        {term:'Hydrogen bond',def:'Weak attraction between δ+ hydrogen and a δ− atom (O or N). Key to DNA base pairing and water\'s surface tension.',mnemonic:'H-bonds: Helpful but Weak. Critical in DNA and proteins.',svg:''},
+        {term:'pH scale',def:'0–14 scale. Below 7 = acidic (more H⁺). Above 7 = basic/alkaline (more OH⁻). Body blood pH = 7.35–7.45.',mnemonic:'pH 7 is Pure Heaven (neutral). Body hugs it tight.',svg:'phSVG'},
+        {term:'ATP',def:'Adenosine triphosphate — the cell\'s energy currency. Energy released when terminal phosphate bond is hydrolyzed (ATP → ADP + Pi + energy).',mnemonic:'ATP = A Tiny Powerhouse. Terminal phosphate = trigger.',svg:''},
+      ]},
+      { title:'Organic Molecules', items:[
+        {term:'Carbohydrates',def:'C, H, O in ~1:2:1 ratio. Monosaccharides (glucose), disaccharides, polysaccharides (glycogen = animal storage; starch = plant). Primary short-term fuel.',mnemonic:'"Carbo" = carbon + "hydrate" = water (H₂O). Carbon + water.',svg:''},
+        {term:'Lipids',def:'Nonpolar, hydrophobic. Triglycerides (energy storage), phospholipids (cell membranes), steroids (cholesterol, hormones), waxes.',mnemonic:'Lipids Love to be Lone — they repel water.',svg:''},
+        {term:'Proteins',def:'Chains of amino acids linked by peptide bonds. Levels: primary (aa sequence) → secondary (α-helix/β-sheet) → tertiary (3D fold) → quaternary (multiple chains). Functions: structural (collagen), enzymatic, transport (hemoglobin), hormonal, defensive (antibodies).',mnemonic:'Proteins = Primary workers of the cell.',svg:'proteinSVG'},
+        {term:'Nucleic acids',def:'DNA: deoxyribose, double helix, ATGC — stores genetic info. RNA: ribose, single strand — protein synthesis. ATP is also a nucleotide.',mnemonic:'DNA = Durable Nucleus Archive. RNA = Reads No Archives (it acts on DNA).',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'cell', label:'Cell Biology', color:'teal', icon:'🔬',
+    desc:'Cell organelles, membrane transport, and cell division',
+    sections:[
+      { title:'Key Organelles', items:[
+        {term:'Plasma membrane',def:'Phospholipid bilayer — hydrophilic heads out, hydrophobic tails in. Fluid mosaic model: proteins float in bilayer. Selectively permeable. Cholesterol stabilizes fluidity.',mnemonic:'FMM = Fluid Mosaic Model. Like icebergs (proteins) in a sea (phospholipid).',svg:'membraneSVG'},
+        {term:'Nucleus',def:'Contains DNA as chromatin (unwound) or chromosomes (condensed). Nucleolus makes rRNA and assembles ribosomes. Nuclear envelope has pores for transport.',mnemonic:'"Nucle-us" = the boss. Contains the instruction manual (DNA).',svg:''},
+        {term:'Mitochondria',def:'Double membrane: outer (smooth) + inner (cristae). Matrix contains enzymes for Krebs cycle. Site of aerobic respiration → ATP. Has own DNA → endosymbiotic origin.',mnemonic:'"Mighty Mitochondria Make Much ATP."',svg:'mitoSVG'},
+        {term:'Ribosomes',def:'Free (cytoplasm) → make proteins used in cytoplasm. Bound (on rough ER) → make proteins for secretion or membranes. Made of rRNA + proteins. No membrane.',mnemonic:'"Ribosomes = Responsible for Building proteins."',svg:''},
+        {term:'Golgi apparatus',def:'Stack of flattened membranes. Cis (receiving) face receives vesicles from rough ER. Trans (shipping) face buds off vesicles to destinations. Modifies, tags, and sorts proteins/lipids.',mnemonic:'Golgi = the FedEx of the cell. Receives, packages, ships.',svg:''},
+        {term:'Lysosomes',def:'Membrane-bound sacs containing 40+ hydrolytic enzymes. pH ~5 (acidic). Digest: worn-out organelles (autophagy), foreign material (phagosomes), cellular debris. "Suicide bag."',mnemonic:'"Lysosome = the cell\'s stomach + trash compactor."',svg:''},
+      ]},
+      { title:'Membrane Transport', items:[
+        {term:'Diffusion',def:'High → low concentration. Passive (no ATP). Rate ↑ with temperature, surface area, concentration gradient; ↓ with distance, molecule size.',mnemonic:'"Diffusion Doesn\'t Demand energy."',svg:'diffusionSVG'},
+        {term:'Osmosis',def:'Diffusion of WATER only across a selectively permeable membrane. Water moves toward higher solute concentration (lower water concentration).',mnemonic:'"Osmosis = Only water moves." Toward the more concentrated solution.',svg:''},
+        {term:'Facilitated diffusion',def:'Passive — uses integral membrane proteins (channel or carrier). No ATP. Follows concentration gradient. E.g., glucose into cells via GLUT transporters.',mnemonic:'"Facilitated = uses a protein FACILITATOR."',svg:''},
+        {term:'Active transport (primary)',def:'Low → high concentration. Requires ATP + carrier protein. E.g., Na⁺/K⁺ ATPase: pumps 3 Na⁺ out and 2 K⁺ in per ATP. Maintains resting membrane potential.',mnemonic:'"Active = needs ATP energy to go against the gradient."',svg:'atpSVG'},
+        {term:'Isotonic',def:'Solute concentration equal inside and outside cell. No net osmosis. Cell size unchanged. Normal saline (0.9% NaCl) is isotonic to blood.',mnemonic:'"Iso = equal" → cell is happy.',svg:''},
+        {term:'Hypotonic',def:'Lower solute outside cell. Water enters cell by osmosis. Cell swells → may lyse (hemolysis in RBCs).',mnemonic:'"Hypo = less" outside → water pours IN → cell pops.',svg:'tonicSVG'},
+        {term:'Hypertonic',def:'Higher solute outside cell. Water leaves cell by osmosis. Cell shrinks (crenation in RBCs).',mnemonic:'"Hyper = more" outside → water leaves → cell shrivels.',svg:''},
+      ]},
+      { title:'Cell Division', items:[
+        {term:'Interphase',def:'G1 (cell grows, makes proteins) → S phase (DNA replication — each chromosome duplicated into sister chromatids joined at centromere) → G2 (cell prepares for division, centrioles duplicate).',mnemonic:'"I Studied Genetics" = Interphase: G1-S-G2.',svg:''},
+        {term:'Mitosis (PMAT)',def:'Prophase (chromatin condenses, spindle forms, nuclear envelope dissolves) → Metaphase (chromosomes align at metaphase plate) → Anaphase (sister chromatids pulled to opposite poles) → Telophase (nuclear envelopes reform, chromosomes decondense) + Cytokinesis.',mnemonic:'"PMAT: People Meet And Talk."',svg:'mitosisSVG'},
+        {term:'Meiosis',def:'Two sequential divisions (meiosis I and II) producing 4 haploid (n) gametes. Crossing over in prophase I creates genetic diversity. Oogenesis vs spermatogenesis.',mnemonic:'"Meiosis makes gametes — half the chromosomes."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'tissue', label:'Tissues', color:'purple', icon:'🧫',
+    desc:'The four tissue types and their characteristics',
+    sections:[
+      { title:'Epithelial Tissue', items:[
+        {term:'Epithelium basics',def:'Covers body surfaces, lines cavities, forms glands. Avascular (no blood vessels — gets O₂ by diffusion from underlying CT). High mitotic rate. Anchored to basement membrane.',mnemonic:'"Epithelium = Edge tissue — it lines everything."',svg:'epitheliumSVG'},
+        {term:'Simple squamous',def:'Single layer of flat cells. Allows diffusion and filtration. Found: alveoli (gas exchange), kidney glomeruli (filtration), lining of blood vessels (endothelium), lining of body cavities (mesothelium).',mnemonic:'"Simple squamous is squashed flat — one layer, paper thin."',svg:''},
+        {term:'Stratified squamous',def:'Multiple layers; surface cells flat and dead (keratinized) or alive (nonkeratinized). Keratinized: skin (epidermis) — waterproof. Nonkeratinized: mouth, esophagus, vagina — moist, resists abrasion.',mnemonic:'"Stratified = strong. Skin has it."',svg:''},
+        {term:'Simple columnar',def:'Single layer of tall cells. Often has microvilli (increase surface area for absorption) and goblet cells (secrete mucus). Lines stomach, small intestine, large intestine.',mnemonic:'"Tall columns stand in the gut — absorbing nutrients."',svg:''},
+        {term:'Pseudostratified columnar',def:'Appears multilayered but all cells touch basement membrane (only some reach surface). Usually ciliated with goblet cells. Lines most of respiratory tract — mucus trap + cilia sweep.',mnemonic:'"Pseudo = fake stratified." All cells touch the base.',svg:''},
+        {term:'Transitional epithelium',def:'Stretchy stratified epithelium lining the urinary bladder, ureter, and renal pelvis. Dome-shaped surface cells (relaxed) → flatten when stretched (full bladder).',mnemonic:'"Transitional = transforms with stretch." Bladder bliss.',svg:''},
+      ]},
+      { title:'Connective Tissue', items:[
+        {term:'CT basics',def:'Most abundant and widely distributed tissue. Cells scattered in an extracellular matrix (ECM) of ground substance + fibers. ECM provides structural support. Highly vascularized (except cartilage and tendons).',mnemonic:'"CT = Connects and supports everything."',svg:''},
+        {term:'Collagen fibers',def:'Most abundant protein in body. Thick, white fibers. High tensile strength (resists pulling forces). Found in tendons, ligaments, dermis, bone matrix.',mnemonic:'"Collagen = very strong COrd-like fibers."',svg:''},
+        {term:'Dense regular CT',def:'Parallel bundles of collagen fibers. Withstands unidirectional stress. Found in tendons (muscle to bone) and ligaments (bone to bone).',mnemonic:'"Dense Regular = Direct pull only — all fibers one direction."',svg:''},
+        {term:'Hyaline cartilage',def:'Most abundant cartilage. Glassy, smooth. Fine collagen fibers not visible. Found: articular cartilage on joint surfaces, costal cartilage, fetal skeleton, nose, trachea rings. No blood vessels → slow healing.',mnemonic:'"Hyaline = glassy (Greek: hyalos). The most common cartilage."',svg:'cartilageSVG'},
+        {term:'Bone (osseous tissue)',def:'Matrix of collagen + hydroxyapatite (calcium phosphate crystals) = hard + flexible. Osteon = structural unit: concentric lamellae around central canal (Haversian). Osteoblasts (build) → become trapped as osteocytes → osteoclasts (resorb).',mnemonic:'"B comes before C in alphabet: osteoBLASTs Build, osteoCLASTs Crush (resorb)."',svg:'boneSVG'},
+      ]},
+      { title:'Muscle & Nervous', items:[
+        {term:'Skeletal muscle tissue',def:'Long cylindrical cells (fibers), multinucleated, striated (visible bands). Voluntary control. Attached to bones via tendons. Sarcomere = functional unit.',mnemonic:'"Skeletal = striped, strong, and self-controlled."',svg:''},
+        {term:'Cardiac muscle tissue',def:'Branching cells, ONE nucleus, striated, INVOLUNTARY. Intercalated discs = gap junctions + desmosomes → electrical and mechanical coupling. Found only in heart wall.',mnemonic:'"Cardiac = can\'t stop — intercalated discs keep it in sync."',svg:''},
+        {term:'Smooth muscle tissue',def:'Spindle-shaped cells, one central nucleus, nonstriated, involuntary. Slow, sustained contractions. Found in walls of hollow organs (GI tract, blood vessels, bladder, uterus, airways).',mnemonic:'"Smooth = no stripes, slow, sustained."',svg:''},
+        {term:'Nervous tissue',def:'Neurons (excitable — send electrical signals) + neuroglia (supporting cells, 10–50× more numerous). CNS (brain + spinal cord) and PNS (all neural tissue outside CNS).',mnemonic:'"Neurons are the speakers; glia are the stage crew."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'integumentary', label:'Integumentary', color:'amber', icon:'🫀',
+    desc:'Skin layers, derivatives, and functions',
+    sections:[
+      { title:'Epidermal Layers (deep to superficial)', items:[
+        {term:'Stratum basale',def:'Deepest layer. Single row of cells on basement membrane. Contains: keratinocytes (dividing — replenishes layers above), melanocytes (produce melanin pigment), Merkel cells (touch receptors).',mnemonic:'"Basale = BASE layer. Babies are Born at the Base."',svg:'skinSVG'},
+        {term:'Stratum spinosum',def:'"Spiny layer" — cells connected by desmosomes that look like spines. Contains Langerhans cells (dendritic immune cells — antigen presenting). Keratin synthesis begins.',mnemonic:'"Spinosum = spiny connections."',svg:''},
+        {term:'Stratum granulosum',def:'3–5 layers. Cells flatten, nucleus and organelles degrade. Keratohyalin granules accumulate → become keratin. Lamellar granules release lipids → waterproofing barrier.',mnemonic:'"Granulosum = grains forming. Cells are dying but making waterproofing."',svg:''},
+        {term:'Stratum lucidum',def:'Only in thick skin (palms, soles). Thin, clear, dead cells. Transitional zone.',mnemonic:'"Lucid = clear. Only in palm and sole."',svg:''},
+        {term:'Stratum corneum',def:'Outermost layer. 20–30 layers of dead, flat, keratinized (anucleate) cells. Shed (desquamation) and replaced every 2 weeks. Main barrier against water loss, UV, microbes.',mnemonic:'"Corneum = horny (cornea-like). The dead bodyguard layer."',svg:''},
+      ]},
+      { title:'Dermis & Appendages', items:[
+        {term:'Dermis — papillary layer',def:'Superficial dermis. Areolar CT with dermal papillae (finger-like projections into epidermis). Contains: Meissner\'s corpuscles (light touch), free nerve endings, capillary loops.',mnemonic:'"Papillary = tiny bumps (papillae)."',svg:''},
+        {term:'Dermis — reticular layer',def:'Deep dermis. Dense irregular CT — bundles of collagen and elastic fibers. Provides strength and elasticity. Contains: Pacinian corpuscles (deep pressure), hair follicles, sweat/sebaceous glands.',mnemonic:'"Reticular = net-like. Strong weave provides strength."',svg:''},
+        {term:'Melanocytes & melanin',def:'In stratum basale. All races have similar melanocyte NUMBER — skin color differences are due to melanin PRODUCTION RATE and distribution. Melanin absorbs and scatters UV radiation → protects DNA.',mnemonic:'"Everyone has the same factory (melanocytes) — just different output."',svg:''},
+        {term:'Eccrine sweat glands',def:'Most numerous sweat glands. Merocrine secretion (exocytosis). Found all over body (most dense on palms/soles/forehead). Produce sweat (mostly water + NaCl + urea). Thermoregulation.',mnemonic:'"Eccrine = everywhere, exocytosis, cooling you down."',svg:''},
+        {term:'Sebaceous glands',def:'Oil glands. Holocrine secretion (whole cell ruptures). Associated with hair follicles. Produce sebum — waterproofs/softens hair and skin, has mild antibacterial effect. Activated at puberty.',mnemonic:'"Sebum = SEBaceous glands = SEBum." Acne when clogged.',svg:''},
+        {term:'Burns — classification',def:'1st degree: epidermis only (redness, no blisters). 2nd degree: epidermis + partial dermis (blisters, pain). 3rd degree: full thickness into hypodermis/below (painless — nerves destroyed, leathery skin).',mnemonic:'"1st = sunburn. 2nd = blisters. 3rd = no pain (nerves gone)."',svg:'burnsSVG'},
+      ]},
+    ]
+  },
+  {
+    id:'skeletal', label:'Skeletal System', color:'coral', icon:'🦴',
+    desc:'Bone structure, joints, and the skeleton',
+    sections:[
+      { title:'Bone Structure', items:[
+        {term:'Osteon (Haversian system)',def:'Structural unit of compact bone. Concentric lamellae around a central (Haversian) canal containing blood vessels and nerves. Osteocytes in lacunae connected by canaliculi.',mnemonic:'"Osteon = bull\'s-eye. Central canal in the center."',svg:'osteonSVG'},
+        {term:'Osteoblasts',def:'Bone-forming cells. Secrete osteoid (unmineralized matrix = collagen + proteoglycans). Calcium phosphate then precipitates → hydroxyapatite. Once trapped in lacunae → become osteocytes.',mnemonic:'"osteoBLAST = BLASTs bone matrix into existence."',svg:''},
+        {term:'Osteoclasts',def:'Multinucleated, derived from macrophage lineage. Resorb bone: secrete HCl (dissolves mineral) + collagenase. Regulated by PTH (↑ resorption) and calcitonin (↓ resorption).',mnemonic:'"osteoCLAST = CLAShes (destroys) bone." Big, mean, multinucleated.',svg:''},
+        {term:'Bone remodeling',def:'Continuous process: osteoclasts resorb old/damaged bone → osteoblasts refill with new. Bone is 100% replaced every ~10 years. Key for: calcium homeostasis, adapting to stress (Wolff\'s law), healing fractures.',mnemonic:'"Bones are NOT static — they remodel like a city under construction."',svg:''},
+      ]},
+      { title:'Joints & Classification', items:[
+        {term:'Fibrous joints',def:'No joint cavity. Dense CT connects bones. Types: sutures (skull — immovable), syndesmoses (interosseous membrane — slightly movable), gomphoses (teeth in sockets).',mnemonic:'"Fibrous = fixed or barely moves. Skull sutures are fused forever."',svg:''},
+        {term:'Cartilaginous joints',def:'No joint cavity. Cartilage connects bones. Synchondroses (hyaline cartilage — epiphyseal plates, sternocostal). Symphyses (fibrocartilage — pubic symphysis, intervertebral discs — slightly movable).',mnemonic:'"Cart-ilaginous = Cart wheels turn a little, not a lot."',svg:''},
+        {term:'Synovial joints',def:'Joint cavity filled with synovial fluid. Articular cartilage (hyaline) covers bone ends. Joint capsule: fibrous outer layer + synovial membrane inner layer (secretes synovial fluid). Reinforced by ligaments.',mnemonic:'"Synovial = Slippery, freely movable."',svg:'synovialSVG'},
+        {term:'Synovial joint types',def:'Hinge (flexion/extension — elbow, knee, interphalangeal). Ball & socket (multiaxial — hip, shoulder). Pivot (rotation — atlas-axis, proximal radioulnar). Saddle (biaxial — thumb CMC). Gliding (plane — intercarpal). Condyloid/ellipsoid (biaxial — knuckles).',mnemonic:'"His Ball Pivots Smoothly, Giving Confidence." (Hinge, Ball, Pivot, Saddle, Gliding, Condyloid)',svg:''},
+      ]},
+      { title:'Skeleton Overview', items:[
+        {term:'Axial skeleton (80 bones)',def:'Skull (22: cranium 8 + facial 14) + vertebral column (26: C7, T12, L5, sacrum, coccyx) + thoracic cage (sternum + 12 pairs ribs). Forms the central axis.',mnemonic:'"AXIAL = AXis of the body — skull, spine, ribs."',svg:'skeletonSVG'},
+        {term:'Appendicular skeleton (126 bones)',def:'Pectoral girdle (clavicle + scapula) + upper limb (humerus, radius, ulna, 8 carpals, 5 metacarpals, 14 phalanges) + pelvic girdle (hip bones) + lower limb.',mnemonic:'"APPENDicular = APPENDages hang off the axial."',svg:''},
+        {term:'Vertebral column regions',def:'Cervical (7) — support head, greatest range of motion. Thoracic (12) — articulate with ribs, limited motion. Lumbar (5) — weight-bearing. Sacrum (5 fused). Coccyx (3-4 fused).',mnemonic:'"C7 T12 L5: Breakfast (7am) → Lunch (12pm) → Dinner at 5."',svg:'vertebralSVG'},
+      ]},
+    ]
+  },
+  {
+    id:'muscular', label:'Muscular System', color:'pink', icon:'💪',
+    desc:'Muscle microstructure, contraction mechanism, and physiology',
+    sections:[
+      { title:'Sarcomere Structure', items:[
+        {term:'Sarcomere',def:'Functional unit of skeletal muscle. From Z-line to Z-line. Contains: thick filaments (myosin — in A band) and thin filaments (actin+troponin+tropomyosin — extend from Z-lines through I band into A band).',mnemonic:'"Sarcomere = the muscle\'s engine unit. Z-Z-Z = one sarcomere."',svg:'sarcomeresSVG'},
+        {term:'A band',def:'Full width of thick (myosin) filaments. Appears DARK. Does NOT change length during contraction. Contains H zone in center + M line.',mnemonic:'"A band is Always the same length — dark, stable, Always there."',svg:''},
+        {term:'I band',def:'Contains ONLY thin (actin) filaments. Appears LIGHT. SHORTENS during contraction as actin slides toward center. Contains Z-line in middle.',mnemonic:'"I band Is lighter and It shortens."',svg:''},
+        {term:'H zone',def:'Center of A band. Contains ONLY thick (myosin) filaments — no actin overlap. DISAPPEARS during full contraction as actin slides in to fill it.',mnemonic:'"H zone Hides during contraction."',svg:''},
+      ]},
+      { title:'Sliding Filament Theory', items:[
+        {term:'Cross-bridge cycle',def:'1. Ca²⁺ released from SR → binds troponin → tropomyosin shifts → actin binding sites exposed. 2. Energized myosin head binds actin (cross-bridge forms). 3. Power stroke: myosin head pivots → pulls actin toward M-line (ADP+Pi released). 4. ATP binds myosin → head detaches from actin. 5. ATP hydrolysis re-energizes head. Cycle repeats.',mnemonic:'"Calcium opens the door (troponin-tropomyosin), myosin walks in, ATP shows it out."',svg:'crossbridgeSVG'},
+        {term:'Neuromuscular junction',def:'Synapse between α motor neuron and muscle fiber. Motor neuron releases ACh into synaptic cleft → binds nicotinic receptors on motor end plate → generates end plate potential → triggers AP in sarcolemma. ACh broken down by acetylcholinesterase.',mnemonic:'"ACh = Action triggers Contraction at the junction."',svg:''},
+        {term:'Excitation-contraction coupling',def:'AP travels along sarcolemma → T-tubules (transverse tubules = invaginations) → triggers Ca²⁺ release from sarcoplasmic reticulum (SR) → Ca²⁺ binds troponin → contraction begins. Relaxation: Ca²⁺ pumped back into SR by Ca²⁺ ATPase.',mnemonic:'"T-tubules = telegraph wires delivering the signal deep into muscle."',svg:''},
+        {term:'Motor unit',def:'One α motor neuron + ALL muscle fibers it innervates. Small motor units (few fibers, e.g., eye muscles) = fine precise control. Large motor units (many fibers, e.g., gastrocnemius) = power but less precision.',mnemonic:'"Motor unit = one boss neuron and all its workers."',svg:''},
+      ]},
+      { title:'Muscle Metabolism & Types', items:[
+        {term:'ATP sources',def:'1. Creatine phosphate (immediate, ~10 sec — CP + ADP → C + ATP). 2. Anaerobic glycolysis (30 sec–2 min — glucose → 2 ATP + lactic acid; no O₂ needed). 3. Aerobic respiration (prolonged — glucose+O₂ → 36-38 ATP; slow but vast capacity).',mnemonic:'"CP, GL, AER: Can Get A run? (Creatine, Glycolysis, Aerobic)"',svg:''},
+        {term:'Type I fibers (slow oxidative)',def:'Red (high myoglobin). Many mitochondria. Fatigue-resistant. Aerobic. Low twitch speed. Used for: endurance, posture. E.g., soleus, erector spinae.',mnemonic:'"Type I = Incredibly enduring. The marathon runners."',svg:'fiberTypesSVG'},
+        {term:'Type IIx fibers (fast glycolytic)',def:'White (low myoglobin). Few mitochondria. Fatigue rapidly. Anaerobic. High twitch speed, high force. Used for: power, sprinting. E.g., biceps brachii, gastrocnemius.',mnemonic:'"Type IIx = eXplosive. Fast, furious, fatigues fast."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'nervous', label:'Nervous System', color:'teal', icon:'🧠',
+    desc:'Neurons, action potentials, brain regions, and the ANS',
+    sections:[
+      { title:'Neuron Physiology', items:[
+        {term:'Neuron anatomy',def:'Dendrites (receive input → toward soma) → Cell body/soma (nucleus, metabolic center) → Axon hillock (AP initiation zone) → Axon (propagates AP) → Axon terminals/synaptic knobs (release neurotransmitters).',mnemonic:'"DAD: Dendrites Absorb, then Axon Delivers."',svg:'neuronSVG'},
+        {term:'Resting membrane potential',def:'−70 mV (inside negative relative to outside). Maintained by: 1. K⁺ leak channels (K⁺ diffuses out). 2. Na⁺/K⁺ ATPase pump (3 Na⁺ out : 2 K⁺ in). High K⁺ inside, high Na⁺ outside.',mnemonic:'"Resting = −70 mV. Three Na out, Two K in (think 3-2 like a basketball score)."',svg:'rmvSVG'},
+        {term:'Action potential',def:'Threshold (−55mV) reached → Na⁺ channels open → Na⁺ rushes in → depolarization to +30 mV. Then Na⁺ channels inactivate + K⁺ channels open → repolarization → brief hyperpolarization → return to −70 mV. All-or-none law.',mnemonic:'"DEPOLARIZE = Na in. REPOLARIZE = K out."',svg:'apSVG'},
+        {term:'Saltatory conduction',def:'In myelinated axons, AP "jumps" from node of Ranvier to node of Ranvier. Faster (120 m/s vs. 0.5 m/s) and more energy-efficient than continuous conduction in unmyelinated axons. Multiple sclerosis = demyelination → slows conduction.',mnemonic:'"Saltatory = salt-atory = JUMPS (like a frog from pad to pad)."',svg:''},
+        {term:'Synapse & neurotransmitters',def:'AP arrives at terminal → Ca²⁺ enters → vesicles fuse → NT released into synaptic cleft → binds postsynaptic receptors → EPSP (depolarize) or IPSP (hyperpolarize). NT then degraded (acetylcholinesterase) or reuptaken.',mnemonic:'"Synapse: signal goes ONE way (pre → post)."',svg:'synapseSVG'},
+      ]},
+      { title:'CNS — Brain Regions', items:[
+        {term:'Cerebral cortex lobes',def:'Frontal: primary motor cortex, prefrontal (executive function, personality, planning). Parietal: primary somatosensory cortex, spatial awareness. Temporal: primary auditory cortex, memory (hippocampus), language (Wernicke\'s). Occipital: primary visual cortex.',mnemonic:'"Front does the work; Parietal feels; Temporal hears & remembers; Occipital sees."',svg:'brainSVG'},
+        {term:'Diencephalon',def:'Thalamus: relay station — ALL sensory input (except olfaction) passes through on way to cortex. Hypothalamus: homeostasis central — regulates temperature, hunger, thirst, circadian rhythm, autonomic NS, pituitary hormone release.',mnemonic:'"Thalamus = Tollbooth for sensory signals. Hypothalamus = Homeostasis HQ."',svg:''},
+        {term:'Brain stem',def:'Midbrain: visual/auditory reflexes, dopamine (substantia nigra → Parkinson\'s). Pons: relay signals between cerebrum and cerebellum; sleep and breathing coordination. Medulla oblongata: vital autonomic reflexes — cardiac center, vasomotor center, respiratory center.',mnemonic:'"Medulla = mandatory for life. It runs HR, BP, and breathing."',svg:''},
+        {term:'Cerebellum',def:'"Little brain" — posterior to brain stem. Coordinates voluntary movements, balance, fine motor control, muscle tone. Receives: motor commands from cortex AND proprioception/sensory feedback. Output: smooth, coordinated movement.',mnemonic:'"Cerebellum = the body\'s COORDINATOR and GPS."',svg:''},
+      ]},
+      { title:'PNS & Autonomic NS', items:[
+        {term:'Autonomic NS overview',def:'Controls visceral effectors: smooth muscle, cardiac muscle, glands. Two-neuron chain: preganglionic neuron (CNS → ganglion) → postganglionic neuron (ganglion → effector). Sympathetic ("fight or flight") vs. Parasympathetic ("rest and digest").',mnemonic:'"Auto = automatic, involuntary. Sym vs Para = gas vs brake."',svg:'ansSVG'},
+        {term:'Sympathetic NS',def:'Thoracolumbar (T1–L2). Preganglionic = short → paravertebral ganglia. Postganglionic = long. NT: norepinephrine (NE) on most targets. Effects: ↑ HR, ↑ BP, dilates pupils, bronchodilation, diverts blood to muscles, inhibits digestion.',mnemonic:'"SYMPATHETIC: heart pumping, pupils dilated, ready to FIGHT or FLEE."',svg:''},
+        {term:'Parasympathetic NS',def:'Craniosacral (CN III, VII, IX, X + S2-S4). Preganglionic = long → terminal ganglia near/in organ. Postganglionic = short. NT: acetylcholine (ACh) everywhere. Effects: ↓ HR, constricts pupils, increases digestion (SLUDD), bronchoconstriction.',mnemonic:'"SLUDD: Salivation, Lacrimation, Urination, Defecation, Digestion — all para."',svg:''},
+        {term:'Cranial nerves (I–XII)',def:'I Olfactory (smell), II Optic (vision), III Oculomotor (eye movement, pupil), IV Trochlear (superior oblique), V Trigeminal (face sensation + chewing), VI Abducens (lateral rectus), VII Facial (facial expression, taste anterior 2/3), VIII Vestibulocochlear (hearing/balance), IX Glossopharyngeal (taste posterior 1/3, swallow), X Vagus (major para - thorax/abdomen), XI Accessory (SCM + trapezius), XII Hypoglossal (tongue movement).',mnemonic:'"Oh Oh Oh To Touch And Feel Very Good Velvet AH" (I through XII)',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'homeostasis', label:'Homeostasis', color:'blue', icon:'⚖️',
+    desc:'Feedback mechanisms and physiological balance',
+    sections:[
+      { title:'Homeostatic Control', items:[
+        {term:'Homeostasis',def:'Maintenance of a relatively stable internal environment despite external changes. Variables regulated: temperature, blood glucose, blood pH, blood O₂/CO₂, blood pressure, fluid osmolarity.',mnemonic:'"Homeostasis = Home is stable." The body maintains its comfort zone.',svg:'feedbackSVG'},
+        {term:'Negative feedback',def:'Response OPPOSES or reverses the stimulus → returns variable to set point. Examples: body temp regulation (too hot → sweat & vasodilate), blood glucose (too high → insulin released), blood pressure (too high → heart rate decreases).',mnemonic:'"Negative = goes back the other way. Like a thermostat."',svg:''},
+        {term:'Positive feedback',def:'Response AMPLIFIES the stimulus → drives variable further away from starting point. Self-reinforcing until interrupted. Examples: childbirth contractions (oxytocin → more contractions), platelet plug formation, fever escalation, LH surge (ovulation).',mnemonic:'"Positive = pushes further. Cascades to completion, then STOPS."',svg:''},
+        {term:'Control system components',def:'1. RECEPTOR/SENSOR: detects change in the variable (e.g., thermoreceptors in skin/hypothalamus). 2. CONTROL CENTER: determines set point and appropriate response (e.g., hypothalamus). 3. EFFECTOR: carries out the response (e.g., sweat glands, blood vessels).',mnemonic:'"RCE: Receptor, Control center, Effector. Think RaCE to homeostasis."',svg:''},
+      ]},
+    ]
+  },
+];
+
+// Build all flashcards
+const ALL_CARDS = [];
+CHAPTERS.forEach(ch => {
+  ch.sections.forEach(sec => {
+    sec.items.forEach(item => {
+      ALL_CARDS.push({...item, chapter: ch.label, chapterId: ch.id, chapterColor: ch.color});
+    });
+  });
+});
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let state = {
+  mastered: JSON.parse(localStorage.getItem('ap_mastered') || '[]'),
+  review: JSON.parse(localStorage.getItem('ap_review') || '[]'),
+  bestScore: JSON.parse(localStorage.getItem('ap_bestScore') || 'null'),
+  sessions: JSON.parse(localStorage.getItem('ap_sessions') || '0'),
+  streak: JSON.parse(localStorage.getItem('ap_streak') || '1'),
+  currentNote: 'org',
+  fcFilteredCards: [...ALL_CARDS],
+  fcIndex: 0,
+  fcFlipped: false,
+  fcActiveFilter: 'All',
+  quizMode: 'mixed',
+  quizChapter: null,
+  quizQuestions: [],
+  quizCurrent: 0,
+  quizScore: 0,
+  quizAnswered: false,
+};
+
+function saveState() {
+  localStorage.setItem('ap_mastered', JSON.stringify(state.mastered));
+  localStorage.setItem('ap_review', JSON.stringify(state.review));
+  localStorage.setItem('ap_bestScore', JSON.stringify(state.bestScore));
+  localStorage.setItem('ap_sessions', JSON.stringify(state.sessions));
+  localStorage.setItem('ap_streak', JSON.stringify(state.streak));
+}
+
+// ═══════════════════════════════════════════
+// SVG DIAGRAMS
+// ═══════════════════════════════════════════
+function getSVG(id) {
+  const svgs = {
+    levelsSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker></defs>
+      ${[['Chem',10],['Cell',55],['Tissue',100],['Organ',152],['System',198],['Organism',240]].map((l,i)=>`
+        <rect x="${l[1]}" y="35" width="42" height="28" rx="5" fill="#1a1e28" stroke="#5577e8" stroke-width="1"/>
+        <text x="${l[1]+21}" y="53" text-anchor="middle" fill="#9099b0" font-size="8">${l[0]}</text>
+        ${i<5?`<line x1="${l[1]+42}" y1="49" x2="${[55,100,152,198,240][i]}" y2="49" stroke="#5577e8" stroke-width="1" marker-end="url(#arr)"/>`:''}
+      `).join('')}
+    </svg>`,
+
+    bondSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
+      <circle cx="50" cy="45" r="20" fill="#1a1e28" stroke="#7c9ef8" stroke-width="1.5"/>
+      <text x="50" y="50" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="500">H</text>
+      <circle cx="110" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="110" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">H</text>
+      <circle cx="155" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="155" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">O</text>
+      <line x1="70" y1="45" x2="90" y2="45" stroke="#9099b0" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <line x1="130" y1="38" x2="138" y2="33" stroke="#f5c842" stroke-width="1.5"/>
+      <line x1="130" y1="52" x2="138" y2="57" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="100" y="18" text-anchor="middle" fill="#9099b0" font-size="7">shared electrons = covalent</text>
+    </svg>`,
+
+    phSVG: `<svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f07060"/><stop offset="50%" stop-color="#52d18a"/><stop offset="100%" stop-color="#7c9ef8"/></linearGradient></defs>
+      <rect x="10" y="25" width="260" height="14" rx="7" fill="url(#phg)" opacity="0.7"/>
+      ${[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(n=>`
+        <line x1="${10+n*260/14}" y1="20" x2="${10+n*260/14}" y2="40" stroke="#0d0f14" stroke-width="${n%7===0?2:0.5}"/>
+        <text x="${10+n*260/14}" y="55" text-anchor="middle" fill="#5c6480" font-size="7">${n}</text>
+      `).join('')}
+      <rect x="96" y="16" width="36" height="26" rx="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
+      <text x="114" y="12" text-anchor="middle" fill="#52d18a" font-size="7">Blood</text>
+      <text x="30" y="16" fill="#f07060" font-size="7">Acid</text>
+      <text x="230" y="16" fill="#7c9ef8" font-size="7">Base</text>
+    </svg>`,
+
+    membraneSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+      ${Array.from({length:12},(_,i)=>`
+        <circle cx="${20+i*20}" cy="35" r="7" fill="#5577e8" opacity="0.8"/>
+        <line x1="${20+i*20}" y1="42" x2="${18+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${20+i*20}" y1="42" x2="${22+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${20+i*20}" y1="65" x2="${18+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${20+i*20}" y1="65" x2="${22+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
+        <circle cx="${20+i*20}" cy="65" r="7" fill="#5577e8" opacity="0.8"/>
+      `).join('')}
+      <rect x="95" y="28" width="30" height="44" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="110" y="54" text-anchor="middle" fill="#52d18a" font-size="7">protein</text>
+      <text x="5" y="95" fill="#9099b0" font-size="7">hydrophilic heads</text>
+      <text x="5" y="20" fill="#9099b0" font-size="7">extracellular</text>
+    </svg>`,
+
+    mitoSVG: `<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
+      <ellipse cx="110" cy="50" rx="100" ry="38" fill="none" stroke="#5577e8" stroke-width="2"/>
+      <ellipse cx="110" cy="50" rx="82" ry="25" fill="none" stroke="#52d18a" stroke-width="1.5"/>
+      ${[40,60,80,100,120,140,160].map(x=>`<path d="M${x},25 Q${x-12},50 ${x},75" fill="none" stroke="#52d18a" stroke-width="1" opacity="0.6"/>`).join('')}
+      <text x="110" y="54" text-anchor="middle" fill="#9099b0" font-size="8">matrix + cristae</text>
+      <text x="110" y="12" text-anchor="middle" fill="#7c9ef8" font-size="7">outer membrane</text>
+    </svg>`,
+
+    diffusionSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
+      <rect x="0" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.1)" stroke="#5577e8" stroke-width="1"/>
+      <rect x="110" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.04)" stroke="#5577e8" stroke-width="0.5"/>
+      ${[[15,30],[25,55],[40,25],[55,60],[70,38],[20,45],[50,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.7"/>`).join('')}
+      ${[[130,45],[170,50],[155,30]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.3"/>`).join('')}
+      <line x1="90" y1="47" x2="110" y2="47" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="97" y="43" fill="#f5c842" font-size="9">→</text>
+      <text x="20" y="95" fill="#9099b0" font-size="7">high concentration</text>
+      <text x="120" y="95" fill="#9099b0" font-size="7">low concentration</text>
+    </svg>`,
+
+    tonicSVG: `<svg viewBox="0 0 240 85" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
+      <ellipse cx="40" cy="42" rx="25" ry="25" fill="none" stroke="#52d18a" stroke-width="2"/>
+      <text x="40" y="46" text-anchor="middle" fill="#52d18a" font-size="8">isotonic</text>
+      <ellipse cx="120" cy="42" rx="32" ry="32" fill="none" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="120" y="46" text-anchor="middle" fill="#7c9ef8" font-size="7">hypotonic</text>
+      <text x="120" y="56" text-anchor="middle" fill="#7c9ef8" font-size="6">(swells)</text>
+      <ellipse cx="200" cy="42" rx="18" ry="18" fill="none" stroke="#f07060" stroke-width="2"/>
+      <text x="200" y="46" text-anchor="middle" fill="#f07060" font-size="7">hypertonic</text>
+      <text x="200" y="56" text-anchor="middle" fill="#f07060" font-size="6">(shrinks)</text>
+    </svg>`,
+
+    skinSVG: `<svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+      ${[
+        ['Stratum corneum','#9099b0',5,8],
+        ['Stratum granulosum','#7c9ef8',20,8],
+        ['Stratum spinosum','#5577e8',35,8],
+        ['Stratum basale','#52d18a',50,10],
+        ['Dermis (papillary)','#f5c842',65,18],
+        ['Dermis (reticular)','#f07060',88,20],
+      ].map(([lbl,col,y,h])=>`
+        <rect x="10" y="${y}" width="170" height="${h}" rx="2" fill="${col}" opacity="0.25"/>
+        <rect x="10" y="${y}" width="2" height="${h}" rx="1" fill="${col}"/>
+        <text x="18" y="${y+h*0.67}" fill="${col}" font-size="7.5">${lbl}</text>
+      `).join('')}
+      <text x="10" y="112" fill="#9099b0" font-size="7">← superficial</text>
+      <text x="10" y="7" fill="#9099b0" font-size="7">← deep</text>
+    </svg>`,
+
+    osteonSVG: `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" style="width:120px;height:120px">
+      ${[50,42,34,26,18,10].map(r=>`<circle cx="70" cy="70" r="${r}" fill="none" stroke="#5577e8" stroke-width="${r===10?2:1}" opacity="${0.3+r/80}"/>`).join('')}
+      <circle cx="70" cy="70" r="7" fill="#f5c842" opacity="0.9"/>
+      <text x="70" y="74" text-anchor="middle" fill="#0d0f14" font-size="6" font-weight="500">canal</text>
+      <text x="70" y="18" text-anchor="middle" fill="#9099b0" font-size="6">concentric lamellae</text>
+      ${[[30,50],[110,50],[50,105],[90,105]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#52d18a"/>`).join('')}
+      <text x="112" y="53" fill="#52d18a" font-size="5.5">osteocyte</text>
+    </svg>`,
+
+    sarcomeresSVG: `<svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <line x1="10" y1="40" x2="270" y2="40" stroke="#222736" stroke-width="20"/>
+      <line x1="10" y1="40" x2="270" y2="40" stroke="#5577e8" stroke-width="12" opacity="0.5"/>
+      <rect x="35" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
+      <rect x="160" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
+      <line x1="10" y1="25" x2="10" y2="55" stroke="#f5c842" stroke-width="2.5"/>
+      <line x1="140" y1="25" x2="140" y2="55" stroke="#f5c842" stroke-width="2.5"/>
+      <line x1="270" y1="25" x2="270" y2="55" stroke="#f5c842" stroke-width="2.5"/>
+      <text x="75" y="70" text-anchor="middle" fill="#52d18a" font-size="7">thin (actin) filaments</text>
+      <text x="140" y="20" text-anchor="middle" fill="#5577e8" font-size="7">thick (myosin)</text>
+      <text x="10" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
+      <text x="140" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
+      <text x="270" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
+      <text x="75" y="12" text-anchor="middle" fill="#9099b0" font-size="6">← I band →</text>
+      <text x="140" y="12" text-anchor="middle" fill="#9099b0" font-size="6">A band</text>
+    </svg>`,
+
+    crossbridgeSVG: `<svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
+      <rect x="10" y="45" width="220" height="14" rx="3" fill="#52d18a" opacity="0.4"/>
+      <text x="120" y="55" text-anchor="middle" fill="#52d18a" font-size="7">ACTIN (thin filament)</text>
+      ${[40,90,140,190].map(x=>`
+        <rect x="${x}" y="48" width="16" height="10" rx="2" fill="#52d18a" opacity="0.7"/>
+      `).join('')}
+      <rect x="30" y="72" width="180" height="12" rx="3" fill="#5577e8" opacity="0.5"/>
+      <text x="120" y="81" text-anchor="middle" fill="#7c9ef8" font-size="7">MYOSIN (thick filament)</text>
+      ${[55,105,155].map(x=>`
+        <line x1="${x+8}" y1="72" x2="${x}" y2="58" stroke="#7c9ef8" stroke-width="2"/>
+        <circle cx="${x}" cy="55" r="4" fill="#7c9ef8"/>
+      `).join('')}
+      <text x="120" y="100" text-anchor="middle" fill="#9099b0" font-size="6.5">Power stroke: myosin head pulls actin → center</text>
+      <circle cx="120" cy="25" r="8" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
+      <text x="120" y="29" text-anchor="middle" fill="#f5c842" font-size="7">Ca²⁺</text>
+      <text x="120" y="14" text-anchor="middle" fill="#9099b0" font-size="6">triggers troponin → exposes binding sites</text>
+    </svg>`,
+
+    neuronSVG: `<svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
+      ${[[10,35],[20,25],[15,50],[5,43]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="55" y2="45" stroke="#7c9ef8" stroke-width="1.5"/>`).join('')}
+      <ellipse cx="70" cy="45" rx="18" ry="18" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
+      <text x="70" y="49" text-anchor="middle" fill="#7c9ef8" font-size="6.5">soma</text>
+      <line x1="88" y1="45" x2="230" y2="45" stroke="#52d18a" stroke-width="2.5"/>
+      ${[100,120,140,160,180,200,220].map(x=>`<ellipse cx="${x}" cy="45" rx="7" ry="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>`).join('')}
+      <circle cx="240" cy="45" r="8" fill="#1a1e28" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="240" y="72" text-anchor="middle" fill="#f5c842" font-size="6">terminal</text>
+      <text x="160" y="35" text-anchor="middle" fill="#9099b0" font-size="6">myelin sheath</text>
+      <text x="10" y="80" fill="#7c9ef8" font-size="6">dendrites</text>
+      <text x="88" y="80" fill="#52d18a" font-size="6">axon →</text>
+    </svg>`,
+
+    apSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <defs><marker id="ap_arr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#5c6480"/></marker></defs>
+      <line x1="20" y1="10" x2="20" y2="90" stroke="#222736" stroke-width="1"/>
+      <line x1="20" y1="80" x2="265" y2="80" stroke="#222736" stroke-width="1"/>
+      <path d="M20,65 L60,65 L80,10 L100,90 L115,70 L140,65 L265,65" fill="none" stroke="#7c9ef8" stroke-width="2.5"/>
+      <line x1="60" y1="65" x2="60" y2="90" stroke="#f07060" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="60" y="96" text-anchor="middle" fill="#f07060" font-size="6.5">threshold</text>
+      <text x="80" y="16" text-anchor="middle" fill="#52d18a" font-size="6.5">+30mV</text>
+      <text x="8" y="68" fill="#9099b0" font-size="6">−70mV</text>
+      <text x="75" y="52" fill="#7c9ef8" font-size="6">depol.</text>
+      <text x="102" y="68" fill="#f5c842" font-size="6">repol.</text>
+    </svg>`,
+
+    brainSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+      <path d="M30,90 Q20,60 35,40 Q50,15 80,20 Q110,10 130,25 Q150,10 175,18 Q210,20 220,45 Q235,65 225,88 Z" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <line x1="145" y1="20" x2="145" y2="90" stroke="#222736" stroke-width="1.5"/>
+      <rect x="32" y="38" width="55" height="25" rx="4" fill="rgba(240,112,96,0.2)" stroke="#f07060" stroke-width="1"/>
+      <text x="59" y="53" text-anchor="middle" fill="#f07060" font-size="7">frontal</text>
+      <rect x="90" y="25" width="50" height="28" rx="4" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
+      <text x="115" y="42" text-anchor="middle" fill="#f5c842" font-size="7">parietal</text>
+      <rect x="32" y="65" width="55" height="22" rx="4" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="1"/>
+      <text x="59" y="79" text-anchor="middle" fill="#4ecdc4" font-size="7">temporal</text>
+      <rect x="160" y="30" width="55" height="30" rx="4" fill="rgba(176,132,245,0.2)" stroke="#b084f5" stroke-width="1"/>
+      <text x="187" y="48" text-anchor="middle" fill="#b084f5" font-size="7">occipital</text>
+      <ellipse cx="187" cy="82" rx="28" ry="18" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
+      <text x="187" y="85" text-anchor="middle" fill="#52d18a" font-size="6.5">cerebellum</text>
+    </svg>`,
+
+    feedbackSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
+      <defs><marker id="fb_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker>
+      <marker id="neg_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#52d18a"/></marker></defs>
+      ${[['Receptor',30,40,'#f5c842'],['Control\nCenter',120,40,'#7c9ef8'],['Effector',210,40,'#52d18a']].map(([lbl,x,cy,col])=>`
+        <rect x="${x}" y="${cy-18}" width="68" height="36" rx="8" fill="#1a1e28" stroke="${col}" stroke-width="1.5"/>
+        <text x="${x+34}" y="${cy+4}" text-anchor="middle" fill="${col}" font-size="8">${lbl}</text>
+      `).join('')}
+      <line x1="98" y1="40" x2="120" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
+      <line x1="188" y1="40" x2="210" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
+      <path d="M245,58 Q245,85 140,85 Q80,85 64,58" fill="none" stroke="#52d18a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#neg_arr)"/>
+      <text x="140" y="97" text-anchor="middle" fill="#52d18a" font-size="7">negative feedback loop</text>
+    </svg>`,
+
+    ansSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+      <rect x="90" y="5" width="80" height="25" rx="6" fill="#1a1e28" stroke="#9099b0" stroke-width="1.5"/>
+      <text x="130" y="21" text-anchor="middle" fill="#9099b0" font-size="8">CNS (brain/SC)</text>
+      <line x1="130" y1="30" x2="50" y2="55" stroke="#5577e8" stroke-width="1.5"/>
+      <line x1="130" y1="30" x2="210" y2="55" stroke="#52d18a" stroke-width="1.5"/>
+      <rect x="10" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <text x="50" y="68" text-anchor="middle" fill="#7c9ef8" font-size="7.5">Sympathetic</text>
+      <text x="50" y="78" text-anchor="middle" fill="#7c9ef8" font-size="6">norepinephrine</text>
+      <rect x="170" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="210" y="68" text-anchor="middle" fill="#52d18a" font-size="7.5">Parasympathetic</text>
+      <text x="210" y="78" text-anchor="middle" fill="#52d18a" font-size="6">acetylcholine</text>
+      <text x="50" y="103" text-anchor="middle" fill="#f07060" font-size="6.5">fight or flight ⚡</text>
+      <text x="210" y="103" text-anchor="middle" fill="#4ecdc4" font-size="6.5">rest &amp; digest 🌿</text>
+    </svg>`,
+
+    synovialSVG: `<svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
+      <rect x="30" y="5" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <text x="110" y="24" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
+      <rect x="30" y="75" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <text x="110" y="94" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
+      <rect x="20" y="35" width="180" height="40" rx="4" fill="rgba(85,119,232,0.05)" stroke="#5577e8" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="30" y="35" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
+      <rect x="30" y="69" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
+      <text x="110" y="57" text-anchor="middle" fill="#f5c842" font-size="7">synovial fluid</text>
+      <text x="190" y="50" fill="#9099b0" font-size="5.5">← joint</text>
+      <text x="190" y="58" fill="#9099b0" font-size="5.5">capsule</text>
+      <text x="32" y="44" fill="#52d18a" font-size="5.5">articular cartilage</text>
+    </svg>`,
+  };
+  return svgs[id] || '';
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(page === 'notes') renderNotes();
+  if(page === 'flashcards') renderFlashcards();
+  if(page === 'quiz') renderQuizSetup();
+  if(page === 'dashboard') renderDashboard();
+}
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+function renderDashboard() {
+  document.getElementById('masteredCount').textContent = state.mastered.length;
+  document.getElementById('reviewStatCount').textContent = state.review.length;
+  document.getElementById('bestScore').textContent = state.bestScore !== null ? state.bestScore + '%' : '—';
+  document.getElementById('sessionsToday').textContent = state.sessions;
+  document.getElementById('streakNum').textContent = state.streak;
+  const grid = document.getElementById('chapterGrid');
+  grid.innerHTML = CHAPTERS.map(ch => {
+    const total = ch.sections.reduce((a,s)=>a+s.items.length,0);
+    const mastered = ch.sections.reduce((a,s)=>a+s.items.filter(i=>state.mastered.includes(i.term)).length,0);
+    const pct = total > 0 ? Math.round(mastered/total*100) : 0;
+    return `<div class="chapter-card ${ch.color}" onclick="goToNotes('${ch.id}')">
+      <div class="chapter-card-icon">${ch.icon}</div>
+      <h3>${ch.label}</h3>
+      <p>${ch.desc}</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--${ch.color==='blue'?'accent':ch.color==='teal'?'teal':ch.color==='purple'?'purple':ch.color==='amber'?'amber':ch.color==='coral'?'coral':ch.color==='pink'?'pink':'accent'})"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px">${mastered}/${total} mastered</div>
+    </div>`;
+  }).join('');
+}
+
+function goToNotes(chId) {
+  state.currentNote = chId;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn')[1].classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-notes').classList.add('active');
+  renderNotes();
+}
+
+// ═══════════════════════════════════════════
+// NOTES
+// ═══════════════════════════════════════════
+function renderNotes() {
+  const colors = {blue:'#7c9ef8',teal:'#4ecdc4',purple:'#b084f5',amber:'#f5c842',coral:'#f07060',pink:'#f472b6'};
+  const sidebar = document.getElementById('notesSidebar');
+  sidebar.innerHTML = CHAPTERS.map(ch => `
+    <button class="sidebar-btn ${ch.id === state.currentNote ? 'active' : ''}" onclick="selectNote('${ch.id}')">
+      <span class="sidebar-dot" style="background:${colors[ch.color]||'#7c9ef8'}"></span>
+      ${ch.label}
+    </button>`).join('');
+  const ch = CHAPTERS.find(c => c.id === state.currentNote);
+  const main = document.getElementById('notesMain');
+  main.innerHTML = `
+    <div class="notes-chapter-title">${ch.icon} ${ch.label}</div>
+    <div class="notes-chapter-sub">${ch.desc}</div>
+    ${ch.sections.map(sec => `
+      <div class="notes-section">
+        <div class="notes-section-title">${sec.title}</div>
+        ${sec.items.map(item => `
+          <div class="term-row">
+            <div class="term-name">${item.term}</div>
+            <div>
+              <div class="term-def">${item.def}</div>
+              ${item.svg ? `<div class="term-visual">${getSVG(item.svg)}</div>` : ''}
+              ${item.mnemonic ? `<div style="margin-top:6px;font-size:12px;color:var(--amber);background:rgba(245,200,66,0.06);border-radius:6px;padding:6px 10px;border-left:2px solid var(--amber)">💡 ${item.mnemonic}</div>` : ''}
+            </div>
+          </div>`).join('')}
+      </div>`).join('')}`;
+}
+
+function selectNote(id) {
+  state.currentNote = id;
+  renderNotes();
+}
+
+// ═══════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════
+function renderFlashcards() {
+  state.sessions++;
+  saveState();
+  const cats = ['All', ...CHAPTERS.map(c => c.label.split('. ')[1] || c.label)];
+  document.getElementById('fcFilterRow').innerHTML = cats.map(c => `
+    <button class="filter-btn ${c === state.fcActiveFilter ? 'active' : ''}" onclick="fcSetFilter('${c}')">${c}</button>`).join('');
+  document.getElementById('fcMastered').textContent = state.mastered.length;
+  document.getElementById('fcNeedsReview').textContent = state.review.length;
+  document.getElementById('fcTotal').textContent = ALL_CARDS.length;
+  renderFCCard();
+}
+
+function fcSetFilter(cat) {
+  state.fcActiveFilter = cat;
+  state.fcIndex = 0;
+  state.fcFlipped = false;
+  if(cat === 'All') {
+    state.fcFilteredCards = [...ALL_CARDS];
+  } else {
+    state.fcFilteredCards = ALL_CARDS.filter(c => c.chapter.includes(cat));
+  }
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === cat));
+  renderFCCard();
+}
+
+function renderFCCard() {
+  const cards = state.fcFilteredCards;
+  if(!cards.length) return;
+  const idx = state.fcIndex % cards.length;
+  const card = cards[idx];
+  document.getElementById('fcCounter').textContent = `${idx+1} / ${cards.length}`;
+  document.getElementById('fcInner').className = 'fc-inner' + (state.fcFlipped ? ' flipped' : '');
+  const isMastered = state.mastered.includes(card.term);
+  const isReview = state.review.includes(card.term);
+  document.getElementById('fcFront').innerHTML = `
+    ${card.svg ? `<div class="fc-visual">${getSVG(card.svg)}</div>` : `<div style="font-size:40px;margin-bottom:12px">${getChapterIcon(card.chapterId)}</div>`}
+    <div class="fc-term">${card.term}</div>
+    <div class="fc-category-tag">${card.chapter}</div>
+    ${isMastered ? '<div style="margin-top:10px;font-size:11px;color:var(--green)">✓ Mastered</div>' : ''}
+    ${isReview ? '<div style="margin-top:10px;font-size:11px;color:var(--coral)">↺ Needs review</div>' : ''}
+    <div class="fc-hint">tap to flip</div>`;
+  document.getElementById('fcBack').innerHTML = `
+    <div class="fc-def">${card.def}</div>
+    ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">Memory tip</div>${card.mnemonic}</div>` : ''}
+    ${card.svg ? `<div style="margin-top:10px">${getSVG(card.svg)}</div>` : ''}
+    <div class="fc-hint">tap to flip back</div>`;
+}
+
+function getChapterIcon(id) {
+  return (CHAPTERS.find(c=>c.id===id)||{icon:'📖'}).icon;
+}
+
+function flipFC() { state.fcFlipped = !state.fcFlipped; renderFCCard(); }
+function fcNav(dir) {
+  state.fcIndex = (state.fcIndex + dir + state.fcFilteredCards.length) % state.fcFilteredCards.length;
+  state.fcFlipped = false;
+  renderFCCard();
+}
+function fcMark(type) {
+  const card = state.fcFilteredCards[state.fcIndex % state.fcFilteredCards.length];
+  if(type === 'mastered') {
+    state.mastered = [...new Set([...state.mastered, card.term])];
+    state.review = state.review.filter(t=>t!==card.term);
+  } else {
+    state.review = [...new Set([...state.review, card.term])];
+    state.mastered = state.mastered.filter(t=>t!==card.term);
+  }
+  saveState();
+  document.getElementById('fcMastered').textContent = state.mastered.length;
+  document.getElementById('fcNeedsReview').textContent = state.review.length;
+  fcNav(1);
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+let quizMode = 'mixed';
+function selectQuizMode(el, mode) {
+  quizMode = mode;
+  document.querySelectorAll('.quiz-opt-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('chapterSelectForQuiz').style.display = mode === 'chapter' ? 'block' : 'none';
+}
+
+function renderQuizSetup() {
+  const sel = document.getElementById('quizChapterSelect');
+  sel.innerHTML = CHAPTERS.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+  document.getElementById('quizSetup').style.display = 'block';
+  document.getElementById('quizActive').style.display = 'none';
+}
+
+function startQuiz() {
+  let pool;
+  if(quizMode === 'chapter') {
+    const chId = document.getElementById('quizChapterSelect').value;
+    const ch = CHAPTERS.find(c=>c.id===chId);
+    pool = ch.sections.flatMap(s=>s.items).map(i=>({...i,chapter:ch.label,chapterId:ch.id}));
+  } else if(quizMode === 'weak') {
+    pool = ALL_CARDS.filter(c=>state.review.includes(c.term));
+    if(!pool.length) { pool = [...ALL_CARDS]; }
+  } else {
+    pool = [...ALL_CARDS];
+  }
+  const count = quizMode === 'speed' ? 20 : 10;
+  const selected = pool.sort(()=>Math.random()-0.5).slice(0, Math.min(count, pool.length));
+  state.quizQuestions = selected.map(fc => {
+    const wrong = ALL_CARDS.filter(c=>c.term!==fc.term).sort(()=>Math.random()-0.5).slice(0,3);
+    const choices = [...wrong.map(c=>c.def), fc.def].sort(()=>Math.random()-0.5);
+    return {question: fc.term, answer: fc.def, choices, term: fc.term};
+  });
+  state.quizCurrent = 0;
+  state.quizScore = 0;
+  state.quizAnswered = false;
+  document.getElementById('quizSetup').style.display = 'none';
+  document.getElementById('quizActive').style.display = 'block';
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const qs = state.quizQuestions;
+  const cur = state.quizCurrent;
+  if(cur >= qs.length) { renderQuizResults(); return; }
+  const q = qs[cur];
+  const pct = Math.round(cur/qs.length*100);
+  document.getElementById('quizActive').innerHTML = `
+    <div class="quiz-question-area">
+      <div class="quiz-q-header">
+        <span class="quiz-progress-label">Question ${cur+1} of ${qs.length}</span>
+        <span class="quiz-score">${state.quizScore} correct</span>
+      </div>
+      <div class="quiz-q-bar"><div class="quiz-q-fill" style="width:${pct}%"></div></div>
+      <div class="quiz-question">Define: <em style="color:var(--accent)">${q.question}</em></div>
+      <div class="quiz-choices">
+        ${q.choices.map((c,i)=>`<button class="quiz-choice" onclick="answerQuiz(this,'${c.replace(/'/g,"\\'")}')">${c}</button>`).join('')}
+      </div>
+    </div>`;
+}
+
+function answerQuiz(el, answer) {
+  if(state.quizAnswered) return;
+  state.quizAnswered = true;
+  const q = state.quizQuestions[state.quizCurrent];
+  const correct = answer === q.answer;
+  if(correct) state.quizScore++;
+  document.querySelectorAll('.quiz-choice').forEach(btn => {
+    btn.disabled = true;
+    if(btn.textContent.trim() === q.answer) btn.classList.add('correct');
+    else if(btn.textContent.trim() === answer && !correct) btn.classList.add('wrong');
+  });
+  const area = document.querySelector('.quiz-question-area');
+  area.innerHTML += `<button class="quiz-next-btn" onclick="nextQuizQ()">
+    ${state.quizCurrent < state.quizQuestions.length-1 ? 'Next question →' : 'See results →'}
+  </button>`;
+}
+
+function nextQuizQ() {
+  state.quizCurrent++;
+  state.quizAnswered = false;
+  renderQuizQuestion();
+}
+
+function renderQuizResults() {
+  const pct = Math.round(state.quizScore/state.quizQuestions.length*100);
+  if(state.bestScore === null || pct > state.bestScore) { state.bestScore = pct; saveState(); }
+  const grade = pct >= 90 ? '🎉 Excellent!' : pct >= 70 ? '👍 Good work!' : pct >= 50 ? '📚 Keep studying' : '🔄 Review needed';
+  document.getElementById('quizActive').innerHTML = `
+    <div class="quiz-results">
+      <div class="quiz-score-big"><span class="quiz-score-pct">${pct}%</span></div>
+      <div style="font-size:20px;margin-bottom:8px">${grade}</div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:24px">${state.quizScore} of ${state.quizQuestions.length} correct</div>
+      <div class="results-breakdown">
+        <div><span>${pct >= 90 ? '⭐' : pct >= 70 ? '✅' : '❌'}</span>Score</div>
+        <div><span>${state.bestScore}%</span>Best ever</div>
+        <div><span>${state.mastered.length}</span>Mastered</div>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="startQuiz()">Retake Quiz</button>
+        <button class="btn" onclick="renderQuizSetup()">New Quiz</button>
+        <button class="btn" onclick="showPage2('flashcards')">Review Flashcards</button>
+      </div>
+    </div>`;
+}
+
+function showPage2(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const idx = {dashboard:0,notes:1,flashcards:2,quiz:3,science:4}[page];
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  document.getElementById('page-'+page).classList.add('active');
+  if(page==='flashcards') renderFlashcards();
+}
+
+// ── INIT ──
+renderDashboard();
+</script>
+</body>
+</html>
