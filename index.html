@@ -712,7 +712,8 @@
     <button class="nav-btn" onclick="showPage('quiz')">Quiz</button>
     <button class="nav-btn" onclick="showPage('science')">Study Science</button>
   </nav>
-  <div style="display:flex;align-items:center;gap:10px">
+  <div style="display:flex;align-items:center;gap:8px">
+    <a href="anatomy-atlas.html" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid rgba(82,209,138,0.4);background:rgba(82,209,138,0.08);color:var(--green);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap">🗺️ Atlas</a>
     <button onclick="openSyncModal()" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all 0.15s" title="Sync progress between devices">⇄ Sync</button>
     <div class="streak-badge" id="streakBadge">🔥 <span id="streakNum">1</span> day streak</div>
   </div>
@@ -1161,6 +1162,7 @@ let state = {
   fcIndex: 0,
   fcFlipped: false,
   fcActiveFilter: 'All',
+  fcMode: 'all',
   quizMode: 'mixed',
   quizChapter: null,
   quizQuestions: [],
@@ -1178,237 +1180,504 @@ function saveState() {
 }
 
 // ═══════════════════════════════════════════
-// SVG DIAGRAMS
+// SVG DIAGRAMS — cleaned up, larger, crisper
 // ═══════════════════════════════════════════
 function getSVG(id) {
+  const S = 'style="width:100%;max-width:340px;display:block;margin:0 auto"';
   const svgs = {
-    levelsSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker></defs>
-      ${[['Chem',10],['Cell',55],['Tissue',100],['Organ',152],['System',198],['Organism',240]].map((l,i)=>`
-        <rect x="${l[1]}" y="35" width="42" height="28" rx="5" fill="#1a1e28" stroke="#5577e8" stroke-width="1"/>
-        <text x="${l[1]+21}" y="53" text-anchor="middle" fill="#9099b0" font-size="8">${l[0]}</text>
-        ${i<5?`<line x1="${l[1]+42}" y1="49" x2="${[55,100,152,198,240][i]}" y2="49" stroke="#5577e8" stroke-width="1" marker-end="url(#arr)"/>`:''}
+
+    levelsSVG: `<svg viewBox="0 0 320 56" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <defs><marker id="a1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#5577e8"/></marker></defs>
+      ${[['Chemical',4],['Cellular',58],['Tissue',112],['Organ',166],['System',220],['Organism',274]].map(([lbl,x],i,arr)=>`
+        <rect x="${x}" y="12" width="50" height="32" rx="6" fill="#1e2235" stroke="#5577e8" stroke-width="1.5"/>
+        <text x="${x+25}" y="32" text-anchor="middle" fill="#9099b0" font-size="9" font-weight="500">${lbl}</text>
+        ${i<arr.length-1?`<line x1="${x+50}" y1="28" x2="${x+58}" y2="28" stroke="#5577e8" stroke-width="1.5" marker-end="url(#a1)"/>`:''}
       `).join('')}
     </svg>`,
 
-    bondSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
-      <circle cx="50" cy="45" r="20" fill="#1a1e28" stroke="#7c9ef8" stroke-width="1.5"/>
-      <text x="50" y="50" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="500">H</text>
-      <circle cx="110" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="110" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">H</text>
-      <circle cx="155" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="155" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">O</text>
-      <line x1="70" y1="45" x2="90" y2="45" stroke="#9099b0" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <line x1="130" y1="38" x2="138" y2="33" stroke="#f5c842" stroke-width="1.5"/>
-      <line x1="130" y1="52" x2="138" y2="57" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="100" y="18" text-anchor="middle" fill="#9099b0" font-size="7">shared electrons = covalent</text>
+    bondSVG: `<svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="5" width="135" height="110" rx="10" fill="#1a1e28" stroke="#5577e8" stroke-width="1"/>
+      <text x="72" y="20" text-anchor="middle" fill="#7c9ef8" font-size="9" font-weight="600">COVALENT</text>
+      <circle cx="45" cy="65" r="24" fill="#1e2235" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="45" y="70" text-anchor="middle" fill="#7c9ef8" font-size="14" font-weight="600">H</text>
+      <circle cx="100" cy="65" r="24" fill="#1e2235" stroke="#52d18a" stroke-width="2"/>
+      <text x="100" y="70" text-anchor="middle" fill="#52d18a" font-size="14" font-weight="600">O</text>
+      <ellipse cx="72" cy="65" rx="10" ry="7" fill="rgba(245,200,66,0.25)" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="72" y="103" text-anchor="middle" fill="#9099b0" font-size="8">shared electrons</text>
+      <rect x="155" y="5" width="140" height="110" rx="10" fill="#1a1e28" stroke="#52d18a" stroke-width="1"/>
+      <text x="225" y="20" text-anchor="middle" fill="#52d18a" font-size="9" font-weight="600">IONIC</text>
+      <circle cx="195" cy="65" r="24" fill="#1e2235" stroke="#f07060" stroke-width="2"/>
+      <text x="195" y="62" text-anchor="middle" fill="#f07060" font-size="13" font-weight="600">Na</text>
+      <text x="195" y="76" text-anchor="middle" fill="#f07060" font-size="9">+</text>
+      <circle cx="255" cy="65" r="24" fill="#1e2235" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="255" y="62" text-anchor="middle" fill="#7c9ef8" font-size="13" font-weight="600">Cl</text>
+      <text x="255" y="76" text-anchor="middle" fill="#7c9ef8" font-size="9">−</text>
+      <text x="225" y="103" text-anchor="middle" fill="#9099b0" font-size="8">electron transferred</text>
     </svg>`,
 
-    phSVG: `<svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f07060"/><stop offset="50%" stop-color="#52d18a"/><stop offset="100%" stop-color="#7c9ef8"/></linearGradient></defs>
-      <rect x="10" y="25" width="260" height="14" rx="7" fill="url(#phg)" opacity="0.7"/>
-      ${[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(n=>`
-        <line x1="${10+n*260/14}" y1="20" x2="${10+n*260/14}" y2="40" stroke="#0d0f14" stroke-width="${n%7===0?2:0.5}"/>
-        <text x="${10+n*260/14}" y="55" text-anchor="middle" fill="#5c6480" font-size="7">${n}</text>
-      `).join('')}
-      <rect x="96" y="16" width="36" height="26" rx="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
-      <text x="114" y="12" text-anchor="middle" fill="#52d18a" font-size="7">Blood</text>
-      <text x="30" y="16" fill="#f07060" font-size="7">Acid</text>
-      <text x="230" y="16" fill="#7c9ef8" font-size="7">Base</text>
+    phSVG: `<svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#f07060"/>
+        <stop offset="50%" stop-color="#52d18a"/>
+        <stop offset="100%" stop-color="#7c9ef8"/>
+      </linearGradient></defs>
+      <rect x="10" y="28" width="300" height="20" rx="10" fill="url(#phg)" opacity="0.85"/>
+      ${[0,2,4,6,7,8,10,12,14].map(n=>{const x=10+n*300/14;return`
+        <line x1="${x}" y1="24" x2="${x}" y2="52" stroke="#0d0f14" stroke-width="${n===7?2:1}"/>
+        <text x="${x}" y="66" text-anchor="middle" fill="#5c6480" font-size="9">${n}</text>
+      `}).join('')}
+      <rect x="101" y="18" width="46" height="42" rx="6" fill="rgba(82,209,138,0.12)" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="124" y="14" text-anchor="middle" fill="#52d18a" font-size="9" font-weight="600">Blood 7.35–7.45</text>
+      <text x="30" y="18" fill="#f07060" font-size="9" font-weight="600">Acid</text>
+      <text x="265" y="18" fill="#7c9ef8" font-size="9" font-weight="600">Base</text>
+      <text x="124" y="78" text-anchor="middle" fill="#9099b0" font-size="8">body tightly regulated here</text>
     </svg>`,
 
-    membraneSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      ${Array.from({length:12},(_,i)=>`
-        <circle cx="${20+i*20}" cy="35" r="7" fill="#5577e8" opacity="0.8"/>
-        <line x1="${20+i*20}" y1="42" x2="${18+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="42" x2="${22+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="65" x2="${18+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="65" x2="${22+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
-        <circle cx="${20+i*20}" cy="65" r="7" fill="#5577e8" opacity="0.8"/>
-      `).join('')}
-      <rect x="95" y="28" width="30" height="44" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="110" y="54" text-anchor="middle" fill="#52d18a" font-size="7">protein</text>
-      <text x="5" y="95" fill="#9099b0" font-size="7">hydrophilic heads</text>
-      <text x="5" y="20" fill="#9099b0" font-size="7">extracellular</text>
+    membraneSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <text x="160" y="12" text-anchor="middle" fill="#9099b0" font-size="9">EXTRACELLULAR</text>
+      ${Array.from({length:14},(_,i)=>{const x=15+i*21; return`
+        <circle cx="${x}" cy="30" r="8" fill="#5577e8" opacity="0.85"/>
+        <line x1="${x-3}" y1="37" x2="${x-5}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${x+3}" y1="37" x2="${x+5}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${x-3}" y1="72" x2="${x-5}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <line x1="${x+3}" y1="72" x2="${x+5}" y2="56" stroke="#9099b0" stroke-width="2"/>
+        <circle cx="${x}" cy="79" r="8" fill="#5577e8" opacity="0.85"/>
+      `}).join('')}
+      <rect x="118" y="20" width="38" height="70" rx="12" fill="#1a1e28" stroke="#52d18a" stroke-width="2"/>
+      <text x="137" y="52" text-anchor="middle" fill="#52d18a" font-size="8">trans-</text>
+      <text x="137" y="63" text-anchor="middle" fill="#52d18a" font-size="8">membrane</text>
+      <text x="137" y="74" text-anchor="middle" fill="#52d18a" font-size="8">protein</text>
+      <text x="160" y="108" text-anchor="middle" fill="#9099b0" font-size="9">INTRACELLULAR</text>
+      <text x="5" y="32" fill="#7c9ef8" font-size="8">heads</text>
+      <text x="5" y="72" fill="#9099b0" font-size="8">tails</text>
     </svg>`,
 
-    mitoSVG: `<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
-      <ellipse cx="110" cy="50" rx="100" ry="38" fill="none" stroke="#5577e8" stroke-width="2"/>
-      <ellipse cx="110" cy="50" rx="82" ry="25" fill="none" stroke="#52d18a" stroke-width="1.5"/>
-      ${[40,60,80,100,120,140,160].map(x=>`<path d="M${x},25 Q${x-12},50 ${x},75" fill="none" stroke="#52d18a" stroke-width="1" opacity="0.6"/>`).join('')}
-      <text x="110" y="54" text-anchor="middle" fill="#9099b0" font-size="8">matrix + cristae</text>
-      <text x="110" y="12" text-anchor="middle" fill="#7c9ef8" font-size="7">outer membrane</text>
+    mitoSVG: `<svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <ellipse cx="160" cy="70" rx="148" ry="58" fill="#1a1e28" stroke="#5577e8" stroke-width="2.5"/>
+      <ellipse cx="160" cy="70" rx="120" ry="38" fill="#13161d" stroke="#52d18a" stroke-width="2"/>
+      ${[55,75,95,115,135,155,175,195,215,235,255].map(x=>`<path d="M${x},32 Q${x-15},70 ${x},108" fill="none" stroke="#52d18a" stroke-width="1.5" opacity="0.5"/>`).join('')}
+      <text x="160" y="65" text-anchor="middle" fill="#9099b0" font-size="10" font-weight="500">matrix</text>
+      <text x="160" y="80" text-anchor="middle" fill="#52d18a" font-size="9">(Krebs cycle + ATP synthase)</text>
+      <text x="160" y="18" text-anchor="middle" fill="#7c9ef8" font-size="9">outer membrane</text>
+      <text x="80" y="50" text-anchor="middle" fill="#52d18a" font-size="8">cristae</text>
+      <text x="160" y="130" text-anchor="middle" fill="#9099b0" font-size="9">inner membrane = cristae (ATP production)</text>
     </svg>`,
 
-    diffusionSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
-      <rect x="0" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.1)" stroke="#5577e8" stroke-width="1"/>
-      <rect x="110" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.04)" stroke="#5577e8" stroke-width="0.5"/>
-      ${[[15,30],[25,55],[40,25],[55,60],[70,38],[20,45],[50,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.7"/>`).join('')}
-      ${[[130,45],[170,50],[155,30]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.3"/>`).join('')}
-      <line x1="90" y1="47" x2="110" y2="47" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="97" y="43" fill="#f5c842" font-size="9">→</text>
-      <text x="20" y="95" fill="#9099b0" font-size="7">high concentration</text>
-      <text x="120" y="95" fill="#9099b0" font-size="7">low concentration</text>
+    diffusionSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="10" width="140" height="90" rx="8" fill="rgba(85,119,232,0.1)" stroke="#5577e8" stroke-width="1.5"/>
+      <rect x="175" y="10" width="140" height="90" rx="8" fill="rgba(85,119,232,0.03)" stroke="#5577e8" stroke-width="1"/>
+      ${[[20,30],[35,65],[55,25],[70,70],[85,40],[100,60],[20,50],[50,45],[30,75]].map(([x,y])=>`<circle cx="${x+5}" cy="${y}" r="7" fill="#5577e8" opacity="0.75"/>`).join('')}
+      ${[[195,50],[220,35],[250,65]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="#5577e8" opacity="0.25"/>`).join('')}
+      <line x1="148" y1="55" x2="172" y2="55" stroke="#f5c842" stroke-width="2"/>
+      <polygon points="172,50 180,55 172,60" fill="#f5c842"/>
+      <text x="75" y="112" text-anchor="middle" fill="#7c9ef8" font-size="9" font-weight="500">HIGH concentration</text>
+      <text x="245" y="112" text-anchor="middle" fill="#9099b0" font-size="9">LOW concentration</text>
+      <text x="160" y="30" text-anchor="middle" fill="#f5c842" font-size="8">passive — no ATP</text>
     </svg>`,
 
-    tonicSVG: `<svg viewBox="0 0 240 85" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
-      <ellipse cx="40" cy="42" rx="25" ry="25" fill="none" stroke="#52d18a" stroke-width="2"/>
-      <text x="40" y="46" text-anchor="middle" fill="#52d18a" font-size="8">isotonic</text>
-      <ellipse cx="120" cy="42" rx="32" ry="32" fill="none" stroke="#7c9ef8" stroke-width="2"/>
-      <text x="120" y="46" text-anchor="middle" fill="#7c9ef8" font-size="7">hypotonic</text>
-      <text x="120" y="56" text-anchor="middle" fill="#7c9ef8" font-size="6">(swells)</text>
-      <ellipse cx="200" cy="42" rx="18" ry="18" fill="none" stroke="#f07060" stroke-width="2"/>
-      <text x="200" y="46" text-anchor="middle" fill="#f07060" font-size="7">hypertonic</text>
-      <text x="200" y="56" text-anchor="middle" fill="#f07060" font-size="6">(shrinks)</text>
+    tonicSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <text x="53" y="12" text-anchor="middle" fill="#52d18a" font-size="10" font-weight="600">ISOTONIC</text>
+      <circle cx="53" cy="58" r="36" fill="rgba(82,209,138,0.1)" stroke="#52d18a" stroke-width="2"/>
+      <text x="53" y="55" text-anchor="middle" fill="#52d18a" font-size="9">normal</text>
+      <text x="53" y="68" text-anchor="middle" fill="#52d18a" font-size="9">cell size</text>
+      <text x="53" y="100" text-anchor="middle" fill="#9099b0" font-size="8">0.9% NaCl</text>
+      <text x="160" y="12" text-anchor="middle" fill="#7c9ef8" font-size="10" font-weight="600">HYPOTONIC</text>
+      <circle cx="160" cy="58" r="46" fill="rgba(124,158,248,0.1)" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="160" y="55" text-anchor="middle" fill="#7c9ef8" font-size="9">swells →</text>
+      <text x="160" y="68" text-anchor="middle" fill="#7c9ef8" font-size="9">may lyse</text>
+      <text x="160" y="100" text-anchor="middle" fill="#9099b0" font-size="8">water enters</text>
+      <text x="277" y="12" text-anchor="middle" fill="#f07060" font-size="10" font-weight="600">HYPERTONIC</text>
+      <circle cx="277" cy="58" r="24" fill="rgba(240,112,96,0.1)" stroke="#f07060" stroke-width="2"/>
+      <text x="277" y="55" text-anchor="middle" fill="#f07060" font-size="9">shrinks</text>
+      <text x="277" y="68" text-anchor="middle" fill="#f07060" font-size="9">(crenation)</text>
+      <text x="277" y="100" text-anchor="middle" fill="#9099b0" font-size="8">water leaves</text>
     </svg>`,
 
-    skinSVG: `<svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
+    skinSVG: `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" ${S}>
       ${[
-        ['Stratum corneum','#9099b0',5,8],
-        ['Stratum granulosum','#7c9ef8',20,8],
-        ['Stratum spinosum','#5577e8',35,8],
-        ['Stratum basale','#52d18a',50,10],
-        ['Dermis (papillary)','#f5c842',65,18],
-        ['Dermis (reticular)','#f07060',88,20],
+        ['Stratum corneum (dead, keratinized)','#b0b8cc',8,22,'#b0b8cc'],
+        ['Stratum lucidum (thick skin only)','#9099b0',30,14,'#9099b0'],
+        ['Stratum granulosum','#7c9ef8',44,18,'#7c9ef8'],
+        ['Stratum spinosum','#5577e8',62,20,'#5577e8'],
+        ['Stratum basale (mitotic + melanocytes)','#52d18a',82,22,'#52d18a'],
+        ['Dermis — papillary layer','#f5c842',104,22,'#f5c842'],
+        ['Dermis — reticular layer','#f07060',126,24,'#f07060'],
       ].map(([lbl,col,y,h])=>`
-        <rect x="10" y="${y}" width="170" height="${h}" rx="2" fill="${col}" opacity="0.25"/>
-        <rect x="10" y="${y}" width="2" height="${h}" rx="1" fill="${col}"/>
-        <text x="18" y="${y+h*0.67}" fill="${col}" font-size="7.5">${lbl}</text>
+        <rect x="5" y="${y}" width="195" height="${h-1}" rx="0" fill="${col}" opacity="0.18"/>
+        <line x1="5" y1="${y}" x2="200" y2="${y}" stroke="${col}" stroke-width="1.5"/>
+        <text x="210" y="${y+h*0.65}" fill="${col}" font-size="9" font-weight="500">${lbl}</text>
       `).join('')}
-      <text x="10" y="112" fill="#9099b0" font-size="7">← superficial</text>
-      <text x="10" y="7" fill="#9099b0" font-size="7">← deep</text>
+      <text x="102" y="8" text-anchor="middle" fill="#9099b0" font-size="8">← surface (superficial)</text>
+      <text x="102" y="158" text-anchor="middle" fill="#9099b0" font-size="8">← deep</text>
     </svg>`,
 
-    osteonSVG: `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" style="width:120px;height:120px">
-      ${[50,42,34,26,18,10].map(r=>`<circle cx="70" cy="70" r="${r}" fill="none" stroke="#5577e8" stroke-width="${r===10?2:1}" opacity="${0.3+r/80}"/>`).join('')}
-      <circle cx="70" cy="70" r="7" fill="#f5c842" opacity="0.9"/>
-      <text x="70" y="74" text-anchor="middle" fill="#0d0f14" font-size="6" font-weight="500">canal</text>
-      <text x="70" y="18" text-anchor="middle" fill="#9099b0" font-size="6">concentric lamellae</text>
-      ${[[30,50],[110,50],[50,105],[90,105]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#52d18a"/>`).join('')}
-      <text x="112" y="53" fill="#52d18a" font-size="5.5">osteocyte</text>
-    </svg>`,
-
-    sarcomeresSVG: `<svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <line x1="10" y1="40" x2="270" y2="40" stroke="#222736" stroke-width="20"/>
-      <line x1="10" y1="40" x2="270" y2="40" stroke="#5577e8" stroke-width="12" opacity="0.5"/>
-      <rect x="35" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
-      <rect x="160" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
-      <line x1="10" y1="25" x2="10" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <line x1="140" y1="25" x2="140" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <line x1="270" y1="25" x2="270" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <text x="75" y="70" text-anchor="middle" fill="#52d18a" font-size="7">thin (actin) filaments</text>
-      <text x="140" y="20" text-anchor="middle" fill="#5577e8" font-size="7">thick (myosin)</text>
-      <text x="10" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="140" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="270" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="75" y="12" text-anchor="middle" fill="#9099b0" font-size="6">← I band →</text>
-      <text x="140" y="12" text-anchor="middle" fill="#9099b0" font-size="6">A band</text>
-    </svg>`,
-
-    crossbridgeSVG: `<svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
-      <rect x="10" y="45" width="220" height="14" rx="3" fill="#52d18a" opacity="0.4"/>
-      <text x="120" y="55" text-anchor="middle" fill="#52d18a" font-size="7">ACTIN (thin filament)</text>
-      ${[40,90,140,190].map(x=>`
-        <rect x="${x}" y="48" width="16" height="10" rx="2" fill="#52d18a" opacity="0.7"/>
+    osteonSVG: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[80,68,54,40,28,16].map(r=>`<circle cx="100" cy="100" r="${r}" fill="none" stroke="#5577e8" stroke-width="${r>60?2:1.5}" opacity="${0.35+r/120}"/>`).join('')}
+      <circle cx="100" cy="100" r="10" fill="#f5c842" opacity="0.9"/>
+      <text x="100" y="104" text-anchor="middle" fill="#0d0f14" font-size="8" font-weight="600">canal</text>
+      <text x="100" y="185" text-anchor="middle" fill="#9099b0" font-size="9">concentric lamellae</text>
+      ${[[42,60],[158,60],[42,140],[158,140],[100,40]].map(([x,y])=>`
+        <circle cx="${x}" cy="${y}" r="4" fill="#52d18a" opacity="0.8"/>
       `).join('')}
-      <rect x="30" y="72" width="180" height="12" rx="3" fill="#5577e8" opacity="0.5"/>
-      <text x="120" y="81" text-anchor="middle" fill="#7c9ef8" font-size="7">MYOSIN (thick filament)</text>
-      ${[55,105,155].map(x=>`
-        <line x1="${x+8}" y1="72" x2="${x}" y2="58" stroke="#7c9ef8" stroke-width="2"/>
-        <circle cx="${x}" cy="55" r="4" fill="#7c9ef8"/>
+      <line x1="158" y1="60" x2="175" y2="45" stroke="#9099b0" stroke-width="1"/>
+      <text x="178" y="43" fill="#52d18a" font-size="8">osteocyte</text>
+      <text x="178" y="53" fill="#9099b0" font-size="7">in lacuna</text>
+      <line x1="100" y1="90" x2="100" y2="60" stroke="#9099b0" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="100" y="28" text-anchor="middle" fill="#7c9ef8" font-size="8">Haversian</text>
+      <text x="100" y="38" text-anchor="middle" fill="#7c9ef8" font-size="8">system (osteon)</text>
+    </svg>`,
+
+    sarcomeresSVG: `<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="10" y="38" width="300" height="24" rx="3" fill="#1a1e28" stroke="#222736" stroke-width="1"/>
+      <rect x="10" y="38" width="300" height="24" rx="3" fill="#5577e8" opacity="0.3"/>
+      <rect x="30" y="36" width="110" height="28" rx="3" fill="#52d18a" opacity="0.5"/>
+      <rect x="180" y="36" width="110" height="28" rx="3" fill="#52d18a" opacity="0.5"/>
+      <line x1="10" y1="28" x2="10" y2="72" stroke="#f5c842" stroke-width="3"/>
+      <line x1="160" y1="28" x2="160" y2="72" stroke="#f5c842" stroke-width="3"/>
+      <line x1="310" y1="28" x2="310" y2="72" stroke="#f5c842" stroke-width="3"/>
+      <text x="10" y="20" text-anchor="middle" fill="#f5c842" font-size="11" font-weight="700">Z</text>
+      <text x="160" y="20" text-anchor="middle" fill="#f5c842" font-size="11" font-weight="700">Z</text>
+      <text x="310" y="20" text-anchor="middle" fill="#f5c842" font-size="11" font-weight="700">Z</text>
+      <text x="85" y="90" text-anchor="middle" fill="#52d18a" font-size="9" font-weight="500">I band (thin/actin)</text>
+      <text x="160" y="90" text-anchor="middle" fill="#7c9ef8" font-size="9" font-weight="500">A band</text>
+      <text x="235" y="90" text-anchor="middle" fill="#52d18a" font-size="9" font-weight="500">I band</text>
+      <text x="85" y="15" text-anchor="middle" fill="#9099b0" font-size="8">← shortens during contraction →</text>
+      <text x="160" y="7" text-anchor="middle" fill="#7c9ef8" font-size="8">stays same length</text>
+    </svg>`,
+
+    crossbridgeSVG: `<svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="10" y="40" width="300" height="22" rx="4" fill="#52d18a" opacity="0.35"/>
+      <text x="160" y="55" text-anchor="middle" fill="#52d18a" font-size="10" font-weight="600">ACTIN (thin filament)</text>
+      ${[40,90,140,190,240,270].map(x=>`<rect x="${x}" y="42" width="22" height="18" rx="5" fill="#52d18a" opacity="0.6"/>`).join('')}
+      <rect x="25" y="85" width="270" height="20" rx="4" fill="#5577e8" opacity="0.35"/>
+      <text x="160" y="99" text-anchor="middle" fill="#7c9ef8" font-size="10" font-weight="600">MYOSIN (thick filament)</text>
+      ${[60,120,180,240].map(x=>`
+        <line x1="${x+8}" y1="85" x2="${x}" y2="64" stroke="#7c9ef8" stroke-width="2.5"/>
+        <circle cx="${x}" cy="61" r="6" fill="#7c9ef8"/>
       `).join('')}
-      <text x="120" y="100" text-anchor="middle" fill="#9099b0" font-size="6.5">Power stroke: myosin head pulls actin → center</text>
-      <circle cx="120" cy="25" r="8" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
-      <text x="120" y="29" text-anchor="middle" fill="#f5c842" font-size="7">Ca²⁺</text>
-      <text x="120" y="14" text-anchor="middle" fill="#9099b0" font-size="6">triggers troponin → exposes binding sites</text>
+      <circle cx="160" cy="18" r="11" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="2"/>
+      <text x="160" y="22" text-anchor="middle" fill="#f5c842" font-size="9" font-weight="600">Ca²⁺</text>
+      <text x="160" y="8" text-anchor="middle" fill="#9099b0" font-size="8">released from SR → opens binding sites</text>
+      <text x="160" y="128" text-anchor="middle" fill="#9099b0" font-size="9">power stroke: myosin head pivots → pulls actin toward M-line</text>
     </svg>`,
 
-    neuronSVG: `<svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
-      ${[[10,35],[20,25],[15,50],[5,43]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="55" y2="45" stroke="#7c9ef8" stroke-width="1.5"/>`).join('')}
-      <ellipse cx="70" cy="45" rx="18" ry="18" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
-      <text x="70" y="49" text-anchor="middle" fill="#7c9ef8" font-size="6.5">soma</text>
-      <line x1="88" y1="45" x2="230" y2="45" stroke="#52d18a" stroke-width="2.5"/>
-      ${[100,120,140,160,180,200,220].map(x=>`<ellipse cx="${x}" cy="45" rx="7" ry="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>`).join('')}
-      <circle cx="240" cy="45" r="8" fill="#1a1e28" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="240" y="72" text-anchor="middle" fill="#f5c842" font-size="6">terminal</text>
-      <text x="160" y="35" text-anchor="middle" fill="#9099b0" font-size="6">myelin sheath</text>
-      <text x="10" y="80" fill="#7c9ef8" font-size="6">dendrites</text>
-      <text x="88" y="80" fill="#52d18a" font-size="6">axon →</text>
+    neuronSVG: `<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[[8,38],[14,26],[8,52],[16,62],[5,44]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="60" y2="50" stroke="#7c9ef8" stroke-width="1.5"/>`).join('')}
+      <text x="12" y="85" fill="#7c9ef8" font-size="9" font-weight="500">dendrites</text>
+      <ellipse cx="75" cy="50" rx="20" ry="20" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
+      <text x="75" y="47" text-anchor="middle" fill="#7c9ef8" font-size="8">cell</text>
+      <text x="75" y="57" text-anchor="middle" fill="#7c9ef8" font-size="8">body</text>
+      <line x1="95" y1="50" x2="255" y2="50" stroke="#52d18a" stroke-width="3"/>
+      ${[105,125,145,165,185,205,225,245].map(x=>`<ellipse cx="${x}" cy="50" rx="9" ry="6" fill="rgba(82,209,138,0.12)" stroke="#52d18a" stroke-width="1.5"/>`).join('')}
+      <text x="175" y="38" text-anchor="middle" fill="#52d18a" font-size="8">myelin sheath</text>
+      <text x="155" y="85" text-anchor="middle" fill="#52d18a" font-size="9">axon →</text>
+      <circle cx="270" cy="50" r="10" fill="#1a1e28" stroke="#f5c842" stroke-width="2"/>
+      <text x="270" y="78" text-anchor="middle" fill="#f5c842" font-size="9">terminal</text>
+      <text x="270" y="88" text-anchor="middle" fill="#9099b0" font-size="8">releases NT</text>
     </svg>`,
 
-    apSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><marker id="ap_arr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#5c6480"/></marker></defs>
-      <line x1="20" y1="10" x2="20" y2="90" stroke="#222736" stroke-width="1"/>
-      <line x1="20" y1="80" x2="265" y2="80" stroke="#222736" stroke-width="1"/>
-      <path d="M20,65 L60,65 L80,10 L100,90 L115,70 L140,65 L265,65" fill="none" stroke="#7c9ef8" stroke-width="2.5"/>
-      <line x1="60" y1="65" x2="60" y2="90" stroke="#f07060" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="60" y="96" text-anchor="middle" fill="#f07060" font-size="6.5">threshold</text>
-      <text x="80" y="16" text-anchor="middle" fill="#52d18a" font-size="6.5">+30mV</text>
-      <text x="8" y="68" fill="#9099b0" font-size="6">−70mV</text>
-      <text x="75" y="52" fill="#7c9ef8" font-size="6">depol.</text>
-      <text x="102" y="68" fill="#f5c842" font-size="6">repol.</text>
+    rmvSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="10" y="30" width="300" height="50" rx="8" fill="#1a1e28" stroke="#222736" stroke-width="1"/>
+      <rect x="10" y="30" width="300" height="50" rx="8" fill="rgba(85,119,232,0.06)"/>
+      <line x1="10" y1="55" x2="310" y2="55" stroke="#9099b0" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+      <text x="8" y="53" text-anchor="end" fill="#52d18a" font-size="10" font-weight="600">0</text>
+      <text x="8" y="36" text-anchor="end" fill="#9099b0" font-size="9">+30</text>
+      <text x="8" y="80" text-anchor="end" fill="#7c9ef8" font-size="9">−70</text>
+      <path d="M15,75 L80,75 L100,33 L120,82 L138,72 L180,72 L310,72" fill="none" stroke="#7c9ef8" stroke-width="2.5"/>
+      <line x1="80" y1="72" x2="80" y2="88" stroke="#f07060" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="80" y="100" text-anchor="middle" fill="#f07060" font-size="8">threshold −55mV</text>
+      <text x="100" y="27" text-anchor="middle" fill="#52d18a" font-size="8" font-weight="600">+30 mV peak</text>
+      <text x="72" y="20" text-anchor="middle" fill="#7c9ef8" font-size="8">depol.</text>
+      <text x="120" y="20" text-anchor="middle" fill="#f5c842" font-size="8">repol.</text>
+      <text x="200" y="65" text-anchor="middle" fill="#9099b0" font-size="8">resting −70 mV</text>
     </svg>`,
 
-    brainSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <path d="M30,90 Q20,60 35,40 Q50,15 80,20 Q110,10 130,25 Q150,10 175,18 Q210,20 220,45 Q235,65 225,88 Z" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <line x1="145" y1="20" x2="145" y2="90" stroke="#222736" stroke-width="1.5"/>
-      <rect x="32" y="38" width="55" height="25" rx="4" fill="rgba(240,112,96,0.2)" stroke="#f07060" stroke-width="1"/>
-      <text x="59" y="53" text-anchor="middle" fill="#f07060" font-size="7">frontal</text>
-      <rect x="90" y="25" width="50" height="28" rx="4" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
-      <text x="115" y="42" text-anchor="middle" fill="#f5c842" font-size="7">parietal</text>
-      <rect x="32" y="65" width="55" height="22" rx="4" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="1"/>
-      <text x="59" y="79" text-anchor="middle" fill="#4ecdc4" font-size="7">temporal</text>
-      <rect x="160" y="30" width="55" height="30" rx="4" fill="rgba(176,132,245,0.2)" stroke="#b084f5" stroke-width="1"/>
-      <text x="187" y="48" text-anchor="middle" fill="#b084f5" font-size="7">occipital</text>
-      <ellipse cx="187" cy="82" rx="28" ry="18" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
-      <text x="187" y="85" text-anchor="middle" fill="#52d18a" font-size="6.5">cerebellum</text>
+    apSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="10" y="10" width="300" height="85" rx="8" fill="#1a1e28" stroke="#1e2235" stroke-width="1"/>
+      <line x1="20" y1="15" x2="20" y2="92" stroke="#222736" stroke-width="1.5"/>
+      <line x1="20" y1="80" x2="305" y2="80" stroke="#222736" stroke-width="1.5"/>
+      <path d="M25,70 L75,70 L98,20 L118,85 L132,65 L165,65 L305,65" fill="none" stroke="#7c9ef8" stroke-width="2.5"/>
+      <line x1="75" y1="65" x2="75" y2="88" stroke="#f07060" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="75" y="100" text-anchor="middle" fill="#f07060" font-size="8">threshold</text>
+      <text x="14" y="68" text-anchor="end" fill="#9099b0" font-size="8">−70</text>
+      <text x="14" y="23" text-anchor="end" fill="#52d18a" font-size="8">+30</text>
+      <text x="88" y="18" fill="#52d18a" font-size="8" font-weight="600">depolarization</text>
+      <text x="108" y="75" fill="#f5c842" font-size="8">repol.</text>
+      <text x="200" y="58" fill="#9099b0" font-size="8">refractory → resting</text>
+      <text x="160" y="108" text-anchor="middle" fill="#9099b0" font-size="8">All-or-none law: fires fully or not at all</text>
     </svg>`,
 
-    feedbackSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><marker id="fb_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker>
-      <marker id="neg_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#52d18a"/></marker></defs>
-      ${[['Receptor',30,40,'#f5c842'],['Control\nCenter',120,40,'#7c9ef8'],['Effector',210,40,'#52d18a']].map(([lbl,x,cy,col])=>`
-        <rect x="${x}" y="${cy-18}" width="68" height="36" rx="8" fill="#1a1e28" stroke="${col}" stroke-width="1.5"/>
-        <text x="${x+34}" y="${cy+4}" text-anchor="middle" fill="${col}" font-size="8">${lbl}</text>
+    brainSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <path d="M35,108 Q22,72 40,48 Q58,18 95,22 Q128,10 160,28 Q192,10 225,20 Q262,24 272,52 Q288,78 278,108 Z" fill="#1a1e28" stroke="#9099b0" stroke-width="1.5"/>
+      <line x1="172" y1="22" x2="172" y2="108" stroke="#222736" stroke-width="2"/>
+      <rect x="38" y="44" width="72" height="32" rx="6" fill="rgba(240,112,96,0.2)" stroke="#f07060" stroke-width="1.5"/>
+      <text x="74" y="57" text-anchor="middle" fill="#f07060" font-size="9" font-weight="600">Frontal</text>
+      <text x="74" y="69" text-anchor="middle" fill="#f07060" font-size="7">motor, planning</text>
+      <rect x="110" y="28" width="60" height="32" rx="6" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="140" y="41" text-anchor="middle" fill="#f5c842" font-size="9" font-weight="600">Parietal</text>
+      <text x="140" y="53" text-anchor="middle" fill="#f5c842" font-size="7">somatosensory</text>
+      <rect x="38" y="78" width="72" height="28" rx="6" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="1.5"/>
+      <text x="74" y="90" text-anchor="middle" fill="#4ecdc4" font-size="9" font-weight="600">Temporal</text>
+      <text x="74" y="102" text-anchor="middle" fill="#4ecdc4" font-size="7">hearing, memory</text>
+      <rect x="196" y="35" width="68" height="32" rx="6" fill="rgba(176,132,245,0.2)" stroke="#b084f5" stroke-width="1.5"/>
+      <text x="230" y="48" text-anchor="middle" fill="#b084f5" font-size="9" font-weight="600">Occipital</text>
+      <text x="230" y="60" text-anchor="middle" fill="#b084f5" font-size="7">vision</text>
+      <ellipse cx="235" cy="97" rx="34" ry="20" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="235" y="94" text-anchor="middle" fill="#52d18a" font-size="8" font-weight="600">Cerebellum</text>
+      <text x="235" y="105" text-anchor="middle" fill="#52d18a" font-size="7">coordination</text>
+    </svg>`,
+
+    feedbackSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <defs>
+        <marker id="fb1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#5577e8"/></marker>
+        <marker id="fb2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#52d18a"/></marker>
+      </defs>
+      ${[['Receptor',18,30,'#f5c842'],['Control Center',118,30,'#7c9ef8'],['Effector',218,30,'#52d18a']].map(([lbl,x,y,col])=>`
+        <rect x="${x}" y="${y}" width="82" height="40" rx="10" fill="#1a1e28" stroke="${col}" stroke-width="2"/>
+        <text x="${x+41}" y="${y+24}" text-anchor="middle" fill="${col}" font-size="10" font-weight="500">${lbl}</text>
       `).join('')}
-      <line x1="98" y1="40" x2="120" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
-      <line x1="188" y1="40" x2="210" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
-      <path d="M245,58 Q245,85 140,85 Q80,85 64,58" fill="none" stroke="#52d18a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#neg_arr)"/>
-      <text x="140" y="97" text-anchor="middle" fill="#52d18a" font-size="7">negative feedback loop</text>
+      <line x1="100" y1="50" x2="118" y2="50" stroke="#5577e8" stroke-width="2" marker-end="url(#fb1)"/>
+      <line x1="200" y1="50" x2="218" y2="50" stroke="#5577e8" stroke-width="2" marker-end="url(#fb1)"/>
+      <path d="M260,70 Q260,100 160,100 Q80,100 58,70" fill="none" stroke="#52d18a" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#fb2)"/>
+      <text x="160" y="115" text-anchor="middle" fill="#52d18a" font-size="9">negative feedback — response opposes stimulus</text>
     </svg>`,
 
-    ansSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <rect x="90" y="5" width="80" height="25" rx="6" fill="#1a1e28" stroke="#9099b0" stroke-width="1.5"/>
-      <text x="130" y="21" text-anchor="middle" fill="#9099b0" font-size="8">CNS (brain/SC)</text>
-      <line x1="130" y1="30" x2="50" y2="55" stroke="#5577e8" stroke-width="1.5"/>
-      <line x1="130" y1="30" x2="210" y2="55" stroke="#52d18a" stroke-width="1.5"/>
-      <rect x="10" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="50" y="68" text-anchor="middle" fill="#7c9ef8" font-size="7.5">Sympathetic</text>
-      <text x="50" y="78" text-anchor="middle" fill="#7c9ef8" font-size="6">norepinephrine</text>
-      <rect x="170" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="210" y="68" text-anchor="middle" fill="#52d18a" font-size="7.5">Parasympathetic</text>
-      <text x="210" y="78" text-anchor="middle" fill="#52d18a" font-size="6">acetylcholine</text>
-      <text x="50" y="103" text-anchor="middle" fill="#f07060" font-size="6.5">fight or flight ⚡</text>
-      <text x="210" y="103" text-anchor="middle" fill="#4ecdc4" font-size="6.5">rest &amp; digest 🌿</text>
+    ansSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="110" y="5" width="100" height="34" rx="8" fill="#1a1e28" stroke="#9099b0" stroke-width="2"/>
+      <text x="160" y="27" text-anchor="middle" fill="#9099b0" font-size="10" font-weight="500">CNS</text>
+      <line x1="160" y1="39" x2="70" y2="68" stroke="#5577e8" stroke-width="2"/>
+      <line x1="160" y1="39" x2="250" y2="68" stroke="#52d18a" stroke-width="2"/>
+      <rect x="12" y="68" width="116" height="44" rx="8" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
+      <text x="70" y="85" text-anchor="middle" fill="#7c9ef8" font-size="10" font-weight="600">Sympathetic</text>
+      <text x="70" y="98" text-anchor="middle" fill="#9099b0" font-size="8">norepinephrine</text>
+      <text x="70" y="108" text-anchor="middle" fill="#f07060" font-size="8">T1–L2 (thoracolumbar)</text>
+      <rect x="192" y="68" width="116" height="44" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="2"/>
+      <text x="250" y="85" text-anchor="middle" fill="#52d18a" font-size="10" font-weight="600">Parasympathetic</text>
+      <text x="250" y="98" text-anchor="middle" fill="#9099b0" font-size="8">acetylcholine</text>
+      <text x="250" y="108" text-anchor="middle" fill="#4ecdc4" font-size="8">craniosacral</text>
+      <text x="70" y="124" text-anchor="middle" fill="#f07060" font-size="9">⚡ fight or flight</text>
+      <text x="250" y="124" text-anchor="middle" fill="#4ecdc4" font-size="9">🌿 rest and digest</text>
     </svg>`,
 
-    synovialSVG: `<svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
-      <rect x="30" y="5" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="110" y="24" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
-      <rect x="30" y="75" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="110" y="94" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
-      <rect x="20" y="35" width="180" height="40" rx="4" fill="rgba(85,119,232,0.05)" stroke="#5577e8" stroke-width="1" stroke-dasharray="3,2"/>
-      <rect x="30" y="35" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
-      <rect x="30" y="69" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
-      <text x="110" y="57" text-anchor="middle" fill="#f5c842" font-size="7">synovial fluid</text>
-      <text x="190" y="50" fill="#9099b0" font-size="5.5">← joint</text>
-      <text x="190" y="58" fill="#9099b0" font-size="5.5">capsule</text>
-      <text x="32" y="44" fill="#52d18a" font-size="5.5">articular cartilage</text>
+    synovialSVG: `<svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="30" y="5" width="220" height="38" rx="8" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
+      <text x="140" y="28" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="500">BONE</text>
+      <rect x="30" y="87" width="220" height="38" rx="8" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
+      <text x="140" y="110" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="500">BONE</text>
+      <rect x="15" y="43" width="250" height="44" rx="4" fill="rgba(85,119,232,0.05)" stroke="#5577e8" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="30" y="43" width="220" height="8" rx="2" fill="#52d18a" opacity="0.6"/>
+      <rect x="30" y="79" width="220" height="8" rx="2" fill="#52d18a" opacity="0.6"/>
+      <text x="140" y="70" text-anchor="middle" fill="#f5c842" font-size="10" font-weight="500">synovial fluid</text>
+      <text x="270" y="58" text-anchor="end" fill="#52d18a" font-size="8">articular</text>
+      <text x="270" y="68" text-anchor="end" fill="#52d18a" font-size="8">cartilage</text>
+      <text x="10" y="66" fill="#9099b0" font-size="8">joint</text>
+      <text x="10" y="76" fill="#9099b0" font-size="8">capsule</text>
+    </svg>`,
+
+    epitheliumSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="5" width="148" height="118" rx="8" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <text x="79" y="18" text-anchor="middle" fill="#7c9ef8" font-size="9" font-weight="600">SIMPLE SQUAMOUS</text>
+      ${Array.from({length:6},(_,i)=>`
+        <rect x="${16+i*21}" y="55" width="18" height="10" rx="4" fill="#5577e8" opacity="0.5"/>
+        <ellipse cx="${25+i*21}" cy="60" rx="4" ry="3" fill="#7c9ef8" opacity="0.6"/>
+      `).join('')}
+      <line x1="12" y1="70" x2="148" y2="70" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="79" y="80" text-anchor="middle" fill="#f5c842" font-size="7">basement membrane</text>
+      <text x="79" y="100" text-anchor="middle" fill="#9099b0" font-size="7">1 layer, flat cells</text>
+      <text x="79" y="112" text-anchor="middle" fill="#9099b0" font-size="7">lungs, kidney filter</text>
+      <rect x="167" y="5" width="148" height="118" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="241" y="18" text-anchor="middle" fill="#52d18a" font-size="9" font-weight="600">STRATIFIED SQUAMOUS</text>
+      ${[0,1,2,3].map(row=>`
+        ${Array.from({length:6},(_,i)=>`
+          <rect x="${178+i*21+(row%2)*10}" y="${25+row*12}" width="18" height="${row===0?10:9}" rx="${row===0?4:2}" fill="#52d18a" opacity="${0.2+row*0.12}"/>
+        `).join('')}
+      `).join('')}
+      <line x1="173" y1="75" x2="310" y2="75" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="241" y="86" text-anchor="middle" fill="#f5c842" font-size="7">basement membrane</text>
+      <text x="241" y="100" text-anchor="middle" fill="#9099b0" font-size="7">multiple layers</text>
+      <text x="241" y="112" text-anchor="middle" fill="#9099b0" font-size="7">skin, mouth, esophagus</text>
+    </svg>`,
+
+    cartilageSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="5" width="95" height="110" rx="8" fill="#1a1e28" stroke="#7c9ef8" stroke-width="1.5"/>
+      <text x="52" y="18" text-anchor="middle" fill="#7c9ef8" font-size="8" font-weight="600">HYALINE</text>
+      ${[[25,35],[55,30],[80,38],[20,55],[50,50],[75,60],[30,72],[60,68],[85,75]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#7c9ef8" opacity="0.35"/><circle cx="${x}" cy="${y}" r="2" fill="#7c9ef8" opacity="0.7"/>`).join('')}
+      <text x="52" y="95" text-anchor="middle" fill="#9099b0" font-size="7">glassy, smooth</text>
+      <text x="52" y="106" text-anchor="middle" fill="#9099b0" font-size="7">joint surfaces, trachea</text>
+      <rect x="112" y="5" width="95" height="110" rx="8" fill="#1a1e28" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="159" y="18" text-anchor="middle" fill="#f5c842" font-size="8" font-weight="600">FIBROCARTILAGE</text>
+      ${[[120,40],[150,35],[190,40],[125,60],[155,55],[185,62],[130,80],[160,75],[188,82]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#f5c842" opacity="0.35"/><circle cx="${x}" cy="${y}" r="2" fill="#f5c842" opacity="0.7"/>`).join('')}
+      ${[[120,30,190,30],[120,50,190,50],[120,70,190,70]].map(([x1,y1,x2,y2])=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#f5c842" stroke-width="0.8" opacity="0.3"/>`).join('')}
+      <text x="159" y="95" text-anchor="middle" fill="#9099b0" font-size="7">fibrous, tough</text>
+      <text x="159" y="106" text-anchor="middle" fill="#9099b0" font-size="7">discs, pubic symphysis</text>
+      <rect x="219" y="5" width="96" height="110" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="267" y="18" text-anchor="middle" fill="#52d18a" font-size="8" font-weight="600">ELASTIC</text>
+      ${[[228,40],[258,35],[298,40],[232,60],[262,55],[292,62],[238,80],[268,75],[295,82]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#52d18a" opacity="0.35"/><circle cx="${x}" cy="${y}" r="2" fill="#52d18a" opacity="0.7"/>`).join('')}
+      ${[[230,32,296,38],[228,52,295,55],[232,70,294,74]].map(([x1,y1,x2,y2])=>`<path d="M${x1},${y1} Q${(x1+x2)/2},${(y1+y2)/2-8} ${x2},${y2}" fill="none" stroke="#52d18a" stroke-width="0.8" opacity="0.4"/>`).join('')}
+      <text x="267" y="95" text-anchor="middle" fill="#9099b0" font-size="7">elastic fibers</text>
+      <text x="267" y="106" text-anchor="middle" fill="#9099b0" font-size="7">ear, epiglottis</text>
+    </svg>`,
+
+    boneSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="25" width="80" height="60" rx="6" fill="#1a1e28" stroke="#f5c842" stroke-width="1.5"/>
+      <text x="45" y="38" text-anchor="middle" fill="#f5c842" font-size="8" font-weight="600">Osteoblast</text>
+      <text x="45" y="52" text-anchor="middle" fill="#9099b0" font-size="7">builds bone</text>
+      <text x="45" y="63" text-anchor="middle" fill="#9099b0" font-size="7">secretes osteoid</text>
+      <text x="45" y="74" text-anchor="middle" fill="#f5c842" font-size="14">🧱</text>
+      <rect x="120" y="25" width="80" height="60" rx="6" fill="#1a1e28" stroke="#7c9ef8" stroke-width="1.5"/>
+      <text x="160" y="38" text-anchor="middle" fill="#7c9ef8" font-size="8" font-weight="600">Osteocyte</text>
+      <text x="160" y="52" text-anchor="middle" fill="#9099b0" font-size="7">mature, trapped</text>
+      <text x="160" y="63" text-anchor="middle" fill="#9099b0" font-size="7">in lacuna</text>
+      <text x="160" y="74" text-anchor="middle" fill="#7c9ef8" font-size="14">💎</text>
+      <rect x="235" y="25" width="80" height="60" rx="6" fill="#1a1e28" stroke="#f07060" stroke-width="1.5"/>
+      <text x="275" y="38" text-anchor="middle" fill="#f07060" font-size="8" font-weight="600">Osteoclast</text>
+      <text x="275" y="52" text-anchor="middle" fill="#9099b0" font-size="7">resorbs bone</text>
+      <text x="275" y="63" text-anchor="middle" fill="#9099b0" font-size="7">multinucleated</text>
+      <text x="275" y="74" text-anchor="middle" fill="#f07060" font-size="14">⚒️</text>
+      <line x1="85" y1="55" x2="120" y2="55" stroke="#9099b0" stroke-width="1.5"/>
+      <text x="102" y="50" text-anchor="middle" fill="#9099b0" font-size="7">→ becomes</text>
+      <line x1="200" y1="55" x2="235" y2="55" stroke="#9099b0" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="217" y="50" text-anchor="middle" fill="#9099b0" font-size="7">vs.</text>
+      <text x="160" y="102" text-anchor="middle" fill="#9099b0" font-size="8">BLAST builds • CYTE maintains • CLAST crushes</text>
+    </svg>`,
+
+    mitosisSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[
+        ['Prophase',20,55,'#7c9ef8','chromatin condenses'],
+        ['Metaphase',95,55,'#f5c842','align at plate'],
+        ['Anaphase',170,55,'#52d18a','chromatids separate'],
+        ['Telophase',245,55,'#f07060','2 nuclei form'],
+      ].map(([lbl,cx,cy,col,sub])=>`
+        <circle cx="${cx}" cy="${cy}" r="28" fill="#1a1e28" stroke="${col}" stroke-width="2"/>
+        <text x="${cx}" y="${cy-5}" text-anchor="middle" fill="${col}" font-size="8" font-weight="600">${lbl}</text>
+        <text x="${cx}" y="${cy+7}" text-anchor="middle" fill="#9099b0" font-size="6">${sub}</text>
+        <text x="${cx}" y="${cy+17}" text-anchor="middle" fill="${col}" font-size="14">${['🧬','⬛','↕️','🟢'][['Prophase','Metaphase','Anaphase','Telophase'].indexOf(lbl)]}</text>
+      `).join('')}
+      <text x="160" y="100" text-anchor="middle" fill="#9099b0" font-size="8">PMAT — People Meet And Talk</text>
+      ${[[48,55],[123,55],[198,55]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="${x+8}" y2="${y}" stroke="#9099b0" stroke-width="1.5"/><polygon points="${x+8},${y-3} ${x+14},${y} ${x+8},${y+3}" fill="#9099b0"/>`).join('')}
+    </svg>`,
+
+    fiberTypesSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="15" width="93" height="90" rx="8" fill="#1a1e28" stroke="#f07060" stroke-width="2"/>
+      <text x="51" y="30" text-anchor="middle" fill="#f07060" font-size="9" font-weight="600">Type I</text>
+      <text x="51" y="43" text-anchor="middle" fill="#9099b0" font-size="8">Slow Oxidative</text>
+      <text x="51" y="60" text-anchor="middle" fill="#f07060" font-size="22">🔴</text>
+      <text x="51" y="80" text-anchor="middle" fill="#9099b0" font-size="7">fatigue resistant</text>
+      <text x="51" y="92" text-anchor="middle" fill="#9099b0" font-size="7">endurance / posture</text>
+      <text x="51" y="102" text-anchor="middle" fill="#9099b0" font-size="7">many mitochondria</text>
+      <rect x="113" y="15" width="94" height="90" rx="8" fill="#1a1e28" stroke="#f5c842" stroke-width="2"/>
+      <text x="160" y="30" text-anchor="middle" fill="#f5c842" font-size="9" font-weight="600">Type IIa</text>
+      <text x="160" y="43" text-anchor="middle" fill="#9099b0" font-size="8">Fast Oxidative</text>
+      <text x="160" y="60" text-anchor="middle" fill="#f5c842" font-size="22">🟡</text>
+      <text x="160" y="80" text-anchor="middle" fill="#9099b0" font-size="7">intermediate</text>
+      <text x="160" y="92" text-anchor="middle" fill="#9099b0" font-size="7">speed + endurance</text>
+      <text x="160" y="102" text-anchor="middle" fill="#9099b0" font-size="7">moderate mito.</text>
+      <rect x="222" y="15" width="93" height="90" rx="8" fill="#1a1e28" stroke="#9099b0" stroke-width="2"/>
+      <text x="268" y="30" text-anchor="middle" fill="#9099b0" font-size="9" font-weight="600">Type IIx</text>
+      <text x="268" y="43" text-anchor="middle" fill="#9099b0" font-size="8">Fast Glycolytic</text>
+      <text x="268" y="60" text-anchor="middle" fill="#9099b0" font-size="22">⚪</text>
+      <text x="268" y="80" text-anchor="middle" fill="#9099b0" font-size="7">fatigues fast</text>
+      <text x="268" y="92" text-anchor="middle" fill="#9099b0" font-size="7">power / sprinting</text>
+      <text x="268" y="102" text-anchor="middle" fill="#9099b0" font-size="7">few mitochondria</text>
+    </svg>`,
+
+    synapseSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="40" y="5" width="240" height="45" rx="8" fill="#1a1e28" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="160" y="32" text-anchor="middle" fill="#7c9ef8" font-size="10" font-weight="500">Presynaptic Terminal</text>
+      ${[[90,42],[120,42],[150,42],[180,42],[210,42],[240,42]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#f5c842" opacity="0.8"/>`).join('')}
+      <text x="160" y="57" text-anchor="middle" fill="#f5c842" font-size="8">vesicles (NT)</text>
+      <line x1="40" y1="60" x2="280" y2="60" stroke="#9099b0" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="160" y="72" text-anchor="middle" fill="#9099b0" font-size="8">synaptic cleft</text>
+      ${[[90,75],[120,77],[150,74],[180,76],[210,75],[240,77]].map(([x,y])=>`
+        <line x1="${x}" y1="${y-8}" x2="${x}" y2="${y}" stroke="#f5c842" stroke-width="1.5" opacity="0.8"/>
+        <circle cx="${x}" cy="${y+3}" r="3" fill="#f5c842" opacity="0.6"/>
+      `).join('')}
+      <line x1="40" y1="84" x2="280" y2="84" stroke="#9099b0" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="40" y="84" width="240" height="40" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="2"/>
+      <text x="160" y="100" text-anchor="middle" fill="#52d18a" font-size="10" font-weight="500">Postsynaptic Membrane</text>
+      <text x="160" y="116" text-anchor="middle" fill="#9099b0" font-size="8">NT binds receptors → EPSP or IPSP</text>
+      <text x="160" y="128" text-anchor="middle" fill="#9099b0" font-size="7">ACh broken down by acetylcholinesterase</text>
+    </svg>`,
+
+    skeletonSVG: `<svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="5" y="5" width="148" height="120" rx="8" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
+      <text x="79" y="20" text-anchor="middle" fill="#7c9ef8" font-size="10" font-weight="600">AXIAL (80 bones)</text>
+      <text x="79" y="35" text-anchor="middle" fill="#9099b0" font-size="8">Skull: 22 bones</text>
+      <text x="79" y="48" text-anchor="middle" fill="#9099b0" font-size="8">Vertebral column: 26</text>
+      <text x="79" y="61" text-anchor="middle" fill="#9099b0" font-size="8">  C7 + T12 + L5 + S1 + Cx1</text>
+      <text x="79" y="74" text-anchor="middle" fill="#9099b0" font-size="8">Sternum: 1</text>
+      <text x="79" y="87" text-anchor="middle" fill="#9099b0" font-size="8">Ribs: 24 (12 pairs)</text>
+      <text x="79" y="108" text-anchor="middle" fill="#7c9ef8" font-size="9">forms central axis</text>
+      <rect x="167" y="5" width="148" height="120" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
+      <text x="241" y="20" text-anchor="middle" fill="#52d18a" font-size="10" font-weight="600">APPENDICULAR (126)</text>
+      <text x="241" y="35" text-anchor="middle" fill="#9099b0" font-size="8">Pectoral girdle: 4</text>
+      <text x="241" y="48" text-anchor="middle" fill="#9099b0" font-size="8">Upper limbs: 60</text>
+      <text x="241" y="61" text-anchor="middle" fill="#9099b0" font-size="8">Pelvic girdle: 2</text>
+      <text x="241" y="74" text-anchor="middle" fill="#9099b0" font-size="8">Lower limbs: 60</text>
+      <text x="241" y="108" text-anchor="middle" fill="#52d18a" font-size="9">appendages hang off axial</text>
+    </svg>`,
+
+    vertebralSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[
+        ['Cervical','C1–C7',18,'#7c9ef8',46,'supports head, most mobile'],
+        ['Thoracic','T1–T12',72,'#f5c842',46,'ribs attach here'],
+        ['Lumbar','L1–L5',126,'#52d18a',46,'weight-bearing, largest'],
+        ['Sacrum','5 fused',180,'#f07060',46,'pelvic attachment'],
+        ['Coccyx','3–4 fused',234,'#9099b0',36,'tailbone'],
+      ].map(([name,num,x,col,w,note])=>`
+        <rect x="${x}" y="15" width="${w}" height="60" rx="6" fill="#1a1e28" stroke="${col}" stroke-width="2"/>
+        <text x="${x+w/2}" y="35" text-anchor="middle" fill="${col}" font-size="10" font-weight="600">${name}</text>
+        <text x="${x+w/2}" y="50" text-anchor="middle" fill="${col}" font-size="11" font-weight="700">${num}</text>
+        <text x="${x+w/2}" y="105" text-anchor="middle" fill="#9099b0" font-size="7">${note}</text>
+      `).join('')}
+      <text x="160" y="10" text-anchor="middle" fill="#9099b0" font-size="8">Breakfast (7) → Lunch (12) → Dinner (5)</text>
+    </svg>`,
+
+    proteinSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[['1° Primary',18,'#7c9ef8','aa sequence'],['2° Secondary',95,'#52d18a','α-helix / β-sheet'],['3° Tertiary',178,'#f5c842','3D fold'],['4° Quaternary',255,'#f07060','multi-chain']].map(([lbl,x,col,sub])=>`
+        <rect x="${x}" y="20" width="65" height="70" rx="8" fill="#1a1e28" stroke="${col}" stroke-width="1.5"/>
+        <text x="${x+32}" y="36" text-anchor="middle" fill="${col}" font-size="8" font-weight="600">${lbl}</text>
+        <text x="${x+32}" y="70" text-anchor="middle" fill="${col}" font-size="18">${['⛓️','🌀','🔵','🟣'][['1° Primary','2° Secondary','3° Tertiary','4° Quaternary'].indexOf(lbl)]}</text>
+        <text x="${x+32}" y="100" text-anchor="middle" fill="#9099b0" font-size="7">${sub}</text>
+      `).join('')}
+      ${[[83,55],[160,55],[243,55]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="${x+12}" y2="${y}" stroke="#9099b0" stroke-width="1.5"/><polygon points="${x+12},${y-3} ${x+18},${y} ${x+12},${y+3}" fill="#9099b0"/>`).join('')}
+    </svg>`,
+
+    atpSVG: `<svg viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg" ${S}>
+      <rect x="30" y="25" width="80" height="60" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="2"/>
+      <text x="70" y="50" text-anchor="middle" fill="#52d18a" font-size="12" font-weight="700">ATP</text>
+      <text x="70" y="65" text-anchor="middle" fill="#9099b0" font-size="8">3 phosphates</text>
+      <text x="70" y="78" text-anchor="middle" fill="#9099b0" font-size="8">high energy</text>
+      <line x1="110" y1="55" x2="170" y2="55" stroke="#f5c842" stroke-width="2.5"/>
+      <polygon points="170,50 180,55 170,60" fill="#f5c842"/>
+      <text x="145" y="48" text-anchor="middle" fill="#f5c842" font-size="8">+H₂O</text>
+      <text x="145" y="72" text-anchor="middle" fill="#f5c842" font-size="7">hydrolysis</text>
+      <rect x="185" y="25" width="55" height="40" rx="8" fill="#1a1e28" stroke="#7c9ef8" stroke-width="2"/>
+      <text x="212" y="45" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="700">ADP</text>
+      <text x="212" y="58" text-anchor="middle" fill="#9099b0" font-size="7">+Pi</text>
+      <rect x="250" y="25" width="60" height="40" rx="8" fill="#1a1e28" stroke="#f07060" stroke-width="2"/>
+      <text x="280" y="45" text-anchor="middle" fill="#f07060" font-size="10" font-weight="700">ENERGY</text>
+      <text x="280" y="58" text-anchor="middle" fill="#f07060" font-size="8">released</text>
+      <text x="160" y="100" text-anchor="middle" fill="#9099b0" font-size="8">ATP = cell's energy currency — powers all cellular work</text>
+    </svg>`,
+
+    burnsSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
+      ${[
+        ['1st Degree',18,'#f5c842','Epidermis only','redness, no blisters','superficial'],
+        ['2nd Degree',120,'#f07060','Epidermis + partial dermis','blistering, painful','partial thickness'],
+        ['3rd Degree',222,'#b084f5','Full thickness','painless — nerves gone','leathery, needs graft'],
+      ].map(([lbl,x,col,layers,sign,note])=>`
+        <rect x="${x}" y="5" width="92" height="110" rx="8" fill="#1a1e28" stroke="${col}" stroke-width="2"/>
+        <text x="${x+46}" y="22" text-anchor="middle" fill="${col}" font-size="9" font-weight="700">${lbl}</text>
+        <text x="${x+46}" y="38" text-anchor="middle" fill="#9099b0" font-size="7">${layers}</text>
+        <text x="${x+46}" y="60" text-anchor="middle" fill="${col}" font-size="20">${['🔴','🔥','⚫'][['1st Degree','2nd Degree','3rd Degree'].indexOf(lbl)]}</text>
+        <text x="${x+46}" y="82" text-anchor="middle" fill="#9099b0" font-size="7">${sign}</text>
+        <text x="${x+46}" y="95" text-anchor="middle" fill="${col}" font-size="7">${note}</text>
+      `).join('')}
     </svg>`,
   };
   return svgs[id] || '';
 }
-
 // ═══════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════
@@ -1493,74 +1762,194 @@ function selectNote(id) {
 }
 
 // ═══════════════════════════════════════════
-// FLASHCARDS
+// FLASHCARDS — multi-mode (3 card types per term)
 // ═══════════════════════════════════════════
+// Card modes:
+//   'term→def'  : front = term name  | back = definition + diagram + mnemonic
+//   'def→term'  : front = definition | back = term name + diagram
+//   'visual→term': front = diagram only (if exists), else definition | back = term + definition
+
+function buildDeck(sourceCards) {
+  const deck = [];
+  sourceCards.forEach(card => {
+    // Mode 1: Term → Definition (always included)
+    deck.push({ ...card, mode: 'term→def' });
+    // Mode 2: Definition → Term (always included)
+    deck.push({ ...card, mode: 'def→term' });
+    // Mode 3: Visual → Term (only if card has a diagram)
+    if (card.svg) {
+      deck.push({ ...card, mode: 'visual→term' });
+    }
+  });
+  return deck;
+}
+
+const MODE_LABELS = {
+  'term→def':   { label: 'Term → Definition', color: '#7c9ef8' },
+  'def→term':   { label: 'Definition → Term', color: '#52d18a' },
+  'visual→term':{ label: 'Diagram → Term',    color: '#f5c842' },
+};
+
 function renderFlashcards() {
   state.sessions++;
   saveState();
+
+  // Chapter filter buttons
   const cats = ['All', ...CHAPTERS.map(c => c.label.split('. ')[1] || c.label)];
   document.getElementById('fcFilterRow').innerHTML = cats.map(c => `
-    <button class="filter-btn ${c === state.fcActiveFilter ? 'active' : ''}" onclick="fcSetFilter('${c}')">${c}</button>`).join('');
+    <button class="filter-btn ${c === state.fcActiveFilter ? 'active' : ''}" onclick="fcSetFilter('${c}')">${c}</button>
+  `).join('');
+
+  // Card mode selector row — rendered just below filters
+  let modeRow = document.getElementById('fcModeRow');
+  if (!modeRow) {
+    modeRow = document.createElement('div');
+    modeRow.id = 'fcModeRow';
+    modeRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center';
+    document.getElementById('fcFilterRow').insertAdjacentElement('afterend', modeRow);
+  }
+  modeRow.innerHTML = `
+    <span style="font-size:12px;color:var(--text3);margin-right:4px">Card type:</span>
+    ${Object.entries(MODE_LABELS).map(([mode, info]) => `
+      <button class="filter-btn ${state.fcMode === mode ? 'active' : ''}"
+        style="${state.fcMode === mode ? `background:${info.color};border-color:${info.color};color:#0d0f14` : ''}"
+        onclick="fcSetMode('${mode}')">${info.label}</button>
+    `).join('')}
+    <button class="filter-btn ${state.fcMode === 'all' ? 'active' : ''}"
+      onclick="fcSetMode('all')" style="${state.fcMode === 'all' ? 'background:#b084f5;border-color:#b084f5;color:#0d0f14' : ''}">
+      All 3 types (mixed)
+    </button>`;
+
   document.getElementById('fcMastered').textContent = state.mastered.length;
   document.getElementById('fcNeedsReview').textContent = state.review.length;
   document.getElementById('fcTotal').textContent = ALL_CARDS.length;
+
+  rebuildDeck();
+}
+
+function rebuildDeck() {
+  // Filter by chapter
+  const sourceCards = state.fcActiveFilter === 'All'
+    ? ALL_CARDS
+    : ALL_CARDS.filter(c => c.chapter.includes(state.fcActiveFilter));
+
+  // Build deck with selected modes
+  let deck = buildDeck(sourceCards);
+  if (state.fcMode !== 'all') {
+    deck = deck.filter(c => c.mode === state.fcMode);
+  }
+  state.fcFilteredCards = deck;
+  state.fcIndex = 0;
+  state.fcFlipped = false;
+
+  // Update counter total
   renderFCCard();
 }
 
 function fcSetFilter(cat) {
   state.fcActiveFilter = cat;
-  state.fcIndex = 0;
-  state.fcFlipped = false;
-  if(cat === 'All') {
-    state.fcFilteredCards = [...ALL_CARDS];
-  } else {
-    state.fcFilteredCards = ALL_CARDS.filter(c => c.chapter.includes(cat));
-  }
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === cat));
-  renderFCCard();
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    if (!b.closest('#fcModeRow')) b.classList.toggle('active', b.textContent.trim() === cat);
+  });
+  rebuildDeck();
+}
+
+function fcSetMode(mode) {
+  state.fcMode = mode;
+  renderFlashcards();
 }
 
 function renderFCCard() {
   const cards = state.fcFilteredCards;
-  if(!cards.length) return;
+  if (!cards.length) {
+    document.getElementById('fcCounter').textContent = '0 cards';
+    document.getElementById('fcFront').innerHTML = '<div class="fc-term" style="color:var(--text3)">No cards match this filter</div>';
+    document.getElementById('fcBack').innerHTML = '';
+    return;
+  }
   const idx = state.fcIndex % cards.length;
   const card = cards[idx];
-  document.getElementById('fcCounter').textContent = `${idx+1} / ${cards.length}`;
-  document.getElementById('fcInner').className = 'fc-inner' + (state.fcFlipped ? ' flipped' : '');
+  const modeInfo = MODE_LABELS[card.mode] || MODE_LABELS['term→def'];
   const isMastered = state.mastered.includes(card.term);
   const isReview = state.review.includes(card.term);
-  document.getElementById('fcFront').innerHTML = `
-    ${card.svg ? `<div class="fc-visual">${getSVG(card.svg)}</div>` : `<div style="font-size:40px;margin-bottom:12px">${getChapterIcon(card.chapterId)}</div>`}
-    <div class="fc-term">${card.term}</div>
-    <div class="fc-category-tag">${card.chapter}</div>
-    ${isMastered ? '<div style="margin-top:10px;font-size:11px;color:var(--green)">✓ Mastered</div>' : ''}
-    ${isReview ? '<div style="margin-top:10px;font-size:11px;color:var(--coral)">↺ Needs review</div>' : ''}
-    <div class="fc-hint">tap to flip</div>`;
-  document.getElementById('fcBack').innerHTML = `
-    <div class="fc-def">${card.def}</div>
-    ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">Memory tip</div>${card.mnemonic}</div>` : ''}
-    ${card.svg ? `<div style="margin-top:10px">${getSVG(card.svg)}</div>` : ''}
-    <div class="fc-hint">tap to flip back</div>`;
+  const svgHtml = card.svg ? getSVG(card.svg) : '';
+  const chapterIcon = getChapterIcon(card.chapterId);
+
+  document.getElementById('fcCounter').textContent = `${idx + 1} / ${cards.length}`;
+  document.getElementById('fcInner').className = 'fc-inner' + (state.fcFlipped ? ' flipped' : '');
+
+  // Mode badge shown on both faces
+  const modeBadge = `<div style="position:absolute;top:14px;left:16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;padding:3px 8px;border-radius:20px;background:${modeInfo.color}22;color:${modeInfo.color};border:1px solid ${modeInfo.color}44">${modeInfo.label}</div>`;
+  const statusBadge = isMastered
+    ? `<div style="position:absolute;top:14px;right:16px;font-size:10px;color:var(--green);background:rgba(82,209,138,0.1);border:1px solid rgba(82,209,138,0.2);padding:3px 8px;border-radius:20px">✓ Mastered</div>`
+    : isReview
+    ? `<div style="position:absolute;top:14px;right:16px;font-size:10px;color:var(--coral);background:rgba(240,112,96,0.1);border:1px solid rgba(240,112,96,0.2);padding:3px 8px;border-radius:20px">↺ Review</div>`
+    : '';
+
+  // ── FRONT face content by mode ──
+  let frontContent = '';
+  if (card.mode === 'term→def') {
+    frontContent = `
+      ${svgHtml ? `<div class="fc-visual" style="width:100%;max-height:130px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:14px">${svgHtml}</div>` : `<div style="font-size:44px;margin-bottom:14px">${chapterIcon}</div>`}
+      <div class="fc-term">${card.term}</div>
+      <div class="fc-category-tag">${card.chapter}</div>`;
+  } else if (card.mode === 'def→term') {
+    frontContent = `
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:14px">What term matches this definition?</div>
+      <div class="fc-def" style="font-size:15px;color:var(--text)">${card.def}</div>`;
+  } else if (card.mode === 'visual→term') {
+    frontContent = svgHtml
+      ? `<div style="font-size:13px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:14px">What is shown in this diagram?</div>
+         <div style="width:100%;display:flex;align-items:center;justify-content:center">${svgHtml}</div>`
+      : `<div style="font-size:13px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:14px">What term matches this definition?</div>
+         <div class="fc-def" style="font-size:15px;color:var(--text)">${card.def}</div>`;
+  }
+
+  // ── BACK face content by mode ──
+  let backContent = '';
+  if (card.mode === 'term→def') {
+    backContent = `
+      <div class="fc-def">${card.def}</div>
+      ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">💡 Memory tip</div>${card.mnemonic}</div>` : ''}
+      ${svgHtml ? `<div style="margin-top:12px;width:100%;display:flex;align-items:center;justify-content:center">${svgHtml}</div>` : ''}`;
+  } else if (card.mode === 'def→term') {
+    backContent = `
+      <div class="fc-term">${card.term}</div>
+      <div class="fc-category-tag" style="margin-bottom:14px">${card.chapter}</div>
+      ${svgHtml ? `<div style="width:100%;display:flex;align-items:center;justify-content:center;margin-bottom:12px">${svgHtml}</div>` : ''}
+      ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">💡 Memory tip</div>${card.mnemonic}</div>` : ''}`;
+  } else if (card.mode === 'visual→term') {
+    backContent = `
+      <div class="fc-term">${card.term}</div>
+      <div class="fc-category-tag" style="margin-bottom:12px">${card.chapter}</div>
+      <div class="fc-def">${card.def}</div>
+      ${card.mnemonic ? `<div class="fc-mnemonic" style="margin-top:10px"><div class="fc-mnemonic-label">💡 Memory tip</div>${card.mnemonic}</div>` : ''}`;
+  }
+
+  document.getElementById('fcFront').innerHTML = `${modeBadge}${statusBadge}${frontContent}<div class="fc-hint">tap to flip</div>`;
+  document.getElementById('fcBack').innerHTML = `${modeBadge}${backContent}<div class="fc-hint">tap to flip back</div>`;
 }
 
 function getChapterIcon(id) {
-  return (CHAPTERS.find(c=>c.id===id)||{icon:'📖'}).icon;
+  return (CHAPTERS.find(c => c.id === id) || { icon: '📖' }).icon;
 }
 
 function flipFC() { state.fcFlipped = !state.fcFlipped; renderFCCard(); }
+
 function fcNav(dir) {
   state.fcIndex = (state.fcIndex + dir + state.fcFilteredCards.length) % state.fcFilteredCards.length;
   state.fcFlipped = false;
   renderFCCard();
 }
+
 function fcMark(type) {
   const card = state.fcFilteredCards[state.fcIndex % state.fcFilteredCards.length];
-  if(type === 'mastered') {
+  if (type === 'mastered') {
     state.mastered = [...new Set([...state.mastered, card.term])];
-    state.review = state.review.filter(t=>t!==card.term);
+    state.review = state.review.filter(t => t !== card.term);
   } else {
     state.review = [...new Set([...state.review, card.term])];
-    state.mastered = state.mastered.filter(t=>t!==card.term);
+    state.mastered = state.mastered.filter(t => t !== card.term);
   }
   saveState();
   document.getElementById('fcMastered').textContent = state.mastered.length;
@@ -1767,6 +2156,826 @@ function doImport() {
 
 // ── INIT ──
 renderDashboard();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&P Atlas — Bones, Joints & Body Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f14;--bg2:#13161d;--bg3:#1a1e28;--bg4:#222736;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8eaf2;--text2:#9099b0;--text3:#5c6480;
+  --accent:#7c9ef8;--accent2:#5577e8;--green:#52d18a;
+  --amber:#f5c842;--coral:#f07060;--purple:#b084f5;
+  --teal:#4ecdc4;--pink:#f472b6;
+  --radius:14px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+.logo{font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--text)}
+.logo span{color:var(--accent);font-style:italic}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{padding:7px 14px;border-radius:var(--radius-sm);border:none;background:transparent;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:all 0.2s}
+.nav-btn:hover{background:var(--bg4);color:var(--text)}
+.nav-btn.active{background:var(--accent2);color:#fff}
+.page{display:none;padding:28px;max-width:1200px;margin:0 auto}
+.page.active{display:block}
+.section-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
+.badge-blue{background:rgba(124,158,248,0.15);color:var(--accent)}
+.badge-green{background:rgba(82,209,138,0.15);color:var(--green)}
+.badge-amber{background:rgba(245,200,66,0.15);color:var(--amber)}
+.badge-coral{background:rgba(240,112,96,0.15);color:var(--coral)}
+.badge-purple{background:rgba(176,132,245,0.15);color:var(--purple)}
+.badge-teal{background:rgba(78,205,196,0.15);color:var(--teal)}
+.badge-pink{background:rgba(244,114,182,0.15);color:var(--pink)}
+
+/* ── BODY MAP ── */
+.atlas-layout{display:grid;grid-template-columns:1fr 360px;gap:24px;min-height:600px}
+.map-container{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative}
+.map-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.map-toggle{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.map-toggle:hover{background:var(--bg4)}
+.map-toggle.active{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.svg-wrap{display:flex;gap:16px;justify-content:center;overflow-x:auto}
+.skeleton-svg path,.skeleton-svg ellipse,.skeleton-svg circle,.skeleton-svg polygon,.skeleton-svg rect{cursor:pointer;transition:fill 0.15s,opacity 0.15s}
+.skeleton-svg path:hover,.skeleton-svg ellipse:hover,.skeleton-svg circle:hover,.skeleton-svg polygon:hover{opacity:0.8}
+.skeleton-svg .bone-region.selected{filter:drop-shadow(0 0 4px var(--accent))}
+.info-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;height:fit-content;position:sticky;top:80px}
+.info-panel-placeholder{color:var(--text3);font-size:14px;text-align:center;padding:40px 20px}
+.info-panel h2{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:6px}
+.info-panel .region-tag{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px}
+.info-section{margin-bottom:14px}
+.info-section-label{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:6px;font-weight:600}
+.bone-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.bone-list li{font-size:13px;color:var(--text2);padding:5px 10px;background:var(--bg3);border-radius:6px;border-left:2px solid var(--accent2)}
+.bone-list li span{color:var(--text);font-weight:500}
+.marking-pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:12px;background:var(--bg3);color:var(--text2);margin:2px;border:1px solid var(--border)}
+.quiz-btn{display:block;width:100%;padding:10px;border-radius:var(--radius-sm);border:1px solid var(--accent2);background:transparent;color:var(--accent);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;margin-top:14px;transition:all 0.15s;text-align:center}
+.quiz-btn:hover{background:rgba(85,119,232,0.1)}
+
+/* ── BONES TABLE ── */
+.bone-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filter-pill{padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.filter-pill:hover{background:var(--bg4);color:var(--text)}
+.filter-pill.active{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.bones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.bone-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all 0.15s}
+.bone-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.bone-card h3{font-size:14px;font-weight:500;margin-bottom:4px}
+.bone-card .bone-meta{font-size:12px;color:var(--text3);margin-bottom:8px}
+.bone-card .bone-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent)}
+.expanded-bone{background:var(--bg3);border-radius:var(--radius-sm);padding:14px;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.7;display:none}
+.bone-card.open .expanded-bone{display:block}
+
+/* ── JOINTS TABLE ── */
+.joints-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.joint-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.joint-card h3{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text)}
+.joint-card .joint-type{font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.6px}
+.movement-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.move-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg4);color:var(--text2);border:1px solid var(--border)}
+
+/* ── QUIZ ── */
+.atlas-quiz-area{max-width:600px;margin:0 auto}
+.quiz-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:16px}
+.quiz-q{font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin-bottom:20px;line-height:1.4}
+.quiz-choices{display:flex;flex-direction:column;gap:8px}
+.quiz-choice{padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg2);cursor:pointer;font-size:14px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.quiz-choice:hover:not(:disabled){border-color:var(--accent);background:rgba(124,158,248,0.05)}
+.quiz-choice.correct{border-color:var(--green);background:rgba(82,209,138,0.08);color:var(--green)}
+.quiz-choice.wrong{border-color:var(--coral);background:rgba(240,112,96,0.08);color:var(--coral)}
+.quiz-next{padding:10px 28px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;margin-top:14px}
+.score-display{text-align:center;padding:40px}
+.score-big{font-family:'Fraunces',serif;font-size:64px;font-weight:300;color:var(--accent)}
+
+@media(max-width:800px){
+  .atlas-layout{grid-template-columns:1fr}
+  .joints-layout{grid-template-columns:1fr}
+  .info-panel{position:static}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">A&amp;P <span>Atlas</span></div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('bodymap')">🗺️ Body Map</button>
+    <button class="nav-btn" onclick="showPage('bones')">🦴 All Bones</button>
+    <button class="nav-btn" onclick="showPage('joints')">🔗 Joints</button>
+    <button class="nav-btn" onclick="showPage('atlas-quiz')">🧠 Quiz</button>
+  </nav>
+  <a href="index.html" style="padding:7px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif">← Back to Study Lab</a>
+</header>
+
+<!-- ═══════════ BODY MAP ═══════════ -->
+<div id="page-bodymap" class="page active">
+  <div style="margin-bottom:20px">
+    <div class="section-title">Interactive Body Map</div>
+    <div style="font-size:14px;color:var(--text2)">Click any region on the skeleton to explore bones, markings, and details. Toggle between anterior and posterior views.</div>
+  </div>
+  <div class="atlas-layout">
+    <div class="map-container">
+      <div class="map-controls">
+        <button class="map-toggle active" id="btnAnterior" onclick="setView('anterior')">Anterior (Front)</button>
+        <button class="map-toggle" id="btnPosterior" onclick="setView('posterior')">Posterior (Back)</button>
+        <span style="font-size:12px;color:var(--text3);margin-left:8px">Click a region to learn more</span>
+      </div>
+      <div class="svg-wrap" id="svgWrap"></div>
+    </div>
+    <div class="info-panel" id="infoPanel">
+      <div class="info-panel-placeholder" id="infoPanelPlaceholder">
+        <div style="font-size:32px;margin-bottom:12px">👆</div>
+        <div>Click any region on the skeleton to see bone details, markings, and key facts</div>
+      </div>
+      <div id="infoPanelContent" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ALL BONES ═══════════ -->
+<div id="page-bones" class="page">
+  <div class="section-title">All Named Bones — Full Reference</div>
+  <div class="bone-filter-row" id="boneFilterRow"></div>
+  <div class="bones-grid" id="bonesGrid"></div>
+</div>
+
+<!-- ═══════════ JOINTS ═══════════ -->
+<div id="page-joints" class="page">
+  <div class="section-title">Joints — Classification, Structure & Movement</div>
+
+  <div class="card" style="margin-bottom:24px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);margin-bottom:12px">Joint Classification Overview</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      ${[
+        ['Fibrous','No joint cavity; CT connects bones','Skull sutures, gomphoses, syndesmoses','Synarthrosis (immovable) to amphiarthrosis','#7c9ef8'],
+        ['Cartilaginous','No joint cavity; cartilage connects','Pubic symphysis, epiphyseal plates, costal','Synarthrosis to amphiarthrosis','#52d18a'],
+        ['Synovial','Joint cavity + synovial fluid','Most limb joints','Diarthrosis (freely movable)','#f5c842'],
+      ].map(([t,d,ex,mob,col])=>`
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;border-left:3px solid ${col}">
+          <div style="font-size:13px;font-weight:600;color:${col};margin-bottom:6px">${t}</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:4px">${d}</div>
+          <div style="font-size:11px;color:var(--text3)">E.g.: ${ex}</div>
+          <div style="font-size:11px;color:${col};margin-top:4px">${mob}</div>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin-bottom:14px">Synovial Joint Types</div>
+  <div class="joints-layout" id="jointsGrid"></div>
+
+  <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin:24px 0 14px">Movement Terms</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px" id="movementsGrid"></div>
+</div>
+
+<!-- ═══════════ ATLAS QUIZ ═══════════ -->
+<div id="page-atlas-quiz" class="page">
+  <div class="section-title">Anatomy Quiz</div>
+  <div id="quizSetupArea">
+    <div style="max-width:500px">
+      <p style="color:var(--text2);margin-bottom:20px;font-size:14px">Test your knowledge of bones, joint types, movements, and bone markings.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="quizTypeGrid"></div>
+      <button onclick="startAtlasQuiz()" style="padding:12px 32px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer">Start Quiz →</button>
+    </div>
+  </div>
+  <div id="atlasQuizArea" style="display:none"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA — BONE REGIONS for body map
+// ═══════════════════════════════════════════════
+const REGIONS = {
+  skull: {
+    name: 'Skull', region: 'Axial', color: '#7c9ef8',
+    bones: [
+      {name:'Frontal bone', count:1, notes:'Forms forehead + roof of orbits. Contains frontal sinuses.', markings:['Supraorbital foramen/notch','Glabella','Frontal sinuses']},
+      {name:'Parietal bones', count:2, notes:'Form superior and lateral walls of cranium. Meet at sagittal suture.', markings:['Sagittal suture (between them)','Coronal suture (with frontal)','Temporal lines']},
+      {name:'Temporal bones', count:2, notes:'Form inferior lateral skull. House middle + inner ear structures.', markings:['External acoustic meatus','Mastoid process','Styloid process','Zygomatic process','Carotid canal','Jugular foramen']},
+      {name:'Occipital bone', count:1, notes:'Forms posterior and inferior cranium. Articulates with C1 (atlas).', markings:['Foramen magnum','Occipital condyles','External occipital protuberance','Hypoglossal canal']},
+      {name:'Sphenoid bone', count:1, notes:'Bat-shaped; keystone of cranium, articulates with all other cranial bones.', markings:['Sella turcica (houses pituitary)','Optic foramen','Superior orbital fissure','Pterygoid processes','Greater & lesser wings']},
+      {name:'Ethmoid bone', count:1, notes:'Delicate, between orbits. Forms nasal septum and cribriform plate.', markings:['Cribriform plate (olfactory nerve CN I)','Crista galli','Perpendicular plate','Superior & middle nasal conchae']},
+    ],
+    facial: [
+      {name:'Mandible', count:1, notes:'Lower jaw. Only movable skull bone. Site of TMJ.', markings:['Mental foramen','Mandibular foramen','Coronoid process','Condylar process','Mental protuberance','Body + rami']},
+      {name:'Maxillae', count:2, notes:'Upper jaw; form hard palate, floor of orbits, cheeks.', markings:['Infraorbital foramen','Palatine process','Alveolar process']},
+      {name:'Zygomatic bones', count:2, notes:'Cheekbones. Form zygomatic arch with temporal bone.', markings:[]},
+      {name:'Nasal bones', count:2, notes:'Form bridge of nose.', markings:[]},
+      {name:'Lacrimal bones', count:2, notes:'Smallest facial bones; medial wall of orbit; contain lacrimal fossa.', markings:['Lacrimal fossa (nasolacrimal duct)']},
+      {name:'Palatine bones', count:2, notes:'Form posterior hard palate and floor of nasal cavity.', markings:[]},
+      {name:'Vomer', count:1, notes:'Inferior nasal septum.', markings:[]},
+      {name:'Inferior nasal conchae', count:2, notes:'Scroll-like; increase nasal cavity surface area for humidifying air.', markings:[]},
+    ],
+    mnemonic: 'Cranial 8: "Fried Eggs Taste Particularly Salty On Oatmeal" (Frontal, Ethmoid, Temporal×2, Parietal×2, Sphenoid, Occipital). Facial 14: includes mandible, maxillae, zygomatic, nasal, lacrimal, palatine, vomer, inferior conchae.'
+  },
+  vertebral: {
+    name: 'Vertebral Column', region: 'Axial', color: '#52d18a',
+    overview: '26 bones total. 33 vertebrae but S and coccyx fuse. Curvatures: cervical (lordosis) → thoracic (kyphosis) → lumbar (lordosis) → sacral (kyphosis).',
+    sections: [
+      {name:'Cervical (C1–C7)', count:7, notes:'Smallest vertebrae. C1 = Atlas (no body; supports skull via occipital condyles). C2 = Axis (has dens/odontoid process → pivot for head rotation). C3–C7 = typical. All have foramen transversarium for vertebral artery.', markings:['Vertebral foramen (large, triangular)','Bifid spinous processes C2–C6','Transverse foramina','Anterior + posterior tubercles']},
+      {name:'Thoracic (T1–T12)', count:12, notes:'Articulate with ribs (costal facets). Heart-shaped body. Long spinous processes project inferiorly.', markings:['Costal facets (superior + inferior)','Long inferiorly-directed spinous process','Circular vertebral foramen']},
+      {name:'Lumbar (L1–L5)', count:5, notes:'Largest bodies (weight-bearing). Short, thick spinous processes. No costal facets, no transverse foramina.', markings:['Massive rectangular body','Short blunt spinous process','Triangular vertebral foramen','Mammillary processes']},
+      {name:'Sacrum', count:'5 fused', notes:'Triangular; forms posterior wall of pelvis. Articulates with ilium at sacroiliac joints.', markings:['Sacral promontory','Sacral canal','Sacral foramina (4 pairs)','Auricular surface (SI joint)','Median sacral crest']},
+      {name:'Coccyx', count:'3–4 fused', notes:'Vestigial tail; attachment point for ligaments and muscles of pelvic floor.', markings:['Coccygeal cornua']},
+    ],
+    intervertebral: 'Intervertebral discs between C2/C3 through L5/S1 (23 total). Each has: Nucleus pulposus (gel core — absorbs shock) + Annulus fibrosus (fibrocartilage rings). Herniation = nucleus pulposus ruptures through annulus → compresses nerve roots.',
+    mnemonic: 'C7 T12 L5 = "Breakfast at 7, Lunch at 12, Dinner at 5."'
+  },
+  thoracic_cage: {
+    name: 'Thoracic Cage', region: 'Axial', color: '#f5c842',
+    bones: [
+      {name:'Sternum', count:1, notes:'Flat bone; 3 parts: Manubrium (top — clavicle + 1st rib articulate), Body (ribs 2–7 attach via costal cartilage), Xiphoid process (ossifies ~40 yrs; attachment for diaphragm).', markings:['Jugular (suprasternal) notch','Clavicular notches','Sternal angle (of Louis) = T4/T5 junction = rib 2 landmark']},
+      {name:'True ribs (1–7)', count:7, notes:'Attach to sternum directly via their own costal cartilage.', markings:['Costal groove (inferior — neurovascular bundle)','Head + neck + tubercle','Angle of rib']},
+      {name:'False ribs (8–10)', count:3, notes:'Costal cartilage joins rib 7\'s cartilage, not sternum directly.', markings:[]},
+      {name:'Floating ribs (11–12)', count:2, notes:'No anterior attachment. Short, end freely in abdominal musculature.', markings:[]},
+    ],
+    mnemonic: '"True 1–7, False 8–10, Floating 11–12." Total 24 ribs (12 pairs).'
+  },
+  pectoral: {
+    name: 'Pectoral Girdle & Upper Limb', region: 'Appendicular', color: '#b084f5',
+    bones: [
+      {name:'Clavicle', count:2, notes:'S-shaped. Only bony connection between upper limb and axial skeleton. Most commonly fractured bone.', markings:['Sternal end (SCJ)','Acromial end (ACJ)','Conoid tubercle','Costal tuberosity']},
+      {name:'Scapula', count:2, notes:'Triangular flat bone on posterior thorax (T2–T7). Suspended by muscles — NOT directly attached to thorax.', markings:['Glenoid cavity (shoulder joint)','Coracoid process','Acromion process','Spine of scapula','Supraspinous + infraspinous fossa','Subscapular fossa','Superior + inferior angles','Medial (vertebral) + lateral (axillary) borders']},
+      {name:'Humerus', count:2, notes:'Longest bone of upper limb. Surgical neck = common fracture site.', markings:['Head (articulates with glenoid)','Anatomical neck','Surgical neck (axillary nerve here)','Greater + lesser tubercles','Intertubercular groove (biceps tendon)','Deltoid tuberosity','Radial groove (radial nerve + deep brachial artery)','Medial + lateral epicondyles','Olecranon fossa','Coronoid fossa','Capitulum (radius)','Trochlea (ulna)']},
+      {name:'Radius', count:2, notes:'Lateral forearm bone. Rotates during pronation/supination.', markings:['Head (proximal)','Radial tuberosity (biceps attachment)','Styloid process (distal-lateral)','Ulnar notch']},
+      {name:'Ulna', count:2, notes:'Medial forearm bone. Stabilizes forearm; forms hinge of elbow.', markings:['Olecranon process (elbow point)','Coronoid process','Trochlear notch (articulates with trochlea)','Radial notch','Styloid process (distal-medial)','Head (distal)']},
+      {name:'Carpal bones', count:16, notes:'8 per hand × 2. Proximal row: Scaphoid, Lunate, Triquetrum, Pisiform. Distal row: Trapezium, Trapezoid, Capitate, Hamate.', markings:['Scaphoid — most commonly fractured carpal','Hook of hamate','Tubercle of scaphoid']},
+      {name:'Metacarpals', count:10, notes:'5 per hand × 2. Numbered 1–5 (thumb to pinky). Metacarpal 1 (thumb) is shortest.', markings:['Base (proximal)','Body/shaft','Head (distal — "knuckles")']},
+      {name:'Phalanges (hand)', count:28, notes:'14 per hand. Thumb = 2 (proximal + distal). Fingers 2–5 = 3 each (proximal, middle, distal).', markings:['Proximal phalanx','Middle phalanx','Distal phalanx','Tuberosity of distal phalanx']},
+    ],
+    mnemonic: 'Carpals proximal row: "She Looks Too Pretty" (Scaphoid, Lunate, Triquetrum, Pisiform). Distal: "Try To Catch Her" (Trapezium, Trapezoid, Capitate, Hamate).'
+  },
+  pelvis: {
+    name: 'Pelvic Girdle & Lower Limb', region: 'Appendicular', color: '#f07060',
+    bones: [
+      {name:'Hip bone (Os coxa)', count:2, notes:'Each formed by fusion of 3 bones: Ilium + Ischium + Pubis (fuse at acetabulum ~23 yrs). With sacrum + coccyx = pelvis.', markings:['Acetabulum (hip socket)','Iliac crest','ASIS + PIIS + AIIS','Iliac fossa','Ischial tuberosity ("sit bones")','Ischial spine','Lesser + greater sciatic notches','Pubic symphysis','Obturator foramen']},
+      {name:'Femur', count:2, notes:'Longest, heaviest, strongest bone in body. Angled medially (valgus) = knees closer than hips.', markings:['Head (articulates with acetabulum)','Fovea capitis (ligamentum teres)','Neck (common fracture in elderly)','Greater + lesser trochanters','Intertrochanteric line + crest','Linea aspera (posterior — major muscle attachment)','Medial + lateral condyles','Medial + lateral epicondyles','Patellar surface','Intercondylar fossa','Gluteal tuberosity']},
+      {name:'Patella', count:2, notes:'Largest sesamoid bone. Embedded in quadriceps tendon. Increases mechanical advantage of quads.', markings:['Base (superior)','Apex (inferior)','Articular facets']},
+      {name:'Tibia', count:2, notes:'Medial leg bone; weight-bearing. "Shin bone." Stronger than fibula.', markings:['Medial + lateral condyles','Tibial plateau','Tibial tuberosity (patellar tendon)','Anterior crest (shin)','Medial malleolus','Fibular notch']},
+      {name:'Fibula', count:2, notes:'Lateral leg bone; NON-weight-bearing. Provides surface for muscle attachment and ankle stability.', markings:['Head (proximal)','Lateral malleolus (distal — forms lateral ankle mortise)']},
+      {name:'Tarsal bones', count:14, notes:'7 per foot × 2. Calcaneus (heel), Talus (ankle), Navicular, Cuboid, 3 Cuneiforms (medial, intermediate, lateral).', markings:['Calcaneus = largest tarsal','Sustentaculum tali (calcaneus)','Calcaneal (Achilles) tuberosity','Talus = transmits body weight to foot','Trochlea of talus']},
+      {name:'Metatarsals', count:10, notes:'5 per foot × 2. Numbered 1–5 (big toe to little). Base of 5th MT = peroneus brevis attachment (avulsion fracture site).', markings:['Tuberosity of 5th metatarsal']},
+      {name:'Phalanges (foot)', count:28, notes:'Same number as hand: 14 per foot. Big toe = 2 phalanges; toes 2–5 = 3 each.', markings:['Proximal + middle + distal phalanges']},
+    ],
+    mnemonic: 'Tarsals: "The Cunning Ninja Caught Many Tricky Lemons" (Talus, Calcaneus, Navicular, Cuboid, Medial/Intermediate/Lateral cuneiform).'
+  },
+};
+
+// ═══════════════════════════════════════════════
+// JOINTS DATA
+// ═══════════════════════════════════════════════
+const JOINTS = [
+  {name:'Hinge', type:'Synovial — uniaxial', examples:'Elbow (humeroulnar), knee (tibiofemoral), ankle (talocrural), interphalangeal joints', movement:'Flexion + extension only', ligaments:'Medial (MCL) + lateral (LCL) collateral ligaments stabilize', notes:'Like a door hinge — movement in one plane only'},
+  {name:'Ball & Socket', type:'Synovial — multiaxial', examples:'Hip (coxofemoral), shoulder (glenohumeral)', movement:'Flexion, extension, abduction, adduction, medial/lateral rotation, circumduction', ligaments:'Hip: iliofemoral, pubofemoral, ischiofemoral, ligamentum teres. Shoulder: glenohumeral ligaments (weaker)', notes:'Most mobile joint type. Hip is more stable (deep socket), shoulder is more mobile (shallow glenoid)'},
+  {name:'Pivot', type:'Synovial — uniaxial', examples:'Atlantoaxial (C1–C2 "no" rotation), proximal radioulnar (pronation/supination)', movement:'Rotation only', ligaments:'Transverse ligament of atlas (C1) holds dens in place', notes:'Rotation around a longitudinal axis'},
+  {name:'Saddle', type:'Synovial — biaxial', examples:'1st carpometacarpal (thumb CMC)', movement:'Flexion, extension, abduction, adduction, limited circumduction — NO rotation', ligaments:'Palmar, dorsal, radial collateral ligaments', notes:'Each articular surface is concave in one direction and convex in another. Only in thumb.'},
+  {name:'Condyloid / Ellipsoid', type:'Synovial — biaxial', examples:'Metacarpophalangeal joints (knuckles), radiocarpal (wrist), metatarsophalangeal', movement:'Flexion, extension, abduction, adduction, circumduction', ligaments:'Palmar, dorsal, collateral ligaments', notes:'Oval convex surface into elliptical concave depression'},
+  {name:'Gliding / Plane', type:'Synovial — nonaxial', examples:'Intercarpal, intertarsal, acromioclavicular, sternocostal (2–7), vertebral facet joints', movement:'Gliding / sliding in multiple directions — limited range', ligaments:'Joint capsule + short ligaments', notes:'Flat or slightly curved articular surfaces; slide past each other'},
+  {name:'Suture', type:'Fibrous — immovable', examples:'Coronal, sagittal, lambdoid, squamous sutures of skull', movement:'None (synarthrosis)', ligaments:'Sutural (Sharpey\'s) fibers — interdigitating bone edges', notes:'Completely fused in adults. Allow slight movement in infants (fontanelles)'},
+  {name:'Synchondrosis', type:'Cartilaginous (hyaline) — immovable', examples:'Epiphyseal plates, 1st sternocostal joint', movement:'None until ossification', ligaments:'Hyaline cartilage plate', notes:'Temporary — epiphyseal plates disappear with skeletal maturity (18–25 yrs)'},
+  {name:'Symphysis', type:'Cartilaginous (fibrocartilage) — slightly movable', examples:'Pubic symphysis, intervertebral discs, manubriosternal joint', movement:'Slight (amphiarthrosis)', ligaments:'Fibrocartilage pad + surrounding ligaments', notes:'Designed for strength and slight give — widens during childbirth'},
+  {name:'Gomphosis', type:'Fibrous — immovable', examples:'Teeth in dental alveoli', movement:'None (synarthrosis)', ligaments:'Periodontal ligament (really just dense CT)', notes:'Peg-in-socket. Only example of gomphosis is teeth.'},
+  {name:'Syndesmosis', type:'Fibrous — slightly movable', examples:'Distal tibiofibular joint, interosseous membranes', movement:'Slight (amphiarthrosis)', ligaments:'Interosseous membrane or ligament', notes:'Bones connected by interosseous ligament — more give than suture'},
+];
+
+const MOVEMENTS = [
+  {term:'Flexion',def:'Decreases angle between bones (bends joint). E.g., curling bicep, bending knee.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
+  {term:'Extension',def:'Increases angle between bones (straightens joint). Opposite of flexion.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
+  {term:'Hyperextension',def:'Extension beyond anatomical position. E.g., bending head back, arching lumbar spine.',plane:'Sagittal',axis:'Frontal/coronal',color:'#7c9ef8'},
+  {term:'Abduction',def:'Movement away from midline of body. "ABduction = ABsent from body." E.g., raising arm laterally.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+  {term:'Adduction',def:'Movement toward midline. "ADDuction = ADDs to body." E.g., lowering raised arm.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+  {term:'Circumduction',def:'Circular movement combining flexion, abduction, extension, adduction. Cone-shaped path. E.g., swinging arm in a circle.',plane:'Multiple',axis:'Multiple',color:'#f5c842'},
+  {term:'Rotation',def:'Turning around bone\'s own long axis. Medial rotation = toward midline. Lateral rotation = away from midline.',plane:'Transverse',axis:'Vertical/longitudinal',color:'#f07060'},
+  {term:'Pronation',def:'Medial rotation of forearm so palm faces posteriorly (down). Radius crosses over ulna.',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
+  {term:'Supination',def:'Lateral rotation of forearm so palm faces anteriorly (up). Radius and ulna parallel. "Supination = holding a bowl of soup."',plane:'Transverse',axis:'Longitudinal',color:'#b084f5'},
+  {term:'Dorsiflexion',def:'Flexion of ankle — bringing toes up toward shin. E.g., walking on heels.',plane:'Sagittal',axis:'Frontal/coronal',color:'#4ecdc4'},
+  {term:'Plantar flexion',def:'Extension of ankle — pointing toes away from shin (downward). E.g., standing on tiptoe.',plane:'Sagittal',axis:'Frontal/coronal',color:'#4ecdc4'},
+  {term:'Inversion',def:'Turning the sole of foot INWARD (medially). Most common ankle sprain direction.',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
+  {term:'Eversion',def:'Turning the sole of foot OUTWARD (laterally).',plane:'Frontal',axis:'Sagittal',color:'#f472b6'},
+  {term:'Protraction',def:'Movement anteriorly (forward). E.g., jutting jaw forward, rounding shoulders.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
+  {term:'Retraction',def:'Movement posteriorly (backward). Opposite of protraction. E.g., pulling shoulders back.',plane:'Transverse',axis:'Sagittal',color:'#9099b0'},
+  {term:'Elevation',def:'Moving superiorly. E.g., shrugging shoulders, closing mouth.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
+  {term:'Depression',def:'Moving inferiorly. E.g., opening mouth, lowering shoulders.',plane:'Frontal',axis:'Sagittal',color:'#f5c842'},
+  {term:'Opposition',def:'Movement of thumb to touch fingertips. Unique to primates. Saddle joint at 1st CMC.',plane:'Multiple',axis:'Multiple',color:'#7c9ef8'},
+  {term:'Lateral flexion',def:'Bending spine to the side (left or right). Cervical and lumbar spine most mobile.',plane:'Frontal',axis:'Sagittal',color:'#52d18a'},
+];
+
+// ═══════════════════════════════════════════════
+// FLAT BONE LIST for flashcards/quiz
+// ═══════════════════════════════════════════════
+const ALL_BONES = [];
+Object.values(REGIONS).forEach(r => {
+  const pushBones = (arr) => arr && arr.forEach(b => ALL_BONES.push({...b, region: r.name, regionColor: r.color}));
+  pushBones(r.bones);
+  pushBones(r.facial);
+  pushBones(r.sections);
+});
+
+// ═══════════════════════════════════════════════
+// BODY MAP SVGs
+// ═══════════════════════════════════════════════
+function getSkeletonSVG(view) {
+  const common = `font-family="'DM Sans',sans-serif"`;
+  if (view === 'anterior') {
+    return `<svg class="skeleton-svg" viewBox="0 0 240 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px" ${common}>
+      <!-- ── SKULL ── -->
+      <g class="bone-region" id="reg-skull" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.5">
+        <ellipse cx="120" cy="30" rx="34" ry="30"/>
+        <rect x="100" y="52" width="40" height="20" rx="4"/>
+        <title>Skull</title>
+      </g>
+      <!-- ── MANDIBLE ── -->
+      <g class="bone-region" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.2">
+        <path d="M100,72 Q88,85 92,92 Q100,98 120,100 Q140,98 148,92 Q152,85 140,72"/>
+      </g>
+      <!-- Cervical spine -->
+      <g class="bone-region" onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
+        <rect x="113" y="100" width="14" height="30" rx="3"/>
+      </g>
+      <!-- ── CLAVICLES ── -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="none" stroke="#b084f5" stroke-width="2.5" stroke-linecap="round">
+        <path d="M120,115 Q100,112 82,118"/>
+        <path d="M120,115 Q140,112 158,118"/>
+      </g>
+      <!-- ── SCAPULAE (visible edges ant) ── -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1a1e28" stroke="#b084f5" stroke-width="1">
+        <path d="M75,125 L68,160 L80,165 Z"/>
+        <path d="M165,125 L172,160 L160,165 Z"/>
+      </g>
+      <!-- ── STERNUM ── -->
+      <g class="bone-region" onclick="selectRegion('thoracic_cage')" fill="#1e2235" stroke="#f5c842" stroke-width="1.5">
+        <rect x="113" y="115" width="14" height="70" rx="4"/>
+      </g>
+      <!-- ── RIBS ── -->
+      <g class="bone-region" onclick="selectRegion('thoracic_cage')" fill="none" stroke="#f5c842" stroke-width="1.2">
+        ${[0,1,2,3,4,5,6].map(i=>`
+          <path d="M120,${120+i*10} Q${95-i*2},${118+i*10} ${78+i},${128+i*10}"/>
+          <path d="M120,${120+i*10} Q${145+i*2},${118+i*10} ${162-i},${128+i*10}"/>
+        `).join('')}
+      </g>
+      <!-- Thoracic + Lumbar spine -->
+      <g class="bone-region" onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
+        <rect x="113" y="130" width="14" height="80" rx="3"/>
+      </g>
+      <!-- ── PELVIS ── -->
+      <g class="bone-region" id="reg-pelvis" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
+        <path d="M100,215 Q78,215 74,232 Q72,250 86,258 Q100,264 120,265 Q140,264 154,258 Q168,250 166,232 Q162,215 140,215 Z"/>
+        <!-- Sacrum -->
+        <rect x="112" y="210" width="16" height="40" rx="4" fill="#1e2235" stroke="#52d18a"/>
+        <title>Pelvis</title>
+      </g>
+      <!-- ── FEMUR ── -->
+      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
+        <rect x="89" y="265" width="18" height="105" rx="6"/>
+        <rect x="133" y="265" width="18" height="105" rx="6"/>
+        <!-- femoral heads -->
+        <circle cx="98" cy="262" r="9" fill="#1e2235" stroke="#f07060" stroke-width="1.5"/>
+        <circle cx="142" cy="262" r="9" fill="#1e2235" stroke="#f07060" stroke-width="1.5"/>
+      </g>
+      <!-- ── PATELLA ── -->
+      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f5c842" stroke-width="1.5">
+        <ellipse cx="98" cy="375" rx="8" ry="9"/>
+        <ellipse cx="142" cy="375" rx="8" ry="9"/>
+      </g>
+      <!-- ── TIBIA + FIBULA ── -->
+      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.3">
+        <!-- tibia -->
+        <rect x="90" y="385" width="14" height="90" rx="5"/>
+        <rect x="134" y="385" width="14" height="90" rx="5"/>
+        <!-- fibula -->
+        <rect x="105" y="390" width="8" height="82" rx="4" stroke-width="1"/>
+        <rect x="122" y="390" width="8" height="82" rx="4" stroke-width="1"/>
+      </g>
+      <!-- ── FOOT ── -->
+      <g class="bone-region" onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.2">
+        <!-- tarsals/metatarsals rough block -->
+        <path d="M82,478 Q84,492 88,500 Q100,506 110,505 L112,490 L97,477 Z"/>
+        <path d="M158,478 Q156,492 152,500 Q140,506 130,505 L128,490 L143,477 Z"/>
+      </g>
+      <!-- ── HUMERUS ── -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
+        <rect x="62" y="130" width="14" height="90" rx="6"/>
+        <rect x="164" y="130" width="14" height="90" rx="6"/>
+      </g>
+      <!-- ── RADIUS + ULNA ── -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.2">
+        <rect x="56" y="222" width="10" height="80" rx="5"/>
+        <rect x="68" y="222" width="10" height="80" rx="5"/>
+        <rect x="162" y="222" width="10" height="80" rx="5"/>
+        <rect x="174" y="222" width="10" height="80" rx="5"/>
+      </g>
+      <!-- ── HAND ── -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1">
+        <path d="M52,304 Q48,320 50,332 Q56,340 66,338 Q74,336 76,324 L78,304 Z"/>
+        <path d="M164,304 Q160,320 162,332 Q168,340 178,338 Q186,336 188,324 L190,304 Z"/>
+      </g>
+      <!-- Labels -->
+      <text x="120" y="16" text-anchor="middle" fill="#7c9ef8" font-size="7" font-weight="600">Skull</text>
+      <text x="65" y="126" text-anchor="middle" fill="#b084f5" font-size="6">Clavicle</text>
+      <text x="52" y="178" text-anchor="middle" fill="#b084f5" font-size="6">Humerus</text>
+      <text x="120" y="150" text-anchor="middle" fill="#f5c842" font-size="6">Sternum</text>
+      <text x="120" y="240" text-anchor="middle" fill="#f07060" font-size="6">Pelvis</text>
+      <text x="98" y="320" text-anchor="middle" fill="#f07060" font-size="6">Femur</text>
+      <text x="57" y="270" text-anchor="middle" fill="#b084f5" font-size="6">Radius</text>
+      <text x="98" y="430" text-anchor="middle" fill="#f07060" font-size="6">Tibia</text>
+      <text x="10" y="15" fill="#9099b0" font-size="8" font-weight="500">ANTERIOR</text>
+    </svg>`;
+  } else {
+    return `<svg class="skeleton-svg" viewBox="0 0 240 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px" ${common}>
+      <!-- SKULL POST -->
+      <g class="bone-region" onclick="selectRegion('skull')" fill="#1e2235" stroke="#7c9ef8" stroke-width="1.5">
+        <ellipse cx="120" cy="30" rx="34" ry="30"/>
+        <rect x="104" y="52" width="32" height="15" rx="3"/>
+        <title>Skull (posterior)</title>
+      </g>
+      <!-- External occipital protuberance -->
+      <circle cx="120" cy="56" r="4" fill="#7c9ef8" opacity="0.5" onclick="selectRegion('skull')"/>
+      <!-- Cervical spine POST -->
+      <g onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
+        <rect x="113" y="65" width="14" height="30" rx="3"/>
+        <!-- spinous processes -->
+        ${[0,1,2,3,4,5,6].map(i=>`<rect x="117" y="${68+i*4}" width="6" height="3" rx="1" fill="#52d18a" opacity="0.5"/>`).join('')}
+      </g>
+      <!-- SCAPULAE POST (full) -->
+      <g class="bone-region" onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
+        <path d="M72,118 L65,155 Q68,168 80,170 Q90,165 95,145 Q98,130 92,118 Z"/>
+        <path d="M168,118 L175,155 Q172,168 160,170 Q150,165 145,145 Q142,130 148,118 Z"/>
+        <!-- spine of scapula -->
+        <line x1="72" y1="128" x2="92" y2="120" stroke="#b084f5" stroke-width="2.5"/>
+        <line x1="168" y1="128" x2="148" y2="120" stroke="#b084f5" stroke-width="2.5"/>
+      </g>
+      <!-- Thoracic + Lumbar spinous POST -->
+      <g onclick="selectRegion('vertebral')" fill="#1e2235" stroke="#52d18a" stroke-width="1">
+        <rect x="113" y="95" width="14" height="115" rx="3"/>
+        ${Array.from({length:17},(_,i)=>`<rect x="117" y="${98+i*6}" width="6" height="4" rx="1" fill="#52d18a" opacity="0.4"/>`).join('')}
+      </g>
+      <!-- RIBS POST -->
+      <g onclick="selectRegion('thoracic_cage')" fill="none" stroke="#f5c842" stroke-width="1.2">
+        ${[0,1,2,3,4,5,6].map(i=>`
+          <path d="M120,${120+i*10} Q${95-i*2},${118+i*10} ${76+i},${130+i*10}"/>
+          <path d="M120,${120+i*10} Q${145+i*2},${118+i*10} ${164-i},${130+i*10}"/>
+        `).join('')}
+      </g>
+      <!-- PELVIS POST -->
+      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
+        <path d="M102,215 Q80,215 76,230 Q74,248 88,256 Q102,262 120,263 Q138,262 152,256 Q166,248 164,230 Q160,215 138,215 Z"/>
+        <rect x="112" y="210" width="16" height="40" rx="4" fill="#1e2235" stroke="#52d18a"/>
+        <!-- iliac crests highlighted -->
+        <path d="M102,215 Q90,208 82,214" fill="none" stroke="#f07060" stroke-width="2.5"/>
+        <path d="M138,215 Q150,208 158,214" fill="none" stroke="#f07060" stroke-width="2.5"/>
+      </g>
+      <!-- FEMUR POST -->
+      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.5">
+        <rect x="89" y="265" width="18" height="105" rx="6"/>
+        <rect x="133" y="265" width="18" height="105" rx="6"/>
+        <!-- gluteal tuberosity -->
+        <rect x="89" y="275" width="5" height="20" rx="2" fill="#f07060" opacity="0.4"/>
+        <rect x="146" y="275" width="5" height="20" rx="2" fill="#f07060" opacity="0.4"/>
+        <!-- linea aspera -->
+        <line x1="98" y1="280" x2="98" y2="360" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>
+        <line x1="142" y1="280" x2="142" y2="360" stroke="#f07060" stroke-width="1.5" opacity="0.5"/>
+      </g>
+      <!-- TIBIA + FIBULA POST -->
+      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.3">
+        <rect x="90" y="375" width="14" height="90" rx="5"/>
+        <rect x="134" y="375" width="14" height="90" rx="5"/>
+        <rect x="105" y="380" width="8" height="82" rx="4" stroke-width="1"/>
+        <rect x="122" y="380" width="8" height="82" rx="4" stroke-width="1"/>
+      </g>
+      <!-- FOOT POST -->
+      <g onclick="selectRegion('pelvis')" fill="#1e2235" stroke="#f07060" stroke-width="1.2">
+        <path d="M82,468 Q84,485 90,496 Q100,505 110,504 L112,490 L97,468 Z"/>
+        <path d="M158,468 Q156,485 150,496 Q140,505 130,504 L128,490 L143,468 Z"/>
+        <!-- calcaneus highlighted -->
+        <ellipse cx="94" cy="472" rx="8" ry="6" fill="#f07060" opacity="0.3"/>
+        <ellipse cx="146" cy="472" rx="8" ry="6" fill="#f07060" opacity="0.3"/>
+      </g>
+      <!-- HUMERUS POST -->
+      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.5">
+        <rect x="62" y="130" width="14" height="90" rx="6"/>
+        <rect x="164" y="130" width="14" height="90" rx="6"/>
+      </g>
+      <!-- RADIUS + ULNA POST -->
+      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1.2">
+        <rect x="56" y="222" width="10" height="80" rx="5"/>
+        <rect x="68" y="222" width="10" height="80" rx="5"/>
+        <rect x="162" y="222" width="10" height="80" rx="5"/>
+        <rect x="174" y="222" width="10" height="80" rx="5"/>
+        <!-- olecranon process -->
+        <rect x="67" y="218" width="12" height="8" rx="3" fill="#b084f5" opacity="0.5"/>
+        <rect x="161" y="218" width="12" height="8" rx="3" fill="#b084f5" opacity="0.5"/>
+      </g>
+      <!-- HAND POST -->
+      <g onclick="selectRegion('pectoral')" fill="#1e2235" stroke="#b084f5" stroke-width="1">
+        <path d="M52,304 Q48,320 50,332 Q56,340 66,338 Q74,336 76,324 L78,304 Z"/>
+        <path d="M164,304 Q160,320 162,332 Q168,340 178,338 Q186,336 188,324 L190,304 Z"/>
+      </g>
+      <text x="10" y="15" fill="#9099b0" font-size="8" font-weight="500">POSTERIOR</text>
+      <text x="120" y="16" text-anchor="middle" fill="#7c9ef8" font-size="7" font-weight="600">Skull</text>
+      <text x="78" y="148" text-anchor="middle" fill="#b084f5" font-size="6">Scapula</text>
+      <text x="97" y="320" text-anchor="middle" fill="#f07060" font-size="6">Femur</text>
+      <text x="97" y="430" text-anchor="middle" fill="#f07060" font-size="6">Tibia</text>
+    </svg>`;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let currentView = 'anterior';
+let selectedRegion = null;
+let activeBoneFilter = 'All';
+let quizPool = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let quizType = 'bones';
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (page === 'bodymap') renderBodyMap();
+  if (page === 'bones') renderBonesPage();
+  if (page === 'joints') renderJointsPage();
+  if (page === 'atlas-quiz') renderQuizSetup();
+}
+
+// ═══════════════════════════════════════════════
+// BODY MAP
+// ═══════════════════════════════════════════════
+function renderBodyMap() {
+  document.getElementById('svgWrap').innerHTML = getSkeletonSVG(currentView);
+}
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('btnAnterior').className = 'map-toggle' + (view === 'anterior' ? ' active' : '');
+  document.getElementById('btnPosterior').className = 'map-toggle' + (view === 'posterior' ? ' active' : '');
+  renderBodyMap();
+  if (selectedRegion) selectRegion(selectedRegion);
+}
+
+function selectRegion(regionId) {
+  selectedRegion = regionId;
+  const region = REGIONS[regionId];
+  if (!region) return;
+  const panel = document.getElementById('infoPanelContent');
+  const placeholder = document.getElementById('infoPanelPlaceholder');
+  placeholder.style.display = 'none';
+  panel.style.display = 'block';
+  const allBones = [...(region.bones || []), ...(region.facial || []), ...(region.sections || [])];
+  panel.innerHTML = `
+    <div class="badge badge-${getBadgeClass(region.color)}" style="margin-bottom:8px">${region.region} Skeleton</div>
+    <h2>${region.name}</h2>
+    <div class="region-tag">${allBones.length} bone entries — click any for details</div>
+    ${region.overview ? `<div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;background:var(--bg3);padding:10px 14px;border-radius:8px">${region.overview}</div>` : ''}
+    ${region.intervertebral ? `<div style="font-size:13px;color:var(--amber);margin-bottom:14px;line-height:1.6;background:rgba(245,200,66,0.05);padding:10px 14px;border-radius:8px;border-left:2px solid var(--amber)"><strong>Intervertebral discs:</strong> ${region.intervertebral}</div>` : ''}
+    <div class="info-section">
+      <div class="info-section-label">Bones</div>
+      <ul class="bone-list">
+        ${allBones.map(b => `
+          <li>
+            <span>${b.name}</span> <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)">× ${b.count}</span>
+            ${b.notes ? `<div style="font-size:11px;color:var(--text3);margin-top:2px">${b.notes}</div>` : ''}
+            ${b.markings && b.markings.length ? `<div style="margin-top:4px">${b.markings.map(m=>`<span class="marking-pill">${m}</span>`).join('')}</div>` : ''}
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+    ${region.mnemonic ? `<div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--amber);margin-top:10px"><strong>💡 Mnemonic:</strong> ${region.mnemonic}</div>` : ''}
+    <button class="quiz-btn" onclick="quizThisRegion('${regionId}')">Quiz me on ${region.name} →</button>
+  `;
+}
+
+function getBadgeClass(color) {
+  const map = {'#7c9ef8':'blue','#52d18a':'green','#f5c842':'amber','#b084f5':'purple','#f07060':'coral','#4ecdc4':'teal','#f472b6':'pink'};
+  return map[color] || 'blue';
+}
+
+function quizThisRegion(regionId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-atlas-quiz').classList.add('active');
+  document.querySelectorAll('.nav-btn')[3].classList.add('active');
+  startAtlasQuizFromRegion(regionId);
+}
+
+// ═══════════════════════════════════════════════
+// BONES PAGE
+// ═══════════════════════════════════════════════
+function renderBonesPage() {
+  const filters = ['All', ...Object.values(REGIONS).map(r => r.name)];
+  document.getElementById('boneFilterRow').innerHTML = filters.map(f =>
+    `<button class="filter-pill ${f === activeBoneFilter ? 'active' : ''}" onclick="filterBones('${f}')">${f}</button>`
+  ).join('');
+  renderBoneCards();
+}
+
+function filterBones(filter) {
+  activeBoneFilter = filter;
+  document.querySelectorAll('.filter-pill').forEach(b => b.classList.toggle('active', b.textContent === filter));
+  renderBoneCards();
+}
+
+function renderBoneCards() {
+  const bones = activeBoneFilter === 'All' ? ALL_BONES : ALL_BONES.filter(b => b.region === activeBoneFilter);
+  document.getElementById('bonesGrid').innerHTML = bones.map((b, i) => `
+    <div class="bone-card" id="bcard-${i}" onclick="toggleBoneCard(${i})">
+      <div class="badge" style="background:${b.regionColor}22;color:${b.regionColor}">${b.region}</div>
+      <h3>${b.name}</h3>
+      <div class="bone-meta">Count: <span class="bone-count">${b.count}</span></div>
+      ${b.markings && b.markings.length ? `<div style="font-size:11px;color:var(--text3)">${b.markings.length} markings</div>` : ''}
+      <div class="expanded-bone" id="bexp-${i}">
+        ${b.notes ? `<div style="margin-bottom:8px">${b.notes}</div>` : ''}
+        ${b.markings && b.markings.length ? `<div><strong style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px">Key markings:</strong><div style="margin-top:6px">${b.markings.map(m=>`<span class="marking-pill">${m}</span>`).join('')}</div></div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function toggleBoneCard(i) {
+  const card = document.getElementById('bcard-' + i);
+  const exp = document.getElementById('bexp-' + i);
+  card.classList.toggle('open');
+  exp.style.display = card.classList.contains('open') ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════════
+// JOINTS PAGE
+// ═══════════════════════════════════════════════
+function renderJointsPage() {
+  document.getElementById('jointsGrid').innerHTML = JOINTS.map(j => `
+    <div class="joint-card">
+      <h3>${j.name}</h3>
+      <div class="joint-type">${j.type}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px"><strong style="color:var(--text)">Examples:</strong> ${j.examples}</div>
+      <div class="movement-tags">${j.movement.split(', ').map(m=>`<span class="move-tag">${m}</span>`).join('')}</div>
+      ${j.ligaments ? `<div style="font-size:12px;color:var(--text3);margin-top:8px;border-top:1px solid var(--border);padding-top:8px"><strong style="color:var(--text2)">Ligaments:</strong> ${j.ligaments}</div>` : ''}
+      <div style="font-size:12px;color:var(--amber);margin-top:6px;font-style:italic">${j.notes}</div>
+    </div>`).join('');
+
+  document.getElementById('movementsGrid').innerHTML = MOVEMENTS.map(m => `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;border-left:3px solid ${m.color}">
+      <div style="font-weight:500;font-size:14px;color:${m.color};margin-bottom:4px">${m.term}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px">${m.def}</div>
+      <div style="font-size:11px;color:var(--text3)">Plane: ${m.plane} &nbsp;|&nbsp; Axis: ${m.axis}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════
+const QUIZ_TYPES = [
+  {id:'bones', label:'🦴 Bone Names', desc:'Identify bones by description or location'},
+  {id:'markings', label:'📍 Bone Markings', desc:'Name or identify specific bony features'},
+  {id:'joints', label:'🔗 Joint Types', desc:'Classify joints and their movements'},
+  {id:'movements', label:'💪 Movement Terms', desc:'Define anatomical movement terms'},
+];
+
+function renderQuizSetup() {
+  document.getElementById('quizSetupArea').style.display = 'block';
+  document.getElementById('atlasQuizArea').style.display = 'none';
+  document.getElementById('quizTypeGrid').innerHTML = QUIZ_TYPES.map(qt => `
+    <div onclick="selectQuizType('${qt.id}',this)" style="background:var(--bg2);border:1px solid ${qt.id===quizType?'var(--accent2)':'var(--border)'};border-radius:var(--radius);padding:14px;cursor:pointer;transition:all 0.15s;${qt.id===quizType?'background:rgba(85,119,232,0.08)':''}">
+      <div style="font-size:14px;font-weight:500;margin-bottom:3px">${qt.label}</div>
+      <div style="font-size:12px;color:var(--text3)">${qt.desc}</div>
+    </div>`).join('');
+}
+
+function selectQuizType(id, el) {
+  quizType = id;
+  document.querySelectorAll('#quizTypeGrid > div').forEach(d => {
+    d.style.borderColor = 'var(--border)';
+    d.style.background = 'var(--bg2)';
+  });
+  el.style.borderColor = 'var(--accent2)';
+  el.style.background = 'rgba(85,119,232,0.08)';
+}
+
+function buildQuizPool(type) {
+  const pool = [];
+  if (type === 'bones') {
+    ALL_BONES.filter(b => b.notes).forEach(b => {
+      const wrong = ALL_BONES.filter(x => x.name !== b.name).sort(() => Math.random()-0.5).slice(0,3);
+      pool.push({q: b.notes, answer: b.name, choices: [...wrong.map(w=>w.name), b.name].sort(()=>Math.random()-0.5), hint: `Region: ${b.region}`});
+    });
+  } else if (type === 'markings') {
+    ALL_BONES.filter(b => b.markings && b.markings.length).forEach(b => {
+      b.markings.forEach(m => {
+        const wrongBones = ALL_BONES.filter(x => x.name !== b.name).sort(()=>Math.random()-0.5).slice(0,3);
+        pool.push({q: `The "${m}" is a marking found on which bone?`, answer: b.name, choices: [...wrongBones.map(w=>w.name), b.name].sort(()=>Math.random()-0.5), hint: `Region: ${b.region}`});
+      });
+    });
+  } else if (type === 'joints') {
+    JOINTS.forEach(j => {
+      const wrong = JOINTS.filter(x=>x.name!==j.name).sort(()=>Math.random()-0.5).slice(0,3);
+      pool.push({q:`Which joint type is found at: ${j.examples}?`, answer: j.name, choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-0.5), hint: j.movement});
+      pool.push({q:`A joint allowing: ${j.movement} — what type is it?`, answer: j.name, choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-0.5), hint: `Examples: ${j.examples}`});
+    });
+  } else if (type === 'movements') {
+    MOVEMENTS.forEach(m => {
+      const wrong = MOVEMENTS.filter(x=>x.term!==m.term).sort(()=>Math.random()-0.5).slice(0,3);
+      pool.push({q: m.def.replace(m.term,'_____'), answer: m.term, choices:[...wrong.map(w=>w.term),m.term].sort(()=>Math.random()-0.5), hint:`Plane: ${m.plane}`});
+    });
+  }
+  return pool.sort(() => Math.random()-0.5).slice(0, 15);
+}
+
+function startAtlasQuiz() {
+  quizPool = buildQuizPool(quizType);
+  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quizSetupArea').style.display = 'none';
+  document.getElementById('atlasQuizArea').style.display = 'block';
+  renderAtlasQuestion();
+}
+
+function startAtlasQuizFromRegion(regionId) {
+  const r = REGIONS[regionId];
+  const allBones = [...(r.bones||[]),...(r.facial||[]),...(r.sections||[])].filter(b=>b.notes);
+  quizPool = allBones.map(b => {
+    const wrong = ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-0.5).slice(0,3);
+    return {q:b.notes, answer:b.name, choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-0.5), hint:`Region: ${r.name}`};
+  }).sort(()=>Math.random()-0.5).slice(0,10);
+  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quizSetupArea').style.display = 'none';
+  document.getElementById('atlasQuizArea').style.display = 'block';
+  renderAtlasQuestion();
+}
+
+function renderAtlasQuestion() {
+  if (quizIndex >= quizPool.length) { showAtlasResults(); return; }
+  const q = quizPool[quizIndex];
+  const pct = Math.round(quizIndex/quizPool.length*100);
+  document.getElementById('atlasQuizArea').innerHTML = `
+    <div class="atlas-quiz-area">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text3);margin-bottom:12px">
+        <span>Question ${quizIndex+1} of ${quizPool.length}</span>
+        <span style="color:var(--green)">Score: ${quizScore}</span>
+      </div>
+      <div style="height:3px;background:var(--bg4);border-radius:2px;margin-bottom:20px">
+        <div style="height:3px;width:${pct}%;background:var(--accent2);border-radius:2px;transition:width 0.4s"></div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-q">${q.q}</div>
+        ${q.hint ? `<div style="font-size:12px;color:var(--text3);margin-bottom:16px;font-style:italic">Hint: ${q.hint}</div>` : ''}
+        <div class="quiz-choices">
+          ${q.choices.map(c => `<button class="quiz-choice" onclick="answerAtlas(this,'${c.replace(/'/g,"\\'")}','${q.answer.replace(/'/g,"\\'")}')"> ${c}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+function answerAtlas(el, answer, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  if (answer === correct) quizScore++;
+  document.querySelectorAll('.quiz-choice').forEach(b => {
+    b.disabled = true;
+    if (b.textContent.trim() === correct) b.classList.add('correct');
+    else if (b.textContent.trim() === answer && answer !== correct) b.classList.add('wrong');
+  });
+  const card = document.querySelector('.quiz-card');
+  card.innerHTML += `<button class="quiz-next" onclick="nextAtlasQ()">${quizIndex < quizPool.length-1 ? 'Next →' : 'See Results →'}</button>`;
+}
+
+function nextAtlasQ() {
+  quizIndex++; quizAnswered = false;
+  renderAtlasQuestion();
+}
+
+function showAtlasResults() {
+  const pct = Math.round(quizScore/quizPool.length*100);
+  const grade = pct>=90?'🎉 Outstanding!':pct>=70?'👍 Solid work!':pct>=50?'📚 Keep drilling':'🔄 More review needed';
+  document.getElementById('atlasQuizArea').innerHTML = `
+    <div class="score-display">
+      <div class="score-big">${pct}%</div>
+      <div style="font-size:22px;margin:8px 0">${grade}</div>
+      <div style="color:var(--text2);margin-bottom:24px">${quizScore} of ${quizPool.length} correct</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button onclick="startAtlasQuiz()" style="padding:10px 24px;background:var(--accent2);border:none;border-radius:var(--radius-sm);color:#fff;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer">Retake</button>
+        <button onclick="renderQuizSetup();document.getElementById('quizSetupArea').style.display='block';document.getElementById('atlasQuizArea').style.display='none'" style="padding:10px 24px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer">New Quiz</button>
+        <a href="index.html" style="padding:10px 24px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:14px;font-family:'DM Sans',sans-serif;text-decoration:none">Back to Study Lab</a>
+      </div>
+    </div>`;
+}
+
+// ── INIT ──
+renderBodyMap();
+renderBonesPage();
+renderJointsPage();
+renderQuizSetup();
 </script>
 </body>
 </html>
