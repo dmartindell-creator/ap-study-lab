@@ -602,6 +602,94 @@
   .btn-primary { background: var(--accent2); border-color: var(--accent2); color: #fff; }
   .btn-primary:hover { background: #4466d8; }
 
+  /* ── SYNC MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .modal h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+  .modal p { font-size: 14px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .modal-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+  .modal-tab {
+    padding: 7px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .modal-tab.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .code-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    word-break: break-all;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    max-height: 120px;
+    overflow-y: auto;
+    user-select: all;
+  }
+  .modal-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    margin-bottom: 14px;
+    resize: vertical;
+    min-height: 90px;
+  }
+  .modal-input:focus { outline: none; border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .sync-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .sync-btn:hover { background: var(--bg4); }
+  .sync-btn.primary { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .sync-btn.primary:hover { background: #4466d8; }
+  .sync-status { font-size: 13px; margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-sm); display: none; }
+  .sync-status.success { background: rgba(82,209,138,0.1); color: var(--green); border: 1px solid rgba(82,209,138,0.2); display: block; }
+  .sync-status.error { background: rgba(240,112,96,0.1); color: var(--coral); border: 1px solid rgba(240,112,96,0.2); display: block; }
+
   @media (max-width: 700px) {
     .notes-layout { grid-template-columns: 1fr; }
     header { padding: 12px 16px; }
@@ -624,8 +712,41 @@
     <button class="nav-btn" onclick="showPage('quiz')">Quiz</button>
     <button class="nav-btn" onclick="showPage('science')">Study Science</button>
   </nav>
-  <div class="streak-badge" id="streakBadge">🔥 <span id="streakNum">1</span> day streak</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <button onclick="openSyncModal()" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all 0.15s" title="Sync progress between devices">⇄ Sync</button>
+    <div class="streak-badge" id="streakBadge">🔥 <span id="streakNum">1</span> day streak</div>
+  </div>
 </header>
+
+<!-- SYNC MODAL -->
+<div class="modal-overlay" id="syncModal" onclick="closeSyncIfOutside(event)">
+  <div class="modal">
+    <h2>⇄ Sync Progress</h2>
+    <p>Transfer your mastered cards and scores between your phone and computer. No account needed — just copy and paste a code.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="exportTab" onclick="switchSyncTab('export')">Export (this device)</button>
+      <button class="modal-tab" id="importTab" onclick="switchSyncTab('import')">Import (other device)</button>
+    </div>
+    <div id="exportPanel">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Copy this code, then paste it on your other device using the Import tab.</p>
+      <div class="code-box" id="exportCode"></div>
+      <div class="modal-actions">
+        <button class="sync-btn" onclick="closeSyncModal()">Close</button>
+        <button class="sync-btn primary" onclick="copyExportCode()">Copy Code</button>
+      </div>
+      <div class="sync-status" id="copyStatus">✓ Copied to clipboard!</div>
+    </div>
+    <div id="importPanel" style="display:none">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:10px">Paste the code from your other device below. This will <strong style="color:var(--text)">merge</strong> your progress — nothing gets deleted.</p>
+      <textarea class="modal-input" id="importInput" placeholder="Paste your sync code here..."></textarea>
+      <div class="modal-actions">
+        <button class="sync-btn" onclick="closeSyncModal()">Cancel</button>
+        <button class="sync-btn primary" onclick="doImport()">Import Progress</button>
+      </div>
+      <div class="sync-status" id="importStatus"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════
      DASHBOARD
@@ -1564,6 +1685,84 @@ function showPage2(page) {
   document.querySelectorAll('.nav-btn')[idx].classList.add('active');
   document.getElementById('page-'+page).classList.add('active');
   if(page==='flashcards') renderFlashcards();
+}
+
+// ═══════════════════════════════════════════
+// SYNC (EXPORT / IMPORT)
+// ═══════════════════════════════════════════
+function openSyncModal() {
+  const payload = {
+    mastered: state.mastered,
+    review: state.review,
+    bestScore: state.bestScore,
+    v: 1
+  };
+  const code = btoa(JSON.stringify(payload));
+  document.getElementById('exportCode').textContent = code;
+  document.getElementById('importInput').value = '';
+  document.getElementById('importStatus').className = 'sync-status';
+  document.getElementById('copyStatus').className = 'sync-status';
+  switchSyncTab('export');
+  document.getElementById('syncModal').classList.add('open');
+}
+
+function closeSyncModal() {
+  document.getElementById('syncModal').classList.remove('open');
+}
+
+function closeSyncIfOutside(e) {
+  if(e.target === document.getElementById('syncModal')) closeSyncModal();
+}
+
+function switchSyncTab(tab) {
+  document.getElementById('exportPanel').style.display = tab === 'export' ? 'block' : 'none';
+  document.getElementById('importPanel').style.display = tab === 'import' ? 'block' : 'none';
+  document.getElementById('exportTab').className = 'modal-tab' + (tab === 'export' ? ' active' : '');
+  document.getElementById('importTab').className = 'modal-tab' + (tab === 'import' ? ' active' : '');
+}
+
+function copyExportCode() {
+  const code = document.getElementById('exportCode').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    document.getElementById('copyStatus').className = 'sync-status success';
+    setTimeout(() => { document.getElementById('copyStatus').className = 'sync-status'; }, 3000);
+  }).catch(() => {
+    document.getElementById('exportCode').focus();
+    document.execCommand('selectAll');
+    document.getElementById('copyStatus').textContent = 'Select the code above and copy manually.';
+    document.getElementById('copyStatus').className = 'sync-status success';
+  });
+}
+
+function doImport() {
+  const raw = document.getElementById('importInput').value.trim();
+  const statusEl = document.getElementById('importStatus');
+  if(!raw) {
+    statusEl.textContent = 'Please paste a sync code first.';
+    statusEl.className = 'sync-status error';
+    return;
+  }
+  try {
+    const data = JSON.parse(atob(raw));
+    if(!data.v || !Array.isArray(data.mastered)) throw new Error('invalid');
+    // Merge — union of both lists
+    state.mastered = [...new Set([...state.mastered, ...data.mastered])];
+    state.review = [...new Set([...state.review, ...data.review])];
+    // Remove from review anything now mastered
+    state.review = state.review.filter(t => !state.mastered.includes(t));
+    // Keep best score
+    if(data.bestScore !== null && (state.bestScore === null || data.bestScore > state.bestScore)) {
+      state.bestScore = data.bestScore;
+    }
+    saveState();
+    renderDashboard();
+    statusEl.textContent = `✓ Imported! ${data.mastered.length} mastered cards merged. Closing in 2 seconds...`;
+    statusEl.className = 'sync-status success';
+    setTimeout(closeSyncModal, 2000);
+  } catch(e) {
+    statusEl.textContent = 'That code looks invalid. Make sure you copied the whole thing.';
+    statusEl.className = 'sync-status error';
+  }
 }
 
 // ── INIT ──
