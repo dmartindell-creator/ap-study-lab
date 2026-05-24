@@ -156,15 +156,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 <!-- ══════════ JOINTS ══════════ -->
 <div id="pg-joints" class="pg">
   <div class="sec-title">Joints & Movement</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px">
-    ${[['Fibrous','No cavity, CT connects','Sutures, gomphoses, syndesmoses','#7c9ef8'],['Cartilaginous','No cavity, cartilage connects','Discs, symphyses, epiphyseal plates','#52d18a'],['Synovial','Joint cavity + fluid','All limb joints','#f5c842']].map(([t,d,ex,c])=>`
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;border-top:3px solid ${c}">
-      <div style="font-size:13px;font-weight:600;color:${c};margin-bottom:4px">${t}</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">${d}</div>
-      <div style="font-size:11px;color:var(--text3)">e.g. ${ex}</div>
-    </div>`).join('')}
-  </div>
-  <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:300;margin-bottom:12px">Synovial Joint Types</div>
+  <div id="jointOverview" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px"></div>
+  <div style="font-family:'Fraunces',serif,serif;font-size:17px;font-weight:300;margin-bottom:12px">Synovial Joint Types</div>
   <div class="jg" id="jgrid"></div>
   <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:300;margin:20px 0 12px">Anatomical Movement Terms</div>
   <div class="move-grid" id="movgrid"></div>
@@ -410,17 +403,6 @@ let boneFilter='All', muscleFilter='All';
 let qPool=[], qIdx=0, qScore=0, qAnswered=false, qType='bones';
 
 // ═══════════════════════ NAVIGATION ═══════════════════════
-function showPg(id){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
-  document.getElementById('pg-'+id).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if(id==='bodymap')renderMap();
-  if(id==='bones')renderBonesPage();
-  if(id==='muscles')renderMusclesPage();
-  if(id==='joints')renderJointsPage();
-  if(id==='atlas-quiz')renderQSetup();
-}
 
 // ═══════════════════════ BODY MAP ═══════════════════════
 function renderMap(){
@@ -771,6 +753,16 @@ function togMC(i){const c=document.getElementById('mc'+i);const e=document.getEl
 
 // ═══════════════════════ JOINTS PAGE ═══════════════════════
 function renderJointsPage(){
+  document.getElementById('jointOverview').innerHTML=[
+    ['Fibrous','No cavity, dense CT connects bones','Skull sutures, gomphoses, syndesmoses','Synarthrosis → amphiarthrosis','#7c9ef8'],
+    ['Cartilaginous','No cavity, cartilage connects bones','IVDs, pubic symphysis, epiphyseal plates','Synarthrosis → amphiarthrosis','#52d18a'],
+    ['Synovial','Joint cavity + synovial fluid','All major limb joints','Diarthrosis (freely movable)','#f5c842'],
+  ].map(([t,d,ex,mob,c])=>`<div style="background:var(--bg3);border-radius:10px;padding:14px;border-left:3px solid ${c}">
+    <div style="font-size:13px;font-weight:600;color:${c};margin-bottom:4px">${t}</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:4px">${d}</div>
+    <div style="font-size:11px;color:var(--text3)">e.g. ${ex}</div>
+    <div style="font-size:11px;color:${c};margin-top:4px">${mob}</div>
+  </div>`).join('');
   document.getElementById('jgrid').innerHTML=JOINTS.map(j=>`
     <div class="jc" style="border-top:3px solid ${j.color}">
       <h3>${j.name}</h3>
@@ -797,29 +789,7 @@ const QTYPES=[
   {id:'movements',label:'🔄 Movement Terms',desc:'Define anatomical movements'},
 ];
 
-function renderQSetup(){
-  document.getElementById('qsetup').style.display='block';
-  document.getElementById('qactive').style.display='none';
-  document.getElementById('qtypegrid').innerHTML=QTYPES.map(qt=>`
-    <div onclick="pickQType('${qt.id}',this)" style="background:var(--bg2);border:1px solid ${qt.id===qType?'var(--accent2)':'var(--border)'};border-radius:var(--radius);padding:12px;cursor:pointer;transition:all 0.15s;${qt.id===qType?'background:rgba(85,119,232,0.08)':''}">
-      <div style="font-size:13px;font-weight:500;margin-bottom:2px">${qt.label}</div>
-      <div style="font-size:11px;color:var(--text3)">${qt.desc}</div>
-    </div>`).join('');
-}
-function pickQType(id,el){
-  qType=id;
-  document.querySelectorAll('#qtypegrid > div').forEach(d=>{d.style.borderColor='var(--border)';d.style.background='var(--bg2)';});
-  el.style.borderColor='var(--accent2)';el.style.background='rgba(85,119,232,0.08)';
-}
-function buildPool(type){
-  const pool=[];
-  if(type==='bones'){ALL_BONES.filter(b=>b.notes).forEach(b=>{const wrong=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:b.notes,ans:b.name,choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-.5),hint:`Region: ${b.region}`});});}
-  else if(type==='markings'){ALL_BONES.filter(b=>b.markings&&b.markings.length).forEach(b=>{b.markings.slice(0,3).forEach(m=>{const wrong=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`"${m}" — which bone?`,ans:b.name,choices:[...wrong.map(w=>w.name),b.name].sort(()=>Math.random()-.5),hint:`Region: ${b.region}`});});});}
-  else if(type==='joints'){JOINTS.forEach(j=>{const wrong=JOINTS.filter(x=>x.name!==j.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`Joint at: ${j.examples} — what type?`,ans:j.name,choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-.5),hint:j.movements.join(', ')});pool.push({q:`Allows: ${j.movements.join(', ')} — what joint type?`,ans:j.name,choices:[...wrong.map(w=>w.name),j.name].sort(()=>Math.random()-.5),hint:`Examples: ${j.examples}`});});}
-  else if(type==='muscles'){MUSCLES.forEach(m=>{const wrong=MUSCLES.filter(x=>x.name!==m.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:`Which muscle originates from: ${m.origin.split(';')[0]}?`,ans:m.name,choices:[...wrong.map(w=>w.name),m.name].sort(()=>Math.random()-.5),hint:`Action: ${m.action}`});pool.push({q:`Action: ${m.action} — which muscle?`,ans:m.name,choices:[...wrong.map(w=>w.name),m.name].sort(()=>Math.random()-.5),hint:`Group: ${m.group}`});});}
-  else if(type==='movements'){MOVEMENTS.forEach(m=>{const wrong=MOVEMENTS.filter(x=>x.term!==m.term).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:m.def.replace(m.term,'_____'),ans:m.term,choices:[...wrong.map(w=>w.term),m.term].sort(()=>Math.random()-.5),hint:`Plane: ${m.plane}`});});}
-  return pool.sort(()=>Math.random()-.5).slice(0,15);
-}
+
 function startQ(){qPool=buildPool(qType);qIdx=0;qScore=0;qAnswered=false;document.getElementById('qsetup').style.display='none';document.getElementById('qactive').style.display='block';renderQQ();}
 function quickQuizRegion(id){
   const r=REGIONS[id];const allB=[...(r.bones||[]),...(r.facial||[]),...(r.sections||[])].filter(b=>b.notes);
@@ -878,19 +848,19 @@ const NERVES=[
   {name:'CN II — Optic',group:'Cranial Nerves',type:'Sensory',color:'#7c9ef8',origin:'Retinal ganglion cells',pathway:'Optic nerve → chiasm (nasal fibers cross) → optic tract → LGN → optic radiation → V1 occipital cortex',function:'Vision',clinical:'Optic neuritis (MS). Chiasm lesion → bitemporal hemianopia (pituitary tumor). RAPD = CN II lesion (Marcus Gunn pupil).',test:'Visual acuity + visual fields by confrontation'},
   {name:'CN III — Oculomotor',group:'Cranial Nerves',type:'Motor+Para',color:'#52d18a',origin:'Oculomotor nucleus (midbrain)',pathway:'Exits midbrain ventrally → cavernous sinus → superior orbital fissure',function:'EOM: SR, IR, MR, IO + levator palpebrae. Parasympathetic: pupillary constriction + accommodation (ciliary muscle)',clinical:'Palsy: "down-and-out" eye + ptosis + FIXED DILATED pupil. PComm aneurysm = pupil-involving! Uncal herniation: dilated pupil first sign.',test:'Pupillary light reflex, EOM range, ptosis'},
   {name:'CN IV — Trochlear',group:'Cranial Nerves',type:'Motor',color:'#52d18a',origin:'Trochlear nucleus (midbrain)',pathway:'Only CN exiting POSTERIORLY → wraps midbrain → cavernous sinus → superior orbital fissure',function:'Superior oblique: intorsion + depression in adduction',clinical:'Longest intracranial course → most vulnerable to trauma. Palsy: vertical diplopia, compensatory head tilt AWAY from affected side.',test:'Look down + inward: assess vertical diplopia'},
-  {name:'CN V — Trigeminal',group:'Cranial Nerves',type:'Both (largest)',color:'#f5c842',origin:'Trigeminal (Gasserian) ganglion, Meckel's cave',pathway:'V1 → superior orbital fissure. V2 → foramen rotundum. V3 → foramen ovale',function:'V1: forehead/cornea/nose sensation. V2: midface/upper teeth. V3: lower face + motor to masseter, temporalis, pterygoids',clinical:'Trigeminal neuralgia (lancinating V2/V3 pain). Corneal reflex afferent = V1; efferent = VII. Herpes zoster ophthalmicus (V1).',test:'Touch in all 3 divisions, corneal reflex, jaw clench'},
-  {name:'CN VI — Abducens',group:'Cranial Nerves',type:'Motor',color:'#52d18a',origin:'Abducens nucleus (pons)',pathway:'Dorello's canal over petrous apex → cavernous sinus → superior orbital fissure',function:'Lateral rectus (abduction only)',clinical:'Most commonly paralyzed CN in raised ICP. Palsy: esotropia, can't abduct eye, horizontal diplopia.',test:'Lateral gaze (H-pattern), horizontal diplopia assessment'},
-  {name:'CN VII — Facial',group:'Cranial Nerves',type:'Both',color:'#f5c842',origin:'Facial nucleus (pons)',pathway:'IAM → facial canal (temporal bone) → stylomastoid foramen → parotid → 5 branches (TBZMB)',function:'Motor: facial expression. Para: lacrimal + submandibular + sublingual glands. Taste: anterior 2/3 tongue (chorda tympani)',clinical:"Bell's palsy (LMN): COMPLETE ipsilateral facial paralysis INCLUDING forehead. Stroke (UMN): forehead SPARED. Branches: Temporal, Zygomatic, Buccal, Marginal mandibular, Cervical.",test:'Raise eyebrows, close eyes, smile, puff cheeks'},
-  {name:'CN VIII — Vestibulocochlear',group:'Cranial Nerves',type:'Sensory',color:'#7c9ef8',origin:'Cochlea (hearing) + semicircular canals/otolith organs (balance)',pathway:'IAM → cochlear nuclei (pons) + vestibular nuclei (brainstem/cerebellum)',function:'Cochlear: hearing. Vestibular: balance, angular + linear acceleration, head position',clinical:'Acoustic neuroma (vestibular schwannoma): unilateral SNHL + tinnitus + imbalance. Meniere's. Aminoglycoside ototoxicity.',test:'Rinne + Weber tuning fork tests, Dix-Hallpike'},
+  {name:'CN V — Trigeminal',group:'Cranial Nerves',type:'Both (largest)',color:'#f5c842',origin:'Trigeminal (Gasserian) ganglion, Meckel’s cave',pathway:'V1 → superior orbital fissure. V2 → foramen rotundum. V3 → foramen ovale',function:'V1: forehead/cornea/nose sensation. V2: midface/upper teeth. V3: lower face + motor to masseter, temporalis, pterygoids',clinical:'Trigeminal neuralgia (lancinating V2/V3 pain). Corneal reflex afferent = V1; efferent = VII. Herpes zoster ophthalmicus (V1).',test:'Touch in all 3 divisions, corneal reflex, jaw clench'},
+  {name:'CN VI — Abducens',group:'Cranial Nerves',type:'Motor',color:'#52d18a',origin:'Abducens nucleus (pons)',pathway:'Dorello’s canal over petrous apex → cavernous sinus → superior orbital fissure',function:'Lateral rectus (abduction only)',clinical:'Most commonly paralyzed CN in raised ICP. Palsy: esotropia, can’t abduct eye, horizontal diplopia.',test:'Lateral gaze (H-pattern), horizontal diplopia assessment'},
+  {name:'CN VII — Facial',group:'Cranial Nerves',type:'Both',color:'#f5c842',origin:'Facial nucleus (pons)',pathway:'IAM → facial canal (temporal bone) → stylomastoid foramen → parotid → 5 branches (TBZMB)',function:'Motor: facial expression. Para: lacrimal + submandibular + sublingual glands. Taste: anterior 2/3 tongue (chorda tympani)',clinical:"Bell’s palsy (LMN): COMPLETE ipsilateral facial paralysis INCLUDING forehead. Stroke (UMN): forehead SPARED. Branches: Temporal, Zygomatic, Buccal, Marginal mandibular, Cervical.",test:'Raise eyebrows, close eyes, smile, puff cheeks'},
+  {name:'CN VIII — Vestibulocochlear',group:'Cranial Nerves',type:'Sensory',color:'#7c9ef8',origin:'Cochlea (hearing) + semicircular canals/otolith organs (balance)',pathway:'IAM → cochlear nuclei (pons) + vestibular nuclei (brainstem/cerebellum)',function:'Cochlear: hearing. Vestibular: balance, angular + linear acceleration, head position',clinical:'Acoustic neuroma (vestibular schwannoma): unilateral SNHL + tinnitus + imbalance. Meniere’s. Aminoglycoside ototoxicity.',test:'Rinne + Weber tuning fork tests, Dix-Hallpike'},
   {name:'CN IX — Glossopharyngeal',group:'Cranial Nerves',type:'Both',color:'#f5c842',origin:'Nucleus ambiguus + inferior salivatory nucleus (medulla)',pathway:'Jugular foramen → pharynx',function:'Motor: stylopharyngeus. Para: parotid gland (otic ganglion). Sensory: taste post 1/3 tongue, carotid sinus/body, pharynx, tonsil',clinical:'Gag reflex AFFERENT (efferent = CN X). Carotid sinus syncope. Glossopharyngeal neuralgia (rare).',test:'Gag reflex, posterior tongue taste'},
   {name:'CN X — Vagus',group:'Cranial Nerves',type:'Both',color:'#f5c842',origin:'Dorsal motor nucleus + nucleus ambiguus (medulla)',pathway:'Jugular foramen → carotid sheath → thorax + abdomen',function:'Motor: pharynx/larynx (RLN), soft palate. Para: heart + lungs + GI to splenic flexure. Visceral sensory afferents.',clinical:'Hoarseness (RLN injury — left recurrent is longer, more vulnerable). Uvula deviates AWAY from lesion. Vasovagal syncope.',test:'Say "ahh" — uvula midline; voice quality; swallowing'},
   {name:'CN XI — Accessory',group:'Cranial Nerves',type:'Motor',color:'#52d18a',origin:'Spinal cord C1–C5 (spinal root)',pathway:'Ascends through foramen magnum → jugular foramen → posterior triangle of neck',function:'SCM: ipsilateral head rotation. Trapezius: shoulder elevation + retraction.',clinical:'Posterior triangle biopsy → dropped shoulder. Inability to shrug (trapezius) or turn head against resistance (SCM).',test:'Shrug + turn head against resistance'},
   {name:'CN XII — Hypoglossal',group:'Cranial Nerves',type:'Motor',color:'#52d18a',origin:'Hypoglossal nucleus (medulla)',pathway:'Hypoglossal canal → submandibular region → tongue',function:'All intrinsic + extrinsic tongue muscles except palatoglossus (CN X)',clinical:'LMN lesion: tongue deviates TOWARD lesion (weak side). ALS: fasciculations + atrophy. Tongue must protrude for speech/swallowing.',test:'Tongue protrusion — deviates toward weak side'},
   {name:'Cervical Plexus (C1–C4)',group:'Spinal Plexuses',type:'Mixed',color:'#4ecdc4',origin:'C1–C4 ventral rami',pathway:'Deep cervical + cutaneous branches to neck/shoulder',function:'Phrenic nerve (C3,4,5 — diaphragm). Ansa cervicalis (infrahyoid muscles). Cutaneous: ear, neck, shoulder.',clinical:'"C3,4,5 keeps the diaphragm alive." Phrenic nerve palsy → hemidiaphragm paralysis. Neck surgery complication.',test:'Diaphragm excursion on imaging, neck flexion'},
-  {name:'Brachial Plexus (C5–T1)',group:'Spinal Plexuses',type:'Mixed',color:'#b084f5',origin:'C5–T1 ventral rami',pathway:'Roots → Upper/Middle/Lower Trunks → Divisions → Lateral/Posterior/Medial Cords → Terminal branches',function:'All upper limb motor + sensory innervation',clinical:"Erb's palsy (C5,6 — upper trunk): waiter's tip (arm IR + ext + wrist flex). Klumpke's (C8,T1): claw hand. Thoracic outlet syndrome.",test:'Arm abduction, elbow flex/ext, grip strength, full sensation map'},
+  {name:'Brachial Plexus (C5–T1)',group:'Spinal Plexuses',type:'Mixed',color:'#b084f5',origin:'C5–T1 ventral rami',pathway:'Roots → Upper/Middle/Lower Trunks → Divisions → Lateral/Posterior/Medial Cords → Terminal branches',function:'All upper limb motor + sensory innervation',clinical:"Erb’s palsy (C5,6 — upper trunk): waiter’s tip (arm IR + ext + wrist flex). Klumpke’s (C8,T1): claw hand. Thoracic outlet syndrome.",test:'Arm abduction, elbow flex/ext, grip strength, full sensation map'},
   {name:'Radial Nerve (C5–T1)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Posterior cord',pathway:'Spiral groove of humerus → lateral epicondyle → superficial + deep (PIN) branches',function:'Motor: triceps + all wrist/finger extensors + brachioradialis. Sensory: posterior arm/forearm + dorsal hand (radial 3.5 digits)',clinical:'WRIST DROP = radial nerve injury. Humeral shaft fracture. Saturday night palsy (spiral groove compression).',test:'Wrist extension, finger extension, triceps reflex (C7)'},
-  {name:'Median Nerve (C6–T1)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Lateral + medial cords',pathway:'No branches in arm → between heads of pronator teres → carpal tunnel under flexor retinaculum',function:'Motor: LOAF + forearm flexors/pronators. Sensory: volar thumb/index/middle/radial ring + thenar skin',clinical:'Carpal tunnel syndrome (most common entrapment neuropathy). APE HAND = thenar wasting. Phalen's + Tinel's. AIN: "OK sign" fails.',test:'Thumb opposition, volar index sensation, Phalen's test'},
-  {name:'Ulnar Nerve (C8–T1)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Medial cord',pathway:'Behind medial epicondyle (cubital tunnel) → Guyon's canal at wrist',function:'Motor: intrinsic hand (interossei, hypothenar, medial lumbricals) + FCU + medial FDP. Sensory: little + medial ring fingers',clinical:'CLAW HAND (ring + little fingers). Cubital tunnel syndrome. Ulnar paradox: higher lesion = less claw (FDP also lost).',test:'Spread fingers (interossei), little finger abduction, sensation little finger'},
+  {name:'Median Nerve (C6–T1)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Lateral + medial cords',pathway:'No branches in arm → between heads of pronator teres → carpal tunnel under flexor retinaculum',function:'Motor: LOAF + forearm flexors/pronators. Sensory: volar thumb/index/middle/radial ring + thenar skin',clinical:'Carpal tunnel syndrome (most common entrapment neuropathy). APE HAND = thenar wasting. Phalen’s + Tinel’s. AIN: "OK sign" fails.',test:'Thumb opposition, volar index sensation, Phalen’s test'},
+  {name:'Ulnar Nerve (C8–T1)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Medial cord',pathway:'Behind medial epicondyle (cubital tunnel) → Guyon’s canal at wrist',function:'Motor: intrinsic hand (interossei, hypothenar, medial lumbricals) + FCU + medial FDP. Sensory: little + medial ring fingers',clinical:'CLAW HAND (ring + little fingers). Cubital tunnel syndrome. Ulnar paradox: higher lesion = less claw (FDP also lost).',test:'Spread fingers (interossei), little finger abduction, sensation little finger'},
   {name:'Axillary Nerve (C5–C6)',group:'Brachial Plexus Branches',type:'Mixed',color:'#b084f5',origin:'Posterior cord',pathway:'Through quadrilateral space → wraps around surgical neck of humerus',function:'Motor: deltoid + teres minor. Sensory: regimental badge area (lateral arm)',clinical:'Anterior shoulder dislocation or surgical neck fracture → axillary nerve → deltoid paralysis + loss of shoulder abduction.',test:'Shoulder abduction against resistance, sensation lateral arm'},
   {name:'Femoral Nerve (L2–L4)',group:'Lumbosacral Plexus',type:'Mixed',color:'#f07060',origin:'Lumbar plexus (L2–L4)',pathway:'Under inguinal ligament (lateral to femoral artery — NAVL: Nerve, Artery, Vein, Lymphatics)',function:'Motor: iliacus, sartorius, quadriceps femoris. Sensory: anterior thigh + medial leg/foot (saphenous branch)',clinical:'Femoral neuropathy: weak knee extension + absent patellar reflex + anterior thigh numbness. Psoas hematoma (anticoagulation).',test:'Knee extension against resistance, patellar reflex (L4)'},
   {name:'Sciatic Nerve (L4–S3)',group:'Lumbosacral Plexus',type:'Mixed',color:'#f07060',origin:'Lumbosacral plexus (L4–S3) — largest nerve in body',pathway:'Greater sciatic foramen → posterior thigh → popliteal fossa → tibial + common fibular nerves',function:'Motor: hamstrings + all muscles below knee. Sensory: posterior thigh + leg/foot except medial (saphenous)',clinical:'Piriformis syndrome. Wrong-site IM gluteal injection. L4/5 or L5/S1 disc herniation = sciatica. SLR test positive.',test:'Straight leg raise (SLR), hamstring strength, sensation posterior thigh'},
@@ -902,15 +872,15 @@ const LIGTEND=[
   {name:'Glenohumeral ligaments (SGHL/MGHL/IGHL)',region:'Shoulder',type:'Ligament',color:'#b084f5',attachments:'Glenoid labrum → lesser tubercle/anatomical neck humerus (3 bands)',function:'Anterior GH stability; limit ER + anterior translation. IGHL most important at 90° abduction.',clinical:'Bankart lesion (anterior labral avulsion) with anterior dislocation. IGHL torn in apprehension position. Multidirectional instability = all 3 lax.',notes:'Rotator interval between supraspinatus + subscapularis contains SGHL + coracohumeral ligament.'},
   {name:'Rotator cuff tendons (SITS)',region:'Shoulder',type:'Tendon',color:'#52d18a',attachments:'Supraspinatus → greater tubercle (superior). Infraspinatus → greater tubercle (middle). Teres minor → greater tubercle (inferior). Subscapularis → lesser tubercle.',function:'Dynamic GH stability; depress humeral head against glenoid',clinical:'Supraspinatus torn most often (impingement). Drop arm test (full-thickness tear). Neer + Hawkins impingement signs. MRI for diagnosis.',notes:'Subacromial bursa separates supraspinatus from coracoacromial arch.'},
   {name:'UCL — Ulnar Collateral Ligament (elbow)',region:'Elbow',type:'Ligament',color:'#f5c842',attachments:'Medial epicondyle → coronoid process + olecranon (3 bundles, anterior most important)',function:'PRIMARY valgus stabilizer of elbow (resists valgus stress in overhead throwing)',clinical:'Throwing athletes (baseball pitchers). Medial elbow pain + valgus instability. "Tommy John" surgery = UCL reconstruction with graft.',notes:'Adjacent to ulnar nerve in cubital tunnel. Anterior bundle assessed with moving valgus stress test.'},
-  {name:'Annular ligament',region:'Elbow',type:'Ligament',color:'#f5c842',attachments:'Encircles radial head; attached to anterior + posterior radial notch of ulna',function:'Maintains radio-ulnar joint for pronation/supination pivot',clinical:'Nursemaid's elbow (radial head subluxation): longitudinal traction slips ligament over radial head in children <5. Reduced by supination + flexion.',notes:''},
-  {name:'Flexor retinaculum (Transverse carpal ligament)',region:'Wrist',type:'Ligament',color:'#7c9ef8',attachments:'Pisiform + hook of hamate → scaphoid tubercle + trapezium ridge',function:'Roof of carpal tunnel; contains 9 tendons + median nerve',clinical:'Carpal tunnel syndrome: median nerve compressed → numbness thumb/index/middle (3½ fingers). Phalen's + Tinel's. Surgical release divides retinaculum.',notes:'Ulnar nerve passes through Guyon's canal OUTSIDE the carpal tunnel (not affected in CTS).'},
+  {name:'Annular ligament',region:'Elbow',type:'Ligament',color:'#f5c842',attachments:'Encircles radial head; attached to anterior + posterior radial notch of ulna',function:'Maintains radio-ulnar joint for pronation/supination pivot',clinical:'Nursemaid’s elbow (radial head subluxation): longitudinal traction slips ligament over radial head in children <5. Reduced by supination + flexion.',notes:''},
+  {name:'Flexor retinaculum (Transverse carpal ligament)',region:'Wrist',type:'Ligament',color:'#7c9ef8',attachments:'Pisiform + hook of hamate → scaphoid tubercle + trapezium ridge',function:'Roof of carpal tunnel; contains 9 tendons + median nerve',clinical:'Carpal tunnel syndrome: median nerve compressed → numbness thumb/index/middle (3½ fingers). Phalen’s + Tinel’s. Surgical release divides retinaculum.',notes:'Ulnar nerve passes through Guyon’s canal OUTSIDE the carpal tunnel (not affected in CTS).'},
   {name:'Iliofemoral ligament (Y-ligament of Bigelow)',region:'Hip',type:'Ligament',color:'#f07060',attachments:'AIIS + acetabular rim → intertrochanteric line of femur',function:'STRONGEST ligament in body (~350N). Limits hip extension + ER. Allows standing with minimal muscle effort.',clinical:'Anterior hip capsule. Essential for upright posture. Must be torn in anterior hip dislocation.',notes:'Y-shaped: iliotrochanteric + iliocapsular bands. Tightens in extension — "screws" femoral head into acetabulum.'},
   {name:'ACL — Anterior Cruciate Ligament',region:'Knee',type:'Ligament',color:'#52d18a',attachments:'Anterior intercondylar tibia → posterior medial surface of LATERAL femoral condyle',function:'Prevents anterior tibial translation + tibial internal rotation',clinical:'Most commonly injured knee ligament. "Pop" + immediate hemarthrosis. Lachman test (most sensitive), anterior drawer, pivot shift. ACL-R with patellar tendon or hamstring autograft.',notes:'2 bundles: AM (taut in flexion) + PL (taut in extension). Cannot heal without surgery (poor blood supply).'},
   {name:'PCL — Posterior Cruciate Ligament',region:'Knee',type:'Ligament',color:'#52d18a',attachments:'Posterior intercondylar tibia → anterior medial surface of MEDIAL femoral condyle',function:'Prevents posterior tibial translation; STRONGEST knee ligament',clinical:'Dashboard injury (MVA — posterior force on tibia). Posterior drawer + sag sign. Often managed conservatively (stronger than ACL).',notes:'Extrasynovial. Twice as strong as ACL.'},
   {name:'MCL — Medial Collateral Ligament',region:'Knee',type:'Ligament',color:'#52d18a',attachments:'Medial femoral condyle → medial tibia (4–5cm below joint line)',function:'Primary valgus stabilizer; resists medial joint opening; limits ER',clinical:'"Unhappy triad": ACL + MCL + medial meniscus. Valgus stress test. Usually heals without surgery (good blood supply).',notes:'Deep fibers attach to medial meniscus (unlike LCL to lateral meniscus). Adjacent to saphenous nerve.'},
   {name:'LCL — Lateral Collateral Ligament',region:'Knee',type:'Ligament',color:'#52d18a',attachments:'Lateral femoral condyle → fibular head',function:'Primary varus stabilizer; resists lateral joint opening + ER',clinical:'Less commonly injured (protected by opposite limb). Part of posterolateral corner (PLC) complex. Varus stress test.',notes:'Cord-like (not flat like MCL). Does NOT attach to lateral meniscus.'},
-  {name:'Patellar ligament / tendon',region:'Knee',type:'Tendon',color:'#f5c842',attachments:'Inferior pole of patella → tibial tuberosity',function:'Transmits quadriceps force to tibia (knee extension mechanism)',clinical:"Patellar tendinopathy (jumper's knee) at inferior pole. Rupture at inferior pole vs quadriceps tendon rupture at superior pole. Osgood-Schlatter = apophysitis at tibial tuberosity (adolescents).",notes:'Bone-to-bone = technically a ligament, but functions as tendon continuation of quadriceps.'},
-  {name:'IT Band (Iliotibial band)',region:'Knee',type:'Tendon',color:'#f5c842',attachments:'Iliac crest (TFL + gluteus maximus) → Gerdy's tubercle of lateral tibia',function:'Lateral knee stabilizer; assists hip abduction; elastic energy storage in running',clinical:"IT band syndrome (runner's knee): friction at lateral femoral condyle at 30° flexion. Noble compression test. Distance runners.",notes:'Dense fascial condensation of fascia lata — not a true tendon. Continuous with TFL muscle.'},
+  {name:'Patellar ligament / tendon',region:'Knee',type:'Tendon',color:'#f5c842',attachments:'Inferior pole of patella → tibial tuberosity',function:'Transmits quadriceps force to tibia (knee extension mechanism)',clinical:"Patellar tendinopathy (jumper’s knee) at inferior pole. Rupture at inferior pole vs quadriceps tendon rupture at superior pole. Osgood-Schlatter = apophysitis at tibial tuberosity (adolescents).",notes:'Bone-to-bone = technically a ligament, but functions as tendon continuation of quadriceps.'},
+  {name:'IT Band (Iliotibial band)',region:'Knee',type:'Tendon',color:'#f5c842',attachments:'Iliac crest (TFL + gluteus maximus) → Gerdy’s tubercle of lateral tibia',function:'Lateral knee stabilizer; assists hip abduction; elastic energy storage in running',clinical:"IT band syndrome (runner’s knee): friction at lateral femoral condyle at 30° flexion. Noble compression test. Distance runners.",notes:'Dense fascial condensation of fascia lata — not a true tendon. Continuous with TFL muscle.'},
   {name:'Lateral ankle ligaments (ATFL, CFL, PTFL)',region:'Ankle',type:'Ligament',color:'#4ecdc4',attachments:'ATFL: distal fibula → anterior talus. CFL: fibula → calcaneus. PTFL: fibula → posterior talus.',function:'Lateral ankle stability; resist inversion; ATFL limits anterior talar shift',clinical:'MOST COMMON ligament injury in body. Inversion sprain: ATFL first, then CFL. Ottawa ankle rules. Anterior drawer + talar tilt tests.',notes:'ATFL weakest (torn in 70% of sprains). PTFL strongest + rarely torn.'},
   {name:'Deltoid ligament (medial ankle, 4 parts)',region:'Ankle',type:'Ligament',color:'#4ecdc4',attachments:'Medial malleolus → navicular, calcaneus, anterior + posterior talus',function:'Primary medial stability; resists eversion + lateral talar shift',clinical:'Much less commonly sprained (stronger). Eversion sprains. Often avulses bone rather than tearing. Associated with high ankle (syndesmotic) injury.',notes:'4 parts: tibionavicular, tibiocalcaneal, anterior + posterior tibiotalar.'},
   {name:'Achilles tendon',region:'Ankle',type:'Tendon',color:'#4ecdc4',attachments:'Gastrocnemius + soleus (triceps surae) → calcaneal tuberosity (posterior calcaneus)',function:'Plantarflexion; stored elastic energy in gait/running; STRONGEST tendon in body',clinical:'Achilles tendinopathy: "watershed zone" 2–6cm above insertion (poor vascularity). Rupture: Thompson test positive (squeeze calf = no plantarflexion). Audible "pop." Fluoroquinolone risk.',notes:'Rotates 90° — medial gastrocnemius fibers become posterior at insertion. Retrocalcaneal bursa between tendon + calcaneus.'},
@@ -921,7 +891,7 @@ const SENSES={
   eye:{name:'The Eye',emoji:'👁️',
     overview:'A fluid-filled sphere ~2.5cm. Three tunics: fibrous (sclera + cornea), vascular/uveal (choroid + ciliary body + iris), and neural (retina). Contains aqueous humor (anterior segment) and vitreous humor (posterior segment).',
     structures:[
-      {name:'Cornea',desc:'Transparent anterior fibrous tunic (1/6 of eye). ~70% of refractive power. Avascular — O₂ from aqueous humor + tears. 5 layers: epithelium → Bowman's → stroma (90%) → Descemet's membrane → endothelium. Sensory innervation: CN V1 (corneal reflex afferent).'},
+      {name:'Cornea',desc:'Transparent anterior fibrous tunic (1/6 of eye). ~70% of refractive power. Avascular — O₂ from aqueous humor + tears. 5 layers: epithelium → Bowman’s → stroma (90%) → Descemet’s membrane → endothelium. Sensory innervation: CN V1 (corneal reflex afferent).'},
       {name:'Sclera',desc:'"White of the eye." Posterior 5/6 of fibrous tunic. Dense irregular CT maintains globe shape. Attachment for all 6 extraocular muscles. Continuous with cornea at limbus. Pierced posteriorly by optic nerve at lamina cribrosa.'},
       {name:'Iris + Pupil',desc:'Colored diaphragm controlling light entry. Sphincter pupillae (circular muscle, CN III parasympathetics) → pupil constriction (MIOSIS). Dilator pupillae (radial muscle, sympathetics) → pupil dilation (MYDRIASIS). Color = melanin in stroma.'},
       {name:'Ciliary body',desc:'Ring of smooth muscle + processes. Ciliary muscle contraction (parasympathetics, CN III) → relaxes zonule fibers → lens rounds up → more diopters → NEAR vision (accommodation). Ciliary processes: secrete aqueous humor into posterior chamber.'},
@@ -937,15 +907,15 @@ const SENSES={
       {name:'Accommodation (near) reflex',path:'Near object → 3 simultaneous responses: (1) Accommodation: ciliary muscle contracts, zonules relax, lens rounds (CN III para). (2) Convergence: bilateral medial recti (CN III). (3) Miosis: sphincter pupillae (CN III para).'},
       {name:'Corneal (blink) reflex',path:'Afferent: CN V1 (ophthalmic) → sensory trigeminal nucleus. Efferent: CN VII (facial) → orbicularis oculi → bilateral blink. Tests pontine integrity. Absent in CN V, CN VII, or pontine lesion. Preserved in cortical blindness.'},
     ],
-    clinical:['Glaucoma: elevated IOP → progressive optic nerve damage → peripheral visual field loss (arcuate scotomas → tunnel vision). Open-angle (gradual, painless) vs narrow-angle (acute: red eye, cloudy cornea, fixed mid-dilated pupil, severe pain + nausea).','Cataracts: lens opacity → painless progressive blur, glare, halos around lights. Age-related most common. Congenital, diabetic, steroid-induced also. Treatment: phacoemulsification + IOL implant.','AMD (Age-related macular degeneration): macula degeneration → CENTRAL vision loss (scotoma). Dry (drusen deposits, slow) vs Wet (choroidal neovascularization, rapid — treat with anti-VEGF injections).','Retinal detachment: vitreous fluid under neurosensory retina → "curtain" coming across visual field + floaters + photopsia (flashing lights). Surgical emergency (pneumatic retinopexy, vitrectomy, scleral buckle).','Diabetic retinopathy: capillary damage → nonproliferative (microaneurysms, dot hemorrhages, hard exudates, cotton-wool spots) → proliferative (neovascularization → vitreous hemorrhage, tractional RD). Leading cause of blindness in working-age adults.','Horner's syndrome: ptosis (partial, Müller's muscle) + miosis + anhidrosis + enophthalmos. Sympathetic chain disruption anywhere. Causes: Pancoast tumor (lung apex), carotid artery dissection, cervical rib, Wallenberg syndrome (brainstem).'],
-    mnemonic:'EOM rule: LR6 SO4 R3. Visual field: optic nerve → ipsilateral blindness; chiasm → bitemporal hemianopia; tract → contralateral homonymous hemianopia. Pupil reflex: CN II in → CN III out. Accommodation: "3 C's" = Constrict pupil + Converge eyes + Ciliary (lens rounds up).'
+    clinical:['Glaucoma: elevated IOP → progressive optic nerve damage → peripheral visual field loss (arcuate scotomas → tunnel vision). Open-angle (gradual, painless) vs narrow-angle (acute: red eye, cloudy cornea, fixed mid-dilated pupil, severe pain + nausea).','Cataracts: lens opacity → painless progressive blur, glare, halos around lights. Age-related most common. Congenital, diabetic, steroid-induced also. Treatment: phacoemulsification + IOL implant.','AMD (Age-related macular degeneration): macula degeneration → CENTRAL vision loss (scotoma). Dry (drusen deposits, slow) vs Wet (choroidal neovascularization, rapid — treat with anti-VEGF injections).','Retinal detachment: vitreous fluid under neurosensory retina → "curtain" coming across visual field + floaters + photopsia (flashing lights). Surgical emergency (pneumatic retinopexy, vitrectomy, scleral buckle).','Diabetic retinopathy: capillary damage → nonproliferative (microaneurysms, dot hemorrhages, hard exudates, cotton-wool spots) → proliferative (neovascularization → vitreous hemorrhage, tractional RD). Leading cause of blindness in working-age adults.','Horner’s syndrome: ptosis (partial, Müller’s muscle) + miosis + anhidrosis + enophthalmos. Sympathetic chain disruption anywhere. Causes: Pancoast tumor (lung apex), carotid artery dissection, cervical rib, Wallenberg syndrome (brainstem).'],
+    mnemonic:'EOM rule: LR6 SO4 R3. Visual field: optic nerve → ipsilateral blindness; chiasm → bitemporal hemianopia; tract → contralateral homonymous hemianopia. Pupil reflex: CN II in → CN III out. Accommodation: "3 C’s" = Constrict pupil + Converge eyes + Ciliary (lens rounds up).'
   },
   ear:{name:'The Ear',emoji:'👂',
     overview:'Three divisions: External ear (pinna + EAM + tympanic membrane), Middle ear (ossicles + eustachian tube), Inner ear (cochlea for hearing + vestibular labyrinth for balance). Housed entirely within the petrous part of temporal bone.',
     structures:[
-      {name:'Pinna (auricle)',desc:'Elastic cartilage (except soft lobule = fat + CT). Funnels sound waves into EAM. Key surface landmarks: helix, antihelix, tragus, antitragus, concha, lobule. Innervation: CN V3 (anterior) + CN X Arnold's nerve (posterior — touching EAM can trigger cough).'},
+      {name:'Pinna (auricle)',desc:'Elastic cartilage (except soft lobule = fat + CT). Funnels sound waves into EAM. Key surface landmarks: helix, antihelix, tragus, antitragus, concha, lobule. Innervation: CN V3 (anterior) + CN X Arnold’s nerve (posterior — touching EAM can trigger cough).'},
       {name:'External acoustic meatus (EAM)',desc:'~2.5cm S-shaped canal. Outer 1/3 = cartilage + cerumen glands + hair follicles (defense against infection). Inner 2/3 = bone (temporal). To examine: adults pull pinna superoposteriorly; children pull inferoanteriorly (more horizontal canal in children).'},
-      {name:'Tympanic membrane (eardrum)',desc:'3-layer membrane: outer epithelium (CN X), fibrous middle, inner mucosa (CN IX). Landmarks: umbo (center — tip of malleus handle), anteroinferior cone of light (normal light reflex), pars tensa (most of TM), pars flaccida/Shrapnell's (superior — thinner, prone to cholesteatoma). Perforations: central = safe; marginal = unsafe.'},
+      {name:'Tympanic membrane (eardrum)',desc:'3-layer membrane: outer epithelium (CN X), fibrous middle, inner mucosa (CN IX). Landmarks: umbo (center — tip of malleus handle), anteroinferior cone of light (normal light reflex), pars tensa (most of TM), pars flaccida/Shrapnell’s (superior — thinner, prone to cholesteatoma). Perforations: central = safe; marginal = unsafe.'},
       {name:'Ossicles (3)',desc:'Smallest bones in body! MALLEUS (handle attached to TM) → INCUS (bridge) → STAPES (footplate in oval window). Together amplify sound pressure ~17× (lever ratio 1.3 + area ratio 14). Tensor tympani (CN V3) dampens malleus; stapedius (CN VII) dampens stapes — acoustic (stapedius) reflex.'},
       {name:'Eustachian (pharyngotympanic) tube',desc:'Connects middle ear to nasopharynx. Normally CLOSED; opens with swallowing/yawning (tensor veli palatini = CN V3). Equalizes middle ear pressure with atmospheric pressure. In children: shorter + more horizontal → higher otitis media rate. Clogged during URI → negative pressure → serous effusion (glue ear).'},
       {name:'Cochlea (hearing)',desc:'2.5 turns. 3 fluid-filled channels: scala vestibuli (perilymph, top), scala media/cochlear duct (endolymph — contains organ of Corti), scala tympani (perilymph, bottom — ends at round window). Helicotrema: apex connection SV + ST. Tonotopy: HIGH frequencies processed at BASE; LOW frequencies at APEX.'},
@@ -953,17 +923,17 @@ const SENSES={
       {name:'Semicircular canals (3)',desc:'Three canals in mutually perpendicular planes: anterior (superior), posterior, lateral (horizontal). Detect ANGULAR acceleration (head rotation). Each has ampulla with crista ampullaris: hair cells embedded in gelatinous cupula. Endolymph moves → cupula deflects → hair cells → CN VIII vestibular nerve.'},
       {name:'Utricle & saccule (otolith organs)',desc:'Utricle: horizontal plane — detects lateral head tilt + horizontal linear acceleration. Saccule: vertical plane — detects vertical acceleration + anterior-posterior tilt. Both contain macula: hair cells + otolithic membrane covered with otoconia (calcium carbonate crystals = "ear rocks"). BPPV = otoconia displaced into semicircular canal (usually posterior).'},
     ],
-    pathway:'Sound → pinna → EAM → TM vibrates → malleus → incus → stapes → oval window → perilymph (scala vestibuli) → basilar membrane vibrates (tonotopic location) → organ of Corti hair cells bend → K⁺ influx → depolarization → CN VIII cochlear nerve → cochlear nuclei (pons) → superior olivary nuclei (BILATERAL — critical!) → inferior colliculus (midbrain) → medial geniculate nucleus of thalamus (MGN) → primary auditory cortex A1 (Heschl's gyri, superior temporal plane, Brodmann areas 41+42). Bilateral cortical representation → unilateral cortical lesion = subtle deficits only.',
+    pathway:'Sound → pinna → EAM → TM vibrates → malleus → incus → stapes → oval window → perilymph (scala vestibuli) → basilar membrane vibrates (tonotopic location) → organ of Corti hair cells bend → K⁺ influx → depolarization → CN VIII cochlear nerve → cochlear nuclei (pons) → superior olivary nuclei (BILATERAL — critical!) → inferior colliculus (midbrain) → medial geniculate nucleus of thalamus (MGN) → primary auditory cortex A1 (Heschl’s gyri, superior temporal plane, Brodmann areas 41+42). Bilateral cortical representation → unilateral cortical lesion = subtle deficits only.',
     hearingTests:[
       {name:'Rinne test (512 Hz tuning fork)',interpret:'Place vibrating fork on mastoid (BC) → when no longer heard, move to external ear canal (AC). Normal + SNHL: AC > BC (Rinne POSITIVE). Conductive HL: BC > AC (Rinne NEGATIVE — bone conducts sound past blocked outer/middle ear to inner ear directly).'},
       {name:'Weber test (fork on midline forehead)',interpret:'Normal: heard midline. SNHL: lateralizes to BETTER ear (more hair cells respond). Conductive HL: lateralizes to WORSE (affected) ear (less ambient masking noise + bone conduction enhanced on affected side). Mnemonic: "SNHL Weber to Well; Conductive Weber to Crummy ear."'},
     ],
     hearingLoss:[
       {type:'Conductive',cause:'Outer or middle ear: cerumen impaction, TM perforation, otitis media, otosclerosis (stapes fixation), ossicular disruption',test:'Rinne NEGATIVE (BC > AC); Weber to worse ear'},
-      {type:'Sensorineural (SNHL)',cause:'Cochlea or CN VIII: noise-induced (4kHz notch), presbycusis (age — high freq first), Meniere's, acoustic neuroma, ototoxic drugs (aminoglycosides, cisplatin, loop diuretics)',test:'Rinne POSITIVE (AC > BC); Weber to better ear'},
+      {type:'Sensorineural (SNHL)',cause:'Cochlea or CN VIII: noise-induced (4kHz notch), presbycusis (age — high freq first), Meniere’s, acoustic neuroma, ototoxic drugs (aminoglycosides, cisplatin, loop diuretics)',test:'Rinne POSITIVE (AC > BC); Weber to better ear'},
       {type:'Mixed',cause:'Combined conductive + sensorineural components',test:'Rinne negative; Weber variable'},
     ],
-    clinical:['Acute otitis media (AOM): middle ear infection (S. pneumo, H. flu, M. cat). Bulging red/opaque TM + ear pain + fever. Rx: amoxicillin. Serous OM ("glue ear"): non-purulent effusion → conductive HL → common cause of speech delay in children.','Cholesteatoma: aberrant squamous epithelium in middle ear (retraction pocket or marginal perforation). Keratinous debris accumulates → destructive expansion. Erodes ossicles, mastoid, facial canal. Painless otorrhea + conductive HL ± CN VII palsy. Treatment: mastoidectomy surgery.','Meniere's disease: endolymphatic hydrops (↑ endolymph volume). Classic triad: episodic VERTIGO (hours) + fluctuating low-frequency SNHL + TINNITUS + aural fullness. Treatment: low-sodium diet, diuretics, intratympanic injections.','BPPV (Benign Paroxysmal Positional Vertigo): canalithiasis — otoconia displaced into posterior semicircular canal. Brief (<1 min) rotational vertigo with position change. Positive Dix-Hallpike test. Treatment: Epley maneuver (repositions otoconia).','Presbycusis: symmetric age-related SNHL. HIGH frequencies lost FIRST (basal cochlea degenerates). Gradual bilateral. Most common cause of hearing loss in elderly. Males > females (noise exposure history).','Noise-induced HL: 4000 Hz "notch" on audiogram — most susceptible frequency (cochlear blood supply anatomy). OUTER hair cells damaged first. Permanent once established. NIHL most preventable cause of HL.'],
+    clinical:['Acute otitis media (AOM): middle ear infection (S. pneumo, H. flu, M. cat). Bulging red/opaque TM + ear pain + fever. Rx: amoxicillin. Serous OM ("glue ear"): non-purulent effusion → conductive HL → common cause of speech delay in children.','Cholesteatoma: aberrant squamous epithelium in middle ear (retraction pocket or marginal perforation). Keratinous debris accumulates → destructive expansion. Erodes ossicles, mastoid, facial canal. Painless otorrhea + conductive HL ± CN VII palsy. Treatment: mastoidectomy surgery.','Meniere’s disease: endolymphatic hydrops (↑ endolymph volume). Classic triad: episodic VERTIGO (hours) + fluctuating low-frequency SNHL + TINNITUS + aural fullness. Treatment: low-sodium diet, diuretics, intratympanic injections.','BPPV (Benign Paroxysmal Positional Vertigo): canalithiasis — otoconia displaced into posterior semicircular canal. Brief (<1 min) rotational vertigo with position change. Positive Dix-Hallpike test. Treatment: Epley maneuver (repositions otoconia).','Presbycusis: symmetric age-related SNHL. HIGH frequencies lost FIRST (basal cochlea degenerates). Gradual bilateral. Most common cause of hearing loss in elderly. Males > females (noise exposure history).','Noise-induced HL: 4000 Hz "notch" on audiogram — most susceptible frequency (cochlear blood supply anatomy). OUTER hair cells damaged first. Permanent once established. NIHL most preventable cause of HL.'],
     mnemonic:'"My Interesting Stapes" (Malleus, Incus, Stapes). Weber: "SNHL → Well ear; Conductive → Crummy ear." Cochlea tonotopy: HIGH = BASE (like guitar — high frets/notes near body of guitar). "C3,4,5 keeps the diaphragm alive" — for ear: "CN VIII = Hearing + Balance" (2 branches, 2 functions).'
   }
 };
@@ -1047,21 +1017,20 @@ function renderSensesPage(){
     </div>`).join('');
 }
 
-// ═══ PATCH showPg to handle new pages ═══
-const _showPgOrig=showPg;
+// ═══ NAVIGATION ═══
 function showPg(id){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');
   event.currentTarget.classList.add('active');
   if(id==='bodymap')renderMap();
-  else if(id==='bones')renderBonesPage();
-  else if(id==='muscles')renderMusclesPage();
-  else if(id==='joints')renderJointsPage();
-  else if(id==='nerves')renderNervesPage();
-  else if(id==='ligtend')renderLTPage();
-  else if(id==='senses')renderSensesPage();
-  else if(id==='atlas-quiz')renderQSetup();
+  else if(id==='bones'){renderBonesPage();}
+  else if(id==='muscles'){renderMusclesPage();}
+  else if(id==='joints'){renderJointsPage();}
+  else if(id==='nerves'){renderNervesPage();}
+  else if(id==='ligtend'){renderLTPage();}
+  else if(id==='senses'){renderSensesPage();}
+  else if(id==='atlas-quiz'){renderQSetup();}
 }
 
 // ═══ EXTEND quiz with new topics ═══
@@ -1070,14 +1039,6 @@ const EXTRA_QTYPES=[
   {id:'ligtend',label:'🩹 Ligaments & Tendons',desc:'Attachments and clinical relevance'},
   {id:'senses',label:'👁️ Eye & Ear Structures',desc:'Anatomy and pathways'},
 ];
-const _buildPoolOrig=buildPool;
-function buildPool(type){
-  if(type==='nerves'){const p=[];NERVES.forEach(n=>{const w=NERVES.filter(x=>x.name!==n.name).sort(()=>Math.random()-.5).slice(0,3);p.push({q:`Which nerve? Function: "${n.function}"`,ans:n.name,choices:[...w.map(x=>x.name),n.name].sort(()=>Math.random()-.5),hint:`Group: ${n.group}`});});return p.sort(()=>Math.random()-.5).slice(0,15);}
-  if(type==='ligtend'){const p=[];LIGTEND.forEach(l=>{const w=LIGTEND.filter(x=>x.name!==l.name).sort(()=>Math.random()-.5).slice(0,3);p.push({q:`Attachments: "${l.attachments.substring(0,80)}…" — what structure?`,ans:l.name,choices:[...w.map(x=>x.name),l.name].sort(()=>Math.random()-.5),hint:`Region: ${l.region}`});});return p.sort(()=>Math.random()-.5).slice(0,15);}
-  if(type==='senses'){const all=[...SENSES.eye.structures,...SENSES.ear.structures];const p=[];all.forEach(s=>{const w=all.filter(x=>x.name!==s.name).sort(()=>Math.random()-.5).slice(0,3);p.push({q:`"${s.desc.substring(0,110)}…" — what structure?`,ans:s.name,choices:[...w.map(x=>x.name),s.name].sort(()=>Math.random()-.5),hint:''});});return p.sort(()=>Math.random()-.5).slice(0,15);}
-  return _buildPoolOrig(type);
-}
-const _renderQSetupOrig=renderQSetup;
 function renderQSetup(){
   document.getElementById('qsetup').style.display='block';
   document.getElementById('qactive').style.display='none';
@@ -1088,9 +1049,31 @@ function renderQSetup(){
       <div style="font-size:11px;color:var(--text3)">${qt.desc}</div>
     </div>`).join('');
 }
+function pickQType(id,el){
+  qType=id;
+  document.querySelectorAll('#qtypegrid > div').forEach(d=>{d.style.borderColor='var(--border)';d.style.background='var(--bg2)';});
+  el.style.borderColor='var(--accent2)';
+  el.style.background='rgba(85,119,232,0.08)';
+}
+
+
 
 // INIT
 renderMap();
+
+
+function buildPool(type){
+  const pool=[];
+  if(type==='bones'){ALL_BONES.filter(b=>b.notes).forEach(b=>{const w=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:b.notes,ans:b.name,choices:[...w.map(x=>x.name),b.name].sort(()=>Math.random()-.5),hint:'Region: '+b.region});});}
+  else if(type==='markings'){ALL_BONES.filter(b=>b.markings&&b.markings.length).forEach(b=>{b.markings.slice(0,3).forEach(m=>{const w=ALL_BONES.filter(x=>x.name!==b.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'"'+m+'" — which bone?',ans:b.name,choices:[...w.map(x=>x.name),b.name].sort(()=>Math.random()-.5),hint:'Region: '+b.region});});});}
+  else if(type==='joints'){JOINTS.forEach(j=>{const w=JOINTS.filter(x=>x.name!==j.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Joint at: '+j.examples+' — what type?',ans:j.name,choices:[...w.map(x=>x.name),j.name].sort(()=>Math.random()-.5),hint:j.movements.join(', ')});pool.push({q:'Allows: '+j.movements.join(', ')+' — what joint type?',ans:j.name,choices:[...w.map(x=>x.name),j.name].sort(()=>Math.random()-.5),hint:'Examples: '+j.examples});});}
+  else if(type==='muscles'){MUSCLES.forEach(m=>{const w=MUSCLES.filter(x=>x.name!==m.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Which muscle? Action: '+m.action,ans:m.name,choices:[...w.map(x=>x.name),m.name].sort(()=>Math.random()-.5),hint:'Group: '+m.group});});}
+  else if(type==='movements'){MOVEMENTS.forEach(m=>{const w=MOVEMENTS.filter(x=>x.term!==m.term).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:m.def,ans:m.term,choices:[...w.map(x=>x.term),m.term].sort(()=>Math.random()-.5),hint:'Plane: '+m.plane});});}
+  else if(type==='nerves'){NERVES.forEach(n=>{const w=NERVES.filter(x=>x.name!==n.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Which nerve has this function? '+n.function,ans:n.name,choices:[...w.map(x=>x.name),n.name].sort(()=>Math.random()-.5),hint:'Group: '+n.group});});}
+  else if(type==='ligtend'){LIGTEND.forEach(l=>{const w=LIGTEND.filter(x=>x.name!==l.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Attachments: '+l.attachments.substring(0,90)+' — what structure?',ans:l.name,choices:[...w.map(x=>x.name),l.name].sort(()=>Math.random()-.5),hint:'Region: '+l.region});});}
+  else if(type==='senses'){var all=[...SENSES.eye.structures,...SENSES.ear.structures];all.forEach(s=>{const w=all.filter(x=>x.name!==s.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:s.desc.substring(0,120)+' — what structure?',ans:s.name,choices:[...w.map(x=>x.name),s.name].sort(()=>Math.random()-.5),hint:''});});}
+  return pool.sort(()=>Math.random()-.5).slice(0,15);
+}
 </script>
 </body>
 </html>
