@@ -1222,13 +1222,13 @@ function imgHTML(term, group, autoGenerate) {
 
   if (cached) {
     // Already generated — show immediately
-    return '<div class="ai-img-wrap"><img src="' + cached + '" alt="' + term + '"/></div>';
+    return '<div class="ai-img-wrap" onclick="event.stopPropagation()"><img src="' + cached + '" alt="' + term + '"/></div>';
   }
 
   if (autoGenerate) {
     // Mode 4: show spinner, trigger generation after render
     setTimeout(() => generateImage(term, group, safeId), 100);
-    return '<div class="ai-img-wrap">'
+    return '<div class="ai-img-wrap" onclick="event.stopPropagation()">'
       + '<div class="ai-img-placeholder" id="' + safeId + '">'
       + '<div class="ai-spinner"></div>'
       + '<div>Generating illustration...</div>'
@@ -1236,10 +1236,10 @@ function imgHTML(term, group, autoGenerate) {
   }
 
   // Manual trigger button
-  return '<div class="ai-img-wrap">'
+  return '<div class="ai-img-wrap" onclick="event.stopPropagation()">'
     + '<div class="ai-img-placeholder" id="' + safeId + '">'
     + '<div style="font-size:32px">🎨</div>'
-    + '<button class="ai-gen-btn" onclick="generateImage(\'' + term.replace(/'/g,"\'") + '\',\'' + group.replace(/'/g,"\'") + '\',\'' + safeId + '\')">'
+    + '<button class="ai-gen-btn" onclick="event.stopPropagation();generateImage(\'' + term.replace(/'/g,"\'") + '\',\'' + group.replace(/'/g,"\'") + '\',\'' + safeId + '\')">'
     + '<span>✨ Generate Illustration</span>'
     + '</button>'
     + '<div style="font-size:11px;opacity:.6;margin-top:4px">AI-generated • saves for future use</div>'
@@ -1291,7 +1291,7 @@ async function generateImage(term, group, placeholderId) {
       if (i === seeds.length - 1) {
         el.innerHTML = '<div style="font-size:28px">\uD83D\uDDBC\uFE0F</div>'
           + '<div class="ai-img-error">Image unavailable \u2014 check connection</div>'
-          + '<button class="ai-gen-btn" style="margin-top:8px" onclick="generateImage(\'' + term.replace(/'/g, '\\\'') + '\',\'' + group.replace(/'/g, '\\\'') + '\',\'' + placeholderId + '\')"> Retry</button>';
+          + '<button class="ai-gen-btn" style="margin-top:8px" onclick="event.stopPropagation();generateImage(\'' + term.replace(/'/g, '\\\'') + '\',\'' + group.replace(/'/g, '\\\'') + '\',\'' + placeholderId + '\')"> Retry</button>';
       }
     }
   }
