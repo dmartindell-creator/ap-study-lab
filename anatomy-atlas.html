@@ -113,6 +113,15 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <button class="nb" onclick="showPg('nerves')">⚡ Nerves</button>
     <button class="nb" onclick="showPg('ligtend')">🩹 Lig &amp; Tend</button>
     <button class="nb" onclick="showPg('senses')">👁️ Eye &amp; Ear</button>
+    <button class="nb" onclick="showPg('endocrine')">🧬 Endocrine</button>
+    <button class="nb" onclick="showPg('blood')">🩸 Blood</button>
+    <button class="nb" onclick="showPg('heart')">❤️ Heart</button>
+    <button class="nb" onclick="showPg('vessels')">🫀 Vessels</button>
+    <button class="nb" onclick="showPg('lymph')">🛡️ Lymph/Immune</button>
+    <button class="nb" onclick="showPg('respiratory')">🫁 Respiratory</button>
+    <button class="nb" onclick="showPg('digestive')">🫄 Digestive</button>
+    <button class="nb" onclick="showPg('urinary')">🫘 Urinary</button>
+    <button class="nb" onclick="showPg('reproductive')">👶 Reproductive</button>
     <button class="nb" onclick="showPg('atlas-quiz')">🧠 Quiz</button>
   </nav>
   <a href="index.html" style="padding:6px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);color:var(--text2);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif">← Study Lab</a>
@@ -183,6 +192,17 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px" id="sensesHeader"></div>
   <div id="sensesDetail"></div>
 </div>
+
+<!-- ══════════ A&P 2 SYSTEMS ══════════ -->
+<div id="pg-endocrine" class="pg"><div class="sec-title">🧬 Endocrine System</div><div id="endoContent"></div></div>
+<div id="pg-blood" class="pg"><div class="sec-title">🩸 Blood</div><div id="bloodContent"></div></div>
+<div id="pg-heart" class="pg"><div class="sec-title">❤️ Heart</div><div id="heartContent"></div></div>
+<div id="pg-vessels" class="pg"><div class="sec-title">🫀 Blood Vessels</div><div id="vesselsContent"></div></div>
+<div id="pg-lymph" class="pg"><div class="sec-title">🛡️ Lymphatics &amp; Immunity</div><div id="lymphContent"></div></div>
+<div id="pg-respiratory" class="pg"><div class="sec-title">🫁 Respiratory System</div><div id="respiratoryContent"></div></div>
+<div id="pg-digestive" class="pg"><div class="sec-title">🫄 Digestive System</div><div id="digestiveContent"></div></div>
+<div id="pg-urinary" class="pg"><div class="sec-title">🫘 Urinary System</div><div id="urinaryContent"></div></div>
+<div id="pg-reproductive" class="pg"><div class="sec-title">👶 Reproductive System</div><div id="reproContent"></div></div>
 
 <!-- ══════════ QUIZ ══════════ -->
 <div id="pg-atlas-quiz" class="pg">
@@ -1023,6 +1043,7 @@ function showPg(id){
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');
   event.currentTarget.classList.add('active');
+  const ap2Systems=['endocrine','blood','heart','vessels','lymph','respiratory','digestive','urinary','reproductive'];
   if(id==='bodymap')renderMap();
   else if(id==='bones'){renderBonesPage();}
   else if(id==='muscles'){renderMusclesPage();}
@@ -1031,6 +1052,7 @@ function showPg(id){
   else if(id==='ligtend'){renderLTPage();}
   else if(id==='senses'){renderSensesPage();}
   else if(id==='atlas-quiz'){renderQSetup();}
+  else if(ap2Systems.includes(id)){renderAP2System(id);}
 }
 
 // ═══ EXTEND quiz with new topics ═══
@@ -1038,6 +1060,15 @@ const EXTRA_QTYPES=[
   {id:'nerves',label:'⚡ Nerve Functions',desc:'CN origins, functions, and injuries'},
   {id:'ligtend',label:'🩹 Ligaments & Tendons',desc:'Attachments and clinical relevance'},
   {id:'senses',label:'👁️ Eye & Ear Structures',desc:'Anatomy and pathways'},
+  {id:'ap2_endocrine',label:'🧬 Endocrine System',desc:'Hormones, glands, and feedback'},
+  {id:'ap2_blood',label:'🩸 Blood',desc:'Formed elements, hemostasis, blood groups'},
+  {id:'ap2_heart',label:'❤️ Heart',desc:'Chambers, conduction, cardiac cycle'},
+  {id:'ap2_vessels',label:'🫀 Blood Vessels',desc:'Vessel types, BP, circulation'},
+  {id:'ap2_lymph',label:'🛡️ Lymphatics & Immunity',desc:'Innate and adaptive immune responses'},
+  {id:'ap2_respiratory',label:'🫁 Respiratory',desc:'Airway anatomy, gas exchange, control'},
+  {id:'ap2_digestive',label:'🫄 Digestive',desc:'GI anatomy, digestion, absorption'},
+  {id:'ap2_urinary',label:'🫘 Urinary',desc:'Nephron, urine formation, acid-base'},
+  {id:'ap2_reproductive',label:'👶 Reproductive',desc:'Anatomy, cycles, fertilization, development'},
 ];
 function renderQSetup(){
   document.getElementById('qsetup').style.display='block';
@@ -1058,6 +1089,390 @@ function pickQType(id,el){
 
 
 
+
+// ═══════════════════════════════════════════════════════
+// A&P 2 SYSTEMS DATA FOR ANATOMY ATLAS
+// ═══════════════════════════════════════════════════════
+
+const AP2_SYSTEMS = {
+
+endocrine: {
+  name:'Endocrine System', emoji:'🧬', color:'#b084f5',
+  overview:'The endocrine system uses hormones transported through the bloodstream to regulate metabolism, growth, reproduction, and homeostasis. Major glands include the hypothalamus, pituitary, thyroid, parathyroid, adrenal glands, pancreas, and gonads.',
+  sections:[
+    { title:'Hypothalamus & Pituitary', color:'#b084f5', structures:[
+      {name:'Hypothalamus',desc:'Master regulator. Located in diencephalon. Produces releasing hormones (GnRH, TRH, CRH, GHRH) and inhibiting hormones that control anterior pituitary. Synthesizes ADH and oxytocin (stored/released by posterior pituitary). Connected to pituitary via infundibulum.',clinical:'Hypothalamic dysfunction: amenorrhea, diabetes insipidus, temperature dysregulation.',mnemonic:'Hypothalamus = boss of the pituitary. Controls everything.'},
+      {name:'Anterior pituitary (adenohypophysis)',desc:'True glandular tissue. Controlled by hypothalamic hormones via hypothalamo-hypophyseal portal system. Produces: GH, TSH, ACTH, FSH, LH, PRL, MSH.',clinical:'Pituitary adenoma: most common pituitary tumor. Can cause excess hormone secretion (acromegaly from GH excess) or compression of optic chiasm (bitemporal hemianopia).',mnemonic:'GT AFLP = GH, TSH, ACTH, FSH, LH, PRL. All from anterior pituitary.'},
+      {name:'Posterior pituitary (neurohypophysis)',desc:'Neural tissue (axon terminals from hypothalamic neurons). Stores and releases ADH (vasopressin) and oxytocin. NOT a true endocrine gland — just a storage/release site.',clinical:'Diabetes insipidus: ADH deficiency → excessive dilute urine (polyuria) + polydipsia. SIADH: excess ADH → water retention → hyponatremia.',mnemonic:'Posterior pituitary = storage locker for hypothalamic hormones ADH and oxytocin.'},
+      {name:'Growth hormone (GH)',desc:'From somatotrophs of anterior pituitary. Stimulates IGF-1 from liver → promotes bone lengthening (epiphyseal plates), muscle growth, protein synthesis, lipolysis. Peaks during slow-wave sleep. Controlled by GHRH (+) and somatostatin (-).',clinical:'Deficiency in children: dwarfism. Excess in children: gigantism. Excess in adults (after growth plates close): acromegaly (enlarged hands, feet, jaw, organs).',mnemonic:'GH = Grow Here. Peaks during sleep. Deficiency = dwarf. Excess = giant/acromegaly.'},
+      {name:'ADH (antidiuretic hormone / vasopressin)',desc:'Synthesized in hypothalamic supraoptic nucleus, released from posterior pituitary. Triggers: high plasma osmolarity, low blood volume/pressure. Action: inserting aquaporins into collecting duct → water reabsorption → concentrated urine. Vasoconstriction at high doses.',clinical:'Diabetes insipidus (DI): central (no ADH) or nephrogenic (kidney unresponsive). Massive dilute urine output. SIADH: excess ADH causes dilutional hyponatremia.',mnemonic:'ADH = Anti-Diuresis = keeps water IN. Alcohol blocks ADH = more urination.'},
+      {name:'Oxytocin',desc:'Synthesized in paraventricular nucleus of hypothalamus, released from posterior pituitary. Positive feedback during labor: fetal head stretches cervix → oxytocin → stronger contractions. Milk ejection reflex (let-down). Social bonding.',clinical:'Pitocin (synthetic oxytocin) used to induce labor or augment contractions. Intranasal oxytocin studied for autism/social bonding.',mnemonic:'Oxytocin = labor (positive feedback) + milk ejection. "Oxytosin = quick birth."'},
+    ]},
+    { title:'Thyroid & Parathyroid', color:'#52d18a', structures:[
+      {name:'Thyroid gland',desc:'Butterfly-shaped, anterior to trachea below larynx. 2 lobes + isthmus. Follicles filled with colloid (thyroglobulin). Follicular cells produce T3/T4 from tyrosine + iodine. Parafollicular (C) cells produce calcitonin.',clinical:'Goiter: enlarged thyroid from iodine deficiency or Graves disease. Thyroid nodules: usually benign but malignant risk requires evaluation.',mnemonic:'Butterfly shape over trachea. T3 = 3 iodines (active), T4 = 4 iodines (prohormone).'},
+      {name:'T3 (triiodothyronine) & T4 (thyroxine)',desc:'Lipid-soluble hormones. T4 is more abundant; T3 is more active (T4 converted to T3 in peripheral tissues by deiodinases). Effects: increase BMR, heat production, heart rate, GI motility. Essential for fetal brain development and normal growth.',clinical:'Hypothyroidism: fatigue, weight gain, cold intolerance, bradycardia, myxedema, constipation. Hyperthyroidism: Graves disease (autoimmune, TSH-receptor antibodies), weight loss, heat intolerance, exophthalmos, tachycardia.',mnemonic:'T3 = turbo-active. Hypothyroid = slow everything (cold, fat, tired). Hyperthyroid = fast everything (hot, thin, anxious).'},
+      {name:'Calcitonin',desc:'From parafollicular C cells. Released when blood Ca²⁺ is HIGH. Lowers blood calcium by: inhibiting osteoclasts (less bone resorption) and increasing renal Ca²⁺ excretion. Weak effect in adults. More important in children during bone growth.',clinical:'Used therapeutically in hypercalcemia and Paget\'s disease. Calcitonin-salmon nasal spray for osteoporosis (though bisphosphonates preferred).',mnemonic:'Calcitonin TONES DOWN calcium. CaliTONIN = lowers calcium. Opposite of PTH.'},
+      {name:'Parathyroid hormone (PTH)',desc:'4 parathyroid glands embedded in posterior thyroid. Chief cells secrete PTH when blood Ca²⁺ is LOW. Raises Ca²⁺ by: activating osteoclasts (bone resorption), increasing renal Ca²⁺ reabsorption + phosphate excretion, activating vitamin D (calcitriol) → increased GI Ca²⁺ absorption.',clinical:'Hypoparathyroidism (post-thyroid surgery): hypocalcemia → tetany, Chvostek\'s sign, Trousseau\'s sign. Hyperparathyroidism: hypercalcemia → kidney stones, bone pain, psychic groans, abdominal moans.',mnemonic:'PTH = Please Take (calcium) Home. RAISES blood calcium. "Stones, groans, moans" = hyperparathyroidism.'},
+    ]},
+    { title:'Adrenal Glands', color:'#f07060', structures:[
+      {name:'Adrenal cortex — zona glomerulosa',desc:'Outermost zone. Produces mineralocorticoids — primarily ALDOSTERONE. Aldosterone: increases Na⁺ reabsorption and K⁺ secretion in distal nephron → water follows Na⁺ → increases blood volume and pressure. Stimulated by: angiotensin II, high K⁺, low Na⁺.',clinical:'Primary hyperaldosteronism (Conn syndrome): excess aldosterone → hypertension + hypokalemia. Cause: adrenal adenoma or hyperplasia.',mnemonic:'"Salt zone" (glomerulosa = salt/mineral). GFR order from outside: G=salt, F=sugar, R=sex.'},
+      {name:'Adrenal cortex — zona fasciculata',desc:'Middle (largest) zone. Produces glucocorticoids — primarily CORTISOL. Cortisol: increases blood glucose (gluconeogenesis from protein/fat), anti-inflammatory (stabilizes lysosomal membranes, inhibits phospholipase A2), immunosuppressive, stress response. Negative feedback on CRH and ACTH.',clinical:'Cushing syndrome: excess cortisol → central obesity, moon face, buffalo hump, striae, hyperglycemia, hypertension, osteoporosis, immunosuppression. Addison disease: cortisol deficiency → hypoglycemia, hypotension, bronzing, fatigue.',mnemonic:'"Sugar zone" (fasciculata = sugar/glucose). Cortisol = stressed SUGAR. Cushing = cushioned with fat.'},
+      {name:'Adrenal cortex — zona reticularis',desc:'Innermost cortical zone. Produces androgens — primarily DHEA (dehydroepiandrosterone) and androstenedione. Weak androgens converted peripherally to testosterone/estrogens. Responsible for adrenarche (pubic/axillary hair in both sexes at puberty).',clinical:'Adrenal carcinoma or CAH (congenital adrenal hyperplasia): excess androgens → virilization in females, precocious puberty in males.',mnemonic:'"Sex zone" (reticularis = sex hormones). "R for Romance." Weak androgens → adrenarche.'},
+      {name:'Adrenal medulla',desc:'Inner core. Modified sympathetic ganglionic neurons (chromaffin cells). Produces catecholamines: epinephrine (80%) and norepinephrine (20%). Released during stress (fight-or-flight). Effects: ↑ HR, ↑ BP, ↑ blood glucose (glycogenolysis), bronchodilation, vasodilation in skeletal muscle.',clinical:'Pheochromocytoma: catecholamine-secreting tumor → episodic hypertension, headache, palpitations, diaphoresis (classic triad). Dangerous but surgically curable.',mnemonic:'Medulla = emergency hormones. Epi + NorEpi = Fight-or-Flight. Pheo = tumor = episodic HTN crises.'},
+    ]},
+    { title:'Pancreas & Other Glands', color:'#f5c842', structures:[
+      {name:'Pancreatic islets — beta cells',desc:'Produce INSULIN when blood glucose is high. Insulin: promotes glucose uptake into cells (GLUT4 in muscle/adipose), glycogen synthesis, protein synthesis, fat storage. Lowers blood glucose. C-peptide released in equimolar amounts (used to measure endogenous insulin production).',clinical:'Type 1 DM: autoimmune beta cell destruction, absolute insulin deficiency, DKA risk. Type 2 DM: insulin resistance + progressive beta cell failure. HbA1c measures average glucose over 3 months.',mnemonic:'Beta cells = Blood sugar Buster (insulin). GLUT4 = glucose goes IN after insulin signal.'},
+      {name:'Pancreatic islets — alpha cells',desc:'Produce GLUCAGON when blood glucose is low (fasting). Glucagon: stimulates glycogenolysis (glycogen → glucose) and gluconeogenesis in liver, lipolysis. Raises blood glucose. Antagonizes insulin.',clinical:'Glucagonoma: rare alpha cell tumor → hyperglycemia + necrolytic migratory erythema (skin rash) + weight loss.',mnemonic:'Alpha cells = Absent glucose → glucAGON = glucose is GONE, release more.'},
+      {name:'Pineal gland',desc:'Located in epithalamus. Secretes melatonin in response to DARKNESS (suprachiasmatic nucleus inhibits melatonin in light). Regulates circadian rhythm and sleep-wake cycle. Melatonin peaks 2-4 AM. Decreases with age.',clinical:'Jet lag, shift work disorder: melatonin supplements help reset circadian rhythm. Pinealoma: rare tumor, can cause precocious puberty.',mnemonic:'Pineal = PINEcone shaped. Melatonin = MELAncholy darkness hormone = sleep.'},
+      {name:'Other hormone-producing organs',desc:'Heart: ANP (atrial natriuretic peptide) — released when atria stretch (high blood volume) → natriuresis + diuresis → lowers BP. Kidneys: EPO (erythropoietin) — stimulates RBC production; renin — RAAS activation; calcitriol (active vit D). Stomach/intestines: gastrin, CCK, secretin, GIP, GLP-1. Adipose: leptin (satiety) + adiponectin.',clinical:'EPO abuse in athletes (blood doping). Leptin deficiency: rare cause of morbid obesity. GLP-1 analogs (semaglutide/Ozempic): type 2 DM + weight loss medications.',mnemonic:'Heart, kidneys, GI tract, fat = all endocrine organs. ANP = heart dumps Na when overfull.'},
+    ]},
+  ],
+  clinical_summary:[
+    'Diabetes mellitus type 1: autoimmune beta cell destruction, absolute insulin deficiency, DKA risk, requires insulin.',
+    'Diabetes mellitus type 2: insulin resistance + beta cell failure, lifestyle + oral meds, eventually insulin.',
+    'Hypothyroidism: slow metabolism, myxedema, cold intolerance, treat with levothyroxine (T4).',
+    'Hyperthyroidism (Graves): autoimmune, exophthalmos, treat with antithyroid drugs, radioiodine, or surgery.',
+    'Cushing syndrome: excess cortisol → moon face, buffalo hump, central obesity, striae, hyperglycemia.',
+    'Addison disease: adrenal cortex failure → hypoglycemia, hypotension, bronzing skin (↑ACTH/MSH).',
+    'Diabetes insipidus: ADH deficiency (central) or resistance (nephrogenic) → massive dilute urine.',
+    'Pheochromocytoma: adrenal medulla tumor → episodic hypertension, headache, palpitations, diaphoresis.',
+  ],
+  mnemonic:'Endocrine glands: "HHTTAPGG" = Hypothalamus, Hypophysis (pituitary), Thyroid, paraTHyroid, Adrenal, Pancreas, Gonads, other (GI/heart/kidney).'
+},
+
+blood: {
+  name:'Blood', emoji:'🩸', color:'#f07060',
+  overview:'Blood is a connective tissue (~5L in adults) consisting of plasma (55%) and formed elements (45% — RBCs, WBCs, platelets). Functions: transport O₂/nutrients/waste/hormones, regulate pH/temperature, protect via clotting and immunity.',
+  sections:[
+    { title:'Plasma & Formed Elements', color:'#7c9ef8', structures:[
+      {name:'Plasma',desc:'55% of blood. ~91% water. Proteins: albumin (osmotic pressure, transport), globulins (antibodies, transport), fibrinogen (clotting). Also: electrolytes, nutrients, gases, hormones, waste. Serum = plasma minus clotting factors.',clinical:'Hypoalbuminemia (liver failure, malnutrition): low osmotic pressure → edema. Elevated fibrinogen: acute phase reactant in inflammation.',mnemonic:'Plasma = protein soup: Albumin (oncotic), Globulins (immune), Fibrinogen (clotting). AGF.'},
+      {name:'Erythrocytes (RBCs)',desc:'~5 million/µL. Biconcave disc: no nucleus, no organelles → maximizes hemoglobin (280 million/RBC). Lifespan 120 days. Destroyed in spleen by macrophages. Heme → bilirubin. Iron recycled via transferrin. Flexible (fits 2-8µm capillaries).',clinical:'Microcytic anemia (iron deficiency): small pale RBCs. Macrocytic (B12/folate deficiency): large RBCs. Sickle cell: sickling under low O₂ → vessel occlusion + hemolysis.',mnemonic:'RBC = biconcave, no nucleus = more Hb. Lives 120 days then dies in SPLEEN.'},
+      {name:'Hemoglobin',desc:'4 globin chains + 4 heme groups (each with Fe²⁺). Each Fe²⁺ binds 1 O₂ → 1 Hb molecule carries 4 O₂. Oxyhemoglobin = bright red. Deoxyhemoglobin = dark red. HbA1 = adult (α₂β₂). HbF = fetal (α₂γ₂, higher O₂ affinity). HbS = sickle cell.',clinical:'Carbon monoxide poisoning: CO binds Hb 200× more avidly than O₂ → carboxyhemoglobin → cellular hypoxia. Methemoglobin: Fe³⁺ (oxidized) cannot bind O₂.',mnemonic:'Hemoglobin = 4 chains, 4 hemes, 4 O₂. HbF = fetal = higher affinity (keeps oxygen from mother).'},
+      {name:'Leukocytes (WBCs)',desc:'5 types. All nucleated. Normal: 5,000-10,000/µL. Differential: Neutrophils (60-70%), Lymphocytes (20-30%), Monocytes (2-8%), Eosinophils (2-4%), Basophils (<1%). Never Let Monkeys Eat Bananas = % order.',clinical:'Leukocytosis (>10,000): infection, stress, leukemia. Leukopenia (<5,000): chemotherapy, aplastic anemia. Left shift: increased immature neutrophils (bands) in severe infection.',mnemonic:'Never Let Monkeys Eat Bananas = Neutrophils, Lymphocytes, Monocytes, Eosinophils, Basophils (% order).'},
+      {name:'Platelets (thrombocytes)',desc:'Cell fragments from megakaryocytes. No nucleus. 2-4µm diameter. Normal 150,000-400,000/µL. Lifespan 7-10 days. Contain alpha granules (fibrinogen, vWF, P-selectin) and dense granules (ADP, serotonin, Ca²⁺). Essential for primary hemostasis.',clinical:'Thrombocytopenia (<150,000): petechia, purpura, spontaneous bleeding. ITP (immune thrombocytopenic purpura): autoimmune platelet destruction. TTP: platelet microthrombi in vessels.',mnemonic:'Platelets = cell fragments for plugging holes. <150K = thrombocytopenia = bleeding risk.'},
+    ]},
+    { title:'Hemostasis & Coagulation', color:'#f07060', structures:[
+      {name:'Vascular spasm',desc:'Immediate response to vessel injury. Smooth muscle contracts → vasoconstriction → reduces blood flow to injured area. Mediated by: direct muscle trauma, nervous reflexes, local myogenic response, serotonin + thromboxane A2 from platelets. Lasts minutes.',clinical:'Most effective in small vessels. Tourniquet = external application of similar principle.',mnemonic:'Step 1: Spasm = immediate but short-lived vessel constriction.'},
+      {name:'Platelet plug formation',desc:'Collagen exposed at vessel injury → von Willebrand factor (vWF) bridges collagen to GPIb receptor on platelets → platelet adhesion. Activated platelets release ADP, thromboxane A2 (TXA2) → recruit more platelets. GPIIb/IIIa receptor + fibrinogen → platelet aggregation. TXA2 = vasoconstriction. PGI2 (prostacyclin) from intact endothelium opposes TXA2.',clinical:'Von Willebrand disease: most common inherited bleeding disorder (vWF deficiency). Aspirin: irreversibly inhibits COX → ↓ TXA2 → antiplatelet effect.',mnemonic:'vWF glues platelets to collagen. ADP + TXA2 call more platelets. Aspirin blocks TXA2.'},
+      {name:'Coagulation cascade',desc:'Intrinsic pathway (contact activation, slow): surface → XII → XI → IX → VIII. Extrinsic pathway (fast): tissue factor (TF) + VII. Both → COMMON pathway: X → prothrombin activator → thrombin → fibrinogen → fibrin (loose) → Factor XIII crosslinks fibrin (stable clot). Calcium ions required throughout.',clinical:'Hemophilia A: Factor VIII deficiency. Hemophilia B: Factor IX deficiency. Warfarin: blocks vitamin K-dependent factors (II, VII, IX, X). Heparin: enhances antithrombin III → inactivates thrombin and Xa.',mnemonic:'ITCH → Common → Fibrin. Intrinsic, Tissue factor-extrinsic, Common, Hardened fibrin. Thrombin = key enzyme.'},
+      {name:'Fibrinolysis',desc:'Clot dissolution. Plasminogen (inactive) incorporated into clot → tPA (tissue plasminogen activator) or uPA activates it → plasmin digests fibrin → clot dissolves. D-dimers = fibrin breakdown products (elevated in DVT/PE, DIC). Regulated by: PAI-1 (inhibits tPA), α2-antiplasmin (inhibits plasmin).',clinical:'tPA (alteplase): clot buster for ischemic stroke (within 4.5 hours), STEMI. D-dimer: sensitive but not specific for PE/DVT.',mnemonic:'Plasminogen → Plasmin = fibrin shredder. tPA = clot buster drug. D-dimer = clot breakdown marker.'},
+    ]},
+    { title:'Blood Groups', color:'#52d18a', structures:[
+      {name:'ABO blood groups',desc:'Based on RBC surface antigens (agglutinogens) and plasma antibodies (agglutinins). Type A: A antigen, anti-B antibody. Type B: B antigen, anti-A antibody. Type AB: both antigens, NO antibodies (universal recipient). Type O: no antigens, both antibodies (universal donor). ABO antigens also on other body cells.',clinical:'ABO incompatibility: intravascular hemolysis, DIC, renal failure, death. Always crossmatch before transfusion. ABO incompatibility in organ transplant causes hyperacute rejection.',mnemonic:'Universal donor = O (no antigens to attack). Universal recipient = AB (no antibodies to attack donor cells).'},
+      {name:'Rh blood group',desc:'Rh (D) antigen: present in 85% of population (Rh+). Rh- individuals develop anti-Rh antibodies only after exposure to Rh+ blood. Hemolytic disease of newborn (HDN/erythroblastosis fetalis): Rh- mother + Rh+ fetus → sensitization → 2nd pregnancy: IgG anti-Rh crosses placenta → destroys fetal RBCs.',clinical:'RhoGAM (anti-D immunoglobulin): given to Rh- mothers at 28 weeks and after delivery to prevent sensitization. DFMC (direct fetal blood transfusion) for severe HDN.',mnemonic:'Rh- mother + Rh+ baby = HDN in 2nd pregnancy. RhoGAM prevents sensitization.'},
+    ]},
+  ],
+  clinical_summary:[
+    'Iron deficiency anemia: most common anemia worldwide. Microcytic, hypochromic RBCs. Low ferritin.',
+    'Sickle cell disease: HbS polymerizes → sickle shape → vaso-occlusion + hemolysis. Pain crises, organ damage.',
+    'Hemophilia A (Factor VIII deficiency): X-linked recessive. Hemarthrosis, prolonged PTT.',
+    'DIC (disseminated intravascular coagulation): widespread clotting consumes factors → bleeding paradox.',
+    'Leukemia: malignant WBC proliferation. AML/CML (myeloid), ALL/CLL (lymphoid).',
+    'Polycythemia vera: excess RBC production → hyperviscosity → thrombosis risk.',
+  ],
+  mnemonic:'Blood = 55% plasma + 45% formed elements. Never Let Monkeys Eat Bananas (WBC differential).'
+},
+
+heart: {
+  name:'Heart', emoji:'❤️', color:'#f07060',
+  overview:'The heart is a 4-chambered pump located in the mediastinum. It beats ~100,000 times/day, pumping ~5L of blood/minute at rest. The right side handles pulmonary circulation; the left handles systemic circulation.',
+  sections:[
+    { title:'Heart Anatomy', color:'#f07060', structures:[
+      {name:'Pericardium & heart wall',desc:'Pericardium: fibrous outer layer + serous pericardium (parietal + visceral/epicardium). Pericardial fluid (15-50mL) reduces friction. Heart wall: Epicardium (outer, fat layer) → Myocardium (cardiac muscle, thickest in LV) → Endocardium (smooth inner lining of chambers).',clinical:'Pericarditis: inflammation → friction rub, chest pain worse supine. Cardiac tamponade: excess fluid compresses heart → Beck\'s triad (hypotension, muffled heart sounds, JVD).',mnemonic:'EME = Epicardium, Myocardium, Endocardium. Left ventricle = thickest myocardium.'},
+      {name:'Chambers & great vessels',desc:'RA receives deoxygenated blood from SVC + IVC + coronary sinus. RV pumps to lungs via pulmonary trunk. LA receives oxygenated blood from 4 pulmonary veins. LV pumps to systemic circulation via aorta. LV wall 3× thicker than RV (higher pressure). Interventricular septum.',clinical:'Ventricular septal defect (VSD): most common congenital heart defect. Left-to-right shunt (high→low pressure) → pulmonary overload.',mnemonic:'Right = pulmonary (lungs). Left = systemic (body). Blood: RA→RV→lungs→LA→LV→body.'},
+      {name:'Heart valves',desc:'AV valves: Tricuspid (right, 3 cusps) + Mitral/Bicuspid (left, 2 cusps). Held open/closed by chordae tendineae + papillary muscles (prevent eversion into atria during ventricular systole). Semilunar valves: Pulmonary (right) + Aortic (left), 3 cusps each, no chordae needed.',clinical:'Mitral stenosis: rheumatic fever scarring → LA dilation → pulmonary hypertension → dyspnea. Aortic stenosis: most common valvular disease in elderly → syncope, angina, heart failure.',mnemonic:'TRY Before Pumping Aorta = Tricuspid, Bicuspid, Pulmonary, Aortic (flow order).'},
+      {name:'Coronary circulation',desc:'LCA (left coronary artery) → LAD (anterior interventricular = "widow maker") + LCx (circumflex). RCA → right marginal + posterior interventricular. Heart is perfused DURING DIASTOLE (ventricles relaxed). Coronary veins → coronary sinus → right atrium.',clinical:'LAD occlusion = anterior wall MI (most dangerous). RCA occlusion = inferior MI + AV node dysfunction. Coronary angiography + stenting (PCI) or CABG for severe CAD.',mnemonic:'LAD = widow maker. Coronary arteries fill during DIASTOLE (heart relaxed). RCA feeds inferior heart.'},
+    ]},
+    { title:'Cardiac Physiology', color:'#52d18a', structures:[
+      {name:'Cardiac conduction system',desc:'SA node (pacemaker, 60-100/min, right atrium) → internodal pathways → AV node (delays 0.1 sec — allows atria to finish emptying) → Bundle of His → right + left bundle branches → Purkinje fibers (rapid spread from apex upward). Intrinsic rates: SA=60-100, AV=40-60, ventricles=20-40.',clinical:'Heart block: 1st (prolonged PR), 2nd (some P waves not conducted), 3rd/complete (no AV conduction → pacemaker needed). Atrial fibrillation: chaotic atrial activity → irregular pulse → stroke risk.',mnemonic:'SA→AV (delay)→His→Branches→Purkinje. SA = starter, AV = gatekeeper, Purkinje = floor-to-ceiling spread.'},
+      {name:'Cardiac cycle & heart sounds',desc:'Systole (contraction): AV valves close (S1 = LUB) → isovolumetric contraction → semilunar valves open → ejection. Diastole (relaxation): semilunar valves close (S2 = DUB) → isovolumetric relaxation → AV valves open → filling (passive 75%) + atrial systole (25%). Duration: ~0.8 sec at 75 bpm.',clinical:'S3 (ventricular gallop): early diastolic filling sound = heart failure in adults (normal in children). S4 (atrial gallop): stiff ventricle (hypertension, hypertrophic CM). Murmurs: turbulent flow through stenotic/regurgitant valves.',mnemonic:'Lub = AV valves close. Dub = semilunar valves close. Lub-Dub = heart sounds.'},
+      {name:'Cardiac output & Frank-Starling law',desc:'CO = HR × SV (normal ~5.25 L/min). SV = EDV - ESV (~70 mL). Ejection fraction = SV/EDV × 100 (normal ≥55%). Frank-Starling law: ↑ preload (venous return/EDV) → ↑ myocardial stretch → ↑ force of contraction → ↑ SV. Afterload = arterial resistance (↑ with hypertension).',clinical:'Heart failure with reduced EF (HFrEF): EF <40%, dilated CM. Heart failure with preserved EF (HFpEF): EF ≥50%, diastolic dysfunction.',mnemonic:'CO = HR × SV. Frank-Starling = stretch more = pump more (rubber band analogy). EF < 55% = heart failure.'},
+      {name:'Autonomic regulation',desc:'Sympathetic (β1 receptors): ↑ HR (chronotropy), ↑ contractility (inotropy), ↑ conduction velocity, ↑ SV → ↑ CO. Parasympathetic (vagus, M2 receptors): ↓ HR, ↓ conduction. Cardiac centers in medulla: cardioacceleratory + cardioinhibitory. Baroreceptors in carotid sinus + aortic arch.',clinical:'Beta-blockers (metoprolol): block β1 → ↓ HR + contractility. Used for HTN, heart failure, arrhythmias. Atropine: blocks vagal effects → ↑ HR (used for bradycardia).',mnemonic:'Sympathetic = speed up (fight-or-flight). Parasympathetic = slow down (rest-digest). Beta-1 = heart.'},
+    ]},
+  ],
+  clinical_summary:[
+    'MI (myocardial infarction): coronary occlusion → myocardial necrosis. Troponin rises in 3-4 hours. Treat with PCI.',
+    'Heart failure: CO insufficient. LHF = pulmonary edema. RHF = peripheral edema + JVD.',
+    'Atrial fibrillation: irregular rhythm, no P waves, stroke risk → anticoagulation needed.',
+    'Hypertrophic cardiomyopathy: genetic LV hypertrophy → sudden death in young athletes.',
+    'Endocarditis: valve infection (Strep viridans most common, Staph in IV drug users). Janeway lesions, Osler nodes.',
+  ],
+  mnemonic:'Heart anatomy: RAME = Right Atrium → Right ventricle → pulMonary → pEriphery... no, RA→RV→Lungs→LA→LV→Body.'
+},
+
+vessels: {
+  name:'Blood Vessels', emoji:'🫀', color:'#7c9ef8',
+  overview:'Blood vessels transport blood throughout the body. Arteries carry blood AWAY from the heart (usually oxygenated). Veins carry blood TOWARD the heart (usually deoxygenated). Capillaries are the site of exchange.',
+  sections:[
+    { title:'Vessel Structure', color:'#7c9ef8', structures:[
+      {name:'Arterial wall (3 tunics)',desc:'Tunica intima (inner): endothelium + internal elastic lamina. Tunica media (middle): smooth muscle + elastic fibers — thickest in arteries, regulated by sympathetic NS. Tunica adventitia (outer): collagen CT, vasa vasorum (blood vessels that supply vessel walls). Arteries resist pressure; veins have thinner media + valves.',clinical:'Atherosclerosis: intimal plaque formation → narrowed lumen, ↓ elasticity. Aneurysm: weakened arterial wall → dilation → rupture risk (AAA most common in abdominal aorta).',mnemonic:'IMA = Intima, Media, Adventitia. Media = muscle = controls BP.'},
+      {name:'Capillary types',desc:'Continuous (most common): tight junctions, found in muscle/brain/lung. Fenestrated (pores): kidneys/GI/endocrine glands → high filtration. Sinusoidal (large gaps): liver/spleen/bone marrow → allow cell passage. Respiratory membrane = 0.5µm thick. Total capillary surface area ~6,300 m².',clinical:'Blood-brain barrier: tight junction continuous capillaries + astrocyte feet → limits drug/toxin access. Disrupted in meningitis, stroke.',mnemonic:'Continuous > Fenestrated > Sinusoidal (most to least restrictive). Brain = continuous (blood-brain barrier).'},
+      {name:'Venous system',desc:'Thinner walls, larger lumen, lower pressure. Valves prevent backflow (absent in portal, pulmonary, dural sinuses). Hold ~64% of blood volume (capacitance vessels). Venous return aided by: skeletal muscle pump, respiratory pump (negative intrathoracic pressure), venoconstriction.',clinical:'DVT (deep vein thrombosis): Virchow\'s triad: stasis + hypercoagulability + endothelial injury. Risk: immobility, surgery, malignancy. Complication: pulmonary embolism.',mnemonic:'Veins = thin walls + valves + blood reservoir (64%). Varicose veins = incompetent valves.'},
+    ]},
+    { title:'Blood Pressure & Regulation', color:'#f07060', structures:[
+      {name:'Blood pressure physiology',desc:'BP = CO × TPR (total peripheral resistance). Systolic (ventricular ejection pressure), diastolic (arterial recoil/runoff). Normal <120/80 mmHg. Mean arterial pressure (MAP) = DBP + 1/3(PP). PP = pulse pressure = SBP-DBP. Arterioles = main site of resistance (↑ radius → ↓ resistance by r⁴ relationship).',clinical:'Hypertension: ≥130/80. Silent killer. Damages heart, kidneys, brain, eyes. Primary (essential, 90%): unknown cause. Secondary (10%): renal artery stenosis, Conn, Cushing, pheochromocytoma.',mnemonic:'BP = CO × TPR. Arterioles control resistance. MAP = DBP + 1/3 pulse pressure.'},
+      {name:'RAAS (Renin-Angiotensin-Aldosterone)',desc:'↓ BP or ↓ Na⁺ or ↓ renal perfusion → JG cells release renin → cleaves angiotensinogen → angiotensin I → ACE (lung capillaries) → angiotensin II → (1) vasoconstriction (↑ TPR), (2) aldosterone release (↑ Na⁺/water retention = ↑ volume), (3) ADH stimulation (↑ water retention), (4) thirst, (5) cardiac/vascular remodeling.',clinical:'ACE inhibitors (lisinopril): block Ang II formation → ↓ BP + proteinuria. ARBs (losartan): block Ang II receptor. Both = first-line in HTN with DM/CKD.',mnemonic:'RAAS: Renin→A-I→ACE→A-II→Aldosterone. All RAISE pressure. ACE inhibitors block it.'},
+      {name:'Capillary exchange (Starling forces)',desc:'Net filtration = (Pcap - Pif) - (πp - πif). Arterial end: hydrostatic pressure (HP, ~35 mmHg) > osmotic pressure (OP, ~25 mmHg) → net filtration outward. Venous end: HP (~15 mmHg) < OP (~25 mmHg) → net reabsorption. Net ~3L/day excess filtered → returns via lymphatics.',clinical:'Edema causes: ↑ capillary HP (heart failure, DVT), ↓ plasma osmotic P (↓ albumin = cirrhosis/nephrotic), ↑ capillary permeability (inflammation, burns), lymphatic obstruction (filariasis).',mnemonic:'Arteriole end = push out (hydrostatic wins). Venule end = pull in (osmotic wins). Net excess → lymph.'},
+    ]},
+    { title:'Circulation Routes', color:'#52d18a', structures:[
+      {name:'Pulmonary circulation',desc:'Right heart → lungs → left heart. LOW pressure (15-25 mmHg). Pulmonary arteries carry deoxygenated blood (opposite convention). 4 pulmonary veins return oxygenated blood to LA. Gas exchange occurs in alveolar capillaries.',clinical:'Pulmonary hypertension: ↑ pulmonary arterial pressure → RV hypertrophy → RV failure. Primary (PAH) or secondary (from lung disease, PE, left heart disease).',mnemonic:'Pulmonary arteries = deoxygenated (unique exception). Low pressure circuit.'},
+      {name:'Systemic circulation',desc:'Left heart → body → right heart. HIGH pressure (~120 mmHg). Aorta → arteries → arterioles → capillaries → venules → veins → SVC/IVC → RA. Portal circulation: intestines/stomach/spleen/pancreas → portal vein → liver (first-pass metabolism) → hepatic veins → IVC.',clinical:'Portal hypertension (cirrhosis): ↑ portal pressure → varices (esophageal, rectal), ascites, splenomegaly. Esophageal variceal bleeding = life-threatening emergency.',mnemonic:'Portal vein = nutrient-rich blood to liver FIRST. First-pass metabolism for drugs.'},
+    ]},
+  ],
+  clinical_summary:[
+    'Atherosclerosis: intimal plaque → stenosis → ischemia. Major cause of MI and stroke.',
+    'Hypertension: ≥130/80. Silent killer. Target organ damage: CHEK = Cardiac, Heart (brain), Eyes, Kidneys.',
+    'DVT: Virchow\'s triad. Treat with anticoagulation. Complication = PE (pulmonary embolism).',
+    'Aortic aneurysm: AAA most common (infrarenal). Rupture = surgical emergency. Screen smokers >65 yrs.',
+    'Peripheral artery disease (PAD): atherosclerosis in leg arteries → claudication → rest pain → tissue necrosis.',
+  ],
+  mnemonic:'Vessels: Arteries Away, Veins Venture back. Arterioles control resistance. Capillaries = exchange.'
+},
+
+lymph: {
+  name:'Lymphatics & Immunity', emoji:'🛡️', color:'#4ecdc4',
+  overview:'The lymphatic system returns excess interstitial fluid to blood, transports dietary fats, and hosts immune cells. The immune system has innate (rapid, nonspecific) and adaptive (specific, memory) components.',
+  sections:[
+    { title:'Lymphatic Anatomy', color:'#4ecdc4', structures:[
+      {name:'Lymph vessels & nodes',desc:'Blind-ended lymph capillaries in tissues → lymph vessels → lymph nodes → trunks → thoracic duct (drains left side + below diaphragm → left subclavian vein) or right lymphatic duct (right head/neck/arm → right subclavian vein). Lymph nodes: filter lymph, site of immune responses (B cell follicles in cortex, T cells in paracortex, macrophages in medulla).',clinical:'Lymphadenopathy: enlarged lymph nodes. Reactive (infection, autoimmune) vs. neoplastic (lymphoma, metastasis). Sentinel node biopsy: first-draining lymph node in cancer staging.',mnemonic:'Lymph flows: capillaries → vessels → nodes → thoracic duct → left subclavian. One-way flow.'},
+      {name:'Spleen',desc:'Largest lymphoid organ (left upper quadrant). Red pulp: macrophages destroy old RBCs + platelets; blood reservoir. White pulp: lymphoid tissue (periarterial lymphatic sheath around arteries) for immune responses. Filters BLOOD (not lymph). Marginal zone: interface between red + white pulp, initiates immune responses to blood-borne pathogens.',clinical:'Splenomegaly: infections (mononucleosis, malaria), portal HTN, hemolytic anemia, lymphoma. Splenic rupture (trauma) → massive internal hemorrhage. Asplenia: ↑ risk from encapsulated bacteria (Strep pneumo, H. flu, Neisseria meningitidis).',mnemonic:'Spleen: RED = old RBC graveyard. WHITE = immune responses. Filters BLOOD. Left upper quadrant.'},
+      {name:'Thymus',desc:'Bilobed gland in superior mediastinum. T cell maturation: cortex (positive selection — T cells that recognize MHC survive), medulla (negative selection — self-reactive T cells deleted by Aire gene, prevents autoimmunity). Secretes thymosins. Largest in childhood; involutes after puberty.',clinical:'DiGeorge syndrome: 22q11 deletion → thymic aplasia → no T cells → infections + hypocalcemia (parathyroid aplasia). Myasthenia gravis: 75% have thymic abnormalities (hyperplasia or thymoma).',mnemonic:'Thymus = T cell school. Positive selection = survives. Negative selection = self-reactive deleted.'},
+    ]},
+    { title:'Innate Immunity', color:'#f5c842', structures:[
+      {name:'Physical & chemical barriers',desc:'Skin: physical barrier, acid mantle (pH 3-5), defensins, lysozyme in sweat. Mucous membranes: mucus traps pathogens, ciliary escalator in respiratory tract. Secretions: lysozyme (tears/saliva/breast milk — cleaves peptidoglycan), stomach acid (pH 1-2), vaginal acidity, normal microbiome competition.',clinical:'Burns: loss of skin barrier → massive infection risk. Cystic fibrosis: thick mucus → impaired ciliary clearance → recurrent Pseudomonas infections.',mnemonic:'First line = SKIN + MUCOUS MEMBRANES. Lysozyme, acid, and normal flora all fight pathogens.'},
+      {name:'Inflammation',desc:'4 cardinal signs: rubor (redness), calor (heat), tumor (swelling), dolor (pain). +loss of function = 5th. Mediators: histamine (mast cells → vasodilation + permeability), prostaglandins, bradykinin, leukotrienes. Steps: vasodilation → ↑ permeability → edema → neutrophil diapedesis → phagocytosis.',clinical:'NSAIDs: block COX → ↓ prostaglandins → ↓ pain/fever/inflammation. Steroids: block phospholipase A2 → ↓ all lipid mediators. Chronic inflammation → fibrosis.',mnemonic:'RHSP = Redness, Heat, Swelling, Pain — all from vasodilation and increased permeability.'},
+      {name:'Complement system',desc:'20+ plasma proteins. 3 pathways to C3 convertase: Classical (antibody-antigen), Lectin (MBL binds mannose on pathogens), Alternative (spontaneous C3 hydrolysis on pathogen surfaces). All → C3b (opsonization) + C5a (neutrophil chemoattractant + mast cell degranulation) + MAC (C5b-9, membrane attack complex — punches holes in bacteria).',clinical:'C1q deficiency: impaired immune complex clearance → SLE-like disease. C3 deficiency: severe recurrent bacterial infections. C5-C9 deficiency: Neisseria susceptibility.',mnemonic:'Complement: COAT, CALL, KILL. Coat pathogen (C3b opsonization), Call neutrophils (C5a), Kill by MAC.'},
+      {name:'NK cells & interferons',desc:'Natural killer (NK) cells: innate lymphoid cells that kill virus-infected cells and tumor cells without prior sensitization. Recognize absence of MHC I (stressed/infected cells downregulate MHC I). Kill by perforin + granzymes. Interferons (IFN-α/β): from virus-infected cells → warn neighboring cells → antiviral state → inhibit viral replication.',clinical:'NK cell deficiency: recurrent herpesvirus infections. Interferons used therapeutically: IFN-β for MS, IFN-α for hepatitis C, pegylated IFN for chronic hepatitis.',mnemonic:'NK cells = kill cells with LOW MHC I (missing self model). Interferons = warn neighbors of viral invasion.'},
+    ]},
+    { title:'Adaptive Immunity', color:'#b084f5', structures:[
+      {name:'Antigen presentation & MHC',desc:'MHC class I: expressed on ALL nucleated cells. Presents intracellular antigens (viral/tumor peptides) to CD8+ T cells (cytotoxic). MHC class II: expressed only on APCs (dendritic cells, macrophages, B cells). Presents extracellular antigens to CD4+ helper T cells. Dendritic cells = best APCs.',clinical:'HIV infects CD4+ T cells → progressive loss → AIDS (CD4 <200/µL). MHC mismatch in transplant → rejection. HLA typing needed for organ matching.',mnemonic:'MHC I = 1 for all cells → CD8 (1×8=8). MHC II = 2 for APCs → CD4 (2×4=8). Remember: 8 and 4.'},
+      {name:'T lymphocytes',desc:'CD4+ Helper T cells (Th1: activates macrophages + cytotoxic T; Th2: activates B cells; Th17: neutrophil recruitment). CD8+ Cytotoxic T cells: kill infected cells by perforin/granzymes + Fas-FasL. Regulatory T cells (Treg, CD4+CD25+FoxP3+): suppress immune response, prevent autoimmunity. Memory T cells: long-lived, rapid secondary response.',clinical:'AIDS: CD4 T cell depletion → opportunistic infections (PCP, CMV, toxoplasmosis, cryptococcus). Organ transplant rejection: CD4 + CD8 T cells attack graft.',mnemonic:'CD4 = Helper (organizes attack). CD8 = Killer (does the killing). CD4 helps, CD8 kills.'},
+      {name:'B lymphocytes & antibodies',desc:'Activation: antigen + CD4+ T cell help → plasma cells (antibody factories) + memory B cells. Antibody classes: IgG (most abundant, 23-day half-life, crosses placenta, secondary response), IgM (first responder, pentamer, ABO antibodies), IgA (secretory: breast milk, saliva, tears, GI — mucosal immunity), IgE (allergy + parasites, mast cell/basophil activation), IgD (B cell activation marker).',clinical:'Multiple myeloma: malignant plasma cells → excess monoclonal antibody (M protein) → bone destruction, renal failure, infections. Hypogammaglobulinemia: recurrent bacterial infections.',mnemonic:'IgGMADE = IgG most, IgM first, IgA at entrances, IgD developer, IgE enemies (allergy/parasites).'},
+      {name:'Hypersensitivity reactions',desc:'Type I (immediate/anaphylaxis): IgE + mast cells → histamine + leukotrienes. Atopy: hay fever, asthma, eczema, food allergy. Anaphylaxis: epinephrine treatment. Type II (cytotoxic): IgG/IgM + complement against cell-surface antigens. Examples: hemolytic transfusion reaction, Goodpasture, Graves, myasthenia. Type III (immune complex): IgG + complement deposition → vasculitis. SLE, post-strep GN, serum sickness. Type IV (delayed/DTH): T cell mediated (no antibody). Tuberculin test, contact dermatitis, organ rejection, MS.',clinical:'Anaphylaxis: epinephrine 0.3mg IM immediately. Type I allergen avoidance + antihistamines. Immunotherapy (allergy shots) → desensitization.',mnemonic:'ABCD: Anaphylaxis (I), aBo (II), Complexes (III), Delayed T-cell (IV).'},
+    ]},
+  ],
+  clinical_summary:[
+    'HIV/AIDS: CD4 T cell depletion. AIDS = CD4 <200/µL or AIDS-defining illness. ART = antiretroviral therapy.',
+    'Lupus (SLE): type III hypersensitivity. Anti-dsDNA antibodies. Butterfly rash, nephritis, serositis.',
+    'Rheumatoid arthritis: type IV + autoantibodies. Symmetric joint destruction. RF + anti-CCP positive.',
+    'Anaphylaxis: type I. Epinephrine IM, airway management, IV fluids.',
+    'Lymphoma: Hodgkin (Reed-Sternberg cells, good prognosis) vs. Non-Hodgkin (various B/T cell tumors).',
+  ],
+  mnemonic:'Innate = fast, nonspecific. Adaptive = slow, specific, memory. B cells = antibodies. T cells = cellular killing.'
+},
+
+respiratory: {
+  name:'Respiratory System', emoji:'🫁', color:'#7c9ef8',
+  overview:'The respiratory system provides O₂ to blood and removes CO₂. Conducting zone (no gas exchange): nose → pharynx → larynx → trachea → bronchi → bronchioles → terminal bronchioles. Respiratory zone (gas exchange): respiratory bronchioles → alveolar ducts → alveoli.',
+  sections:[
+    { title:'Respiratory Anatomy', color:'#7c9ef8', structures:[
+      {name:'Upper respiratory tract',desc:'Nose/nasal cavity: filter (hairs, mucus, cilia), warm, humidify air. Conchae (turbinates) increase turbulence and surface area. Olfactory epithelium: superior nasal cavity. Pharynx (naso/oro/laryngo). Larynx: thyroid cartilage, cricoid cartilage, epiglottis, vocal folds (rima glottidis = opening).',clinical:'Rhinitis (inflammation of nasal mucosa): allergic or viral. Laryngitis: hoarseness. Croup (laryngotracheobronchitis): parainfluenza virus in children → "barking" cough, inspiratory stridor.',mnemonic:'Nasal conchae = air conditioning (warm, filter, humidify). Epiglottis = covers larynx when swallowing.'},
+      {name:'Trachea & bronchial tree',desc:'Trachea: 10-12 C-shaped hyaline cartilage rings (open posteriorly = esophagus can expand). Carina at T4-T5 bifurcation. Right main bronchus: shorter, wider, more vertical → aspirated objects go right. Segmental bronchi → bronchioles (no cartilage, have smooth muscle) → terminal bronchioles.',clinical:'Right mainstem intubation: ETT too far → only right lung ventilated. Endobronchial foreign body: right side more common. Asthma: bronchospasm of bronchioles.',mnemonic:'Right bronchus = shorter + wider + more vertical = aspirated objects go right. Right is right for aspiration.'},
+      {name:'Alveoli & respiratory zone',desc:'~300 million alveoli per lung. Type I pneumocytes (95% of surface, gas exchange, thin squamous). Type II pneumocytes (5%, cuboidal, produce surfactant — reduces surface tension, prevents collapse). Alveolar macrophages (dust cells): phagocytose inhaled particles. Respiratory membrane: alveolar epithelium + basement membranes + capillary endothelium = 0.5µm.',clinical:'Neonatal RDS (IRDS): premature infants lack surfactant → alveolar collapse → respiratory failure. ARDS (adult): inflammatory damage → capillary leak → bilateral infiltrates → refractory hypoxia.',mnemonic:'Type I = gas eXchange. Type II = surfactant. Surfactant = prevents alveolar collapse.'},
+    ]},
+    { title:'Ventilation & Volumes', color:'#52d18a', structures:[
+      {name:'Mechanics of breathing',desc:'Inspiration: diaphragm contracts (descends, increases vertical dimension) + external intercostals (elevate ribs → increase AP/lateral). ↑ thoracic volume → ↓ intrapulmonary pressure → air flows in (Boyle\'s Law). Quiet expiration: PASSIVE (elastic recoil). Forced expiration: internal intercostals + abdominal muscles.',clinical:'Pneumothorax: air in pleural cavity → lung collapse (negative pressure lost). Tension pneumothorax: one-way valve → builds pressure → shifts mediastinum → life-threatening.',mnemonic:'Inspiration = active (diaphragm + ext intercostals). Expiration at rest = PASSIVE (elastic recoil).'},
+      {name:'Lung volumes & capacities',desc:'Tidal volume (TV) = 500mL. IRV = 3100mL. ERV = 1200mL. Residual volume (RV) = 1200mL (never leaves — keeps alveoli open). Vital capacity (VC) = TV+IRV+ERV = 4800mL. TLC = VC + RV = 6000mL. FEV1/FVC: >70% normal; <70% = obstructive (asthma/COPD); normal ratio but ↓ FVC = restrictive (fibrosis).',clinical:'Spirometry: FEV1 (forced expiratory volume in 1 sec)/FVC ratio. COPD: FEV1/FVC <70%. Pulmonary fibrosis: FEV1/FVC normal but both values low.',mnemonic:'RV can never be measured by spirometry (never leaves lungs). FEV1/FVC <70% = obstructive.'},
+    ]},
+    { title:'Gas Exchange & Transport', color:'#f07060', structures:[
+      {name:'Gas exchange',desc:'Dalton\'s Law (partial pressures). Alveolar O₂: ~105 mmHg. Venous blood O₂: ~40 mmHg → O₂ moves into blood. Alveolar CO₂: ~40 mmHg. Venous CO₂: ~45 mmHg → CO₂ moves into alveolus. Fick\'s Law: rate of diffusion ∝ surface area × concentration gradient / membrane thickness.',clinical:'V/Q mismatch: most common cause of hypoxemia. PE = high V/Q (dead space). Atelectasis/consolidation = low V/Q (shunt). Hypoxemia: ↑ RR → CO₂ blows off → respiratory alkalosis.',mnemonic:'O₂ goes from HIGH alveoli (105) to LOW blood (40). CO₂ goes from HIGH blood (45) to LOW alveoli (40).'},
+      {name:'O₂ transport & Bohr effect',desc:'98.5% O₂ bound to hemoglobin (oxyhemoglobin). 1.5% dissolved. Sigmoidal O₂-Hb dissociation curve. RIGHT shift (↑ temp, ↑ CO₂, ↓ pH, ↑ 2,3-BPG) = ↓ Hb affinity = ↑ O₂ unloading to tissues (Bohr effect). LEFT shift = ↑ affinity (HbF, CO poisoning, alkalosis, ↓ temp).',clinical:'Hb-CO has 200× higher affinity than O₂-Hb → cherry-red skin, headache, death. Treat with 100% O₂. Pulse oximetry reads normal in CO poisoning (reads HbCO as HbO₂).',mnemonic:'Right shift = release O₂ (good for tissues). Bohr effect: CO₂ + H⁺ push O₂ off Hb. CO = silent killer.'},
+      {name:'CO₂ transport',desc:'70% as bicarbonate (CO₂ + H₂O → H₂CO₃ → H⁺ + HCO₃⁻ via carbonic anhydrase in RBCs; HCO₃⁻ exits RBC, Cl⁻ enters = chloride shift). 23% as carbaminohemoglobin (binds globin chains). 7% dissolved in plasma.',clinical:'Hypoventilation: CO₂ accumulates → respiratory acidosis → compensatory renal HCO₃⁻ retention.',mnemonic:'CO₂ transport: 70% bicarb, 23% carbamino, 7% dissolved. Bicarb = main form.'},
+      {name:'Control of breathing',desc:'Medullary rhythmicity center (dorsal = inspiratory, ventral = forced breathing). Pons: pneumotaxic center (limits inspiration), apneustic center (prolongs inspiration). Chemical drive: CO₂ = primary stimulus (detected by central chemoreceptors in medulla as ↑ H⁺). Peripheral chemoreceptors (carotid + aortic bodies): respond to ↓ PO₂ (<60 mmHg), ↑ CO₂, ↑ H⁺.',clinical:'COPD: chronic hypercapnia → chemoreceptors reset → O₂ becomes primary drive. High-flow O₂ can worsen hypercapnia (Haldane effect + removes hypoxic drive controversy).',mnemonic:'CO₂ = #1 breathing stimulus. O₂ only at very low levels. Central chemoreceptors = CO₂/H⁺. Peripheral = O₂ too.'},
+    ]},
+  ],
+  clinical_summary:[
+    'COPD: FEV1/FVC <70% (obstructive). Emphysema = pink puffer. Chronic bronchitis = blue bloater. Primary: smoking.',
+    'Asthma: reversible bronchoconstriction. Albuterol (β2 agonist) = rescue. Inhaled steroids = maintenance.',
+    'Pneumonia: consolidation on X-ray. Strep pneumo most common. Treat with antibiotics.',
+    'PE (pulmonary embolism): DVT → embolism. Pleuritic pain + dyspnea + tachycardia. CT angiography gold standard.',
+    'Lung cancer: most common cancer death. SCLC (central, paraneoplastic) vs. NSCLC (adenocarcinoma most common, peripheral).',
+  ],
+  mnemonic:'Conducting zone = no exchange (just moves air). Respiratory zone = exchange. Type II = surfactant (prevents collapse).'
+},
+
+digestive: {
+  name:'Digestive System', emoji:'🫄', color:'#f5c842',
+  overview:'The digestive system processes food into absorbable nutrients. The GI tract extends from mouth to anus (~9m). Accessory organs: salivary glands, liver, gallbladder, pancreas. Key processes: ingestion, propulsion, mechanical/chemical digestion, absorption, defecation.',
+  sections:[
+    { title:'GI Tract Anatomy', color:'#f5c842', structures:[
+      {name:'GI wall layers',desc:'4 layers (inside out): Mucosa (epithelium + lamina propria + muscularis mucosae). Submucosa (CT + blood vessels + Meissner\'s/submucosal nerve plexus — controls secretion). Muscularis externa (inner circular + outer longitudinal smooth muscle + Auerbach\'s/myenteric plexus — controls motility). Serosa/Adventitia.',clinical:'Hirschsprung disease: absence of Auerbach\'s plexus in sigmoid colon → functional obstruction in newborns.',mnemonic:'MSMS = Mucosa, Submucosa, Muscularis, Serosa. Meissner = secretion (submucosa). Auerbach = motility (muscularis).'},
+      {name:'Mouth, pharynx & esophagus',desc:'Oral cavity: mechanical digestion (chewing), salivary amylase (begins starch digestion), lingual lipase. Esophagus: 25cm, upper 1/3 skeletal muscle, lower 2/3 smooth. Upper esophageal sphincter + lower esophageal sphincter (LES/cardiac sphincter). Swallowing reflex: pharyngeal phase involuntary.',clinical:'GERD: LES incompetence → acid reflux → heartburn, erosions. Barrett\'s esophagus: metaplasia (squamous→columnar) → adenocarcinoma risk. Achalasia: LES failure to relax → dysphagia.',mnemonic:'LES = lower esophageal sphincter. GERD = LES too weak. Achalasia = LES too strong.'},
+      {name:'Stomach',desc:'J-shaped organ. Regions: cardia, fundus, body, pylorus. Rugae allow expansion (capacity 1-4L). Gastric pits: mucous cells (mucus — protects mucosa), parietal cells (HCl + intrinsic factor), chief cells (pepsinogen), G cells (gastrin). Pyloric sphincter controls gastric emptying.',clinical:'Peptic ulcer disease: H. pylori (70%) or NSAIDs (20%). Duodenal ulcer: pain relieved by eating. Gastric ulcer: pain worsened by eating. Zollinger-Ellison syndrome: gastrinoma → massive acid production.',mnemonic:'Parietal cells: HCl + intrinsic factor (needed for B12 absorption). Chief cells: pepsinogen (activated by HCl to pepsin).'},
+      {name:'Small intestine',desc:'~6m long. Duodenum (25cm, receives bile + pancreatic juice at hepatopancreatic ampulla of Vater, Sphincter of Oddi). Jejunum (main absorption). Ileum (B12 + bile salt reabsorption, terminal). Plicae circulares + villi + microvilli = 200× surface area increase. Enterocytes have brush border enzymes.',clinical:'Celiac disease: gluten → immune-mediated villous atrophy → malabsorption. Crohn\'s: transmural inflammation, can affect any GI segment, skip lesions.',mnemonic:'DJI = Duodenum, Jejunum, Ileum. B12 + bile salts absorbed in terminal ileum. Plicae × Villi × Microvilli = 200× surface area.'},
+      {name:'Large intestine',desc:'1.5m. Cecum (with appendix) → ascending → transverse → descending → sigmoid colon → rectum → anal canal (internal sphincter = smooth/involuntary, external sphincter = skeletal/voluntary). Functions: water/electrolyte absorption, vitamin K + B synthesis by bacteria, feces formation, defecation.',clinical:'Appendicitis: McBurney\'s point tenderness + rebound. Colorectal cancer: 3rd most common cancer. Colonoscopy screening. Diverticulosis: outpouchings from high-pressure, low-fiber diet.',mnemonic:'Large intestine = water absorber. Bacteria make vitamin K (important — warfarin patients on antibiotics lose K). Appendix = immune tissue.'},
+    ]},
+    { title:'Accessory Organs', color:'#52d18a', structures:[
+      {name:'Liver',desc:'500+ functions. Key: bile production (500-1000mL/day), glucose homeostasis (glycogen storage, gluconeogenesis, glycogenolysis), lipid metabolism, protein synthesis (albumin, clotting factors II,VII,IX,X, fibrinogen), urea synthesis (amino acid deamination), detoxification (drugs, alcohol, hormones), storage (glycogen, vitamins A/D/E/K/B12, iron).',clinical:'Cirrhosis: hepatocyte replacement by fibrosis → portal hypertension + liver failure. AST/ALT elevation = hepatocellular damage. Bilirubin elevated in jaundice.',mnemonic:'Liver = metabolic powerhouse. Makes albumin + clotting factors + bile. Detox everything.'},
+      {name:'Gallbladder & bile',desc:'Stores and concentrates bile (5-10×). Releases via cystic duct → common bile duct → hepatopancreatic ampulla. Bile = bile salts (emulsify fats) + bilirubin (RBC breakdown product) + cholesterol + phospholipids. NOT a digestive enzyme — a detergent/emulsifier.',clinical:'Cholelithiasis (gallstones): 80% cholesterol stones. Risk factors: 4 F\'s = Fat, Forty, Female, Fertile. Cholecystitis: RUQ pain, Murphy\'s sign. Jaundice if stone in CBD.',mnemonic:'Bile = emulsifier (breaks fat into droplets for lipase). NOT an enzyme. Gallstones = cholesterol stones mostly.'},
+      {name:'Pancreas (exocrine)',desc:'Pancreatic juice (1200-1500mL/day from acinar cells): enzymes = pancreatic amylase (starch), lipase + colipase (triglycerides), proteases (trypsinogen, chymotrypsinogen, proelastase, procarboxypeptidase — all released INACTIVE to prevent autodigestion; enterokinase in duodenum activates trypsinogen → trypsin → activates others). Ductal cells secrete HCO₃⁻ (neutralizes acid chyme) → stimulated by secretin.',clinical:'Acute pancreatitis: gallstone or alcohol → premature enzyme activation → autodigestion. Amylase + lipase elevated. Cullen\'s + Grey Turner\'s signs in severe cases.',mnemonic:'Pancreatic proteases released INACTIVE. Enterokinase activates trypsinogen → trypsin is the master activator.'},
+    ]},
+    { title:'Digestion & Absorption', color:'#f07060', structures:[
+      {name:'Carbohydrate digestion & absorption',desc:'Salivary amylase (mouth) → pancreatic amylase (duodenum) → brush border enzymes (maltase, sucrase, lactase) → monosaccharides. Glucose/galactose: secondary active transport (Na⁺-glucose cotransporter SGLT1) → capillaries → portal vein. Fructose: facilitated diffusion (GLUT5).',clinical:'Lactose intolerance: lactase deficiency → undigested lactose → bacterial fermentation → gas, bloating, diarrhea. Common in Asian, African-American populations.',mnemonic:'Carbs → monosaccharides → portal vein. Glucose uses Na⁺-cotransport (SGLT1). Lactase breaks lactose.'},
+      {name:'Protein digestion & absorption',desc:'Pepsin (stomach, needs HCl). Pancreatic proteases (trypsin, chymotrypsin, elastase, carboxypeptidase). Brush border peptidases → amino acids, dipeptides, tripeptides → H⁺-coupled cotransporters → portal vein. Dipeptides/tripeptides absorbed intact then cleaved intracellularly.',clinical:'Celiac disease: immune-mediated mucosal damage → malabsorption. Kwashiorkor: protein deficiency → low albumin → edema.',mnemonic:'Protein: Pepsin (stomach) → Pancreatic enzymes → brush border peptidases → amino acids → portal vein.'},
+      {name:'Fat digestion & absorption',desc:'Bile salts emulsify fat → micelles (bile + fatty acids + monoglycerides). Pancreatic lipase (+ colipase) digests triglycerides. Fatty acids + monoglycerides diffuse into enterocytes → reassembled into triglycerides → packaged into chylomicrons + apoprotein → secreted into LACTEALS → lymph → thoracic duct → blood. Fat-soluble vitamins (A, D, E, K) go same route.',clinical:'Fat malabsorption: steatorrhea (greasy, foul-smelling stool), fat-soluble vitamin deficiency. Causes: pancreatic insufficiency, bile salt deficiency, celiac.',mnemonic:'Fats → chylomicrons → LACTEALS → LYMPH (not portal vein). Fat-soluble vitamins = same route as fat.'},
+    ]},
+  ],
+  clinical_summary:[
+    'GERD: LES incompetence. Treat with PPIs (proton pump inhibitors). Barrett\'s = premalignant.',
+    'Peptic ulcer: H. pylori (treat with triple therapy) or NSAIDs. Perforation = surgical emergency.',
+    'Celiac disease: gluten sensitivity → villous atrophy → malabsorption. Anti-tTG + anti-endomysial antibodies.',
+    'Hepatitis: viral (A,B,C,D,E) or toxic. HBV + HCV → cirrhosis + hepatocellular carcinoma risk.',
+    'Colon cancer: screening colonoscopy at 45 (average risk). FOBT, CEA marker. Stages I-IV.',
+  ],
+  mnemonic:'GI layers MSMS. Parietal cells = HCl + IF. Fats go via lymph (lacteals). Carbs/proteins go via portal vein.'
+},
+
+urinary: {
+  name:'Urinary System', emoji:'🫘', color:'#52d18a',
+  overview:'The kidneys filter ~180L of plasma daily, producing ~1-2L of urine. Functions: excrete metabolic wastes (urea, creatinine, uric acid), regulate blood volume/pressure, maintain electrolyte and acid-base balance, produce hormones (EPO, renin, calcitriol).',
+  sections:[
+    { title:'Kidney Anatomy', color:'#52d18a', structures:[
+      {name:'Kidney gross anatomy',desc:'Retroperitoneal, T12-L3. Right kidney slightly lower (liver). Hilum: renal artery (in), renal vein + ureter (out). Cortex (outer): glomeruli, PCT, DCT. Medulla: renal pyramids (collecting ducts, loop of Henle). Minor calyces → major calyces → renal pelvis → ureter.',clinical:'Renal cell carcinoma: arises from PCT cells. Classic triad: hematuria + flank pain + abdominal mass. Paraneoplastic syndromes (EPO, PTHrP, renin).',mnemonic:'Cortex = filtration zone (glomeruli + tubules). Medulla = concentration zone (loops + collecting ducts).'},
+      {name:'Nephron types',desc:'Cortical nephrons (85%): short loop of Henle, stay in cortex, less concentrating ability. Juxtamedullary nephrons (15%): long loop deep into medulla, vasa recta blood supply, create the osmotic gradient needed to concentrate urine (up to 1200 mOsm/kg). JGA (juxtaglomerular apparatus) at junction of DCT + afferent arteriole.',clinical:'Kidney concentrating ability test: urine osmolality after overnight fast + ADH. Diabetes insipidus: failure to concentrate urine.',mnemonic:'Juxtamedullary nephrons = the concentrators (long loops, deep medullary gradient).'},
+      {name:'Renal blood supply',desc:'Renal arteries → segmental → interlobar → arcuate → interlobular arteries → afferent arterioles → glomerulus → efferent arterioles → peritubular capillaries (cortical) or vasa recta (juxtamedullary) → interlobular veins → arcuate → interlobar → renal vein. Kidneys receive 20-25% of cardiac output.',clinical:'Renal artery stenosis: ↓ renal perfusion → RAAS activation → refractory hypertension. Atherosclerosis (elderly) or fibromuscular dysplasia (young women).',mnemonic:'Blood flows: artery → afferent → glomerulus → efferent → peritubular/vasa recta → veins. All for filtration + exchange.'},
+    ]},
+    { title:'Urine Formation', color:'#7c9ef8', structures:[
+      {name:'Glomerular filtration',desc:'Glomerulus: high pressure (55 mmHg) forces fluid through 3-layer filtration membrane (fenestrated endothelium → basement membrane → podocyte slit diaphragm). Allows: water, small solutes. Blocks: proteins (negative charge + size), cells. GFR = 125 mL/min = 180 L/day. Autoregulation maintains GFR 80-180 mmHg.',clinical:'Nephrotic syndrome: podocyte injury → proteinuria → hypoalbuminemia → edema. Causes: minimal change (children), focal segmental GS, membranous nephropathy, DM. Nephritic: hematuria + HTN + oliguria (GN, IgA nephropathy, post-strep GN).',mnemonic:'GFR = 125 mL/min = 180L/day filtered. Proteins blocked. Creatinine freely filtered = used to estimate GFR.'},
+      {name:'Tubular reabsorption',desc:'PCT (proximal convoluted tubule): reabsorbs 65% of filtered Na⁺, Cl⁻, K⁺, HCO₃⁻, water, glucose, amino acids, uric acid, phosphate. All glucose normally reabsorbed (threshold = 180 mg/dL → glucosuria above). Loop of Henle: descending = water permeable only. Ascending = NaCl pumped out (impermeable to water) → creates medullary gradient.',clinical:'ACE inhibitors reduce efferent arteriole constriction → ↓ GFR → contraindicated in bilateral renal artery stenosis. Osmotic diuretics (mannitol): stay in tubule → pull water with them.',mnemonic:'PCT = bulk reabsorption. All glucose here. Tm = transport maximum (threshold for glucose = 180 mg/dL).'},
+      {name:'Tubular secretion & final urine',desc:'Secretion: PCT secretes H⁺, NH₄⁺, drugs (organic anions/cations), toxins. DCT + collecting duct: secretes H⁺, K⁺ (aldosterone-regulated), NH₄⁺. Final urine: ~1-2L/day, yellow (urochrome from bilirubin), pH 4.5-8, specific gravity 1.001-1.035.',clinical:'Hyperkalemia treatment: kayexalate, insulin + glucose (shifts K⁺ into cells), furosemide (↑ K⁺ excretion), dialysis.',mnemonic:'Secretion = squirt waste INTO the tubule to get rid of it. K⁺ secretion = aldosterone regulated.'},
+      {name:'Hormonal regulation',desc:'ADH: collecting duct → aquaporin insertion → water reabsorption → concentrated urine. Absent = dilute urine (DI). Aldosterone: DCT + collecting duct → Na⁺ reabsorption + K⁺ secretion. Atrial natriuretic peptide (ANP): inhibits aldosterone + ADH + renin → ↑ Na⁺ excretion → ↓ BP.',clinical:'Diuretics: thiazides (block NaCl in DCT), loop diuretics/furosemide (block Na-K-2Cl in thick ascending loop = most potent), K-sparing (spironolactone blocks aldosterone, amiloride blocks Na channels).',mnemonic:'ADH = water in (collecting duct). Aldosterone = Na in, K out (DCT). Loop diuretics = most potent (block TAL).'},
+    ]},
+    { title:'Fluid & Acid-Base', color:'#f5c842', structures:[
+      {name:'Fluid compartments',desc:'TBW = 60% BW. ICF = 2/3 (40% BW). ECF = 1/3 (20% BW): plasma (8%) + interstitial (12%). ECF solute: mainly Na⁺ (140 mEq/L), Cl⁻, HCO₃⁻. ICF solute: mainly K⁺ (140 mEq/L), Mg²⁺, phosphate, proteins.',clinical:'Hypernatremia: serum Na >145 → cells shrink → CNS symptoms (seizures, coma). Treat with hypotonic fluids (slowly!). Hyponatremia: Na <135 → cells swell → cerebral edema.',mnemonic:'ICF = K⁺ domain. ECF = Na⁺ domain. TBW: 60-40-20 rule (total, ICF, ECF).'},
+      {name:'Acid-base disorders',desc:'Normal pH 7.35-7.45. CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. Respiratory acidosis: ↑ CO₂ (hypoventilation) → ↓ pH. Respiratory alkalosis: ↓ CO₂ (hyperventilation) → ↑ pH. Metabolic acidosis: ↓ HCO₃⁻ (diarrhea, DKA, lactic acidosis, renal failure) → ↓ pH. Metabolic alkalosis: ↑ HCO₃⁻ (vomiting, diuretics) → ↑ pH. Compensation: respiratory (minutes) + renal (days).',clinical:'ROME: Respiratory Opposite (pH and CO₂ go opposite), Metabolic Equal (pH and HCO₃⁻ go same direction). Anion gap = Na - (Cl + HCO₃⁻), normal 8-12. Elevated AG acidosis: MUDPILES (methanol, uremia, DKA, propylene glycol, isoniazid, lactic acidosis, ethylene glycol, salicylates).',mnemonic:'ROME = Respiratory Opposite, Metabolic Equal. MUDPILES for elevated anion gap metabolic acidosis.'},
+    ]},
+  ],
+  clinical_summary:[
+    'Acute kidney injury (AKI): prerenal (↓ perfusion), intrinsic (ATN, GN), postrenal (obstruction). BUN/Cr >20:1 = prerenal.',
+    'Chronic kidney disease (CKD): GFR <60 mL/min for >3 months. Complications: anemia (↓EPO), renal osteodystrophy, hyperkalemia.',
+    'Nephrolithiasis: kidney stones. Calcium oxalate (most common, 70%). Uric acid stones (radiolucent). Struvite (staghorn, UTI-associated).',
+    'UTI: most common bacterial infection. E. coli 80%. Cystitis (lower) vs. pyelonephritis (upper = fever + CVA tenderness).',
+    'Renal cell carcinoma: VHL gene mutation. Paraneoplastic EPO → polycythemia. Treat with nephrectomy.',
+  ],
+  mnemonic:'Kidney: GFR = filtration, PCT = bulk reabsorption, Loop = concentration gradient, DCT/CD = fine hormonal control.'
+},
+
+reproductive: {
+  name:'Reproductive System', emoji:'👶', color:'#f472b6',
+  overview:'The reproductive system ensures species continuation. Male: testes (sperm + testosterone), accessory glands (semen), penis. Female: ovaries (eggs + hormones), uterine tubes, uterus, vagina. Both systems controlled by HPG axis (hypothalamus-pituitary-gonadal).',
+  sections:[
+    { title:'Male Reproductive Anatomy', color:'#7c9ef8', structures:[
+      {name:'Testes',desc:'In scrotum (34°C, 3° below body temp = required for spermatogenesis). Seminiferous tubules: spermatogenesis. Sertoli cells (nurse cells): nourish developing sperm, blood-testis barrier, inhibin (↓ FSH), androgen-binding protein. Leydig cells (interstitial): testosterone synthesis (stimulated by LH).',clinical:'Cryptorchidism: undescended testes → ↑ temperature → impaired spermatogenesis → infertility + testicular cancer risk.',mnemonic:'Sertoli = Sperm support + inhibin. Leydig = testosterone. LH → Leydig → testosterone. FSH → Sertoli → spermatogenesis.'},
+      {name:'Spermatogenesis',desc:'Spermatogonia (2n) → primary spermatocytes (2n) → meiosis I → secondary spermatocytes (n) → meiosis II → spermatids (n) → spermiogenesis (morphological transformation) → spermatozoa. ~64 days total. Requires FSH + testosterone. 300 million sperm produced/day.',clinical:'Male infertility: oligospermia (<20M/mL), asthenospermia (poor motility), teratospermia (abnormal morphology). Varicocele = most common correctable cause.',mnemonic:'Spermatogonia → Spermatocytes → Spermatids → Spermatozoa. 64 days total.'},
+      {name:'Sperm structure & semen',desc:'Head: acrosome (hyaluronidase + acrosin — penetrate egg) + nucleus (23 chromosomes). Midpiece: mitochondria (ATP). Tail: flagellum. SEVEN UP (sperm path): Seminiferous → Epididymis (maturation + storage) → Vas deferens → Ejaculatory duct → Nothing → Urethra → Penis. Semen: 60% seminal vesicles (fructose, prostaglandins), 30% prostate (PSA, citric acid), 5% bulbourethral.',clinical:'PSA (prostate-specific antigen): elevated in prostate cancer, BPH, prostatitis. BPH: benign prostatic hyperplasia → urinary symptoms (frequency, urgency, retention).',mnemonic:'SEVEN UP mnemonic for sperm path. Seminal vesicles = most semen (60% fructose energy).'},
+    ]},
+    { title:'Female Reproductive Anatomy', color:'#f472b6', structures:[
+      {name:'Ovaries',desc:'Almond-shaped, ~3×1.5cm. Contain follicles at various stages. Produce estrogen (from granulosa cells, stimulated by FSH), progesterone (from corpus luteum, stimulated by LH), inhibin (inhibits FSH). Oogenesis: primary oocytes (arrested in prophase I at birth) → complete meiosis I at ovulation → secondary oocyte released → meiosis II completed only if fertilized.',clinical:'PCOS (polycystic ovary syndrome): most common endocrine disorder in reproductive-age women. ↑ LH/FSH ratio, ↑ androgens, anovulation, hirsutism, acne, infertility.',mnemonic:'Ovaries: granulosa cells (FSH → estrogen), corpus luteum (LH → progesterone). Born with all oocytes arrested in meiosis I.'},
+      {name:'Uterine tubes (fallopian tubes)',desc:'4 parts: infundibulum (fimbriae catch oocyte) → ampulla (most common site of fertilization) → isthmus → uterine part. Ciliated epithelium moves oocyte toward uterus. Muscular peristalsis + ciliary action.',clinical:'Ectopic pregnancy: fertilized egg implants outside uterus (95% in ampulla). Risk: PID, tubal scarring, IUD. Rupture → hemoperitoneum → surgical emergency.',mnemonic:'Fertilization usually in AMPULLA. Ectopic = egg stuck in tube = emergency.'},
+      {name:'Uterus',desc:'Layers: Perimetrium (outer serous) → Myometrium (thick smooth muscle — contracts in labor) → Endometrium (functional layer shed in menstruation + basal layer regenerates). Regions: fundus (above fallopian tubes), body, isthmus, cervix (mucus plug, transformation zone). Supported by: cardinal, uterosacral, round ligaments.',clinical:'Fibroids (leiomyomas): most common uterine tumor. Heavy bleeding, pelvic pressure. Endometriosis: ectopic endometrial tissue → cyclical pain + infertility. Endometrial cancer: most common GYN malignancy.',mnemonic:'Endo (functional layer shed) + Myo (contracts in labor) + Peri (outer covering). Cervix = transformation zone (dysplasia/cancer site).'},
+    ]},
+    { title:'Reproductive Cycles & Hormones', color:'#52d18a', structures:[
+      {name:'Ovarian cycle',desc:'Follicular phase (days 1-13): FSH → follicle development → rising estrogen. LH surge (day 13): triggered by peak estrogen (positive feedback) → ovulation (day 14). Luteal phase (days 15-28): LH → corpus luteum → progesterone + estrogen → prepare endometrium. If no fertilization: corpus luteum → corpus albicans → progesterone drops → menstruation.',clinical:'Anovulation: polycystic ovaries (PCOS), hypothalamic amenorrhea, hyperprolactinemia. Premature ovarian failure: FSH elevated (primary hypogonadism).',mnemonic:'Follicular: FSH grows follicle. LH surge = ovulation. Luteal: corpus luteum = progesterone factory.'},
+      {name:'Menstrual cycle',desc:'Menstrual phase (days 1-5): endometrium shed (progesterone withdrawal). Proliferative phase (days 6-14): estrogen → endometrial regeneration + thickening. Secretory phase (days 15-28): progesterone → glycogen secretion, spiral artery coiling, uterine receptivity for implantation.',clinical:'Amenorrhea: primary (never menstruated) or secondary (cessation). Most common secondary cause: pregnancy. Dysmenorrhea: painful menstruation from prostaglandins → NSAIDs treatment.',mnemonic:'Period → Proliferate (estrogen) → Secrete (progesterone) → Period. Three phases.'},
+      {name:'HPG axis & contraception',desc:'Hypothalamus: GnRH (pulsatile) → anterior pituitary: FSH + LH → gonads: sex hormones + inhibin → negative feedback. Estrogen: usually negative feedback EXCEPT peak just before ovulation → positive feedback → LH surge → ovulation. Combined OCP: estrogen + progestin → suppress GnRH → no FSH/LH surge → no ovulation.',clinical:'Combined OCPs: >99% effective. Side effects: DVT (↑ clotting factors, especially with smoking >35), HTN, headache. Progestin-only (mini-pill): for breastfeeding, smokers >35. IUD: copper (10yr, spermicidal) or Levonorgestrel (5yr, light periods).',mnemonic:'OCP = suppress GnRH → no LH surge → no ovulation. Estrogen positive feedback = LH surge (key exam point).'},
+    ]},
+    { title:'Pregnancy & Development', color:'#f472b6', structures:[
+      {name:'Fertilization & implantation',desc:'Sperm survive 3-5 days in female tract. Oocyte viable 12-24 hours after ovulation. Fertilization in ampulla → acrosomal reaction (enzymes digest zona pellucida) → cortical reaction (prevents polyspermy) → zygote → cleavage → morula → blastocyst (day 4-5) → implants in endometrium (day 6-10). Trophoblast → placenta. Inner cell mass → embryo.',clinical:'hCG: produced by syncytiotrophoblast → maintains corpus luteum (progesterone) → detected in pregnancy test by day 8-10. Quantitative hCG doubles every 48 hours in normal pregnancy.',mnemonic:'Fertilization in AMPULLA → blastocyst implants day 6-10. hCG = "I\'m pregnant" signal. Trophoblast = placenta.'},
+      {name:'Placenta',desc:'Develops by week 12. Functions: gas exchange, nutrients, waste elimination, hormone production (hCG → progesterone → estrogens). Barrier: selective (IgG, drugs, viruses, CO, alcohol, tobacco cross). At 10-12 weeks: placenta takes over progesterone from corpus luteum (luteoplacental shift). Delivers at term.',clinical:'Placenta previa: placenta over cervical os → painless bright red bleeding. Abruptio placentae: placental separation → painful bleeding + uterine rigidity. HELLP syndrome: hypertension + hemolysis + elevated liver enzymes + low platelets.',mnemonic:'Placenta = lifeline. Makes hCG (early) → progesterone (later). Luteoplacental shift at ~10 weeks.'},
+      {name:'Embryonic & fetal development',desc:'Embryonic period (weeks 3-8): organogenesis. 3 germ layers: ectoderm (skin, CNS), mesoderm (muscle, bone, CV, kidneys), endoderm (GI, respiratory epithelia). Week 3: primitive streak, gastrulation. Week 4: heart beats (day 22), limb buds. Week 8: all organs present. Fetal period (week 9-birth): growth and maturation. Week 20: quickening. Week 24-28: lung surfactant begins, viability.',clinical:'Teratogens most dangerous in weeks 3-8 (organogenesis). Common teratogens: thalidomide, isotretinoin, valproic acid, ACE inhibitors (2nd/3rd trimester), warfarin, alcohol, rubella, CMV, toxoplasma.',mnemonic:'EME germ layers: Ectoderm (outside — skin/nerves), Mesoderm (middle — muscle/bone), Endoderm (inside — gut/lungs).'},
+      {name:'Parturition & lactation',desc:'Labor: positive feedback loop. Estrogen rises (reversal of estrogen:progesterone ratio) → uterine oxytocin receptors ↑ → oxytocin → contractions → fetal head stretches cervix → more oxytocin → stronger contractions → delivery. Lactation: prolactin (milk synthesis, suppressed during pregnancy by progesterone). After delivery: progesterone drops → prolactin acts. Suckling → oxytocin (milk ejection/let-down) + more prolactin.',clinical:'Preterm labor: before 37 weeks. Tocolytics (magnesium sulfate, β2 agonists) + betamethasone (fetal lung maturity). Preeclampsia: HTN + proteinuria after 20 weeks → HELLP if severe.',mnemonic:'Oxytocin = labor (positive feedback) + milk EJECTION. Prolactin = milk PRODUCTION. After delivery prolactin can finally act.'},
+    ]},
+  ],
+  clinical_summary:[
+    'PCOS: ↑ LH/FSH ratio, ↑ androgens, anovulation. Treat with OCPs (symptom management) or clomiphene (fertility).',
+    'Ectopic pregnancy: ampullary most common. Rupture = surgical emergency. β-hCG + ultrasound for diagnosis.',
+    'Preeclampsia: HTN + proteinuria >20wks. Severe: HELLP syndrome. Only cure = delivery.',
+    'Endometriosis: ectopic endometrial implants → pelvic pain + infertility. CA-125 elevated.',
+    'Testicular torsion: surgical emergency. "Bell clapper" deformity. Doppler ultrasound. Must detorse within 6 hours.',
+  ],
+  mnemonic:'HPG axis: GnRH → FSH + LH → sex hormones. OCP suppresses GnRH. Positive feedback (estrogen peak) = LH surge = ovulation.'
+}
+
+}; // end AP2_SYSTEMS
+
+// ═══════════════════════════════════════════════════════
+// RENDER FUNCTIONS FOR AP2 SYSTEMS
+// ═══════════════════════════════════════════════════════
+
+function renderAP2System(systemId) {
+  const system = AP2_SYSTEMS[systemId];
+  const idMap = {endocrine:'endoContent', reproductive:'reproContent'};
+  const containerId = idMap[systemId] || (systemId + 'Content');
+  const container = document.getElementById(containerId);
+  if (!system || !container) return;
+
+  let html = `<div style="background:${system.color}18;border:1px solid ${system.color}44;border-radius:var(--r);padding:18px;margin-bottom:20px">
+    <div style="font-size:28px;margin-bottom:8px">${system.emoji}</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7">${system.overview}</div>
+  </div>`;
+
+  system.sections.forEach(sec => {
+    html += `<div style="margin-bottom:24px">
+      <div style="font-family:'Fraunces',serif;font-size:17px;font-weight:300;margin-bottom:12px;color:${sec.color};border-bottom:1px solid ${sec.color}44;padding-bottom:6px">${sec.title}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">`;
+
+    sec.structures.forEach((s,i) => {
+      const cardId = systemId + '_' + sec.title.replace(/\s+/g,'_') + '_' + i;
+      html += `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px;border-left:3px solid ${sec.color}">
+        <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:6px">${s.name}</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:6px">${s.desc}</div>
+        ${s.clinical ? `<div style="font-size:11px;color:var(--coral);background:rgba(240,112,96,0.07);border-radius:6px;padding:6px 9px;margin-top:6px">&#x1F3E5; ${s.clinical}</div>` : ''}
+        ${s.mnemonic ? `<div style="font-size:11px;color:var(--amber);background:rgba(245,200,66,0.06);border-radius:6px;padding:6px 9px;margin-top:5px">&#x1F4A1; ${s.mnemonic}</div>` : ''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  // Clinical summary
+  if (system.clinical_summary && system.clinical_summary.length) {
+    html += `<div style="background:var(--bg2);border:1px solid rgba(240,112,96,0.25);border-radius:var(--r);padding:16px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--coral);margin-bottom:10px">&#x26A0;&#xFE0F; Clinical Pearls</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px">
+        ${system.clinical_summary.map(c => `<div style="font-size:12px;color:var(--text2);padding:8px;background:rgba(240,112,96,0.05);border-radius:6px;border-left:2px solid var(--coral)">${c}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Mnemonic
+  if (system.mnemonic) {
+    html += `<div style="background:rgba(245,200,66,0.07);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:12px;font-size:12px;color:var(--amber)"><strong>&#x1F4A1; Study Key:</strong> ${system.mnemonic}</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+// UPDATE showPg to handle AP2 system pages
+// ═══════════════════════════════════════════════════════
+const _origShowPgAP2 = showPg;
+function showPg(id) {
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  const pg = document.getElementById('pg-'+id);
+  if (pg) pg.classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  const ap2Pages = ['endocrine','blood','heart','vessels','lymph','respiratory','digestive','urinary','reproductive'];
+  const renderMap_pages = {
+    bodymap: renderMap,
+    bones: renderBonesPage,
+    muscles: renderMusclesPage,
+    joints: renderJointsPage,
+    nerves: renderNervesPage,
+    ligtend: renderLTPage,
+    senses: renderSensesPage,
+    'atlas-quiz': renderQSetup,
+  };
+
+  if (renderMap_pages[id]) {
+    renderMap_pages[id]();
+  } else if (ap2Pages.includes(id)) {
+    renderAP2System(id);
+  }
+}
+
+
 // INIT
 renderMap();
 
@@ -1072,6 +1487,21 @@ function buildPool(type){
   else if(type==='nerves'){NERVES.forEach(n=>{const w=NERVES.filter(x=>x.name!==n.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Which nerve has this function? '+n.function,ans:n.name,choices:[...w.map(x=>x.name),n.name].sort(()=>Math.random()-.5),hint:'Group: '+n.group});});}
   else if(type==='ligtend'){LIGTEND.forEach(l=>{const w=LIGTEND.filter(x=>x.name!==l.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:'Attachments: '+l.attachments.substring(0,90)+' — what structure?',ans:l.name,choices:[...w.map(x=>x.name),l.name].sort(()=>Math.random()-.5),hint:'Region: '+l.region});});}
   else if(type==='senses'){var all=[...SENSES.eye.structures,...SENSES.ear.structures];all.forEach(s=>{const w=all.filter(x=>x.name!==s.name).sort(()=>Math.random()-.5).slice(0,3);pool.push({q:s.desc.substring(0,120)+' — what structure?',ans:s.name,choices:[...w.map(x=>x.name),s.name].sort(()=>Math.random()-.5),hint:''});});}
+  else if(type.startsWith('ap2_')){
+    const sysKey=type.replace('ap2_','');
+    const sys=AP2_SYSTEMS[sysKey];
+    if(sys){
+      const allStructures=sys.sections.flatMap(sec=>sec.structures);
+      allStructures.forEach(s=>{
+        const wrong=allStructures.filter(x=>x.name!==s.name).sort(()=>Math.random()-.5).slice(0,3);
+        if(wrong.length<3)return;
+        pool.push({q:s.desc.substring(0,130)+'… — what structure/hormone/concept?',ans:s.name,choices:[...wrong.map(x=>x.name),s.name].sort(()=>Math.random()-.5),hint:s.mnemonic?s.mnemonic.substring(0,60):''});
+        if(s.clinical){
+          pool.push({q:'Clinical: '+s.clinical.substring(0,120)+' — which structure/concept?',ans:s.name,choices:[...wrong.map(x=>x.name),s.name].sort(()=>Math.random()-.5),hint:sys.name+' — '+s.name});
+        }
+      });
+    }
+  }
   return pool.sort(()=>Math.random()-.5).slice(0,15);
 }
 </script>
