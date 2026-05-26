@@ -66,6 +66,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 .results{text-align:center;padding:40px 0}
 .results-pct{font-family:'Fraunces',serif;font-size:64px;font-weight:300;color:var(--accent)}
 @media(max-width:600px){.card-wrap{height:280px}.fc-term{font-size:18px}.fc-def{font-size:12px}}
+
+.section-header{grid-column:1/-1;font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin:16px 0 8px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--text2)}
+.section-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -74,6 +77,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
   <div class="hl">
     <button class="hbtn" id="homeBtn" onclick="showHome()">🏠 All Groups</button>
     <button class="hbtn" onclick="shuffleAll()">🔀 Shuffle All</button>
+    <button class="hbtn" onclick="shuffleSection('ap1')" style="border-color:#7c9ef8;color:#7c9ef8">🦴 A&P 1 Only</button>
+    <button class="hbtn" onclick="shuffleSection('ap2')" style="border-color:#b084f5;color:#b084f5">🔬 A&P 2 Only</button>
     <a href="index.html" class="hbtn">← Study Lab</a>
     <a href="anatomy-atlas.html" class="hbtn">🗺️ Atlas</a>
   </div>
@@ -82,7 +87,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 <div id="homeView" class="home">
   <div class="welcome">
     <h1>Complete <em>Anatomy</em> Flashcards</h1>
-    <p>Every major bone, muscle, ligament, and tendon — 3 card types each: Term→Definition, Definition→Term, and Identify the Structure. Track your mastery across all 20 groups.</p>
+    <p>Complete A&P 1 anatomy (bones, muscles, ligaments, tendons) + all 9 A&P 2 body systems — 3 card types each. Track mastery across all groups.</p>
   </div>
   <div class="stats">
     <div class="stat"><div class="stat-l">Total Cards</div><div class="stat-v" id="statTotal" style="color:var(--accent)">0</div></div>
@@ -136,7 +141,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 1: SKULL & VERTEBRAL COLUMN BONES
 // ══════════════════════════════════════════
-{id:'skull', label:'Skull Bones', icon:'💀', color:'#7c9ef8', cards:[
+{id:'skull', section:'ap1', label:'Skull Bones', icon:'💀', color:'#7c9ef8', cards:[
   {t:'Frontal bone',d:'Single flat bone forming forehead + roof of orbits + anterior cranial fossa floor. Contains frontal sinuses (paranasal sinuses). Ossification: intramembranous. Joins parietal at coronal suture.',m:'"Frontal = FRONT of skull." Contains frontal sinuses. Coronal suture with parietal bones.'},
   {t:'Parietal bones (×2)',d:'Paired flat bones forming superior + lateral cranial walls. Meet each other at sagittal suture. Key markings: temporal lines (temporalis attachment), parietal foramen (emissary vein).',m:'"Parietal = PARIETAL walls of skull." Sagittal suture between them. Coronal suture = parietal+frontal.'},
   {t:'Temporal bone (×2)',d:'Complex irregular bones housing entire ear apparatus. Parts: squamous (lateral wall), petrous (inner ear), mastoid (posterior), tympanic (EAM), styloid process. Major foramina: carotid canal, jugular foramen, internal acoustic meatus, stylomastoid foramen.',m:'"Temporal = at the TEMPLES." Houses ear. Mastoid process = SCM attachment. CN VII exits stylomastoid foramen.'},
@@ -157,7 +162,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 2: VERTEBRAL COLUMN
 // ══════════════════════════════════════════
-{id:'vertebrae', label:'Vertebral Column', icon:'🦴', color:'#52d18a', cards:[
+{id:'vertebrae', section:'ap1', label:'Vertebral Column', icon:'🦴', color:'#52d18a', cards:[
   {t:'Atlas (C1)',d:'Ring-shaped, no body or spinous process. Anterior arch + posterior arch + 2 lateral masses. Superior articular facets = occipital condyles (atlanto-occipital joint = "yes" nodding). Transverse foramina = vertebral artery. No disc above.',m:'"Atlas holds the world (skull)." No body. Nodding yes = atlanto-occipital joint.'},
   {t:'Axis (C2)',d:'Has dens (odontoid process) projecting superiorly from body — C1 pivots around it (atlantoaxial joint = "no" rotation). Held by transverse ligament of atlas. Bifid spinous process. Transverse foramina.',m:'"Axis = pivot for NO rotation." Dens = key feature. Transverse ligament holds dens against C1 anterior arch.'},
   {t:'C3–C6 (typical cervical)',d:'Smallest vertebral bodies. Bifid spinous processes. Transverse foramina (vertebral artery C1–C6). Large triangular vertebral foramen. Uncinate processes (lateral body = joints of Luschka). Greatest cervical ROM.',m:'"Cervical = bifid spinous processes + transverse foramina." Most mobile part of spine.'},
@@ -172,7 +177,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 3: THORACIC CAGE
 // ══════════════════════════════════════════
-{id:'thorax-bones', label:'Thoracic Cage', icon:'🫀', color:'#f5c842', cards:[
+{id:'thorax-bones', section:'ap1', label:'Thoracic Cage', icon:'🫀', color:'#f5c842', cards:[
   {t:'Sternum',d:'Flat bone: manubrium + body + xiphoid process. Manubrium: clavicular notches (SCJ), rib 1 articulation. Sternal angle (angle of Louis) = manubrium-body junction = T4/T5 level = rib 2 landmark. Xiphoid: diaphragm + rectus abdominis attachment. Ossifies ~40yrs.',m:'"Sternal angle of Louis = rib 2 + T4/T5." Manubrium=clavicle+rib1. Xiphoid=diaphragm attachment.'},
   {t:'Ribs 1–7 (true ribs)',d:'Connect directly to sternum via own costal cartilage. Rib 1: flat, short, articulates with manubrium. Ribs 2–7: typical structure. Each: head (2 articular facets), neck, tubercle, angle, shaft. Costal groove (inferior surface) houses VAN = Vein, Artery, Nerve.',m:'"True ribs 1–7 = own cartilage to sternum." VAN under each rib: Vein, Artery, Nerve (superior to inferior).'},
   {t:'Ribs 8–10 (false ribs)',d:'Costal cartilage joins rib 7 cartilage (not sternum directly). Form costal margin (clinically important palpable landmark). Liver palpable below right costal margin, spleen below left.',m:'"False ribs 8–10 = join rib 7 cartilage." Form costal margin. Liver = right; spleen = left.'},
@@ -182,7 +187,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 4: PECTORAL GIRDLE + UPPER LIMB
 // ══════════════════════════════════════════
-{id:'upper-bones', label:'Upper Limb Bones', icon:'💪', color:'#b084f5', cards:[
+{id:'upper-bones', section:'ap1', label:'Upper Limb Bones', icon:'💪', color:'#b084f5', cards:[
   {t:'Clavicle',d:'S-shaped long bone. ONLY bony connection upper limb to axial skeleton. Sternal end (SCJ), acromial end (ACJ). First bone to ossify (week 5 fetal), last to fully ossify (25 yrs). Ossification: intramembranous (unique for long bone). Most commonly fractured bone overall (middle third).',m:'"Clavicle = ONLY bony UL-axial connection." First to ossify, last to mature. Most fractured = middle third.'},
   {t:'Scapula',d:'Triangular flat bone T2–T7 posterior thorax. Glenoid cavity (shoulder socket — faces anterolaterally). Coracoid process (biceps short head, coracobrachialis, pec minor). Acromion = highest point. Spine divides posterior surface: supraspinous fossa (supraspinatus) + infraspinous fossa (infraspinatus). Subscapular fossa (subscapularis). Suprascapular notch = suprascapular nerve.',m:'"Scapula = wing bone." Coracoid = hook-shaped. Suprascapular notch = "nerve goes under bridge (ligament), artery goes over."'},
   {t:'Humerus',d:'Longest upper limb bone. Head (faces medially + superiorly). Anatomical neck = growth plate. Surgical neck (most common fracture site = axillary nerve + anterior circumflex humeral artery). Greater tubercle (SS, IS, TMin). Lesser tubercle (subscapularis). Radial/spiral groove = radial nerve. Medial epicondyle — ulnar nerve runs posterior to it.',m:'"Surgical neck = axillary nerve danger." Radial groove = radial nerve + deep brachial artery danger.'},
@@ -204,7 +209,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 5: PELVIC GIRDLE + LOWER LIMB
 // ══════════════════════════════════════════
-{id:'lower-bones', label:'Lower Limb Bones', icon:'🦵', color:'#f07060', cards:[
+{id:'lower-bones', section:'ap1', label:'Lower Limb Bones', icon:'🦵', color:'#f07060', cards:[
   {t:'Hip bone (Os coxa)',d:'Formed by fusion of 3 bones at acetabulum (~23 yrs): Ilium (superior 2/5 of acetabulum), Ischium (posteroinferior 2/5), Pubis (anteroinferior 1/5). With sacrum + coccyx = bony pelvis. Triradiate cartilage = fusion site in children (closes ~16 yrs).',m:'"Os coxa = ilium + ischium + pubis fused at acetabulum." Triradiate cartilage closes by 16.'},
   {t:'Ilium',d:'Largest part of hip bone. Iliac crest (ASIS + PSIS at its ends) — L4 level for lumbar puncture landmark. Iliac fossa (iliacus muscle). Anterior gluteal line, posterior gluteal line, inferior gluteal line divide gluteal surface for gluteal muscle attachments. Arcuate line = pelvic brim.',m:'"Iliac crest = L4 level." ASIS = sartorius + TFL origin. AIIS = rectus femoris origin.'},
   {t:'Ischium',d:'Posteroinferior hip bone. Ischial tuberosity = "sitting bone" (hamstrings origin, sacrotuberous ligament). Ischial spine = sacrospinous ligament attachment, divides greater + lesser sciatic notches. Lesser sciatic notch transmits obturator internus tendon. Ischial ramus = inferior pubic ramus.',m:'"Ischium = sitting bone." Ischial tuberosity = hamstrings. Ischial spine = sacrospinous lig divides notches.'},
@@ -226,7 +231,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 6: HEAD & NECK MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-head-neck', label:'Head & Neck Muscles', icon:'🦷', color:'#7c9ef8', cards:[
+{id:'muscles-head-neck', section:'ap1', label:'Head & Neck Muscles', icon:'🦷', color:'#7c9ef8', cards:[
   {t:'Temporalis',d:'Origin: temporal fossa. Insertion: coronoid process + anterior ramus of mandible. Action: elevation (closing jaw) + retraction of mandible. Nerve: deep temporal branches of CN V3 (mandibular). Fan-shaped muscle beneath temporal fascia.',m:'"Temporalis = close jaw + retract." Temporal fossa origin. CN V3. Fan-shaped.'},
   {t:'Masseter',d:'Origin: zygomatic arch (superficial) + deep surface zygomatic arch (deep). Insertion: lateral surface of mandible (angle + ramus). Action: elevation of mandible (MOST POWERFUL jaw closer). Nerve: masseteric branch CN V3.',m:'"Masseter = MOST POWERFUL jaw closer." Bruxism (teeth grinding) hypertrophies masseter.'},
   {t:'Medial pterygoid',d:'Origin: medial surface lateral pterygoid plate + pyramidal process of palatine bone. Insertion: medial surface of mandible (angle). Action: elevation + protrusion of mandible + contralateral (grinding) movement. Nerve: medial pterygoid nerve CN V3.',m:'"Medial pterygoid = medial side, elevation + grinding." With masseter forms "sling" around mandible.'},
@@ -249,7 +254,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 7: ROTATOR CUFF + SHOULDER MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-shoulder', label:'Shoulder Muscles', icon:'🤸', color:'#b084f5', cards:[
+{id:'muscles-shoulder', section:'ap1', label:'Shoulder Muscles', icon:'🤸', color:'#b084f5', cards:[
   {t:'Supraspinatus',d:'Origin: supraspinous fossa of scapula. Insertion: superior facet of greater tubercle of humerus. Action: initiates abduction (0-15°), assists deltoid. Nerve: suprascapular nerve (C5,C6). Runs under coracoacromial arch (impingement zone). Most commonly torn RC muscle.',m:'"Supraspinatus = starts abduction." Most torn. Empty can test (Jobe). Under CA arch.'},
   {t:'Infraspinatus',d:'Origin: infraspinous fossa of scapula. Insertion: middle facet of greater tubercle. Action: lateral (external) rotation of humerus; GH joint stability. Nerve: suprascapular nerve (C5,C6). 2nd most commonly torn rotator cuff muscle.',m:'"Infraspinatus = external rotation." 2nd most torn. External rotation lag sign = large tear.'},
   {t:'Teres minor',d:'Origin: lateral border of scapula (upper 2/3). Insertion: inferior facet of greater tubercle. Action: lateral rotation; weak adduction; GH stabilizer. Nerve: axillary nerve (C5,C6). Works with infraspinatus.',m:'"Teres minor = ER, works with infraspinatus." Axillary nerve (same as deltoid).'},
@@ -266,7 +271,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 8: ARM + FOREARM MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-arm', label:'Arm & Forearm Muscles', icon:'💪', color:'#52d18a', cards:[
+{id:'muscles-arm', section:'ap1', label:'Arm & Forearm Muscles', icon:'💪', color:'#52d18a', cards:[
   {t:'Biceps brachii',d:'Long head: supraglenoid tubercle (intra-articular tendon through bicipital groove). Short head: coracoid process. Insertion: radial tuberosity + bicipital aponeurosis (deep fascia). Action: elbow flexion + SUPINATION (most powerful supinator) + weak shoulder flexion. Nerve: musculocutaneous (C5,C6). "Biceps reflex = C5,C6."',m:'"Biceps = SUPINATION more than flexion." Long head rupture = Popeye sign. Bicipital aponeurosis protects brachial artery.'},
   {t:'Brachialis',d:'Origin: anterior distal humerus (lower 2/3). Insertion: coronoid process + ulnar tuberosity. Action: MOST POWERFUL elbow flexor (pure flexor — works in all forearm positions, unlike biceps). Nerve: musculocutaneous (C5,C6) + small contribution from radial nerve.',m:'"Brachialis = workhorse flexor." Works in pronation (unlike biceps). Radial nerve small contribution.'},
   {t:'Triceps brachii',d:'Long head: infraglenoid tubercle of scapula. Lateral head: posterior humerus (above radial groove). Medial head: posterior humerus (below radial groove). Insertion: olecranon process of ulna. Action: elbow extension (all heads) + arm adduction + extension (long head). Nerve: radial nerve (C6,C7,C8). "Triceps reflex = C7."',m:'"Triceps = C7 reflex." Radial nerve in radial groove → fracture = wrist drop.'},
@@ -294,7 +299,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 9: TRUNK MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-trunk', label:'Trunk Muscles', icon:'🏋️', color:'#f5c842', cards:[
+{id:'muscles-trunk', section:'ap1', label:'Trunk Muscles', icon:'🏋️', color:'#f5c842', cards:[
   {t:'Rectus abdominis',d:'Origin: pubic crest + symphysis. Insertion: costal cartilages 5-7 + xiphoid process. Action: flexion of trunk (sit-ups), posterior pelvic tilt, compresses abdominal contents. Nerve: intercostal nerves T7-T12. Enclosed in rectus sheath. Tendinous intersections at T8, T10, umbilicus. Linea semilunaris = lateral edge.',m:'"6-pack muscle." Linea alba = midline. Tendinous intersections at 3 levels. Linea semilunaris = lateral.'},
   {t:'External oblique',d:'Outermost abdominal muscle. Origin: external surfaces + inferior borders of ribs 5-12. Insertion: iliac crest + linea alba + pubic tubercle (inguinal ligament = folded inferior aponeurosis). Action: trunk flexion + compression + contralateral rotation. Nerve: intercostal T7-T12 + subcostal + iliohypogastric + ilioinguinal.',m:'"External oblique fibers = like hands in front pants pockets (downward-medial)." Contralateral rotation.'},
   {t:'Internal oblique',d:'Origin: thoracolumbar fascia + anterior iliac crest + lateral inguinal ligament. Insertion: inferior ribs 10-12 + aponeurosis to linea alba + inguinal region. Action: trunk flexion + compression + IPSILATERAL rotation. Nerve: intercostal T8-T12 + iliohypogastric + ilioinguinal.',m:'"Internal oblique = IPSILATERAL rotation (opposite of external)." Fibers run perpendicular to external.'},
@@ -313,7 +318,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 10: GLUTEAL + HIP MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-hip', label:'Gluteal & Hip Muscles', icon:'🍑', color:'#f07060', cards:[
+{id:'muscles-hip', section:'ap1', label:'Gluteal & Hip Muscles', icon:'🍑', color:'#f07060', cards:[
   {t:'Gluteus maximus',d:'Largest muscle in body. Origin: posterior ilium (behind posterior gluteal line) + posterior sacrum + coccyx + sacrotuberous ligament. Insertion: IT band (upper 3/4) + gluteal tuberosity of femur (lower 1/4). Action: hip extension + lateral rotation. NOT active in normal walking. Nerve: inferior gluteal (L5,S1,S2).',m:'"Glute max = stairs, running, rising from chair." NOT walking. Inferior gluteal nerve. Largest muscle.'},
   {t:'Gluteus medius',d:'Origin: external ilium between anterior + posterior gluteal lines. Insertion: lateral surface of greater trochanter. Action: hip abduction + medial rotation (anterior fibers) + pelvic stabilization in single-leg stance. Nerve: superior gluteal (L4,L5,S1). TRENDELENBURG sign when weak.',m:'"Glute med = TRENDELENBURG." Superior gluteal nerve. Pelvis drops to opposite side when weak.'},
   {t:'Gluteus minimus',d:'Origin: external ilium between anterior + inferior gluteal lines. Insertion: anterior surface of greater trochanter. Action: hip abduction + medial rotation. Nerve: superior gluteal (L4,L5,S1). Deep to gluteus medius. Same function.',m:'"Glute min = same function as glute med." Deep to medius. Superior gluteal nerve. Also Trendelenburg.'},
@@ -334,7 +339,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 11: THIGH MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-thigh', label:'Thigh Muscles', icon:'🦵', color:'#4ecdc4', cards:[
+{id:'muscles-thigh', section:'ap1', label:'Thigh Muscles', icon:'🦵', color:'#4ecdc4', cards:[
   {t:'Rectus femoris',d:'Origin: AIIS (direct head) + acetabular rim (indirect/reflected head). Insertion: tibial tuberosity via patellar tendon. Action: knee extension + hip flexion (crosses both). Nerve: femoral nerve (L2,L3,L4). Only quadriceps crossing hip. 2-joint muscle: affected by hip position in stretching.',m:'"Rectus = 2-joint quad." AIIS origin. Hip position affects its function. Strain near AIIS in kicking.'},
   {t:'Vastus lateralis',d:'Origin: greater trochanter + lateral lip of linea aspera + lateral intermuscular septum. Insertion: lateral patella + tibial tuberosity (via quad tendon → patellar ligament). Action: knee extension. Nerve: femoral (L2,L3,L4). Largest quadriceps. IM injection site in infants.',m:'"VL = lateral quad, largest quad." Pulls patella laterally. IM injection site infant.'},
   {t:'Vastus medialis',d:'Origin: intertrochanteric line + medial lip of linea aspera + medial supracondylar ridge. Insertion: medial patella + tibial tuberosity. Action: knee extension + medial patellar stabilization (VMO = oblique fibers). Nerve: femoral (L2,L3,L4). VMO atrophies first in knee pathology.',m:'"VMO = medial stabilizer of patella." Teardrop shape medial distal thigh. First to atrophy.'},
@@ -348,7 +353,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 12: LEG + FOOT MUSCLES
 // ══════════════════════════════════════════
-{id:'muscles-leg', label:'Leg & Foot Muscles', icon:'🦶', color:'#f472b6', cards:[
+{id:'muscles-leg', section:'ap1', label:'Leg & Foot Muscles', icon:'🦶', color:'#f472b6', cards:[
   {t:'Gastrocnemius',d:'2 heads: medial (larger, from medial femoral condyle) + lateral (from lateral femoral condyle). Both heads → Achilles tendon → calcaneal tuberosity. Action: plantarflexion + knee flexion (crosses knee). Nerve: tibial nerve (S1,S2). Together with soleus = triceps surae. Thompson test = Achilles rupture.',m:'"Gastroc = ankle + knee." Only leg muscle crossing knee. Thompson test.'},
   {t:'Soleus',d:'Origin: posterior head of fibula + soleal line of tibia + fibrous arch between. Insertion: Achilles tendon → calcaneal tuberosity. Action: plantarflexion ONLY (does NOT cross knee). Active in standing/walking even with knee bent. Nerve: tibial nerve (S1,S2). Soleus DVT sinuses common clot origin.',m:'"Soleus = pure plantarflexion, postural." DVT sinuses. Active even with knee bent (unlike gastrocnemius).'},
   {t:'Plantaris',d:'Origin: lateral supracondylar ridge. Insertion: medial calcaneal tuberosity (medial to Achilles). Action: weak plantarflexion + knee flexion. Nerve: tibial nerve (S1,S2). Long thin tendon, absent in 10%. Confused with Achilles rupture (continued plantarflexion if Achilles ruptured = plantaris still working).',m:'"Plantaris = tiny, frequently absent." Confused with Achilles rupture clinically.'},
@@ -368,7 +373,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 13: LIGAMENTS (COMPREHENSIVE)
 // ══════════════════════════════════════════
-{id:'lig-spine', label:'Spinal Ligaments', icon:'🔗', color:'#7c9ef8', cards:[
+{id:'lig-spine', section:'ap1', label:'Spinal Ligaments', icon:'🔗', color:'#7c9ef8', cards:[
   {t:'Anterior longitudinal ligament (ALL)',d:'Runs entire length of vertebral column — anterior surface of vertebral bodies + IVDs. From occiput to sacrum. Broad, strong. Prevents hyperextension of spine. Only ligament tightened in EXTENSION.',m:'"ALL = limits hyperEXTENSION." Runs anterior to vertebral bodies.'},
   {t:'Posterior longitudinal ligament (PLL)',d:'Runs posterior surfaces of vertebral bodies inside vertebral canal. Narrow (hourglass shape — wider over IVDs, narrower over vertebral bodies). Resists hyperflexion. Does NOT prevent posterolateral disc herniation (where it is thin).',m:'"PLL = limits flexion, narrow posterolaterally." Disc herniation occurs at PLL weak spots (posterolateral).'},
   {t:'Ligamentum flavum',d:'Connects adjacent laminae — from C2/C3 to L5/S1. Yellow (high elastin content — 80% elastin, 20% collagen). Highest elastin of any ligament. Maintains upright posture without muscle effort. Hypertrophies with age → spinal stenosis. Important in epidural injections.',m:'"Ligamentum flavum = YELLOW ligament." Hypertrophy → spinal stenosis. Elastin keeps spine upright.'},
@@ -379,7 +384,7 @@ const CARD_GROUPS = [
   {t:'Iliolumbar ligament',d:'Runs from transverse processes of L4-L5 → iliac crest. Restrains L5 on sacrum, resists anterior slide of L5. Also tethers L5 to pelvis. Important stabilizer of lumbosacral junction. Can be strained in heavy lifting.',m:'"Iliolumbar lig = tethers L5 to ilium." Prevents anterior displacement of L5. Strain in heavy lifting.'},
 ]},
 
-{id:'lig-shoulder', label:'Shoulder Ligaments', icon:'🤝', color:'#b084f5', cards:[
+{id:'lig-shoulder', section:'ap1', label:'Shoulder Ligaments', icon:'🤝', color:'#b084f5', cards:[
   {t:'Glenohumeral ligaments (SGHL, MGHL, IGHL)',d:'Superior GHL: from supraglenoid tubercle → lesser tubercle. Limits ER at 0° abduction. Middle GHL: from anterior glenoid → lesser tubercle. Limits ER at 45–60° abduction. Inferior GHL (strongest): anterior + posterior bands + axillary pouch. Limits ER + anterior-inferior translation at 90° abduction. Bankart lesion = anterior IGHL + labrum avulsion.',m:'"IGHL = most important at 90° (throwing position)." Bankart = IGHL + anterior labrum.'},
   {t:'Coracohumeral ligament (CHL)',d:'From base + lateral coracoid → greater + lesser tubercles of humerus. Covers rotator interval (gap between supraspinatus + subscapularis). Limits ER at side + inferior translation. Contracted in frozen shoulder (adhesive capsulitis) → most limits ER.',m:'"CHL = contracted in frozen shoulder." Limits ER most. Rotator interval ligament.'},
   {t:'Coracoacromial ligament (CAL)',d:'From coracoid process → acromion. Completes coracoacromial arch (CA arch). Prevents superior humeral head migration. Supraspinatus impinges under this arch. NOT a true joint ligament — a ligamentous roof. Sometimes surgically divided in acromioplasty.',m:'"CA arch = coracoacromial ligament + acromion + coracoid." Supraspinatus impinges under it.'},
@@ -388,7 +393,7 @@ const CARD_GROUPS = [
   {t:'Sternoclavicular (SC) ligaments',d:'Anterior + posterior SC ligaments. Costoclavicular ligament (strongest). Interclavicular ligament. SC joint is only true joint connecting UL to axial skeleton. Costoclavicular lig = strongest = "rhomboid ligament." SC joint rarely dislocated; posterior dislocation = emergency (compresses trachea/great vessels).',m:'"SC joint = only axial-UL connection." Posterior SC dislocation = emergency (trachea compression).'},
 ]},
 
-{id:'lig-elbow-wrist', label:'Elbow & Wrist Ligaments', icon:'✋', color:'#52d18a', cards:[
+{id:'lig-elbow-wrist', section:'ap1', label:'Elbow & Wrist Ligaments', icon:'✋', color:'#52d18a', cards:[
   {t:'Ulnar collateral ligament of elbow (UCL)',d:'3 bundles: anterior (most important, thickest), posterior, transverse. Medial epicondyle → coronoid process (anterior) + olecranon (posterior). PRIMARY valgus stabilizer. Anterior bundle = primary restraint in throwing. Tommy John = UCL reconstruction.',m:'"UCL anterior bundle = primary valgus stabilizer." Tommy John surgery. Medial epicondyle to coronoid.'},
   {t:'Radial collateral ligament of elbow (RCL)',d:'Lateral epicondyle → annular ligament + ulna. Primary varus stabilizer. Part of lateral collateral ligament complex (with lateral ulnar collateral). Disrupted in posterolateral rotatory instability (PLRI).',m:'"RCL = lateral epicondyle to annular lig." Varus stabilizer. PLRI when torn.'},
   {t:'Lateral ulnar collateral ligament (LUCL)',d:'Lateral epicondyle → proximal ulna (crista supinatoris). KEY for posterolateral rotatory stability. Disrupted in PLRI (posterolateral rotatory instability) after elbow dislocation or lateral release for tennis elbow.',m:'"LUCL = posterolateral rotatory stability." PLRI if torn. Most important lateral elbow ligament.'},
@@ -399,7 +404,7 @@ const CARD_GROUPS = [
   {t:'Lunotriquetral ligament (LT)',d:'Intrinsic ligament connecting lunate + triquetrum. LT tear → VISI pattern (volar intercalated segment instability). Less common than SL injury. LT compression test positive.',m:'"LT lig tear → VISI." Ulnar-sided wrist pain. LT ballottement test.'},
 ]},
 
-{id:'lig-hip', label:'Hip Ligaments', icon:'🦴', color:'#f5c842', cards:[
+{id:'lig-hip', section:'ap1', label:'Hip Ligaments', icon:'🦴', color:'#f5c842', cards:[
   {t:'Iliofemoral ligament (Y-ligament of Bigelow)',d:'STRONGEST ligament in body (~350N force to rupture). 2 bands: iliotrochanteric (lateral, from ASIS to greater trochanter) + iliocapsular (medial, from AIIS to lesser trochanter). Limits hip extension + external rotation. Tightens in standing → "screws" femoral head into acetabulum → passive standing with minimal muscle use.',m:'"Iliofemoral = STRONGEST ligament (body)." Y-shape from ASIS/AIIS. Limits hyperextension.'},
   {t:'Pubofemoral ligament',d:'From pubic part of acetabular rim + superior pubic ramus → intertrochanteric line (inferior). Limits abduction + extension of hip. Reinforces inferior + anterior capsule.',m:'"Pubofemoral = limits abduction." Inferior-anterior capsule reinforcement.'},
   {t:'Ischiofemoral ligament',d:'From ischial part of acetabular rim → posterior greater trochanter. Limits internal rotation + extension. Posterior capsule reinforcement. Weakest of the 3 main hip capsular ligaments.',m:'"Ischiofemoral = posterior capsule, limits internal rotation." Weakest hip lig.'},
@@ -408,7 +413,7 @@ const CARD_GROUPS = [
   {t:'Labrum of hip (acetabular labrum)',d:'Fibrocartilaginous rim deepening acetabulum. Increases contact area by 28%, depth by 21%. Anterior labrum: most commonly torn (hip impingement/FAI). SLAP-equivalent of hip. Labral tears: groin pain + clicking + C-sign.',m:'"Acetabular labrum = deepens hip socket." Anterior most torn. FAI tears labrum.'},
 ]},
 
-{id:'lig-knee', label:'Knee Ligaments', icon:'🦵', color:'#f07060', cards:[
+{id:'lig-knee', section:'ap1', label:'Knee Ligaments', icon:'🦵', color:'#f07060', cards:[
   {t:'ACL (Anterior Cruciate Ligament)',d:'2 bundles: AM (anteromedial, primary, taut in flexion) + PL (posterolateral, taut in extension). Origin: anterior intercondylar area of tibia. Insertion: posterior medial surface of LATERAL femoral condyle. Prevents: anterior tibial translation + tibial IR. Avascular center → cannot heal without surgery. Female ACL: narrower notch, wider Q-angle, hormonal factors.',m:'"ACL: femoral attachment = LATERAL condyle." Lachman = most sensitive. Cannot heal spontaneously.'},
   {t:'PCL (Posterior Cruciate Ligament)',d:'2 bundles: AL (anterolateral, larger, primary) + PM (posteromedial). Origin: posterior intercondylar tibia. Insertion: anterior medial surface of MEDIAL femoral condyle. Prevents: posterior tibial translation. STRONGEST knee ligament (2× ACL strength). Dashboard injury mechanism.',m:'"PCL: femoral attachment = MEDIAL condyle." Strongest knee lig. Dashboard + fall on flexed knee.'},
   {t:'MCL (Medial Collateral Ligament)',d:'2 layers: superficial MCL (femur → tibia, 4-5cm below joint line) + deep MCL (medial capsule, attached to medial meniscus). Superficial = PRIMARY valgus stabilizer. Deep attached to medial meniscus = meniscus also injured. Valgus stress test grades I-III.',m:'"Deep MCL attached to medial meniscus." Unhappy triad = ACL + MCL + medial meniscus. Heals without surgery.'},
@@ -418,7 +423,7 @@ const CARD_GROUPS = [
   {t:'Patellar ligament (patellar tendon)',d:'Continuation of quadriceps tendon through patella. From inferior pole of patella → tibial tuberosity. Transmits quad force for knee extension. Patellar tendinopathy at inferior pole. Rupture: gap below patella + high-riding patella. Osgood-Schlatter at tibial tuberosity (adolescent apophysitis).',m:'"Patellar lig rupture = gap BELOW." vs "Quad tendon rupture = gap ABOVE." Osgood-Schlatter at tuberosity.'},
 ]},
 
-{id:'lig-ankle-foot', label:'Ankle & Foot Ligaments', icon:'🦶', color:'#4ecdc4', cards:[
+{id:'lig-ankle-foot', section:'ap1', label:'Ankle & Foot Ligaments', icon:'🦶', color:'#4ecdc4', cards:[
   {t:'ATFL (Anterior talofibular ligament)',d:'From anterior distal fibula → anterior talus (lateral neck). Weakest lateral ankle ligament. Limits anterior talar slide + inversion at 0° plantarflexion. Most commonly torn in ankle sprains (~70%). Anterior drawer test positive when torn.',m:'"ATFL = most commonly torn." Weakest lateral lig. Anterior drawer test.'},
   {t:'CFL (Calcaneofibular ligament)',d:'From fibula (just anterior to tip of lateral malleolus) → lateral calcaneus. Crosses both tibiotalar and subtalar joints. Limits inversion in dorsiflexion. Torn in severe ankle sprains (2nd after ATFL). Talar tilt test positive when torn.',m:'"CFL = 2nd most commonly torn." Talar tilt test. Limits inversion in neutral-dorsiflexion.'},
   {t:'PTFL (Posterior talofibular ligament)',d:'From posterior lateral malleolus → posterior talus. STRONGEST of 3 lateral ligaments. Resists posterior talar displacement. Rarely torn (only in complete dislocation). Limits dorsiflexion.',m:'"PTFL = STRONGEST lateral ankle lig, RARELY torn." Only torn in frank dislocation.'},
@@ -433,7 +438,7 @@ const CARD_GROUPS = [
 // ══════════════════════════════════════════
 // GROUP 14: TENDONS (COMPREHENSIVE)
 // ══════════════════════════════════════════
-{id:'tendons-upper', label:'Upper Limb Tendons', icon:'💪', color:'#52d18a', cards:[
+{id:'tendons-upper', section:'ap1', label:'Upper Limb Tendons', icon:'💪', color:'#52d18a', cards:[
   {t:'Rotator cuff tendons (SITS)',d:'Supraspinatus: superior facet greater tubercle (from supraspinous fossa). Infraspinatus: middle facet (infraspinous fossa). Teres minor: inferior facet (lateral scapular border). Subscapularis: lesser tubercle (subscapular fossa). Form cuff around GH joint. Critical zone: supraspinatus tendon 1cm from insertion = critical zone (poor blood supply = most tears here).',m:'"Critical zone = 1cm from SS insertion = avascular." Most tears here. SITS order on greater tubercle.'},
   {t:'Long head of biceps tendon',d:'From supraglenoid tubercle → travels intra-articularly through joint → into bicipital groove (intertubercular groove). Held in groove by transverse humeral ligament. Tendon sheath communicates with GH joint. Speed\'s test: resisted forward flexion at 90° = bicipital tendinopathy. Yergason\'s: resisted supination.',m:'"LHB = intra-articular but extrasynovial." SLAP tear = origin avulsion. Speed\'s + Yergason\'s tests.'},
   {t:'Distal biceps tendon',d:'Inserts radial tuberosity. Must be directly visible on MRI (requires FABS position: flexion, abduction, supination). Rupture: audible pop + Popeye sign + weakness supination > flexion. Hook test: cannot hook finger under cord = ruptured. Repair important for supination strength.',m:'"Distal biceps rupture = supination weakness > flexion weakness." Hook test.'},
@@ -444,7 +449,7 @@ const CARD_GROUPS = [
   {t:'EPL (Extensor pollicis longus) tendon',d:'3rd dorsal compartment. Wraps around Lister\'s tubercle (dorsal radius) — acts as pulley. Can rupture spontaneously in: distal radius fractures (even undisplaced), RA, steroid injections. Rupture = "Drummer\'s palsy" = cannot extend thumb IP joint.',m:'"EPL wraps Lister\'s tubercle." Rupture after distal radius fracture (even undisplaced). Drummer\'s palsy.'},
 ]},
 
-{id:'tendons-lower', label:'Lower Limb Tendons', icon:'🦵', color:'#f07060', cards:[
+{id:'tendons-lower', section:'ap1', label:'Lower Limb Tendons', icon:'🦵', color:'#f07060', cards:[
   {t:'Quadriceps tendon',d:'All 4 quads → superior pole of patella (4 layers: RF on surface, then VL + VM, then VI deepest). Continues as patellar ligament below patella. Rupture: gap above patella + patient cannot extend knee actively + patella descends (patella baja/lower). Occurs >40 yrs (vs patellar tendon <40).',m:'"Quad tendon rupture = gap ABOVE patella." >40 years. Inability to extend knee.'},
   {t:'Patellar tendon/ligament',d:'Inferior patella → tibial tuberosity. Transmits quad force. Patellar tendinopathy ("jumper\'s knee"): degenerative, at inferior patellar pole, ultrasound hypoechoic area. Rupture: gap BELOW patella + patella rides high (patella alta). <40 yrs. Osgood-Schlatter = apophysitis at tibial tuberosity in adolescents.',m:'"Patellar tendon rupture = gap BELOW + patella alta." <40 yrs. Jumper\'s knee = inferior pole.'},
   {t:'Iliotibial band (IT band)',d:'Dense fascia: TFL + gluteus maximus → Gerdy\'s tubercle lateral tibia. Crosses knee lateral side. IT band syndrome: repetitive friction over lateral femoral condyle at 30° flexion. Ober\'s test = IT band tightness. Noble compression test at lateral condyle. Common in runners.',m:'"IT band syndrome = lateral knee pain at 30°." Ober\'s test for tightness. Distance runners.'},
@@ -456,6 +461,156 @@ const CARD_GROUPS = [
   {t:'Hamstring tendons',d:'Biceps femoris → fibular head. Semitendinosus + gracilis → pes anserinus (medial tibia). Semimembranosus → posterior medial tibial condyle. Hamstring strain: most common muscle injury in sport. Grade I-III. "High hamstring" = proximal avulsion from ischial tuberosity.',m:'"High hamstring tear = ischial tuberosity avulsion." Pes anserinus = ST + gracilis + sartorius. Proximal = most severe.'},
   {t:'Pes anserinus tendons',d:'3 tendons inserting medial tibia (DISTAL to MCL): Sartorius (most superior) + Gracilis (middle) + Semitendinosus (most inferior). "SAY GRACE TOGETHER." Pes anserinus bursitis: medial knee pain below joint line, tender over insertion, common in obese patients with osteoarthritis.',m:'"SAY GRACE TOGETHER = Sartorius, Gracilis, Semitendinosus (medial tibia)." SGS mnemonic.'},
 ]},
+
+
+// ══════════════════════════════════════════
+// A&P 2 FLASHCARD GROUPS
+// ══════════════════════════════════════════
+
+{id:'ap2-endocrine', label:'Endocrine System', icon:'🧬', color:'#b084f5', section:'ap2', cards:[
+  {t:'Hormone',d:'Chemical messenger secreted by endocrine gland into bloodstream → travels to distant target cells that have specific receptors. Lipid-soluble: cross membrane, bind intracellular receptors, alter gene expression. Water-soluble: bind membrane receptors, use second messengers (cAMP).',m:'Hormone = chemical text message through the blood. Lipid = walks through door. Water = knocks and uses doorbell.'},
+  {t:'Hypothalamus',d:'Master endocrine controller in diencephalon. Produces releasing/inhibiting hormones → control anterior pituitary via portal blood. Synthesizes ADH + oxytocin (released by posterior pituitary). Connected via infundibulum.',m:'Hypothalamus = boss of the pituitary. Controls everything above.'},
+  {t:'Anterior pituitary',d:'True glandular tissue (adenohypophysis). Controlled by hypothalamic hormones via portal blood. Produces: GH (growth), TSH (thyroid), ACTH (adrenal cortex), FSH + LH (gonads), PRL (prolactin), MSH.',m:'GT AFLP = GH, TSH, ACTH, FSH, LH, PRL. All from anterior pituitary glandular tissue.'},
+  {t:'Posterior pituitary',d:'Neural tissue (axon terminals from hypothalamus). Stores + releases ADH (vasopressin) and oxytocin — synthesized in hypothalamus. NOT true endocrine gland.',m:'Posterior = storage locker for ADH and oxytocin. Just releases, does not make.'},
+  {t:'Growth hormone (GH)',d:'From somatotrophs. Stimulates IGF-1 from liver → bone lengthening + muscle growth + protein synthesis + lipolysis. Peaks during slow-wave sleep. GHRH (+), somatostatin (-). Deficiency = dwarfism; excess in child = gigantism; excess in adult = acromegaly.',m:'GH = Grow Here. Peaks during sleep. Too much in adults = acromegaly (enlarged extremities).'},
+  {t:'ADH (antidiuretic hormone)',d:'Made in hypothalamus, released from posterior pituitary. High osmolarity or low BP → ADH release → aquaporins in collecting duct → more water reabsorbed → concentrated urine + raised blood volume. Diabetes insipidus = ADH deficiency.',m:'ADH = Anti-Diuresis = keeps water IN. Alcohol blocks ADH → more urination.'},
+  {t:'Oxytocin',d:'Made in hypothalamus, released from posterior pituitary. Positive feedback in labor: cervical stretch → more oxytocin → stronger contractions → delivery. Also: milk ejection reflex, social bonding.',m:'Oxytocin = quick birth (oxys = swift). Positive feedback loop until baby is born.'},
+  {t:'Thyroid hormones (T3/T4)',d:'Made from tyrosine + iodine by thyroid follicular cells. T4 more abundant; T3 more active (T4 converted in tissues). Lipid-soluble. Effects: ↑ BMR, ↑ heat, ↑ HR, normal brain development. TSH stimulates production. Negative feedback.',m:'T3 = 3 iodines = turbo-active. T4 = 4 iodines = prohormone. Hypo = slow, cold, fat. Hyper = fast, hot, thin.'},
+  {t:'Calcitonin',d:'From parafollicular (C) cells of thyroid when blood Ca²⁺ is HIGH. Lowers Ca²⁺: inhibits osteoclasts (↓ bone resorption) + ↑ renal Ca²⁺ excretion. Antagonizes PTH.',m:'CaliTONIN TONES DOWN calcium. Lowers Ca²⁺. Opposite of PTH.'},
+  {t:'PTH (parathyroid hormone)',d:'From chief cells of 4 parathyroid glands when Ca²⁺ is LOW. Raises Ca²⁺: activates osteoclasts (bone resorption) + ↑ renal Ca²⁺ reabsorption + activates vitamin D → ↑ GI Ca²⁺ absorption.',m:'PTH = Please Take calcium Home. RAISES blood Ca²⁺. Bones, kidneys, intestines all respond.'},
+  {t:'Adrenal cortex zones (GFR)',d:'3 zones outside-in: Glomerulosa (mineralocorticoids = aldosterone, salt), Fasciculata (glucocorticoids = cortisol, sugar), Reticularis (androgens = sex). "GFR: Salt, Sugar, Sex."',m:'GFR order: Glomerulosa-Fasciculata-Reticularis. Salt-Sugar-Sex from outside in.'},
+  {t:'Aldosterone',d:'From zona glomerulosa. Stimulated by angiotensin II + high K⁺. Action: ↑ Na⁺ reabsorption + ↑ K⁺ secretion in DCT/collecting duct → water follows Na⁺ → ↑ blood volume + pressure.',m:'Aldosterone = A for Salt (saves Na⁺, spills K⁺). Think: aldosterone adds sodium.'},
+  {t:'Cortisol',d:'From zona fasciculata. Stimulated by CRH→ACTH. Stress hormone: ↑ blood glucose (gluconeogenesis from protein/fat), anti-inflammatory (blocks prostaglandins), immunosuppressive. Negative feedback on CRH/ACTH.',m:'Cortisol = stressed SUGAR. Breaks down protein/fat → makes glucose. Chronic excess = Cushing syndrome.'},
+  {t:'Epinephrine & norepinephrine',d:'From adrenal medulla chromaffin cells. Released during sympathetic "fight-or-flight." Effects: ↑ HR, ↑ BP, ↑ blood glucose (glycogenolysis), bronchodilation. Catecholamines (water-soluble) → bind β1/α receptors.',m:'Epi + NorEpi = Emergency hormones. Fight or flight. Lasts only 1-3 minutes.'},
+  {t:'Insulin',d:'From beta cells of pancreatic islets when blood glucose HIGH. Lowers glucose: ↑ glucose uptake (GLUT4 in muscle/fat), ↑ glycogen synthesis, ↑ protein synthesis, ↑ fat storage. Water-soluble peptide hormone.',m:'Insulin = INto cells (lowers blood glucose). After eating = time to store. Beta cells = Blood sugar Buster.'},
+  {t:'Glucagon',d:'From alpha cells when blood glucose LOW. Raises glucose: ↑ glycogenolysis (liver), ↑ gluconeogenesis, ↑ lipolysis. Antagonizes insulin. Alpha cells = Away (raises glucose).',m:'Glucagon = GLUCose is GONE, release it. Alpha = Away from zero (raises glucose).'},
+  {t:'Melatonin',d:'From pineal gland (epithalamus). Secreted in response to DARKNESS. Regulates circadian rhythm + sleep-wake cycle. Light inhibits it via retinohypothalamic tract. Peaks 2-4 AM.',m:'Pineal = pinecone shaped. Melatonin = darkness hormone = sleep hormone.'},
+  {t:'Negative feedback',d:'Response opposes the stimulus → returns variable to set point. Most common control mechanism in endocrine system. Example: ↑ T3/T4 → inhibits TRH + TSH → less T3/T4 production.',m:'Negative feedback = thermostat. Too hot = turn off heat. Most endocrine loops are negative feedback.'},
+  {t:'Upregulation vs downregulation',d:'Upregulation: target cells increase receptor number when hormone is chronically LOW → increased sensitivity. Downregulation: decrease receptor number when hormone is chronically HIGH → decreased sensitivity (e.g., insulin resistance in type 2 DM).',m:'Down = less receptors when flooded. Type 2 DM = downregulated insulin receptors = insulin resistance.'},
+  {t:'Cushing syndrome vs Addison disease',d:'Cushing: excess cortisol → moon face, buffalo hump, central obesity, striae, hyperglycemia, HTN, immunosuppression. Usually exogenous steroids or ACTH-secreting tumor. Addison: adrenal cortex failure → ↓ cortisol + ↓ aldosterone → hypoglycemia, hypotension, bronze skin (↑ ACTH/MSH).',m:'Cushing = Cushioned with fat (excess). Addison = worn out (deficient). Bronze skin = excess ACTH stimulates MSH receptors.'},
+]},
+
+{id:'ap2-blood', label:'Blood', icon:'🩸', color:'#f07060', section:'ap2', cards:[
+  {t:'Blood composition',d:'Connective tissue ~5L. 55% plasma (91% water + albumin/globulins/fibrinogen + electrolytes/nutrients). 45% formed elements (hematocrit). RBCs, WBCs, platelets.',m:'Blood = 55% plasma + 45% formed elements. Hematocrit = % formed elements (RBCs mostly).'},
+  {t:'Erythrocytes (RBCs)',d:'~5 million/µL. Biconcave disc — no nucleus, no organelles → maximizes hemoglobin (~280 million/cell). Lifespan 120 days. Destroyed in spleen. EPO from kidneys stimulates production in red bone marrow.',m:'RBC = biconcave, no nucleus = more hemoglobin. Lives 120 days then dies in SPLEEN.'},
+  {t:'Hemoglobin',d:'4 globin chains + 4 heme groups, each with Fe²⁺ → binds 1 O₂. One Hb carries 4 O₂. Oxyhemoglobin = bright red. Deoxyhemoglobin = dark red. HbA1 = adult; HbF = fetal (higher O₂ affinity); HbS = sickle cell.',m:'Hb = 4 chains, 4 hemes, 4 O₂. HbF has higher affinity (pulls O₂ from mother).'},
+  {t:'Erythropoiesis',d:'RBC production in red bone marrow. Triggered by EPO (erythropoietin from kidneys) when O₂ is low. Stages: hemocytoblast → proerythroblast → erythroblasts → reticulocyte (has ribosomes) → mature RBC. Takes ~7 days. Requires: iron, B12, folate.',m:'EPO = EPO = Erythropoiesis Promoter from O₂-starved kidneys. Reticulocyte = immature RBC still has ribosomes.'},
+  {t:'Anemia',d:'Insufficient O₂-carrying capacity. Types: blood loss (hemorrhagic), decreased production (iron deficiency = microcytic, B12/folate = megaloblastic/pernicious), increased destruction (sickle cell, hemolytic). Signs: fatigue, pallor, tachycardia, dyspnea.',m:'Anemia = 3 D\'s: Decreased production, Destruction, Dilution (blood loss).'},
+  {t:'Sickle cell disease',d:'Autosomal recessive. Point mutation in β-globin gene (Glu→Val at position 6). HbS polymerizes under low O₂ → rigid sickle shape → obstructs capillaries, hemolysis, organ damage (pain crises, acute chest, stroke). Sickle trait (heterozygous) = malaria resistance.',m:'ONE letter change = ONE amino acid change = sickle shape. Heterozygous = malaria resistance.'},
+  {t:'Neutrophils',d:'60-70% of WBCs. First responders to bacterial infection. Multi-lobed nucleus (3-5 lobes). Phagocytose bacteria. Short-lived (hours-days). Form pus. Release defensins + oxidative burst (reactive oxygen species).',m:'Neutrophils = Numerous + Now (first to arrive). Multi-lobed nucleus. Pus = dead neutrophils.'},
+  {t:'Lymphocytes',d:'20-30% of WBCs. T cells (cellular immunity: CD4+ helper, CD8+ cytotoxic), B cells (humoral immunity: antibody production), NK cells (innate killing). Large round nucleus. Increased in viral infections.',m:'Lymphocytes = Long-term immunity. T = cell-to-cell combat. B = antibody bombs.'},
+  {t:'Monocytes',d:'2-8% of WBCs. Largest WBC. Horseshoe/kidney-shaped nucleus. Become macrophages in tissues — phagocytose pathogens, dead cells, debris. Present antigens to T cells (APCs).',m:'Mono = one big horseshoe nucleus. Macrophage in tissues = big eater + APC.'},
+  {t:'Eosinophils',d:'2-4%. Bilobed nucleus + large red/orange granules. Combat parasitic infections + allergic reactions. Release histaminase (counteracts histamine) + toxic proteins against parasites.',m:'Eosinophils = allergies and parasites. Easy ID: red granules + bilobed nucleus.'},
+  {t:'Basophils',d:'<1%. Large purple/blue granules containing histamine (vasodilation) + heparin (anticoagulant). Role in allergic + inflammatory responses. Related to mast cells in tissues.',m:'Basophils = Blue/purple granules. Histamine + heparin = BB gun of immune system.'},
+  {t:'Platelets (thrombocytes)',d:'Cell fragments from megakaryocytes. No nucleus. 2-4µm. Normal 150,000-400,000/µL. Lifespan 7-10 days. Contain granules with clotting chemicals. Essential for primary hemostasis (platelet plug).',m:'Platelets = cell fragments for plugging holes. <150K = thrombocytopenia = bleeding risk.'},
+  {t:'Hemostasis (3 steps)',d:'(1) Vascular spasm: immediate vasoconstriction. (2) Platelet plug: collagen exposed → vWF bridges collagen to platelets → ADP/TXA2 recruit more platelets → GPIIb/IIIa + fibrinogen link platelets. (3) Coagulation cascade → fibrin mesh stabilizes plug.',m:'SPC = Spasm → Plug → Coagulation. Three steps to stop bleeding.'},
+  {t:'Coagulation cascade',d:'Extrinsic pathway (fast): tissue factor + VII. Intrinsic pathway (slow): XII → XI → IX + VIII. Both → common pathway: X → prothrombin activator → thrombin → fibrinogen → fibrin → Factor XIII crosslinks (stable clot). Ca²⁺ required throughout.',m:'ITCH → Common → Fibrin. Thrombin = the key enzyme. Warfarin blocks vitamin K-dependent factors (II, VII, IX, X).'},
+  {t:'ABO blood groups',d:'Based on RBC antigens. A = A antigen + anti-B antibody. B = B antigen + anti-A antibody. AB = both antigens + no antibodies (universal recipient). O = no antigens + both antibodies (universal donor). Mismatch → agglutination → hemolysis.',m:'Universal donor = O (no antigens). Universal recipient = AB (no antibodies). Mismatch = FATAL agglutination.'},
+  {t:'Rh blood group',d:'85% of people are Rh+ (have D antigen). Rh- individuals develop anti-Rh antibodies after first exposure. HDN (hemolytic disease of newborn): Rh- mother + Rh+ fetus → 2nd pregnancy antibodies cross placenta → destroy fetal RBCs. RhoGAM prevents sensitization.',m:'Rh- mom + Rh+ baby = HDN in 2nd pregnancy. RhoGAM = prevention at 28 weeks + after delivery.'},
+]},
+
+{id:'ap2-heart', label:'Heart', icon:'❤️', color:'#f07060', section:'ap2', cards:[
+  {t:'Heart chambers & flow',d:'4 chambers: RA (receives deoxygenated blood from SVC + IVC + coronary sinus) → RV (pumps to lungs via pulmonary trunk) → LA (receives oxygenated blood from 4 pulmonary veins) → LV (pumps to body via aorta). LV wall 3× thicker.',m:'Right = pulmonary (lungs). Left = systemic (body). RA→RV→lungs→LA→LV→body.'},
+  {t:'Heart valve types',d:'AV valves: Tricuspid (right, 3 cusps) + Mitral/Bicuspid (left, 2 cusps). Held by chordae tendineae + papillary muscles — prevent eversion during systole. Semilunar valves: Pulmonary (right) + Aortic (left), 3 cusps each, no chordae.',m:'Try Before Pumping Aorta = Tricuspid, Bicuspid (mitral), Pulmonary, Aortic. Flow order right to left then arteries.'},
+  {t:'Coronary circulation',d:'LCA → LAD (anterior interventricular = widow maker) + LCx (circumflex). RCA → right marginal + posterior interventricular. Heart perfused during DIASTOLE (ventricles relaxed). Coronary veins → coronary sinus → RA.',m:'LAD = widow maker (front of heart). Coronary arteries fill during DIASTOLE. RCA = inferior heart.'},
+  {t:'Cardiac muscle & intercalated discs',d:'Striated, involuntary. Intercalated discs: desmosomes (mechanical coupling) + gap junctions (electrical coupling → action potentials spread to all cells = functional syncytium). Long absolute refractory period prevents tetanus.',m:'Intercalated discs = desmosomes (hold) + gap junctions (conduct). Long refractory = no tetanus = no sustained fatal contraction.'},
+  {t:'Cardiac action potential',d:'Phase 0: rapid depolarization (fast Na⁺ channels). Phase 1: brief repolarization. Phase 2: PLATEAU (Ca²⁺ channels open — unique to cardiac muscle, 200-300ms). Phase 3: repolarization (K⁺ out). Phase 4: resting. Plateau = long refractory period.',m:'Phase 2 PLATEAU = Ca²⁺ in = unique to heart muscle = long refractory period.'},
+  {t:'Cardiac conduction system',d:'SA node (pacemaker 60-100/min, right atrium) → internodal pathways → AV node (0.1 sec delay, allows atrial emptying) → Bundle of His → right + left bundle branches → Purkinje fibers (rapid spread apex→base).',m:'SA→AV(delay)→His→Branches→Purkinje. SA = starter, AV = gatekeeper, Purkinje = spreads from floor up.'},
+  {t:'ECG waves',d:'P wave = atrial depolarization. QRS complex = ventricular depolarization (atrial repolarization hidden within). T wave = ventricular repolarization. PR interval = AV node conduction time (0.12-0.20 sec). QT interval = ventricular depolarization + repolarization.',m:'P = atria fire. QRS = ventricles fire. T = ventricles reset. P-QRS-T.'},
+  {t:'Cardiac cycle',d:'Systole: AV valves close (S1 = LUB) → isovolumetric contraction → SL valves open → ejection. Diastole: SL valves close (S2 = DUB) → isovolumetric relaxation → AV valves open → passive filling (75%) + atrial kick (25%). ~0.8 sec at 75 bpm.',m:'LUB = AV valves close. DUB = semilunar valves close. Lub-Dub rhythm.'},
+  {t:'Cardiac output',d:'CO = HR × SV. Normal ~5.25 L/min (75 bpm × 70 mL). Ejection fraction (EF) = SV/EDV × 100, normal ≥55%. Stroke volume controlled by: preload (EDV), afterload (arterial resistance), contractility.',m:'CO = HR × SV. 75 × 70 = 5250 mL/min. EF <55% = heart failure territory.'},
+  {t:'Frank-Starling law',d:'↑ preload (venous return → ↑ EDV) → ↑ myocardial stretch → ↑ force of contraction → ↑ SV. Heart pumps what it receives. Stretch = more overlap of actin/myosin → more cross-bridges → more force.',m:'Frank-Starling = stretch more = pump more. Like a rubber band — stretched further, snaps harder.'},
+  {t:'Autonomic heart control',d:'Sympathetic (β1 receptors): ↑ HR (chronotropy), ↑ contractility (inotropy), ↑ conduction velocity. Parasympathetic (vagus, M2 receptors): ↓ HR. Medullary centers: cardioacceleratory + cardioinhibitory.',m:'Sympathetic = speed up (fight-or-flight, β1). Parasympathetic = slow down (rest-digest, vagus). Beta-blockers block β1.'},
+  {t:'Heart sounds & murmurs',d:'S1 (lub) = AV valves close at start of ventricular systole. S2 (dub) = semilunar valves close at start of ventricular diastole. S3 = early diastolic filling (normal in young, heart failure in adults). S4 = stiff ventricle. Murmurs = turbulent flow through stenotic/regurgitant valves.',m:'Lub = going in (AV close). Dub = going out (SL close). S3 gallop = heart failure in adults.'},
+  {t:'Myocardial infarction (MI)',d:'Coronary artery occlusion → O₂ cessation → ischemia → myocardial necrosis. Symptoms: crushing chest pain radiating to left arm/jaw, diaphoresis, nausea. Troponin elevated in 3-4 hours. ECG: ST elevation (STEMI). Treatment: PCI (stenting) or thrombolytics.',m:'Troponin = specific cardiac marker. Rises 3-4 hours after MI. LAD occlusion = most dangerous (widow maker).'},
+  {t:'Heart failure',d:'CO insufficient for body needs. Left HF: ↓ CO → pulmonary edema (dyspnea, orthopnea, crackles). Right HF: → peripheral edema, JVD, hepatomegaly. Treatment: ACE inhibitors, β-blockers, diuretics.',m:'Left HF = Lungs fill (pulmonary edema). Right HF = body Retains fluid (ankle swelling, JVD).'},
+]},
+
+{id:'ap2-vessels', label:'Blood Vessels', icon:'🫀', color:'#7c9ef8', section:'ap2', cards:[
+  {t:'Arterial wall layers (tunics)',d:'Tunica intima (inner endothelium + basement membrane). Tunica media (middle: smooth muscle + elastic fibers — thickest in arteries, controls vessel diameter). Tunica adventitia (outer: collagen CT). Arteries resist pressure; veins have thinner media + valves.',m:'IMA = Intima, Media, Adventitia. Media = muscle = controls diameter = blood pressure.'},
+  {t:'Elastic vs muscular arteries',d:'Elastic (conducting): aorta, large arteries. Lots of elastic fibers. Recoil during diastole = Windkessel effect = continuous flow. Muscular (distributing): medium arteries (femoral, brachial). Thick smooth muscle. Regulate regional blood flow.',m:'Elastic arteries = stretchy, large, recoil. Muscular = medium, regulate flow to organs. Arterioles = resistance vessels.'},
+  {t:'Capillary types',d:'Continuous (tight junctions, most organs + brain = blood-brain barrier). Fenestrated (pores, kidneys + GI + endocrine = high filtration). Sinusoidal (large gaps, liver + spleen + bone marrow = cell passage). Exchange occurs only in capillaries.',m:'Continuous > Fenestrated > Sinusoidal (most to least restrictive). Brain = continuous = blood-brain barrier.'},
+  {t:'Starling forces (capillary exchange)',d:'Filtration out: capillary hydrostatic pressure (HP, ~35 mmHg at arteriole end). Reabsorption in: plasma osmotic pressure (OP, ~25 mmHg from albumin). Arteriole end: HP > OP → net filtration. Venule end: OP > HP → net reabsorption. Net excess (~3L/day) → lymphatics.',m:'Arteriole end = push out (hydrostatic wins). Venule end = pull in (osmotic wins). Net excess → lymph.'},
+  {t:'Blood pressure',d:'Force exerted by blood on vessel walls. BP = CO × TPR. Systolic = peak during ventricular systole. Diastolic = minimum during diastole. Normal <120/80 mmHg. MAP = DBP + 1/3(pulse pressure). Arterioles = main resistance.',m:'BP = CO × TPR. Normal 120/80. MAP = DBP + 1/3 PP. Arterioles control resistance.'},
+  {t:'RAAS',d:'↓ BP/Na⁺ → kidney JG cells release renin → cleaves angiotensinogen → angiotensin I → ACE (lungs) → angiotensin II → (1) vasoconstriction ↑ TPR, (2) aldosterone ↑ Na⁺/water retention, (3) ADH ↑ water retention, (4) thirst. All raise BP.',m:'RAAS: Renin→A-I→ACE→A-II→Aldosterone. All RAISE blood pressure. ACE inhibitors block A-II.'},
+  {t:'Baroreceptor reflex',d:'Stretch receptors in carotid sinus + aortic arch. ↑ BP → stretch → signals medulla → ↓ HR + vasodilation → ↓ BP. ↓ BP → ↑ HR + vasoconstriction. Fast, short-term BP regulation. Works within seconds.',m:'Baroreceptors = stretch sensors for BP. High BP = slow heart. Low BP = fast heart. Medulla controls it.'},
+  {t:'Edema',d:'Abnormal fluid accumulation in tissues. Causes: ↑ capillary HP (heart failure, HTN), ↓ plasma OP (↓ albumin = cirrhosis/nephrotic), ↑ capillary permeability (inflammation), lymphatic obstruction (cancer, filariasis). Pitting edema = finger indent remains.',m:'Edema = fluid stuck outside vessels. Low albumin = low osmotic pull = edema. 4 causes: HP up, OP down, permeability up, lymph blocked.'},
+  {t:'Pulmonary vs systemic circulation',d:'Pulmonary: RV → lungs → LA. Low pressure (15-25 mmHg). Pulmonary arteries carry deoxygenated blood (unique exception). Gas exchange in alveolar capillaries. Systemic: LV → body → RA. High pressure (~120 mmHg).',m:'Pulmonary arteries = deoxygenated blood (only exception to artery = oxygenated rule). Low pressure circuit.'},
+  {t:'Portal circulation',d:'Blood from digestive organs (stomach, intestines, spleen, pancreas) → hepatic portal vein → liver (first-pass metabolism of nutrients + drugs) → hepatic veins → IVC → RA. Liver sees absorbed nutrients first.',m:'Portal = goes to LIVER first. First-pass metabolism = why some drugs are destroyed before reaching circulation.'},
+  {t:'Hypertension',d:'Persistent BP ≥130/80 mmHg. Primary (essential, 90%): multifactorial. Secondary (10%): renal/hormonal cause. Silent killer — damages: kidneys (nephrosclerosis), heart (LVH, MI), brain (stroke), eyes (retinopathy). Treatment: lifestyle + medications.',m:'HTN = Silent killer. No symptoms until damage is done. CHEK = Cardiac, Heart/brain, Eyes, Kidneys damaged.'},
+]},
+
+{id:'ap2-lymphimmune', label:'Lymphatics & Immunity', icon:'🛡️', color:'#4ecdc4', section:'ap2', cards:[
+  {t:'Lymphatic system functions',d:'3 functions: (1) Return ~3L/day excess interstitial fluid to blood. (2) Transport dietary fats as chylomicrons via lacteals from small intestine. (3) Immune defense — lymph nodes filter lymph and mount immune responses.',m:'Lymph = Fluid returning home. 3 jobs: fluid return, fat transport, immunity.'},
+  {t:'Lymph nodes',d:'Bean-shaped along lymph vessels. Cortex: B cell follicles + germinal centers (antibody production). Paracortex: T cells. Medulla: macrophages + plasma cells. Afferent vessels in; efferent vessel exits at hilum. Filter lymph and mount immune responses.',m:'Lymph node = filter station. B cells outer cortex. T cells paracortex. Macrophages medulla.'},
+  {t:'Spleen',d:'Largest lymphoid organ, left upper quadrant. Red pulp: macrophages destroy old RBCs + blood reservoir. White pulp: lymphoid tissue for immune responses. Filters BLOOD (not lymph). Splenomegaly in mono, malaria, portal HTN.',m:'Spleen: RED = RBC graveyard + blood reservoir. WHITE = immune responses. Filters BLOOD not lymph.'},
+  {t:'Innate immunity (1st + 2nd line)',d:'1st line: skin + mucous membranes + chemical barriers (lysozyme, acid, defensins). 2nd line: phagocytes (neutrophils + macrophages), NK cells, inflammation, fever, complement, interferons. Fast, nonspecific, no memory.',m:'Innate = fast but non-specific. 1st line = barriers. 2nd line = internal rapid response. No memory.'},
+  {t:'Inflammation signs + mediators',d:'Cardinal signs: redness, heat, swelling, pain (+ loss of function). Histamine from mast cells → vasodilation + ↑ permeability. Prostaglandins → pain + fever. Bradykinin → pain. NSAIDs block prostaglandins. Steroids block all lipid mediators.',m:'RHSP = Redness, Heat, Swelling, Pain. All from vasodilation + increased vascular permeability.'},
+  {t:'Complement system',d:'20+ plasma proteins. 3 pathways all → C3 convertase. C3b = opsonization (coats pathogen for phagocytosis). C5a = chemotaxis (attracts neutrophils) + mast cell degranulation. MAC (C5b-9) = punches holes in pathogen → lysis.',m:'Complement: COAT, CALL, KILL. Coat with C3b, Call neutrophils with C5a, Kill with MAC.'},
+  {t:'MHC I vs MHC II',d:'MHC I: on ALL nucleated cells. Presents intracellular antigens (viral/tumor) to CD8+ cytotoxic T cells. MHC II: only on APCs (dendritic cells, macrophages, B cells). Presents extracellular antigens to CD4+ helper T cells.',m:'MHC I = 1 for all nucleated cells → CD8 T cells (1×8=8). MHC II = 2 for APCs only → CD4 T cells (2×4=8).'},
+  {t:'T lymphocytes',d:'CD4+ Helper T: activate B cells + cytotoxic T cells + macrophages; secrete cytokines. CD8+ Cytotoxic T: kill infected cells + tumor cells via perforin + granzymes. Regulatory T (Treg): suppress immune response, prevent autoimmunity.',m:'CD4 = Helper (organizes attack). CD8 = Killer (does the killing). Helper helps. Killer kills.'},
+  {t:'Antibody classes (IgGMADE)',d:'IgG: most abundant (80%), long half-life, crosses placenta (passive immunity to fetus), secondary response. IgM: first responder, pentamer, ABO antibodies. IgA: secretory (breast milk, saliva, tears, mucosa). IgD: B cell activation. IgE: allergy + parasites.',m:'IgGMADE = IgG Most, IgM first (penta-mer), IgA At entrances, IgD Developer, IgE Enemies (allergies).'},
+  {t:'Primary vs secondary immune response',d:'Primary: first exposure. 5-10 day lag. Low antibody titer. Mostly IgM. Memory cells formed. Secondary (anamnestic): re-exposure. 1-2 day lag. High antibody titer. Mostly IgG. Longer lasting. Basis of vaccination.',m:'Primary = slow IgM. Secondary = fast IgG. Vaccines create memory without causing disease.'},
+  {t:'Type I hypersensitivity (allergy)',d:'IgE + mast cells/basophils → histamine + leukotrienes. Immediate reaction within minutes. Atopy (hay fever, asthma, eczema, food allergy). Anaphylaxis: severe systemic type I reaction → epinephrine treatment.',m:'Type I = IgE + mast cells = immediate allergy. Anaphylaxis = most severe. Epinephrine = treatment.'},
+  {t:'Type IV hypersensitivity (delayed)',d:'T cell-mediated (NO antibodies). Takes 48-72 hours. Examples: tuberculin (PPD) skin test, contact dermatitis (poison ivy, nickel), organ transplant rejection, MS, type 1 DM.',m:'Type IV = Takes Time (48-72 hrs). T cell mediated (no antibody). TB test = type IV. DTH = delayed type hypersensitivity.'},
+]},
+
+{id:'ap2-respiratory', label:'Respiratory System', icon:'🫁', color:'#7c9ef8', section:'ap2', cards:[
+  {t:'Respiratory tract zones',d:'Conducting zone (no gas exchange): nose → pharynx → larynx → trachea → bronchi → bronchioles → terminal bronchioles (dead space ~150mL). Respiratory zone (gas exchange): respiratory bronchioles → alveolar ducts → alveolar sacs → alveoli.',m:'Conducting = move air (no exchange). Respiratory = exchange gas. Dead space = 150mL never reaches alveoli.'},
+  {t:'Alveoli (type I and type II)',d:'~300 million alveoli. Type I pneumocytes: squamous, 95% of surface, gas exchange. Type II pneumocytes: cuboidal, 5%, secrete surfactant (reduces surface tension, prevents alveolar collapse). Alveolar macrophages: phagocytose debris.',m:'Type I = gas exchange (thin and flat). Type II = surfactant (prevents collapse). Type II = Two jobs.'},
+  {t:'Surfactant',d:'Phospholipid mixture secreted by type II pneumocytes. Reduces surface tension in alveoli → prevents collapse during expiration (atelectasis). Begins production at ~26 weeks gestation. Premature infants lack it → respiratory distress syndrome (RDS/IRDS).',m:'Surfactant = Surface tension reducer. Premature babies lack it → RDS. Saves alveoli from collapsing.'},
+  {t:'Boyle\'s Law & breathing',d:'P × V = constant. ↑ volume → ↓ pressure. Inspiration: diaphragm + external intercostals → ↑ thoracic volume → ↓ intrapulmonary pressure → air flows IN. Quiet expiration: PASSIVE — elastic recoil of lungs + chest wall. Forced expiration: internal intercostals + abdominal muscles.',m:'Big volume = low pressure = air flows IN (inspiration). Small volume = high pressure = air flows OUT (expiration).'},
+  {t:'Lung volumes',d:'Tidal volume (TV) = 500mL (normal breath). IRV = 3100mL. ERV = 1200mL. Residual volume (RV) = 1200mL (never leaves, keeps alveoli open). Vital capacity (VC) = TV+IRV+ERV = 4800mL. TLC = 6000mL. FEV1/FVC: <70% = obstructive.',m:'RV never leaves (can\'t measure by spirometry). FEV1/FVC <70% = obstructive (COPD/asthma). Normal but low values = restrictive (fibrosis).'},
+  {t:'Gas exchange (partial pressures)',d:'O₂ in alveoli: ~105 mmHg. O₂ in venous blood: ~40 mmHg → O₂ diffuses into blood. CO₂ in venous blood: ~45 mmHg. CO₂ in alveoli: ~40 mmHg → CO₂ diffuses out. Respiratory membrane: 0.5µm thick. Fick\'s Law: rate ∝ surface area × gradient / thickness.',m:'O₂: alveoli 105 → blood 40. CO₂: blood 45 → alveoli 40. Always from HIGH to LOW partial pressure.'},
+  {t:'O₂-hemoglobin dissociation curve',d:'Sigmoidal curve. Right shift (↑ temp, ↑ CO₂, ↓ pH, ↑ 2,3-BPG) = Bohr effect = ↓ Hb affinity = more O₂ released to tissues. Left shift (↓ temp, ↓ CO₂, ↑ pH, HbF, CO) = ↑ Hb affinity = O₂ held tighter.',m:'Right shift = Release O₂ to active tissues (hot, acidic, high CO₂). Bohr effect = CO₂ unloads O₂. Left shift = holds O₂.'},
+  {t:'CO₂ transport',d:'70% as bicarbonate (CO₂+H₂O → H₂CO₃ → H⁺+HCO₃⁻ via carbonic anhydrase in RBCs; HCO₃⁻ exits to plasma, Cl⁻ enters = chloride shift). 23% as carbaminohemoglobin (binds globin). 7% dissolved.',m:'CO₂ = 70% bicarb (main form), 23% carbamino, 7% dissolved. Bicarb is the blood\'s CO₂ taxi.'},
+  {t:'Control of breathing',d:'Medullary rhythmicity center drives basic rhythm. CO₂ = PRIMARY stimulus (↑ CO₂ → ↑ H⁺ → central chemoreceptors in medulla → ↑ breathing). Peripheral chemoreceptors (carotid + aortic bodies): respond to ↓ PO₂ (<60 mmHg) also.',m:'CO₂ = #1 breathing driver. O₂ only stimulates at very low levels. Central chemoreceptors = H⁺/CO₂.'},
+  {t:'COPD',d:'Chronic obstructive pulmonary disease. FEV1/FVC <70%. Chronic bronchitis: excessive mucus + cough >3 months × 2 years, "blue bloater" (hypoxic, cyanotic, edematous). Emphysema: alveolar wall destruction → air trapping + ↓ surface area, "pink puffer" (pursed-lip breathing, barrel chest). Caused by smoking.',m:'Bronchitis = blue bloater (hypoxic, retain CO₂). Emphysema = pink puffer (blow off CO₂ by pursed lips). Both from smoking.'},
+  {t:'Asthma',d:'Reversible airway obstruction: bronchospasm + inflammation + mucus hypersecretion. Episodic wheeze, dyspnea, chest tightness. Triggers: allergens, cold, exercise. Rescue: albuterol (β2 agonist = bronchodilator). Maintenance: inhaled corticosteroids.',m:'Asthma = Airways Spasm Temporarily (reversible). Albuterol = Airway opener (β2 agonist). Corticosteroids = reduce inflammation.'},
+]},
+
+{id:'ap2-digestive', label:'Digestive System', icon:'🫄', color:'#f5c842', section:'ap2', cards:[
+  {t:'GI wall layers',d:'4 layers inside-out: Mucosa (epithelium + lamina propria + muscularis mucosae). Submucosa (CT + Meissner\'s plexus = secretion control). Muscularis externa (inner circular + outer longitudinal + Auerbach\'s plexus = motility). Serosa (outer).',m:'MSMS = Mucosa, Submucosa, Muscularis, Serosa. Meissner = secretion (submucosa). Auerbach = movement (muscularis).'},
+  {t:'Gastric secretions',d:'Parietal cells: HCl (activates pepsinogen, kills bacteria, denatures proteins) + intrinsic factor (binds B12 for absorption in terminal ileum). Chief cells: pepsinogen (→ pepsin by HCl). G cells (antrum): gastrin (→ ↑ HCl). Mucous cells: mucus (protects mucosa).',m:'Parietal cells: HCl + intrinsic factor. Chief cells: pepsinogen. G cells: gastrin. Parietal = Powerful acid producers.'},
+  {t:'Small intestine absorption',d:'~6m. Duodenum (25cm, receives bile + pancreatic juice). Jejunum (main absorption). Ileum (B12 + bile salt reabsorption). Plicae circulares + villi + microvilli = 200× surface area. Glucose/galactose: Na⁺-cotransport (SGLT1). Fructose: facilitated diffusion.',m:'DJI = Duodenum, Jejunum, Ileum. B12 + bile salts in terminal ileum. Plicae × villi × microvilli = 200× surface area.'},
+  {t:'Fat digestion & absorption',d:'Bile salts emulsify fat → micelles. Pancreatic lipase breaks triglycerides → fatty acids + monoglycerides. Diffuse into enterocytes → reassembled as TG → packaged as chylomicrons → secreted into LACTEALS → lymph → thoracic duct → blood.',m:'Fats → chylomicrons → LACTEALS → LYMPH (not portal vein). Fat-soluble vitamins A, D, E, K go same route.'},
+  {t:'Brush border enzymes',d:'On intestinal microvilli. Complete digestion: maltase (maltose → 2 glucose), sucrase (sucrose → glucose + fructose), lactase (lactose → glucose + galactose), peptidases (dipeptides/tripeptides → amino acids). Lactase deficiency → lactose intolerance.',m:'Brush border = final digestion step. Maltase, sucrase, lactase, peptidases. Lactase gone = lactose intolerance.'},
+  {t:'Pancreatic enzymes',d:'From acinar cells (stimulated by CCK). Amylase (starch). Lipase + colipase (triglycerides). Proteases: trypsinogen, chymotrypsinogen, proelastase, procarboxypeptidase — ALL released INACTIVE to prevent autodigestion. Enterokinase in duodenum activates trypsinogen → trypsin → activates all others.',m:'Pancreatic proteases = inactive (zymogen) to prevent autodigestion. Enterokinase activates trypsin = master activator.'},
+  {t:'CCK and secretin',d:'CCK (from I cells, fat + protein stimulus): stimulates pancreas (enzyme secretion) + gallbladder contraction (bile release) + signals satiety. Secretin (from S cells, acid stimulus): stimulates pancreas HCO₃⁻ secretion to neutralize acid chyme. Both from duodenum.',m:'CCK = fat + protein → enzymes + bile. Secretin = acid → bicarbonate (neutralize). Duodenum hormone duo.'},
+  {t:'Liver functions',d:'500+ functions: bile production (500-1000mL/day), glucose homeostasis (glycogen storage/release), lipid metabolism, protein synthesis (albumin, clotting factors II/VII/IX/X/fibrinogen), urea synthesis (amino acid deamination), detoxification (drugs, alcohol, hormones), storage (vitamins A/D/E/K/B12, iron).',m:'Liver = metabolic powerhouse. Makes albumin + clotting factors. Detoxifies everything. Portal blood arrives here first.'},
+  {t:'Bile',d:'Produced by hepatocytes (500-1000mL/day), stored + concentrated in gallbladder, released via bile duct into duodenum. Contains bile salts (emulsify fats = detergent action), bilirubin (RBC breakdown product = gives stool/urine yellow color), cholesterol, phospholipids.',m:'Bile = emulsifier (breaks fat into droplets). NOT an enzyme. Bile salts = detergent for fat. Bilirubin = RBC waste product.'},
+  {t:'Large intestine',d:'1.5m. Cecum + appendix → ascending → transverse → descending → sigmoid → rectum → anal canal. Functions: water + electrolyte absorption (90% of remaining water), vitamin K + B synthesis by gut bacteria, feces formation.',m:'Large intestine = water absorber + feces maker. Bacteria make vitamin K (antibiotic use → disrupts this → bleeding risk in warfarin patients).'},
+  {t:'3-phase gastric regulation',d:'Cephalic phase (before food enters): sight/smell/thought → vagus nerve → ↑ HCl + pepsinogen. Gastric phase (food in stomach): distension + protein → gastrin → ↑ secretion + motility. Intestinal phase (chyme in duodenum): CCK + secretin → INHIBIT gastric secretion.',m:'CGI = Cephalic (brain turns on), Gastric (stomach amplifies), Intestinal (duodenum turns it off).'},
+]},
+
+{id:'ap2-urinary', label:'Urinary System', icon:'🫘', color:'#52d18a', section:'ap2', cards:[
+  {t:'Nephron structure',d:'Functional unit of kidney (~1 million/kidney). Renal corpuscle (glomerulus + Bowman\'s capsule) → PCT → Loop of Henle (descending: water permeable only; ascending: NaCl pumped out, water impermeable) → DCT → collecting duct → renal pelvis → ureter.',m:'Nephron path: Glomerulus → PCT → Loop → DCT → Collecting duct. Filter → Bulk reabsorb → Concentrate → Fine-tune.'},
+  {t:'Glomerular filtration',d:'GFR = 125 mL/min = 180 L/day filtered. NFP = glomerular HP (55 mmHg) - capsular HP (15 mmHg) - osmotic OP (30 mmHg) = +10 mmHg driving filtration. Filtration membrane: fenestrated endothelium + basement membrane (negative charge) + podocyte slit diaphragm. Blocks proteins + cells.',m:'GFR = 125 mL/min = 180L filtered/day. Only 1-2L become urine (99% reabsorbed). Proteins blocked by charge + size.'},
+  {t:'Tubular reabsorption',d:'PCT: reabsorbs 65% — all glucose (if < 180 mg/dL = renal threshold), all amino acids, vitamins, Na⁺ (cotransport), Cl⁻, K⁺, HCO₃⁻, water (osmosis). Loop of Henle: descending = water only; ascending = NaCl pumped out (countercurrent multiplier). DCT + collecting duct: hormone-controlled.',m:'PCT = bulk reabsorption (65%). All glucose here (threshold = 180 mg/dL). Above threshold = glucosuria (diabetes sign).'},
+  {t:'Countercurrent multiplier',d:'Loop of Henle creates osmotic gradient in medulla (300 → 1200 mOsm). Descending loop: permeable to water → water leaves → filtrate concentrates. Ascending loop: impermeable to water → NaCl pumped out → medulla becomes hyperosmotic. This gradient allows ADH to create concentrated urine.',m:'Loop = makes medulla salty (hyperosmotic). Without this gradient, ADH can\'t concentrate urine. Juxtamedullary nephrons do this.'},
+  {t:'ADH effects on kidneys',d:'High plasma osmolarity or ↓ BP → posterior pituitary releases ADH → collecting duct → inserts aquaporins → ↑ water permeability → more water reabsorbed → concentrated urine (up to 1200 mOsm). No ADH → dilute urine (down to 100 mOsm). Diabetes insipidus = no ADH or no response.',m:'ADH = aquaporins = water in. High ADH = concentrated urine. Low ADH = dilute urine. DI = no ADH = gallons of dilute urine.'},
+  {t:'Aldosterone effects on kidneys',d:'Angiotensin II + high K⁺ → adrenal zona glomerulosa releases aldosterone → DCT + collecting duct → ↑ Na⁺ reabsorption + ↑ K⁺ secretion → water follows Na⁺ → ↑ blood volume + BP.',m:'Aldosterone = Na⁺ in, K⁺ out, water follows Na⁺. Raises blood volume + pressure. Spironolactone blocks it (K-sparing diuretic).'},
+  {t:'Fluid compartments',d:'TBW = 60% body weight. ICF = 2/3 (40%). ECF = 1/3 (20%): plasma (8%) + interstitial (12%). ICF: high K⁺ + Mg²⁺ + phosphate. ECF: high Na⁺ + Cl⁻ + HCO₃⁻. Water moves by osmosis between compartments.',m:'ICF = K⁺ domain (K = inside). ECF = Na⁺ domain (Na = outside). TBW: 60-40-20 rule. Na⁺ = osmotic skeleton of ECF.'},
+  {t:'Acid-base: respiratory',d:'Respiratory acidosis: ↓ breathing → CO₂ builds up → ↑ H⁺ → ↓ pH. Compensation: kidneys ↑ HCO₃⁻ reabsorption (days). Respiratory alkalosis: hyperventilation → ↓ CO₂ → ↑ pH. Compensation: kidneys ↓ HCO₃⁻ reabsorption.',m:'ROME: Respiratory Opposite (CO₂ and pH go opposite directions). Resp acidosis = ↑ CO₂, ↓ pH. Resp alkalosis = ↓ CO₂, ↑ pH.'},
+  {t:'Acid-base: metabolic',d:'Metabolic acidosis: ↓ HCO₃⁻ → ↓ pH. Causes: diarrhea (lose HCO₃⁻), DKA (ketone acids), lactic acidosis, renal failure. Compensation: Kussmaul breathing (↑ RR to blow off CO₂). Metabolic alkalosis: ↑ HCO₃⁻ → ↑ pH. Causes: vomiting (lose HCl), diuretics.',m:'ROME: Metabolic Equal (HCO₃⁻ and pH go SAME direction). DKA/lactic acidosis = metabolic acidosis. Vomiting = metabolic alkalosis.'},
+  {t:'Diuretics',d:'Loop diuretics (furosemide): block Na-K-2Cl transporter in thick ascending loop = most potent diuretic. Thiazides (HCTZ): block NaCl in DCT. K⁺-sparing: spironolactone (blocks aldosterone) or amiloride (blocks Na channel). Osmotic (mannitol): filtered but not reabsorbed → osmotic drag.',m:'Loop diuretics = most potent (block thick ascending loop). Furosemide = loop = used in acute heart failure. K-sparing = saves K⁺.'},
+]},
+
+{id:'ap2-reproductive', label:'Reproductive System', icon:'👶', color:'#f472b6', section:'ap2', cards:[
+  {t:'Spermatogenesis',d:'In seminiferous tubules. Sertoli cells: nourish sperm + blood-testis barrier + inhibin (↓ FSH). Leydig cells: testosterone (stimulated by LH). Stages: spermatogonia → primary spermatocytes (meiosis I) → secondary spermatocytes (meiosis II) → spermatids → spermatozoa (spermiogenesis). ~64 days.',m:'Sertoli = Sperm Support + Inhibin. Leydig = testosterone (LH stimulates). 64 days total. FSH + testosterone required.'},
+  {t:'Sperm path (SEVEN UP)',d:'Seminiferous tubules → Epididymis (maturation + storage) → Vas deferens → Ejaculatory duct → (Nothing) → Urethra → Penis. Seminal vesicles (60% semen: fructose + prostaglandins). Prostate (30%: PSA + citric acid). Bulbourethral glands (5%: alkaline mucus).',m:'SEVEN UP = Seminiferous, Epididymis, Vas, Ejaculatory, Nothing, Urethra, Penis. Seminal vesicles = most semen (60%).'},
+  {t:'Oogenesis',d:'Born with all primary oocytes (~700,000) arrested in prophase I. At puberty: monthly FSH → one follicle matures → primary oocyte completes meiosis I → secondary oocyte + first polar body. Ovulation releases secondary oocyte (arrested in metaphase II). Meiosis II completed ONLY if fertilized.',m:'Born with all oocytes (unlike sperm = continuous production). Ovulation releases secondary oocyte. Fertilization completes meiosis II.'},
+  {t:'Ovarian cycle',d:'Follicular phase (days 1-13): FSH → follicle development → rising estrogen. Day 13: peak estrogen → POSITIVE feedback → LH surge. Ovulation (day 14). Luteal phase (days 15-28): LH → corpus luteum → progesterone + estrogen → prepare endometrium. No fertilization → corpus albicans → progesterone drops → menstruation.',m:'Follicular: FSH builds follicle (estrogen rises). LH surge = ovulation. Luteal: corpus luteum = progesterone factory.'},
+  {t:'Menstrual cycle',d:'Menstrual (days 1-5): progesterone drops → endometrium shed. Proliferative (days 6-14): estrogen → endometrium thickens. Secretory (days 15-28): progesterone → glycogen secretion, spiral arteries develop, uterine receptivity for implantation.',m:'Period → Proliferate (estrogen) → Secrete (progesterone) → Period. Three phases. PPS.'},
+  {t:'Estrogen vs progesterone',d:'Estrogen: female secondary sex characteristics, endometrial proliferation, bone density, negative feedback on HPG axis EXCEPT peak → positive feedback → LH surge. Progesterone: maintains endometrium for implantation, inhibits uterine contractions, thickens cervical mucus, develops breast lobules for lactation.',m:'Estrogen = builds up. Progesterone = maintains (pro-gestation = for pregnancy). Both from corpus luteum.'},
+  {t:'Fertilization & implantation',d:'Sperm + secondary oocyte in ampulla of uterine tube. Acrosomal reaction: enzymes digest zona pellucida. Cortical reaction: prevents polyspermy. Zygote → cleavage → morula → blastocyst (day 4-5). Implantation in endometrium (day 6-10). Trophoblast → placenta. Inner cell mass → embryo.',m:'Fertilization in AMPULLA. Acrosome = enzyme drill through zona. Blastocyst implants day 6-10. Trophoblast = placenta.'},
+  {t:'hCG and placenta',d:'hCG (human chorionic gonadotropin): from trophoblast → maintains corpus luteum → progesterone production continues → endometrium maintained. Detected in pregnancy test by day 8-10. Doubles every 48 hours in normal pregnancy. Placenta takes over progesterone at ~10 weeks (luteoplacental shift).',m:'hCG = "I\'m pregnant!" signal. Doubles every 48 hrs normally. Placenta takes over progesterone at 10 weeks.'},
+  {t:'Germ layers (ectoderm, mesoderm, endoderm)',d:'Week 3 gastrulation creates 3 primary germ layers. Ectoderm: skin, nervous system (neural tube), sensory organs. Mesoderm: muscle, bone, cardiovascular, kidneys, reproductive gonads. Endoderm: GI + respiratory epithelium, liver, pancreas, bladder.',m:'EME: Ectoderm (outside: skin/nerves), Mesoderm (middle: muscle/bone/CV), Endoderm (inside: gut/lungs).'},
+  {t:'Parturition (labor)',d:'Positive feedback. Near term: ↑ estrogen/progesterone ratio reversal → ↑ uterine oxytocin receptors. Fetal cortisol → triggers labor. Oxytocin → contractions → fetal head stretches cervix → more oxytocin → stronger contractions → birth → loop ends.',m:'Labor = oxytocin positive feedback. Estrogen primes uterus. Cervical stretch → more oxytocin → stronger contractions.'},
+  {t:'Lactation',d:'During pregnancy: high progesterone inhibits lactation despite rising prolactin. After delivery: progesterone drops → prolactin acts → milk synthesis. Suckling → oxytocin (milk ejection/let-down reflex) + more prolactin. Prolactin inhibits GnRH → lactational amenorrhea (contraceptive effect).',m:'Prolactin = milk PRODUCTION. Oxytocin = milk EJECTION (let-down). Suckling drives both. Prolactin inhibits ovulation.'},
+]},
+
+
 ]; // END CARD_GROUPS
 
 // ═══════════════════════════════════
@@ -512,18 +667,29 @@ function renderHome() {
   document.getElementById('statMastered').textContent = mastered.length;
   document.getElementById('statReview').textContent = review.length;
   document.getElementById('statRemaining').textContent = ALL_DECK.length - mastered.length;
-  document.getElementById('groupGrid').innerHTML = CARD_GROUPS.map(g => {
-    const total = g.cards.length * 3;
-    const m = g.cards.filter(c => mastered.includes(c.t + '|' + g.id)).length * 3;
-    const pct = total > 0 ? Math.round(m/total*100) : 0;
-    return `<div class="gcard" style="border-top-color:${g.color}" onclick="startGroup('${g.id}')">
-      <div class="gcard-icon">${g.icon}</div>
-      <h3>${g.label}</h3>
-      <p>${g.cards.length} terms × 3 = ${total} cards</p>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${g.color}"></div></div>
-      <div style="font-size:10px;color:var(--text3);margin-top:5px">${m}/${total} mastered</div>
-    </div>`;
-  }).join('');
+  const ap1 = CARD_GROUPS.filter(g => g.section === 'ap1');
+  const ap2 = CARD_GROUPS.filter(g => g.section === 'ap2');
+
+  function renderSection(groups) {
+    return groups.map(g => {
+      const total = g.cards.length * 3;
+      const m = g.cards.filter(c => mastered.includes(c.t + '|' + g.id)).length * 3;
+      const pct = total > 0 ? Math.round(m/total*100) : 0;
+      return '<div class="gcard" style="border-top-color:' + g.color + '" onclick="startGroup(\'' + g.id + '\')">' +
+        '<div class="gcard-icon">' + g.icon + '</div>' +
+        '<h3>' + g.label + '</h3>' +
+        '<p>' + g.cards.length + ' terms × 3 = ' + total + ' cards</p>' +
+        '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + g.color + '"></div></div>' +
+        '<div style="font-size:10px;color:var(--text3);margin-top:5px">' + m + '/' + total + ' mastered</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  document.getElementById('groupGrid').innerHTML =
+    '<div class="section-header">🦴 A&P 1 — Anatomy</div>' +
+    '<div class="section-grid">' + renderSection(ap1) + '</div>' +
+    '<div class="section-header">🔬 A&P 2 — Systems</div>' +
+    '<div class="section-grid">' + renderSection(ap2) + '</div>';
 }
 
 function startGroup(gid) {
@@ -533,10 +699,20 @@ function startGroup(gid) {
   showFC(g.label);
 }
 
+let curSection = null;
+
 function shuffleAll() {
   curGroup = null;
+  curSection = null;
   buildCurDeck();
   showFC('All Groups — Shuffled');
+}
+
+function shuffleSection(section) {
+  curGroup = null;
+  curSection = section;
+  buildCurDeck();
+  showFC(section === 'ap1' ? 'A&P 1 Anatomy — All Groups' : 'A&P 2 Systems — All Groups');
 }
 
 function buildCurDeck() {
