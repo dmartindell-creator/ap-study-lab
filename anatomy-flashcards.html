@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>A&P Anatomy Flashcards — Complete Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f14;--bg2:#13161d;--bg3:#1a1e28;--bg4:#222736;--border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);--text:#e8eaf2;--text2:#9099b0;--text3:#5c6480;--accent:#7c9ef8;--accent2:#5577e8;--green:#52d18a;--amber:#f5c842;--coral:#f07060;--purple:#b084f5;--teal:#4ecdc4;--pink:#f472b6;--r:14px;--rs:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:200;flex-wrap:wrap;gap:8px}
+.logo{font-family:'Fraunces',serif;font-size:18px;font-weight:400}.logo span{color:var(--accent);font-style:italic}
+.hl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hbtn{padding:6px 12px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.hbtn:hover{background:var(--bg4);color:var(--text)}
+/* HOME */
+.home{padding:24px;max-width:1200px;margin:0 auto}
+.welcome{background:linear-gradient(135deg,#1a1e28 0%,#1e2235 100%);border:1px solid var(--border2);border-radius:20px;padding:32px 40px;margin-bottom:24px}
+.welcome h1{font-family:'Fraunces',serif;font-size:32px;font-weight:300;margin-bottom:8px}.welcome h1 em{color:var(--accent);font-style:italic}
+.welcome p{color:var(--text2);font-size:14px;max-width:520px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.stat-l{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.stat-v{font-family:'Fraunces',serif;font-size:28px;font-weight:300}
+.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.gcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;border-top:3px solid transparent}
+.gcard:hover{border-color:var(--border2);transform:translateY(-2px)}
+.gcard-icon{font-size:26px;margin-bottom:8px}
+.gcard h3{font-size:14px;font-weight:500;margin-bottom:3px}
+.gcard p{font-size:12px;color:var(--text2)}
+.progress-bar{height:4px;background:var(--bg4);border-radius:2px;margin-top:10px}
+.progress-fill{height:100%;border-radius:2px;transition:width .5s}
+/* FLASHCARD SCREEN */
+.fc-screen{display:none;padding:20px;max-width:800px;margin:0 auto}
+.fc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.fc-title{font-family:'Fraunces',serif;font-size:20px;font-weight:300}
+.mode-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.mbtn{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.mbtn:hover{background:var(--bg4)}.mbtn.on{color:#0d0f14;border-color:transparent}
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;font-size:12px;color:var(--text3)}
+.prog-bar-wrap{flex:1;height:4px;background:var(--bg4);border-radius:2px}
+.prog-bar-fill{height:100%;background:var(--accent2);border-radius:2px;transition:width .3s}
+/* THE CARD */
+.card-wrap{perspective:1400px;width:100%;height:320px;cursor:pointer;margin-bottom:16px;user-select:none}
+.card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.card-inner.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;overflow:hidden}
+.front{background:var(--bg2)}
+.back{background:var(--bg3);transform:rotateY(180deg)}
+.mode-badge{position:absolute;top:14px;left:16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 8px;border-radius:12px}
+.status-badge{position:absolute;top:14px;right:16px;font-size:9px;padding:3px 8px;border-radius:12px}
+.fc-term{font-family:'Fraunces',serif;font-size:24px;font-weight:300;margin-bottom:8px;line-height:1.3}
+.fc-hint{font-size:10px;color:var(--text3);position:absolute;bottom:14px}
+.fc-def{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px;max-height:160px;overflow-y:auto}
+.mnem-box{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.2);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--amber);width:100%;margin-top:6px;text-align:left}
+.fc-actions{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.fa{padding:9px 20px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;color:var(--text);transition:all .15s}
+.fa:hover{background:var(--bg4)}
+.fa.flip{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.fa.got{border-color:var(--green);color:var(--green)}.fa.got:hover{background:rgba(82,209,138,.1)}
+.fa.rev{border-color:var(--coral);color:var(--coral)}.fa.rev:hover{background:rgba(240,112,96,.1)}
+.score-row{display:flex;gap:16px;justify-content:center;font-size:12px;color:var(--text2);margin-top:12px}
+.score-row span{color:var(--text);font-weight:500}
+/* RESULTS */
+.results{text-align:center;padding:40px 0}
+.results-pct{font-family:'Fraunces',serif;font-size:64px;font-weight:300;color:var(--accent)}
+@media(max-width:600px){.card-wrap{height:280px}.fc-term{font-size:18px}.fc-def{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Anatomy <span>Flashcards</span></div>
+  <div class="hl">
+    <button class="hbtn" id="homeBtn" onclick="showHome()">🏠 All Groups</button>
+    <button class="hbtn" onclick="shuffleAll()">🔀 Shuffle All</button>
+    <a href="index.html" class="hbtn">← Study Lab</a>
+    <a href="anatomy-atlas.html" class="hbtn">🗺️ Atlas</a>
+  </div>
+</header>
+
+<div id="homeView" class="home">
+  <div class="welcome">
+    <h1>Complete <em>Anatomy</em> Flashcards</h1>
+    <p>Every major bone, muscle, ligament, and tendon — 3 card types each: Term→Definition, Definition→Term, and Identify the Structure. Track your mastery across all 20 groups.</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-l">Total Cards</div><div class="stat-v" id="statTotal" style="color:var(--accent)">0</div></div>
+    <div class="stat"><div class="stat-l">Mastered</div><div class="stat-v" id="statMastered" style="color:var(--green)">0</div></div>
+    <div class="stat"><div class="stat-l">Need Review</div><div class="stat-v" id="statReview" style="color:var(--coral)">0</div></div>
+    <div class="stat"><div class="stat-l">Remaining</div><div class="stat-v" id="statRemaining" style="color:var(--amber)">0</div></div>
+  </div>
+  <div style="font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin-bottom:14px">Choose a Group to Study</div>
+  <div class="group-grid" id="groupGrid"></div>
+</div>
+
+<div id="fcView" class="fc-screen">
+  <div class="fc-top">
+    <div class="fc-title" id="fcTitle">Flashcards</div>
+    <button class="hbtn" onclick="showHome()">← Back</button>
+  </div>
+  <div class="mode-row" id="modeRow"></div>
+  <div class="prog-row">
+    <span id="fcCounter" style="min-width:60px">1/1</span>
+    <div class="prog-bar-wrap"><div class="prog-bar-fill" id="progFill"></div></div>
+  </div>
+  <div class="card-wrap" id="cardWrap" onclick="flip()">
+    <div class="card-inner" id="cardInner">
+      <div class="face front" id="cardFront"></div>
+      <div class="face back" id="cardBack"></div>
+    </div>
+  </div>
+  <div class="fc-actions">
+    <button class="fa" onclick="nav(-1)">← Prev</button>
+    <button class="fa rev" onclick="mark('review')">Needs Review</button>
+    <button class="fa flip" onclick="flip()">Flip</button>
+    <button class="fa got" onclick="mark('mastered')">Got It ✓</button>
+    <button class="fa" onclick="nav(1)">Next →</button>
+  </div>
+  <div class="score-row">
+    <div>Mastered: <span id="scMastered">0</span></div>
+    <div>Review: <span id="scReview">0</span></div>
+    <div>Remaining: <span id="scRemaining">0</span></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// COMPLETE ANATOMY FLASHCARD DATA
+// 206 bones, 150+ muscles, 100+ ligaments/tendons
+// Each entry: term, def (full detail), mnemonic
+// ═══════════════════════════════════════════════════
+
+const CARD_GROUPS = [
+
+// ══════════════════════════════════════════
+// GROUP 1: SKULL & VERTEBRAL COLUMN BONES
+// ══════════════════════════════════════════
+{id:'skull', label:'Skull Bones', icon:'💀', color:'#7c9ef8', cards:[
+  {t:'Frontal bone',d:'Single flat bone forming forehead + roof of orbits + anterior cranial fossa floor. Contains frontal sinuses (paranasal sinuses). Ossification: intramembranous. Joins parietal at coronal suture.',m:'"Frontal = FRONT of skull." Contains frontal sinuses. Coronal suture with parietal bones.'},
+  {t:'Parietal bones (×2)',d:'Paired flat bones forming superior + lateral cranial walls. Meet each other at sagittal suture. Key markings: temporal lines (temporalis attachment), parietal foramen (emissary vein).',m:'"Parietal = PARIETAL walls of skull." Sagittal suture between them. Coronal suture = parietal+frontal.'},
+  {t:'Temporal bone (×2)',d:'Complex irregular bones housing entire ear apparatus. Parts: squamous (lateral wall), petrous (inner ear), mastoid (posterior), tympanic (EAM), styloid process. Major foramina: carotid canal, jugular foramen, internal acoustic meatus, stylomastoid foramen.',m:'"Temporal = at the TEMPLES." Houses ear. Mastoid process = SCM attachment. CN VII exits stylomastoid foramen.'},
+  {t:'Occipital bone',d:'Posterior + inferior cranium. Contains foramen magnum (brainstem passage). Occipital condyles articulate with C1 atlas. External occipital protuberance = palpable landmark. Ossification: mostly endochondral.',m:'"Occipital = BACK of skull." Foramen magnum at base. Occipital condyles = skull sits on atlas here.'},
+  {t:'Sphenoid bone',d:'Bat-shaped keystone of skull base — articulates with ALL other cranial bones. Body contains sella turcica (pituitary gland fossa). Major foramina: optic canal (CN II), SOF (CN III,IV,V1,VI), foramen rotundum (V2), foramen ovale (V3), foramen spinosum (middle meningeal artery).',m:'"Sphenoid = keystone, articulates with ALL." Sella turcica = pituitary seat. V1=SOF, V2=rotundum, V3=ovale.'},
+  {t:'Ethmoid bone',d:'Delicate midline bone between orbits. Forms nasal septum (perpendicular plate), roof of nasal cavity (cribriform plate — CN I olfactory nerve passes through), medial orbital wall (orbital plate). Crista galli = falx cerebri attachment.',m:'"Ethmoid = sieve-like (cribriform = sieve)." CN I through cribriform plate. Crista galli = rooster comb.'},
+  {t:'Mandible',d:'Only movable skull bone. Body + 2 rami. Condylar process forms TMJ with mandibular fossa of temporal bone. Coronoid process = temporalis insertion. Mental foramen transmits CN V3 (mental nerve). Mandibular foramen = inferior alveolar nerve. Alveolar process = tooth sockets.',m:'"Mandible = LOWER jaw, moves." Condyle = TMJ. Mental foramen = "mentum" = chin nerve.'},
+  {t:'Maxillae (×2)',d:'Form upper jaw, anterior hard palate, cheeks, floor + lateral walls of nasal cavity, floor of orbit. Contain maxillary sinuses (largest paranasal sinuses). Infraorbital foramen transmits CN V2. Cleft palate = failure of palatine processes to fuse.',m:'"Maxillae = upper jaw + cheek." Contain maxillary sinuses. Cleft palate = palatine processes fail to fuse.'},
+  {t:'Zygomatic bones (×2)',d:'Cheekbones. Form lateral orbit walls + zygomatic arch (with temporal zygomatic process). Articulate with frontal, temporal, maxilla, sphenoid bones. Zygomaticofacial foramen on anterior surface.',m:'"Zygomatic = CHEEKBONE." Zygomatic arch = cheekbone + temporal process. Articulates with 4 bones.'},
+  {t:'Nasal bones (×2)',d:'Small paired flat bones forming bony bridge of nose. Articulate with each other (internasal suture), frontal bone, maxillae, and ethmoid. Fractured in "broken nose" injuries.',m:'"Nasal bones = bridge of nose." Two small bones. Most commonly fractured facial bones (along with mandible).'},
+  {t:'Lacrimal bones (×2)',d:'Smallest facial bones. Medial wall of orbit. Contain lacrimal groove → nasolacrimal fossa → nasolacrimal duct (tears drain to nasal cavity). Posterior lacrimal crest.',m:'"Lacrimal = TEARS." Smallest facial bones. Lacrimal groove → nasolacrimal duct drains tears into nose.'},
+  {t:'Palatine bones (×2)',d:'L-shaped bones. Horizontal plate = posterior 1/3 of hard palate. Perpendicular plate = lateral nasal wall. Small portion of orbit floor. Greater and lesser palatine foramina transmit palatine nerves and vessels.',m:'"Palatine = PALATE (posterior part)." L-shaped. Greater palatine foramen = palatine nerve + vessels.'},
+  {t:'Inferior nasal conchae (×2)',d:'Scroll-like bones projecting medially into nasal cavity. Increase surface area for warming and humidifying air. Only facial bones that are separate bones (others are processes). Innervated by CN V2.',m:'"Inferior conchae = SCROLL bones increasing nasal surface area." Only independent facial scroll bones.'},
+  {t:'Vomer',d:'Thin flat bone forming inferior + posterior nasal septum. Articulates with ethmoid perpendicular plate (superior), maxillae and palatine bones (inferior). Deviated septum often involves vomer.',m:'"Vomer = ploughshare shaped." Forms lower nasal septum. Deviated septum often at vomer-ethmoid junction.'},
+  {t:'Hyoid bone',d:'U-shaped bone in anterior neck at C3 level. Only bone not articulating with another bone (suspended by muscles/ligaments). Body + greater horns + lesser horns. Supports tongue, assists swallowing and speech.',m:'"Hyoid = ONLY bone with NO joint." Suspended by muscles. Fracture in strangulation.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 2: VERTEBRAL COLUMN
+// ══════════════════════════════════════════
+{id:'vertebrae', label:'Vertebral Column', icon:'🦴', color:'#52d18a', cards:[
+  {t:'Atlas (C1)',d:'Ring-shaped, no body or spinous process. Anterior arch + posterior arch + 2 lateral masses. Superior articular facets = occipital condyles (atlanto-occipital joint = "yes" nodding). Transverse foramina = vertebral artery. No disc above.',m:'"Atlas holds the world (skull)." No body. Nodding yes = atlanto-occipital joint.'},
+  {t:'Axis (C2)',d:'Has dens (odontoid process) projecting superiorly from body — C1 pivots around it (atlantoaxial joint = "no" rotation). Held by transverse ligament of atlas. Bifid spinous process. Transverse foramina.',m:'"Axis = pivot for NO rotation." Dens = key feature. Transverse ligament holds dens against C1 anterior arch.'},
+  {t:'C3–C6 (typical cervical)',d:'Smallest vertebral bodies. Bifid spinous processes. Transverse foramina (vertebral artery C1–C6). Large triangular vertebral foramen. Uncinate processes (lateral body = joints of Luschka). Greatest cervical ROM.',m:'"Cervical = bifid spinous processes + transverse foramina." Most mobile part of spine.'},
+  {t:'C7 — Vertebra prominens',d:'Transitional cervical vertebra. NON-bifid spinous process (long, palpable landmark). May lack transverse foramen or have small one (vertebral artery at C6 level). Marks cervicothoracic junction.',m:'"C7 = vertebra prominens." First palpable spinous process from neck. Marks C-T junction.'},
+  {t:'Thoracic vertebrae (T1–T12)',d:'Heart-shaped bodies increasing in size T1→T12. Long spinous processes projecting INFERIORLY (overlap like shingles — limits extension). Costal facets on body and transverse processes (T1–T10) for rib articulation. Circular vertebral foramen.',m:'"Thoracic = shingle spinous processes + costal facets." Most restricted motion (ribs + long spinous).'},
+  {t:'Lumbar vertebrae (L1–L5)',d:'Largest vertebral bodies. Kidney-shaped. SHORT blunt spinous processes projecting POSTERIORLY (horizontal = can palpate gaps). No costal facets, no transverse foramina. Triangular vertebral foramen. Mammillary + accessory processes.',m:'"Lumbar = LARGEST bodies, shortest spinous." Lumbar puncture between L3-L4 or L4-L5 (conus at L1-L2).'},
+  {t:'Sacrum',d:'5 fused vertebrae. Triangular. Sacral promontory (S1 anterosuperior edge = obstetric landmark). Sacral canal (continuation of vertebral canal). 4 pairs of sacral foramina (anterior + posterior). Auricular surface = SI joint. Sacral hiatus = epidural access.',m:'"Sacrum = S-shaped triangular bone." Sacral promontory = obstetric diameter. Sacral hiatus = caudal epidural.'},
+  {t:'Coccyx',d:'3–4 fused coccygeal vertebrae. Vestigial tail. Coccygeal cornua articulate with sacral cornua. Attachment for: gluteus maximus, coccygeus, levator ani (pelvic floor), sacrotuberous ligament, anococcygeal ligament.',m:'"Coccyx = tailbone." Coccydynia = coccyx pain. Pelvic floor + gluteus maximus attach here.'},
+  {t:'Intervertebral disc',d:'Fibrocartilaginous structure between adjacent vertebral bodies (C2/3 to L5/S1 = 23 total). Nucleus pulposus (gel core, remnant notochord) + annulus fibrosus (concentric fibrocartilage rings). C/L: greater thickness = more movement.',m:'"IVD = shock absorber." Nucleus = gel center. Herniation = nucleus ruptures annulus → nerve root compression.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 3: THORACIC CAGE
+// ══════════════════════════════════════════
+{id:'thorax-bones', label:'Thoracic Cage', icon:'🫀', color:'#f5c842', cards:[
+  {t:'Sternum',d:'Flat bone: manubrium + body + xiphoid process. Manubrium: clavicular notches (SCJ), rib 1 articulation. Sternal angle (angle of Louis) = manubrium-body junction = T4/T5 level = rib 2 landmark. Xiphoid: diaphragm + rectus abdominis attachment. Ossifies ~40yrs.',m:'"Sternal angle of Louis = rib 2 + T4/T5." Manubrium=clavicle+rib1. Xiphoid=diaphragm attachment.'},
+  {t:'Ribs 1–7 (true ribs)',d:'Connect directly to sternum via own costal cartilage. Rib 1: flat, short, articulates with manubrium. Ribs 2–7: typical structure. Each: head (2 articular facets), neck, tubercle, angle, shaft. Costal groove (inferior surface) houses VAN = Vein, Artery, Nerve.',m:'"True ribs 1–7 = own cartilage to sternum." VAN under each rib: Vein, Artery, Nerve (superior to inferior).'},
+  {t:'Ribs 8–10 (false ribs)',d:'Costal cartilage joins rib 7 cartilage (not sternum directly). Form costal margin (clinically important palpable landmark). Liver palpable below right costal margin, spleen below left.',m:'"False ribs 8–10 = join rib 7 cartilage." Form costal margin. Liver = right; spleen = left.'},
+  {t:'Ribs 11–12 (floating ribs)',d:'No anterior attachment (free ends in musculature). Only single articular facet on head (articulate with one vertebral body only). Short and rudimentary. Posterior kidney lies deep to rib 12.',m:'"Floating ribs 11–12 = free ends." Only 1 costal facet. Kidney sits behind rib 12.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 4: PECTORAL GIRDLE + UPPER LIMB
+// ══════════════════════════════════════════
+{id:'upper-bones', label:'Upper Limb Bones', icon:'💪', color:'#b084f5', cards:[
+  {t:'Clavicle',d:'S-shaped long bone. ONLY bony connection upper limb to axial skeleton. Sternal end (SCJ), acromial end (ACJ). First bone to ossify (week 5 fetal), last to fully ossify (25 yrs). Ossification: intramembranous (unique for long bone). Most commonly fractured bone overall (middle third).',m:'"Clavicle = ONLY bony UL-axial connection." First to ossify, last to mature. Most fractured = middle third.'},
+  {t:'Scapula',d:'Triangular flat bone T2–T7 posterior thorax. Glenoid cavity (shoulder socket — faces anterolaterally). Coracoid process (biceps short head, coracobrachialis, pec minor). Acromion = highest point. Spine divides posterior surface: supraspinous fossa (supraspinatus) + infraspinous fossa (infraspinatus). Subscapular fossa (subscapularis). Suprascapular notch = suprascapular nerve.',m:'"Scapula = wing bone." Coracoid = hook-shaped. Suprascapular notch = "nerve goes under bridge (ligament), artery goes over."'},
+  {t:'Humerus',d:'Longest upper limb bone. Head (faces medially + superiorly). Anatomical neck = growth plate. Surgical neck (most common fracture site = axillary nerve + anterior circumflex humeral artery). Greater tubercle (SS, IS, TMin). Lesser tubercle (subscapularis). Radial/spiral groove = radial nerve. Medial epicondyle — ulnar nerve runs posterior to it.',m:'"Surgical neck = axillary nerve danger." Radial groove = radial nerve + deep brachial artery danger.'},
+  {t:'Radius',d:'Lateral forearm bone. Proximal: head (articulates with capitulum + radial notch of ulna), radial tuberosity (biceps insertion). Distal: wider end, styloid process (longer than ulna), ulnar notch. Rotates around ulna in pronation/supination. FOOSH fracture = Colles\u2019 fracture (distal radius).',m:'"Radius rotates." Colles\u2019 fracture = FOOSH distal radius. Radial styloid longer than ulnar.'},
+  {t:'Ulna',d:'Medial forearm bone. Proximal: olecranon (triceps insertion), coronoid process (brachialis), trochlear notch (hinge with trochlea). Radial notch (proximal RUJ). Distal: head + ulnar styloid. Primary elbow stabilizer.',m:'"Ulna = U shape at elbow." Olecranon = elbow point. Trochlear notch = hinge of elbow.'},
+  {t:'Scaphoid',d:'Most common fractured carpal bone (FOOSH injury). Blood supply enters distally → proximal pole at risk for AVN after fracture. Anatomical snuffbox tenderness = scaphoid fracture until proven otherwise. Articulates with radius at radiocarpal joint.',m:'"Scaphoid = most fractured carpal." Snuffbox tenderness = scaphoid fracture. AVN risk = proximal pole.'},
+  {t:'Lunate',d:'Most commonly DISLOCATED carpal bone. Pushed anteriorly (volar). Lunate dislocation can compress median nerve → acute carpal tunnel syndrome. Articulates with radius + scaphoid + triquetrum.',m:'"Lunate = most dislocated." Anterior dislocation compresses median nerve. Crescent/moon shaped.'},
+  {t:'Triquetrum',d:'3rd carpal in proximal row. Pyramidal shape. Only articulates with pisiform on palmar surface. Triquetral fractures from ulnar-sided wrist impact.',m:'"Triquetrum = tricky 3-sided bone." Pisiform sits on top of it.'},
+  {t:'Pisiform',d:'Sesamoid bone within FCU tendon. Smallest carpal. Palmar surface of triquetrum. Pisohamate + pisometacarpal ligaments extend from it. Ulnar nerve and artery pass through Guyon\u2019s canal (between pisiform and hook of hamate).',m:'"Pisiform = pea-shaped sesamoid in FCU." Forms medial wall of Guyon\u2019s canal.'},
+  {t:'Trapezium',d:'Distal row, lateral. Saddle-shaped articulation with 1st metacarpal (CMC joint = saddle joint — only example). Flexor carpi radialis tendon groove on palmar surface. Forms lateral wall of carpal tunnel.',m:'"TrapEZIUM = THUMB CMC joint (saddle joint)." Only true saddle joint in body.'},
+  {t:'Trapezoid',d:'Smallest distal carpal bone. Wedge-shaped. Articulates with 2nd metacarpal. Rarely fractured due to protected position.',m:'"Trapezoid = 4-sided = 2nd metacarpal." Least commonly dislocated carpal.'},
+  {t:'Capitate',d:'Largest carpal bone. Keystone of distal row. Articulates with 3rd metacarpal primarily. Head fits into cup formed by scaphoid + lunate. First to ossify among carpals (~1 yr).',m:'"Capitate = LARGEST carpal, keystone." Head, neck, body. First carpal to ossify.'},
+  {t:'Hamate',d:'Hook of hamate on palmar surface — forms lateral wall of Guyon\u2019s canal (ulnar nerve + artery). Articulates with 4th and 5th metacarpals. Hook fracture from golf/baseball swing.',m:'"Hamate = HOOK." Hook fractures in racquet sports. Forms lateral border Guyon\u2019s canal.'},
+  {t:'Metacarpals 1–5',d:'5 miniature long bones. Base (proximal, carpometacarpal joints), shaft, head (distal = knuckle, metacarpophalangeal joints). MC1 (thumb): shortest, most mobile, saddle joint. MC3: styloid process. MC5 neck fracture = "boxer\u2019s fracture" (most common MC fracture).',m:'"MC5 neck = boxer\u2019s fracture." MC1 = saddle joint. MC heads = knuckles.'},
+  {t:'Phalanges of hand',d:'Thumb (digit 1): 2 phalanges — proximal + distal. Fingers 2–5: 3 each — proximal, middle, distal. Mallet finger = distal phalanx avulsion (extensor tendon). Boutonnière = middle phalanx (central slip). Jersey finger = distal phalanx avulsion (FDP).',m:'"Thumb has 2, fingers have 3." Mallet = DIP droop. Jersey = DIP can\u2019t flex. Boutonnière = PIP flexed.'},
+  {t:'Sesamoid bones of hand',d:'2 sesamoid bones at 1st MCP joint (thumb) — embedded in flexor pollicis brevis tendon. Protect FPL tendon. Can be fractured in hyperextension injuries. Variable sesamoids at other MCPs.',m:'"2 sesamoids at thumb MCP." Protect FPL tendon. Fracture in hyperextension of thumb.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 5: PELVIC GIRDLE + LOWER LIMB
+// ══════════════════════════════════════════
+{id:'lower-bones', label:'Lower Limb Bones', icon:'🦵', color:'#f07060', cards:[
+  {t:'Hip bone (Os coxa)',d:'Formed by fusion of 3 bones at acetabulum (~23 yrs): Ilium (superior 2/5 of acetabulum), Ischium (posteroinferior 2/5), Pubis (anteroinferior 1/5). With sacrum + coccyx = bony pelvis. Triradiate cartilage = fusion site in children (closes ~16 yrs).',m:'"Os coxa = ilium + ischium + pubis fused at acetabulum." Triradiate cartilage closes by 16.'},
+  {t:'Ilium',d:'Largest part of hip bone. Iliac crest (ASIS + PSIS at its ends) — L4 level for lumbar puncture landmark. Iliac fossa (iliacus muscle). Anterior gluteal line, posterior gluteal line, inferior gluteal line divide gluteal surface for gluteal muscle attachments. Arcuate line = pelvic brim.',m:'"Iliac crest = L4 level." ASIS = sartorius + TFL origin. AIIS = rectus femoris origin.'},
+  {t:'Ischium',d:'Posteroinferior hip bone. Ischial tuberosity = "sitting bone" (hamstrings origin, sacrotuberous ligament). Ischial spine = sacrospinous ligament attachment, divides greater + lesser sciatic notches. Lesser sciatic notch transmits obturator internus tendon. Ischial ramus = inferior pubic ramus.',m:'"Ischium = sitting bone." Ischial tuberosity = hamstrings. Ischial spine = sacrospinous lig divides notches.'},
+  {t:'Pubis',d:'Anteroinferior hip bone. Body + superior + inferior rami. Pubic tubercle = inguinal ligament attachment (medial end). Pubic symphysis (fibrocartilage joint between 2 pubic bodies). Pectineal line (iliopectineal line continues to form pelvic brim). Obturator foramen (largest foramen in skeleton).',m:'"Pubic tubercle = medial attachment inguinal ligament." Obturator foramen = largest in body.'},
+  {t:'Acetabulum',d:'Cup-shaped socket for femoral head. Formed by all 3 hip bones. Lunate surface = articular (horseshoe-shaped, covered in hyaline cartilage). Acetabular fossa = central non-articular depression (fat pad + ligamentum teres). Acetabular notch transmits ligamentum teres (carries obturator artery to femoral head in children).',m:'"Acetabulum = hip socket." Lunate surface = articular. Acetabular notch = ligamentum teres + blood supply.'},
+  {t:'Femur',d:'Longest, heaviest, strongest bone. Neck-shaft angle ~126° (coxa valga >135°, vara <120°). Blood to femoral head: medial femoral circumflex artery (retinacular branches). Linea aspera (posterior ridge) = major muscle attachment. Lesser trochanter = iliopsoas. Greater trochanter = abductors + short external rotators.',m:'"Linea aspera = highway for muscle attachments." Neck fracture = medial circumflex artery danger = AVN.'},
+  {t:'Patella',d:'Largest sesamoid bone. Embedded in quadriceps tendon. Increases mechanical advantage of quads by ~30%. Ossifies 3–6 years. Bipartite patella (unfused accessory ossification center, usually superolateral — don\u2019t mistake for fracture). Lateral retinaculum often tight in patellar maltracking.',m:'"Patella = largest sesamoid." Ossifies 3–6 yrs. Bipartite = normal variant (superolateral).'},
+  {t:'Tibia',d:'Medial, weight-bearing leg bone. Tibial plateau (medial + lateral condyles, separated by intercondylar eminence). Tibial tuberosity (patellar ligament). Anterior crest (subcutaneous = no overlying muscle). Gerdy\u2019s tubercle (IT band). Medial malleolus (medial ankle). Fibular notch (distal tibiofibular joint). Soleal line (posterior).',m:'"Tibia = shin bone, weight-bearing." Gerdy\u2019s tubercle = IT band. Medial malleolus = medial ankle.'},
+  {t:'Fibula',d:'Lateral non-weight-bearing leg bone (<10% body weight). Extensive muscle attachment. Head (biceps femoris, fibular collateral ligament). Fibular neck = common fibular nerve wraps around here (high-risk fracture site). Lateral malleolus extends MORE inferiorly than medial malleolus = critical for ankle stability.',m:'"Fibular neck = common peroneal nerve." Lateral malleolus lower than medial = ankle stability.'},
+  {t:'Talus',d:'Only tarsal with no muscle attachments. Transmits entire body weight from tibia to foot. Trochlea = articulates with ankle mortise (tibia + both malleoli). Head = talonavicular joint. Neck = common site of fracture (AVN risk). 60% covered by articular cartilage.',m:'"Talus = NO muscle attachments." Body weight relay bone. Talar neck fracture = AVN risk.'},
+  {t:'Calcaneus',d:'Largest tarsal bone. Forms heel. Calcaneal tuberosity (Achilles tendon, plantar fascia). Sustentaculum tali (FHL tendon groove, spring ligament). Peroneal trochlea. Articulates with talus (subtalar joint) + cuboid. "Lover\u2019s fracture" = bilateral calcaneal fractures from fall.',m:'"Calcaneus = HEEL bone." Sustentaculum tali = FHL groove + spring ligament. Lover\u2019s fracture = bilateral.'},
+  {t:'Navicular',d:'Tarsal on medial side. "Navicular" = boat-shaped. Navicular tuberosity = tibialis posterior primary insertion (palpable medial foot landmark). Articulates with talus posteriorly + 3 cuneiforms anteriorly. Accessory navicular (os tibiale externum) in 10% of population.',m:'"Navicular = boat-shaped, medial." Tuberosity = tibialis posterior. Accessory navicular = common variant.'},
+  {t:'Cuboid',d:'Lateral tarsal. Articulates with calcaneus, lateral cuneiform, bases of 4th + 5th metatarsals. Peroneal groove (plantar surface) = fibularis longus tendon passes through here with sesamoid. Cuboid syndrome = subluxation causing lateral foot pain.',m:'"Cuboid = cube-shaped, lateral." Peroneal groove on plantar surface for fibularis longus.'},
+  {t:'Cuneiforms (×3)',d:'Medial, intermediate (smallest), lateral cuneiforms. Medial articulates with MT1, intermediate with MT2, lateral with MT3. Key to transverse arch of foot. Lisfranc injury = disruption of 2nd TMT joint (key joint of Lisfranc complex).',m:'"3 cuneiforms = MT1, MT2, MT3." Intermediate = smallest. Lisfranc = 2nd TMT joint key.'},
+  {t:'Metatarsals 1–5',d:'MT1: shortest, widest, strongest. 2 sesamoids under MT1 head (in FHB tendons). MT2 base = keystone of transverse arch (Lisfranc joint). MT5 tuberosity = fibularis brevis insertion (Jones fracture at metaphysis vs avulsion at tuberosity). Stress fractures common in MT2/MT3.',m:'"MT5 tuberosity = fibularis brevis." Jones fracture = MT5 metaphysis (poor healing). MT1 = strongest.'},
+  {t:'Phalanges of foot',d:'Hallux (big toe): 2 phalanges (proximal + distal). Toes 2–5: 3 each. Less mobile than hand. Hallux valgus = lateral deviation of great toe at MTP joint. Hammertoe = PIP flexion contracture. Claw toe = MTP hyperextension + PIP/DIP flexion.',m:'"Hallux has 2, others have 3." Hallux valgus = bunion. Hammertoe = PIP flexed.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 6: HEAD & NECK MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-head-neck', label:'Head & Neck Muscles', icon:'🦷', color:'#7c9ef8', cards:[
+  {t:'Temporalis',d:'Origin: temporal fossa. Insertion: coronoid process + anterior ramus of mandible. Action: elevation (closing jaw) + retraction of mandible. Nerve: deep temporal branches of CN V3 (mandibular). Fan-shaped muscle beneath temporal fascia.',m:'"Temporalis = close jaw + retract." Temporal fossa origin. CN V3. Fan-shaped.'},
+  {t:'Masseter',d:'Origin: zygomatic arch (superficial) + deep surface zygomatic arch (deep). Insertion: lateral surface of mandible (angle + ramus). Action: elevation of mandible (MOST POWERFUL jaw closer). Nerve: masseteric branch CN V3.',m:'"Masseter = MOST POWERFUL jaw closer." Bruxism (teeth grinding) hypertrophies masseter.'},
+  {t:'Medial pterygoid',d:'Origin: medial surface lateral pterygoid plate + pyramidal process of palatine bone. Insertion: medial surface of mandible (angle). Action: elevation + protrusion of mandible + contralateral (grinding) movement. Nerve: medial pterygoid nerve CN V3.',m:'"Medial pterygoid = medial side, elevation + grinding." With masseter forms "sling" around mandible.'},
+  {t:'Lateral pterygoid',d:'2 heads. Superior head: infratemporal crest. Inferior head: lateral surface of lateral pterygoid plate. Insertion: neck of mandible (condyle) + TMJ disc. Action: protrusion + depression of mandible. Nerve: lateral pterygoid nerve CN V3.',m:'"Lateral pterygoid = ONLY muscle opening jaw + protrusion." Superior head stabilizes TMJ disc.'},
+  {t:'Digastric',d:'2 bellies connected by intermediate tendon (through hyoid bone loop). Anterior belly: digastric fossa of mandible (CN V3 — mylohyoid nerve). Posterior belly: mastoid notch of temporal bone (CN VII). Action: depresses mandible + elevates hyoid. Forms floor of digastric triangle.',m:'"Digastric = 2 bellies, 2 nerves." Anterior = V3, Posterior = VII. Elevates hyoid during swallowing.'},
+  {t:'Mylohyoid',d:'Origin: mylohyoid line of mandible. Insertion: hyoid body + median raphe. Action: elevates hyoid + floor of mouth (swallowing) + depresses mandible. Nerve: mylohyoid branch of inferior alveolar nerve (CN V3). Forms muscular floor of oral cavity.',m:'"Mylohyoid = FLOOR of mouth." Mylohyoid raphe forms midline. CN V3 (inferior alveolar branch).'},
+  {t:'Geniohyoid',d:'Origin: mental spine (inferior mental spine) of mandible. Insertion: body of hyoid. Action: elevates + protrudes hyoid (swallowing), depresses mandible. Nerve: C1 via CN XII (hypoglossal nerve carries C1 fibers). Above mylohyoid.',m:'"Geniohyoid = above mylohyoid, same action." C1 via XII (unique nerve supply).'},
+  {t:'Stylohyoid',d:'Origin: styloid process of temporal bone. Insertion: body of hyoid. Action: elevates and retracts hyoid during swallowing. Nerve: CN VII (facial). Splits around intermediate digastric tendon.',m:'"Stylohyoid = CN VII." Remember: posterior digastric ALSO CN VII.'},
+  {t:'Thyrohyoid',d:'Origin: oblique line of thyroid cartilage. Insertion: inferior border of body + greater horn of hyoid. Action: elevates larynx + thyroid cartilage (swallowing) OR depresses hyoid when larynx fixed. Nerve: C1 via CN XII.',m:'"Thyrohyoid = elevates larynx." C1 via CN XII (same as geniohyoid).'},
+  {t:'Sternohyoid',d:'Origin: manubrium + medial clavicle. Insertion: inferior border hyoid body. Action: depresses hyoid after swallowing. Nerve: ansa cervicalis (C1,C2,C3). One of infrahyoid (strap) muscles.',m:'"Strap muscles = ansa cervicalis (C1-C3)." Depress hyoid/larynx after elevation.'},
+  {t:'Omohyoid',d:'2 bellies with intermediate tendon. Inferior belly: superior border of scapula (suprascapular notch region). Superior belly: body of hyoid. Action: depresses hyoid + tenses anterior cervical fascia. Nerve: ansa cervicalis.',m:'"Omohyoid = 2 bellies from SCAPULA to HYOID." Tenses cervical fascia → compresses internal jugular vein.'},
+  {t:'Sternothyroid',d:'Origin: posterior manubrium. Insertion: oblique line of thyroid cartilage. Action: depresses larynx. Nerve: ansa cervicalis. Lies deep to sternohyoid.',m:'"Sternothyroid = deeper strap muscle, depresses larynx." Lies deep to sternohyoid.'},
+  {t:'Scalenes (anterior, middle, posterior)',d:'Anterior: C3-C6 transverse processes → 1st rib (scalene tubercle). Middle: C2-C7 → 1st rib (posterior to anterior scalene). Posterior: C4-C6 → 2nd rib. Action: lateral flexion of neck + elevation of ribs 1–2 (accessory inspiration). Brachial plexus exits between anterior + middle scalenes.',m:'"Scalene triangle = brachial plexus + subclavian artery between ant + mid scalenes." Thoracic outlet.'},
+  {t:'Sternocleidomastoid (SCM)',d:'2 heads: sternal (manubrium) + clavicular (medial 1/3 clavicle). Insertion: mastoid process + superior nuchal line. Both = flex cervical spine + extend head at atlantooccipital. Unilateral = ipsilateral lateral flex + contralateral rotation. Nerve: CN XI + C2-C3 (proprioception).',m:'"SCM: contract RIGHT SCM = head turns LEFT." Torticollis = wryneck. CN XI damage = dropped shoulder.'},
+  {t:'Trapezius (upper, middle, lower)',d:'Largest back/neck muscle. Origin: EOP + nuchal lig + C7–T12 spinous processes. Upper → lateral clavicle (elevate scapula + extend/rotate head). Middle → acromion + spine of scapula (retract). Lower → medial spine of scapula (depress). Nerve: CN XI + C3-C4. Upward rotation of glenoid (all fibers).',m:'"Trapezius = 3 regions, 3 actions." CN XI = motor. Dropped shoulder if CN XI damaged. Key for overhead arm.'},
+  {t:'Semispinalis capitis',d:'Origin: C4-T6 transverse processes + articular processes. Insertion: between superior + inferior nuchal lines of occipital bone. Action: extends head + neck, contralateral rotation. Nerve: posterior rami of cervical spinal nerves. Large belly in posterior neck.',m:'"Semispinalis capitis = BIG posterior neck muscle for extension." Between nuchal lines.'},
+  {t:'Splenius capitis + cervicis',d:'Origin: nuchal ligament + C7–T6 spinous processes. Capitis → mastoid process + lateral superior nuchal line. Cervicis → C1-C3 transverse processes. Action: bilateral = extend head/neck; unilateral = ipsilateral rotation + lateral flexion. Nerve: posterior rami.',m:'"Splenius = strap across posterior neck." Unilateral = turns head SAME side (unlike SCM).'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 7: ROTATOR CUFF + SHOULDER MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-shoulder', label:'Shoulder Muscles', icon:'🤸', color:'#b084f5', cards:[
+  {t:'Supraspinatus',d:'Origin: supraspinous fossa of scapula. Insertion: superior facet of greater tubercle of humerus. Action: initiates abduction (0-15°), assists deltoid. Nerve: suprascapular nerve (C5,C6). Runs under coracoacromial arch (impingement zone). Most commonly torn RC muscle.',m:'"Supraspinatus = starts abduction." Most torn. Empty can test (Jobe). Under CA arch.'},
+  {t:'Infraspinatus',d:'Origin: infraspinous fossa of scapula. Insertion: middle facet of greater tubercle. Action: lateral (external) rotation of humerus; GH joint stability. Nerve: suprascapular nerve (C5,C6). 2nd most commonly torn rotator cuff muscle.',m:'"Infraspinatus = external rotation." 2nd most torn. External rotation lag sign = large tear.'},
+  {t:'Teres minor',d:'Origin: lateral border of scapula (upper 2/3). Insertion: inferior facet of greater tubercle. Action: lateral rotation; weak adduction; GH stabilizer. Nerve: axillary nerve (C5,C6). Works with infraspinatus.',m:'"Teres minor = ER, works with infraspinatus." Axillary nerve (same as deltoid).'},
+  {t:'Subscapularis',d:'Origin: subscapular fossa (entire anterior surface of scapula). Insertion: lesser tubercle + subscapular bursa. Action: medial (internal) rotation + adduction; anterior GH stabilizer. Nerve: upper + lower subscapular nerves (C5,C6,C7). Most powerful internal rotator.',m:'"Subscapularis = ONLY anterior SITS." Most powerful IR. Lift-off test (Gerber).'},
+  {t:'Deltoid',d:'3 parts (anterior, middle, posterior). Anterior: lateral clavicle → flex + medial rotate. Middle: acromion → abduct (15–180°). Posterior: spine of scapula → extend + lateral rotate. All insert: deltoid tuberosity. Nerve: axillary nerve (C5,C6).',m:'"Deltoid = 3 parts, triangular." Axillary nerve at surgical neck. Paralysis = flat shoulder.'},
+  {t:'Teres major',d:'Origin: inferior angle of scapula. Insertion: medial lip of intertubercular groove (humerus). Action: medial rotation + adduction + extension of humerus ("little lat"). Nerve: lower subscapular nerve (C5,C6,C7). NOT part of rotator cuff.',m:'"Teres major = little latissimus." Medial IP intertubercular groove. Lower subscapular nerve.'},
+  {t:'Coracobrachialis',d:'Origin: coracoid process (with short head biceps + pec minor). Insertion: medial shaft of humerus. Action: flexion + adduction of arm. Nerve: musculocutaneous nerve (C5,C6,C7). Musculocutaneous nerve pierces it.',m:'"Coracobrachialis = coracoid to arm, adducts + flexes." Musculocutaneous nerve pierces it.'},
+  {t:'Pectoralis major',d:'Clavicular head (medial clavicle) + sternal head (sternum + costal cartilages 1-6). Insertion: lateral lip of bicipital groove (humerus). Clavicular = flexion. Sternal = extension from flexion. Both = adduction + medial rotation. Nerve: medial + lateral pectoral nerves (C5-T1).',m:'"Pec major = adducts + medially rotates." Lateral IP groove. "Pec major reversal" at 90° flexion.'},
+  {t:'Pectoralis minor',d:'Origin: anterior surfaces of ribs 3-5 (or 2-4). Insertion: coracoid process. Action: protract + depress scapula + tilt anteriorly; elevates ribs 3-5 during forced inspiration. Nerve: medial pectoral nerve (C8,T1). Landmark for axillary artery (divides it into 3 parts).',m:'"Pec minor = divides axillary artery into 3 parts." Coracoid insertion. Medial pectoral nerve.'},
+  {t:'Serratus anterior',d:'Origin: outer surfaces ribs 1-8/9 (lateral). Insertion: costal surface medial border + inferior angle of scapula. Action: protracts scapula; holds against thorax; UPWARD rotation; essential for arm elevation >90°. Nerve: long thoracic nerve (C5,C6,C7).',m:'"Long thoracic = serratus anterior." Winged scapula if paralyzed. "Boxer\'s muscle." C567 (die in heaven).'},
+  {t:'Latissimus dorsi',d:'Origin: T7-L5 spinous processes, posterior iliac crest, lower 3-4 ribs, inferior angle of scapula. Insertion: floor of bicipital groove (medial lip of intertubercular groove). Action: extension + adduction + medial rotation of arm. Nerve: thoracodorsal nerve (C6,C7,C8).',m:'"Lat = swim stroke muscle (extension + adduction)." Thoracodorsal nerve. "Lady between two majors."'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 8: ARM + FOREARM MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-arm', label:'Arm & Forearm Muscles', icon:'💪', color:'#52d18a', cards:[
+  {t:'Biceps brachii',d:'Long head: supraglenoid tubercle (intra-articular tendon through bicipital groove). Short head: coracoid process. Insertion: radial tuberosity + bicipital aponeurosis (deep fascia). Action: elbow flexion + SUPINATION (most powerful supinator) + weak shoulder flexion. Nerve: musculocutaneous (C5,C6). "Biceps reflex = C5,C6."',m:'"Biceps = SUPINATION more than flexion." Long head rupture = Popeye sign. Bicipital aponeurosis protects brachial artery.'},
+  {t:'Brachialis',d:'Origin: anterior distal humerus (lower 2/3). Insertion: coronoid process + ulnar tuberosity. Action: MOST POWERFUL elbow flexor (pure flexor — works in all forearm positions, unlike biceps). Nerve: musculocutaneous (C5,C6) + small contribution from radial nerve.',m:'"Brachialis = workhorse flexor." Works in pronation (unlike biceps). Radial nerve small contribution.'},
+  {t:'Triceps brachii',d:'Long head: infraglenoid tubercle of scapula. Lateral head: posterior humerus (above radial groove). Medial head: posterior humerus (below radial groove). Insertion: olecranon process of ulna. Action: elbow extension (all heads) + arm adduction + extension (long head). Nerve: radial nerve (C6,C7,C8). "Triceps reflex = C7."',m:'"Triceps = C7 reflex." Radial nerve in radial groove → fracture = wrist drop.'},
+  {t:'Anconeus',d:'Origin: lateral epicondyle of humerus. Insertion: lateral olecranon + posterior ulna. Action: assists triceps in elbow extension + elbow joint stabilizer. Nerve: radial nerve (C7,C8). Small triangular muscle.',m:'"Anconeus = assistant to triceps." Triangular, posterolateral elbow. Radial nerve.'},
+  {t:'Brachioradialis',d:'Origin: lateral supracondylar ridge of humerus. Insertion: styloid process of radius (distal). Action: elbow flexion (especially when forearm semipronated). Nerve: radial nerve (C5,C6) — EXCEPTION: radial nerve flexor! "Brachioradialis is the beer drinking muscle."',m:'"Brachioradialis = radial nerve flexor (exception)." C5,C6. Semipronated handshake position.'},
+  {t:'Pronator teres',d:'Humeral head: medial epicondyle. Ulnar head: coronoid process of ulna. Insertion: lateral mid-shaft of radius. Action: pronation + assists elbow flexion. Nerve: median nerve (C6,C7). Forms medial border of cubital fossa. Median nerve passes between its 2 heads.',m:'"Pronator teres = median nerve between heads." Pronator syndrome = median nerve compression here.'},
+  {t:'Pronator quadratus',d:'Origin: anterior surface distal ulna. Insertion: anterior surface distal radius. Action: forearm pronation (primary pronator). Nerve: anterior interosseous nerve (branch of median, C8,T1). Deepest forearm layer.',m:'"Pronator quadratus = primary pronator." Deepest layer. AIN branch of median. Square muscle.'},
+  {t:'Supinator',d:'Origin: lateral epicondyle + supinator crest of ulna. Insertion: lateral surface of proximal radius. Action: supination (in conjunction with biceps). Nerve: deep branch of radial nerve/posterior interosseous nerve (C6,C7). Radial nerve passes through it (arcade of Frohse = compression site).',m:'"Supinator = deep radial nerve passes through it." Arcade of Frohse = PIN compression site.'},
+  {t:'Flexor carpi radialis (FCR)',d:'Origin: medial epicondyle (common flexor origin). Insertion: base of 2nd (primarily) + 3rd metacarpals. Action: wrist flexion + radial deviation (abduction). Nerve: median nerve (C6,C7). Tendon is landmark for carpal tunnel surgery (radial border).',m:'"FCR = wrist flex + radial deviate." Median nerve. Tendon = surgical landmark at wrist.'},
+  {t:'Flexor carpi ulnaris (FCU)',d:'Humeral head: medial epicondyle. Ulnar head: olecranon + posterior ulna. Insertion: pisiform (sesamoid in tendon) + hamate + 5th metacarpal. Action: wrist flexion + ulnar deviation (adduction). Nerve: ulnar nerve (C7,C8). Pisiform is sesamoid in its tendon.',m:'"FCU = wrist flex + ulnar deviate." Ulnar nerve. Pisiform = sesamoid in FCU tendon.'},
+  {t:'Palmaris longus',d:'Origin: medial epicondyle. Insertion: palmar aponeurosis + flexor retinaculum. Action: weak wrist flexion + tightens palmar fascia. Nerve: median nerve (C7,C8). Absent in ~14% of population (test: oppose thumb to little finger + flex wrist). Common tendon graft source.',m:'"Palmaris longus = absent in 14%." Common tendon graft (Tommy John surgery, ACL reconstruction).'},
+  {t:'Flexor digitorum superficialis (FDS)',d:'2 heads: humeroulnar (medial epicondyle + coronoid) + radial (oblique line of radius). Insertion: margins of middle phalanges (digits 2-5) — bifurcates to allow FDP through (Camper\'s chiasm). Action: PIP joint flexion + assists MCP/wrist flexion. Nerve: median nerve (C7,C8,T1).',m:'"FDS = Superficialis = Stops at middle phalanx (PIP)." Splits to let FDP through. Median nerve.'},
+  {t:'Flexor digitorum profundus (FDP)',d:'Origin: anterior + medial proximal ulna + interosseous membrane. Insertion: distal phalanges (digits 2-5) — passes through FDS split. Action: DIP joint flexion + assists PIP/MCP/wrist. Nerve: medial 2 digits = ulnar nerve (C8,T1); lateral 2 digits = AIN/median nerve. Jersey finger = FDP avulsion from ring finger.',m:'"FDP = Profundus = Pulls distal phalanx (DIP)." Split nerve supply. Jersey finger = ring finger FDP avulsion.'},
+  {t:'Flexor pollicis longus (FPL)',d:'Origin: anterior radius + interosseous membrane. Insertion: distal phalanx of thumb. Action: flexion of thumb IP joint + assists MCP + CMC flexion. Nerve: anterior interosseous nerve (branch of median, C8,T1). "OK sign" tests FPL (with FDP of index).',m:'"FPL = thumb flexor." AIN branch of median. OK sign = FPL + FDP index finger.'},
+  {t:'Extensor carpi radialis longus (ECRL)',d:'Origin: lateral supracondylar ridge of humerus. Insertion: base of 2nd metacarpal (dorsal). Action: wrist extension + radial deviation. Nerve: radial nerve (C6,C7). Lateral epicondyle region. Active during power grip.',m:'"ECRL = wrist extend + radial deviate." Radial nerve. Active in power grip (wrist extension).'},
+  {t:'Extensor carpi radialis brevis (ECRB)',d:'Origin: lateral epicondyle (common extensor origin). Insertion: base of 3rd metacarpal (dorsal). Action: wrist extension + weak radial deviation. Nerve: posterior interosseous nerve (C7,C8). Most commonly affected in lateral epicondylitis (tennis elbow).',m:'"ECRB = tennis elbow tendon." Lateral epicondylitis most affects ECRB. PIN.'},
+  {t:'Extensor carpi ulnaris (ECU)',d:'2 heads: humeral (lateral epicondyle) + ulnar (posterior ulna). Insertion: base of 5th metacarpal (dorsal). Action: wrist extension + ulnar deviation. Nerve: posterior interosseous nerve (C7,C8). Tendon can sublux with forearm rotation.',m:'"ECU = wrist extend + ulnar deviate." PIN. Tendon subluxation in forearm rotation.'},
+  {t:'Extensor digitorum (ED)',d:'Origin: lateral epicondyle. Insertion: extensor expansion (dorsal digital expansion) of digits 2-5. Action: extension of MCP (primarily) + assists PIP/DIP extension + assists wrist extension. Nerve: posterior interosseous nerve (C7,C8). Tendons connected by juncturae tendinum.',m:'"ED = extends MCPs primarily." Juncturae tendinum connect tendons (can mask partial tendon injury).'},
+  {t:'Intrinsic hand muscles overview',d:'Thenar eminence (APB, FPB, OP = median nerve; AP = ulnar). Hypothenar (ADM, FDM, ODM = ulnar nerve). Lumbricals 1+2 = median; 3+4 = ulnar. All interossei = ulnar. Lumbricals + interossei = MCP flexion + IP extension (intrinsic plus position).',m:'"LOAF = median (Lumbricals 1+2, Opponens, APB, FPB). All other intrinsics = ulnar."'},
+  {t:'Dorsal interossei (×4)',d:'Bipennate muscles. Origin: adjacent sides of 2 metacarpals. Insertion: extensor expansion + base of proximal phalanges. Action: ABDUCTION of fingers from midline (middle finger = reference). Also flex MCPs + extend IPs. Nerve: ulnar nerve (C8,T1). "DAB = Dorsal ABduct."',m:'"DAB = Dorsal ABduct." 4 muscles, abduct from middle finger. All ulnar nerve.'},
+  {t:'Palmar interossei (×3 or 4)',d:'Unipennate. Each digit except middle finger. Action: ADDUCTION of fingers toward midline. Also flex MCPs + extend IPs. Nerve: ulnar nerve (C8,T1). "PAD = Palmar ADduct."',m:'"PAD = Palmar ADduct." 3 muscles, adduct toward middle finger. Ulnar nerve.'},
+  {t:'Lumbricals (×4)',d:'Origin: FDP tendons in palm. Insertion: radial side of extensor expansion (lateral band) digits 2-5. Action: MCP flexion + IP extension simultaneously (unique function — flexes one joint, extends distal joints). Nerve: lateral 2 = median; medial 2 = ulnar.',m:'"Lumbricals = flex MCP + extend IPs." Origin = FDP tendon (moves with finger). Lateral 2 median, medial 2 ulnar.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 9: TRUNK MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-trunk', label:'Trunk Muscles', icon:'🏋️', color:'#f5c842', cards:[
+  {t:'Rectus abdominis',d:'Origin: pubic crest + symphysis. Insertion: costal cartilages 5-7 + xiphoid process. Action: flexion of trunk (sit-ups), posterior pelvic tilt, compresses abdominal contents. Nerve: intercostal nerves T7-T12. Enclosed in rectus sheath. Tendinous intersections at T8, T10, umbilicus. Linea semilunaris = lateral edge.',m:'"6-pack muscle." Linea alba = midline. Tendinous intersections at 3 levels. Linea semilunaris = lateral.'},
+  {t:'External oblique',d:'Outermost abdominal muscle. Origin: external surfaces + inferior borders of ribs 5-12. Insertion: iliac crest + linea alba + pubic tubercle (inguinal ligament = folded inferior aponeurosis). Action: trunk flexion + compression + contralateral rotation. Nerve: intercostal T7-T12 + subcostal + iliohypogastric + ilioinguinal.',m:'"External oblique fibers = like hands in front pants pockets (downward-medial)." Contralateral rotation.'},
+  {t:'Internal oblique',d:'Origin: thoracolumbar fascia + anterior iliac crest + lateral inguinal ligament. Insertion: inferior ribs 10-12 + aponeurosis to linea alba + inguinal region. Action: trunk flexion + compression + IPSILATERAL rotation. Nerve: intercostal T8-T12 + iliohypogastric + ilioinguinal.',m:'"Internal oblique = IPSILATERAL rotation (opposite of external)." Fibers run perpendicular to external.'},
+  {t:'Transversus abdominis',d:'Deepest abdominal muscle. Origin: lower 6 costal cartilages + thoracolumbar fascia + iliac crest + inguinal ligament. Insertion: linea alba + pubic crest (conjoint tendon). Action: compresses abdominal contents (no rotation). Nerve: intercostal T7-T12 + iliohypogastric + ilioinguinal. Key for core stability.',m:'"TA = no movement, just compression." Deep core stabilizer. Activates before limb movement.'},
+  {t:'Rectus sheath',d:'Aponeurotic envelope around rectus abdominis. Above arcuate line: anterior = EO aponeurosis + anterior IO aponeurosis; posterior = posterior IO + TA. Below arcuate line (halfway navel-pubis): ALL 3 aponeuroses pass anterior → posterior wall = only transversalis fascia + peritoneum.',m:'"Arcuate line = where rectus sheath changes." Below = no posterior sheath → rectus sits on transversalis fascia.'},
+  {t:'Quadratus lumborum',d:'Origin: iliac crest + iliolumbar ligament. Insertion: 12th rib + transverse processes L1-L4. Action: lateral flexion of trunk + stabilizes 12th rib during inspiration + posterior pelvis. Nerve: subcostal + L1-L3 anterior rami. Forms posterior abdominal wall.',m:'"QL = lateral trunk flexion + fixes 12th rib." Posterior abdominal wall. Hip hike.'},
+  {t:'Psoas major',d:'Origin: T12-L5 vertebral bodies + transverse processes + IVDs. Insertion: lesser trochanter (with iliacus = iliopsoas). Action: hip flexion + lumbar lateral flexion. Nerve: lumbar plexus (L1-L3 direct branches). Psoas abscess tracks down to femoral triangle.',m:'"Psoas = HIP flexor + lumbar side bender." Psoas abscess from spinal TB tracks to thigh.'},
+  {t:'Iliacus',d:'Origin: iliac fossa + sacral ala. Insertion: lesser trochanter (merges with psoas = iliopsoas). Action: hip flexion. Nerve: femoral nerve (L2,L3,L4). Does NOT contribute to lateral flexion of lumbar spine (unlike psoas).',m:'"Iliacus = pure HIP flexor (no lumbar effect)." Femoral nerve. Iliacus hematoma = femoral neuropathy.'},
+  {t:'Erector spinae group',d:'3 columns from lateral to medial: Iliocostalis (lateral, ribs), Longissimus (intermediate, transverse processes), Spinalis (medial, spinous processes). Origin: sacrum + iliac crest + spinous processes. Action: bilateral = extend spine; unilateral = lateral flexion. Nerve: dorsal primary rami.',m:'"ILS = Iliocostalis, Longissimus, Spinalis (lateral to medial)." All = extend spine when bilateral.'},
+  {t:'Multifidus',d:'Deepest and most important spinal stabilizer. Fills laminar groove between spinous and transverse processes. Short fascicles cross 2-4 vertebral segments. Provides 2/3 of lumbar spinal stability. Atrophies in chronic low back pain. Nerve: dorsal primary rami at each level.',m:'"Multifidus = MOST IMPORTANT spinal stabilizer." Atrophies in chronic LBP. Fills laminar groove.'},
+  {t:'Diaphragm',d:'Dome-shaped muscle separating thorax from abdomen. Central tendon (no muscle, fibrous). 3 openings: aortic hiatus T12 (aorta + thoracic duct + azygos), esophageal hiatus T10 (esophagus + vagus nerves), caval opening T8 (IVC + right phrenic nerve). Crura = muscular attachments to L1-L3 vertebrae. Nerve: phrenic nerve (C3,4,5).',m:'"Aorta At T12, Esophagus Enters T10, Caval opening T8." I Ate Ten Eggs At Eight. Phrenic = C345.'},
+  {t:'Intercostals (external, internal, innermost)',d:'External (11 pairs): outer surface + inferior border of rib above → superior border rib below. Fibers: down-forward. Elevate ribs in inspiration. Internal (11): same attachments, fibers perpendicular to external. Depress ribs in FORCED expiration. Innermost: deep to internal, same action. All: intercostal nerves (T1-T11).',m:'"External elevate (inspiration). Internal depress (forced expiration)." VAN in costal groove under rib.'},
+  {t:'Serratus posterior superior + inferior',d:'Superior: spinous processes C7-T3 → ribs 2-5. Elevate ribs (inspiration). Inferior: spinous processes T11-L3 → ribs 9-12. Depress/fix lower ribs against diaphragm pull. Both: thin muscle deep to erector spinae. Nerves: intercostal nerves.',m:'"Serratus posterior = respiratory accessory muscles." Superior = elevate ribs; inferior = fix lower ribs.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 10: GLUTEAL + HIP MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-hip', label:'Gluteal & Hip Muscles', icon:'🍑', color:'#f07060', cards:[
+  {t:'Gluteus maximus',d:'Largest muscle in body. Origin: posterior ilium (behind posterior gluteal line) + posterior sacrum + coccyx + sacrotuberous ligament. Insertion: IT band (upper 3/4) + gluteal tuberosity of femur (lower 1/4). Action: hip extension + lateral rotation. NOT active in normal walking. Nerve: inferior gluteal (L5,S1,S2).',m:'"Glute max = stairs, running, rising from chair." NOT walking. Inferior gluteal nerve. Largest muscle.'},
+  {t:'Gluteus medius',d:'Origin: external ilium between anterior + posterior gluteal lines. Insertion: lateral surface of greater trochanter. Action: hip abduction + medial rotation (anterior fibers) + pelvic stabilization in single-leg stance. Nerve: superior gluteal (L4,L5,S1). TRENDELENBURG sign when weak.',m:'"Glute med = TRENDELENBURG." Superior gluteal nerve. Pelvis drops to opposite side when weak.'},
+  {t:'Gluteus minimus',d:'Origin: external ilium between anterior + inferior gluteal lines. Insertion: anterior surface of greater trochanter. Action: hip abduction + medial rotation. Nerve: superior gluteal (L4,L5,S1). Deep to gluteus medius. Same function.',m:'"Glute min = same function as glute med." Deep to medius. Superior gluteal nerve. Also Trendelenburg.'},
+  {t:'Tensor fasciae latae (TFL)',d:'Origin: ASIS + anterior iliac crest. Insertion: IT band (Gerdy\'s tubercle of tibia via IT band). Action: hip flexion + abduction + medial rotation + tenses IT band. Nerve: superior gluteal (L4,L5,S1). Enclosed in fascia lata near ASIS.',m:'"TFL → IT band." Superior gluteal nerve (same as gluteus medius and minimus).'},
+  {t:'Piriformis',d:'Origin: anterior sacrum (between sacral foramina). Insertion: superior border of greater trochanter. Action: lateral rotation + abduction of hip (at <60° flexion) → becomes internal rotator at >60° flexion. Nerve: nerve to piriformis (S1,S2). Sciatic nerve usually exits BELOW it (division in 10%).',m:'"Piriformis = 6 lateral rotators." Sciatic nerve exits inferior to it (usually). Piriformis syndrome.'},
+  {t:'Short external rotators of hip',d:'6 muscles (POGO OG): Piriformis (S1,S2), Obturator internus (L5,S1,S2), Gemellus superior (L5,S1,S2), Gemellus inferior (L4,L5,S1), Obturator externus (L3,L4), Quadratus femoris (L4,L5,S1). All: lateral rotation. All insert: greater trochanter or trochanteric fossa.',m:'"POGO OG = 6 short lateral rotators." OR "Pleased Over Getting Quadriceps Going Often" (P,OI,GS,GI,QF,OE).'},
+  {t:'Obturator internus',d:'Origin: inner surface of obturator membrane + bony margins. Leaves pelvis through lesser sciatic foramen (hooks around ischium). Insertion: trochanteric fossa (medial greater trochanter). Action: lateral rotation + abduction in flexed hip. Nerve: nerve to obturator internus (L5,S1,S2).',m:'"Obturator internus = exits lesser sciatic foramen." Only pelvic muscle exiting through lesser foramen.'},
+  {t:'Obturator externus',d:'Origin: outer surface of obturator membrane + obturator foramen rim. Insertion: trochanteric fossa. Action: lateral rotation of hip. Nerve: posterior branch of obturator nerve (L3,L4). Deep muscle, hard to see clinically.',m:'"Obturator externus = only short lateral rotator from obturator nerve." L3,L4.'},
+  {t:'Iliopsoas',d:'Iliacus (iliac fossa, femoral nerve L2-L4) + psoas major (T12-L5 vertebral bodies, lumbar plexus L1-L3). Both insert: lesser trochanter. Action: powerful hip flexion. Also: psoas = lumbar lateral flexion. Together: most powerful hip flexor. Psoas bursa (communicates with hip in 15%).',m:'"Iliopsoas = MOST POWERFUL hip flexor." Femoral nerve (iliacus). L1-L3 (psoas). Lesser trochanter.'},
+  {t:'Pectineus',d:'Origin: pectineal line of pubis (pecten pubis). Insertion: pectineal line of femur (between lesser trochanter + linea aspera). Action: hip flexion + adduction. Nerve: femoral nerve (L2,L3) + sometimes obturator nerve. Medial floor of femoral triangle.',m:'"Pectineus = adducts + flexes hip." Femoral nerve. Forms floor of femoral triangle with iliacus.'},
+  {t:'Adductor longus',d:'Origin: body of pubis (anterior surface). Insertion: medial lip of linea aspera (middle 1/3 femur). Action: adduction + flexion of hip. Nerve: anterior branch obturator nerve (L2,L3,L4). Most anterior adductor — forms medial boundary of femoral triangle.',m:'"Adductor longus = MEDIAL BORDER of femoral triangle." Most anterior adductor. Anterior obturator nerve.'},
+  {t:'Adductor brevis',d:'Origin: body + inferior ramus of pubis. Insertion: pectineal line + upper linea aspera. Action: adduction of hip. Nerve: obturator nerve (L2,L3,L4). Deep to adductor longus.',m:'"Adductor brevis = deep to longus." Obturator nerve. Shorter and deeper adductor.'},
+  {t:'Adductor magnus',d:'2 parts: adductor part (ischiopubic ramus → medial linea aspera, obturator nerve L2-L4) + hamstring part (ischial tuberosity → adductor tubercle of medial femoral condyle, sciatic/tibial nerve). Adductor hiatus = gap in adductor insertion → femoral vessels become popliteal vessels.',m:'"Adductor magnus = 2 nerves, 2 parts." Adductor hiatus = femoral vessels become popliteal.'},
+  {t:'Gracilis',d:'Origin: inferior ramus of pubis + ischial ramus. Insertion: medial tibia (pes anserinus — with sartorius + semitendinosus). Action: hip adduction + knee flexion + medial rotation of tibia. Nerve: obturator nerve (L2,L3). Common free flap/graft donor.',m:'"Gracilis = pes anserinus + adducts + knee flexes." Obturator nerve. Common surgical graft.'},
+  {t:'Sartorius',d:'Longest muscle in body. Origin: ASIS. Insertion: medial tibia (pes anserinus). Action: hip flexion + abduction + lateral rotation + knee flexion + medial rotation of tibia (FABLAR = Flexion, ABduction, Lateral rotation + knee flexion = tailor\'s position). Nerve: femoral nerve (L2,L3). Forms lateral border of femoral triangle.',m:'"Sartorius = LONGEST muscle." Tailor\'s muscle (cross-legged position). Forms lateral border femoral triangle.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 11: THIGH MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-thigh', label:'Thigh Muscles', icon:'🦵', color:'#4ecdc4', cards:[
+  {t:'Rectus femoris',d:'Origin: AIIS (direct head) + acetabular rim (indirect/reflected head). Insertion: tibial tuberosity via patellar tendon. Action: knee extension + hip flexion (crosses both). Nerve: femoral nerve (L2,L3,L4). Only quadriceps crossing hip. 2-joint muscle: affected by hip position in stretching.',m:'"Rectus = 2-joint quad." AIIS origin. Hip position affects its function. Strain near AIIS in kicking.'},
+  {t:'Vastus lateralis',d:'Origin: greater trochanter + lateral lip of linea aspera + lateral intermuscular septum. Insertion: lateral patella + tibial tuberosity (via quad tendon → patellar ligament). Action: knee extension. Nerve: femoral (L2,L3,L4). Largest quadriceps. IM injection site in infants.',m:'"VL = lateral quad, largest quad." Pulls patella laterally. IM injection site infant.'},
+  {t:'Vastus medialis',d:'Origin: intertrochanteric line + medial lip of linea aspera + medial supracondylar ridge. Insertion: medial patella + tibial tuberosity. Action: knee extension + medial patellar stabilization (VMO = oblique fibers). Nerve: femoral (L2,L3,L4). VMO atrophies first in knee pathology.',m:'"VMO = medial stabilizer of patella." Teardrop shape medial distal thigh. First to atrophy.'},
+  {t:'Vastus intermedius',d:'Origin: anterior + lateral shaft of femur (upper 2/3). Insertion: tibial tuberosity via quad tendon. Action: knee extension. Nerve: femoral (L2,L3,L4). Deep to rectus femoris. Articularis genu = deepest part, pulls suprapatellar bursa during extension.',m:'"Vastus intermedius = deepest quad." Articularis genu = small deep portion that retracts bursa.'},
+  {t:'Biceps femoris',d:'Long head: ischial tuberosity (with semitendinosus). Short head: lateral lip of linea aspera + lateral supracondylar ridge. Insertion: fibular head + lateral condyle of tibia. Action: knee flexion + lateral rotation of tibia. Long head: hip extension. Nerve: long head = tibial division sciatic (L5,S1,S2); short head = common fibular division (L5,S1,S2).',m:'"Biceps femoris = LATERAL hamstring." 2 heads, 2 nerves. Lateral rotation of tibia at knee.'},
+  {t:'Semitendinosus',d:'Origin: ischial tuberosity (common tendon with long head biceps femoris). Insertion: medial tibia (pes anserinus = with gracilis + sartorius). Action: hip extension + knee flexion + medial rotation of tibia. Nerve: tibial division of sciatic (L5,S1,S2). Long thin tendon in distal thigh.',m:'"Semitendinosus = medial hamstring, pes anserinus." Long cord-like tendon. Medial rotation of tibia.'},
+  {t:'Semimembranosus',d:'Origin: ischial tuberosity (separate attachment, lateral). Insertion: posterior medial condyle of tibia. Also sends expansions: oblique popliteal ligament (reinforces posterior capsule), semimembranosus bursa. Action: hip extension + knee flexion + medial rotation. Nerve: tibial division of sciatic (L5,S1,S2).',m:'"Semimembranosus = membranous proximal tendon." Posterior medial tibial condyle. Oblique popliteal ligament.'},
+  {t:'Popliteus',d:'Origin: lateral femoral condyle + popliteal ligament. Insertion: posterior proximal tibia. Action: UNLOCKS the knee (medially rotates tibia on fixed femur OR laterally rotates femur on fixed tibia) + knee flexion. Nerve: tibial nerve (L4,L5,S1). "Key to unlock the knee."',m:'"Popliteus = UNLOCKS knee." Medial rotation to start flexion from full extension. Tibial nerve.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 12: LEG + FOOT MUSCLES
+// ══════════════════════════════════════════
+{id:'muscles-leg', label:'Leg & Foot Muscles', icon:'🦶', color:'#f472b6', cards:[
+  {t:'Gastrocnemius',d:'2 heads: medial (larger, from medial femoral condyle) + lateral (from lateral femoral condyle). Both heads → Achilles tendon → calcaneal tuberosity. Action: plantarflexion + knee flexion (crosses knee). Nerve: tibial nerve (S1,S2). Together with soleus = triceps surae. Thompson test = Achilles rupture.',m:'"Gastroc = ankle + knee." Only leg muscle crossing knee. Thompson test.'},
+  {t:'Soleus',d:'Origin: posterior head of fibula + soleal line of tibia + fibrous arch between. Insertion: Achilles tendon → calcaneal tuberosity. Action: plantarflexion ONLY (does NOT cross knee). Active in standing/walking even with knee bent. Nerve: tibial nerve (S1,S2). Soleus DVT sinuses common clot origin.',m:'"Soleus = pure plantarflexion, postural." DVT sinuses. Active even with knee bent (unlike gastrocnemius).'},
+  {t:'Plantaris',d:'Origin: lateral supracondylar ridge. Insertion: medial calcaneal tuberosity (medial to Achilles). Action: weak plantarflexion + knee flexion. Nerve: tibial nerve (S1,S2). Long thin tendon, absent in 10%. Confused with Achilles rupture (continued plantarflexion if Achilles ruptured = plantaris still working).',m:'"Plantaris = tiny, frequently absent." Confused with Achilles rupture clinically.'},
+  {t:'Tibialis anterior',d:'Origin: lateral condyle + lateral surface of tibia + interosseous membrane. Insertion: medial cuneiform + base of 1st metatarsal (medial + plantar surface). Action: dorsiflexion + inversion. Nerve: deep fibular (peroneal) nerve (L4,L5). L4 myotome = dorsiflexion.',m:'"TA = dorsiflexion + inversion." L4 nerve (foot drop = L4). Deep fibular nerve.'},
+  {t:'Extensor hallucis longus (EHL)',d:'Origin: middle anterior fibula + interosseous membrane. Insertion: dorsal base of distal phalanx of hallux. Action: extension of great toe + dorsiflexion + inversion. Nerve: deep fibular nerve (L5). L5 myotome = great toe extension.',m:'"EHL = great toe extension." L5 nerve (L5 root = great toe). Deep fibular nerve.'},
+  {t:'Extensor digitorum longus (EDL)',d:'Origin: lateral condyle of tibia + fibula + interosseous membrane. Insertion: extensor expansion of toes 2-5 (middle + distal phalanges). Action: extension of toes 2-5 + dorsiflexion + eversion. Nerve: deep fibular nerve (L5,S1).',m:'"EDL = toes 2-5 extension + dorsiflexion." Deep fibular nerve. Lateral foot drop compensation.'},
+  {t:'Fibularis (Peroneus) longus',d:'Origin: head + upper 2/3 of fibula + lateral condyle of tibia. Insertion: medial cuneiform + base of 1st metatarsal (crosses sole diagonally in peroneal groove of cuboid). Action: eversion + plantarflexion. Nerve: superficial fibular nerve (L5,S1). Supports transverse arch. Sesamoid (os peroneum) in tendon.',m:'"Fibularis longus crosses sole = transverse arch support." Superficial fibular nerve. L5,S1.'},
+  {t:'Fibularis (Peroneus) brevis',d:'Origin: lower 2/3 of fibula. Insertion: tuberosity of 5th metatarsal. Action: eversion + plantarflexion. Nerve: superficial fibular nerve (L5,S1). Avulsion of 5th MT tuberosity in inversion sprain (most common ankle X-ray). Jones fracture = stress fracture at base (NOT tuberosity).',m:'"Brevis = 5th MT tuberosity." Avulsion = peroneus brevis pull. Jones fracture ≠ avulsion fracture.'},
+  {t:'Fibularis (Peroneus) tertius',d:'Origin: lower anterior fibula. Insertion: dorsal base of 5th metatarsal. Action: dorsiflexion + eversion. Nerve: deep fibular nerve (L5,S1). Absent in ~8%. Extension of extensor digitorum longus.',m:'"Tertius = 3rd peroneal, variable." Only peroneal to deep fibular nerve. Eversion + dorsiflexion.'},
+  {t:'Tibialis posterior',d:'Origin: posterior tibia (lateral to vertical line) + fibula + interosseous membrane. Insertion: navicular (primary) + cuneiform bones + cuboid + bases of MT2-4. Action: plantarflexion + INVERSION (primary invertor). Nerve: tibial nerve (L4,L5). Primary stabilizer of medial longitudinal arch. Dysfuction → adult-acquired flatfoot.',m:'"Tibialis posterior = primary invertor + arch stabilizer." Tibial nerve. "Too many toes" sign in dysfunction.'},
+  {t:'Flexor digitorum longus (FDL)',d:'Origin: posterior tibia (medial to vertical line). Insertion: distal phalanges of toes 2-5. Passes behind medial malleolus → divides in sole. Action: flexion of toes (curling toes) + plantarflexion + inversion. Nerve: tibial nerve (L5,S1). Tendon divides (Tom = tibialis posterior, Dick = FDL, Harry = FHL).',m:'"Tom, Dick, And Nervous Harry" = T.P., FDL, FHL, Nerves, vessels (medial to lateral at medial malleolus).'},
+  {t:'Flexor hallucis longus (FHL)',d:'Origin: posterior fibula + interosseous membrane. Insertion: plantar base of distal phalanx of hallux. Passes through sustentaculum tali groove (calcaneus). Action: flexion of great toe + plantarflexion + supination. Nerve: tibial nerve (L5,S1,S2). Trigger toe = FHL stenosing tenosynovitis.',m:'"FHL = "Most POWERFUL toe flexor." Passes through sustentaculum tali. Trigger toe in dancers.'},
+  {t:'Intrinsic foot muscles (overview)',d:'Layer 1 (most superficial): abductor hallucis, flexor digitorum brevis, abductor digiti minimi. Layer 2: quadratus plantae, lumbricals. Layer 3: flexor hallucis brevis, adductor hallucis, flexor digiti minimi. Layer 4 (deepest): dorsal interossei, plantar interossei. Most: medial or lateral plantar nerve (tibial nerve branches).',m:'"4 layers of foot intrinsics, superficial to deep." Medial plantar nerve = most. Lateral plantar = rest.'},
+  {t:'Extensor digitorum brevis + Extensor hallucis brevis',d:'Origin: superior calcaneus + sinus tarsi. EDB: extension of toes 2-4 (via EDL tendons). EHB: extension of great toe (to proximal phalanx). Nerve: deep fibular nerve (L5,S1). Only intrinsic muscles on dorsum of foot. Clinically: EDB belly seen as soft swelling over sinus tarsi.',m:'"EDB + EHB = only dorsal foot intrinsics." Deep fibular nerve. EDB belly = clinically palpable.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 13: LIGAMENTS (COMPREHENSIVE)
+// ══════════════════════════════════════════
+{id:'lig-spine', label:'Spinal Ligaments', icon:'🔗', color:'#7c9ef8', cards:[
+  {t:'Anterior longitudinal ligament (ALL)',d:'Runs entire length of vertebral column — anterior surface of vertebral bodies + IVDs. From occiput to sacrum. Broad, strong. Prevents hyperextension of spine. Only ligament tightened in EXTENSION.',m:'"ALL = limits hyperEXTENSION." Runs anterior to vertebral bodies.'},
+  {t:'Posterior longitudinal ligament (PLL)',d:'Runs posterior surfaces of vertebral bodies inside vertebral canal. Narrow (hourglass shape — wider over IVDs, narrower over vertebral bodies). Resists hyperflexion. Does NOT prevent posterolateral disc herniation (where it is thin).',m:'"PLL = limits flexion, narrow posterolaterally." Disc herniation occurs at PLL weak spots (posterolateral).'},
+  {t:'Ligamentum flavum',d:'Connects adjacent laminae — from C2/C3 to L5/S1. Yellow (high elastin content — 80% elastin, 20% collagen). Highest elastin of any ligament. Maintains upright posture without muscle effort. Hypertrophies with age → spinal stenosis. Important in epidural injections.',m:'"Ligamentum flavum = YELLOW ligament." Hypertrophy → spinal stenosis. Elastin keeps spine upright.'},
+  {t:'Interspinous ligaments',d:'Connect adjacent spinous processes — from apex to root. Relatively weak. Disrupted in flexion injuries (seat belt injury). Merges with supraspinous ligament posteriorly.',m:'"Interspinous = between spinous processes." Weak. Disrupted in flexion-distraction (seat belt) injuries.'},
+  {t:'Supraspinous ligament',d:'Runs along tips of spinous processes from C7 to sacrum. Above C7 = nuchal ligament (septum nuchae in posterior midline neck). Resists flexion. Last posterior ligament to fail in progressive flexion injury.',m:'"Supraspinous = last to fail in flexion." C7 upward = nuchal ligament.'},
+  {t:'Transverse ligament of atlas',d:'Crosses C1 ring posterior to dens (odontoid process). Holds dens against anterior arch of C1. Critical for atlantoaxial stability. Torn in: rheumatoid arthritis (pannus erodes it), Down syndrome (ligamentous laxity), trauma. Rupture → atlantoaxial instability → cord compression at C1-C2.',m:'"Transverse lig holds dens." Torn in RA + Down syndrome. Atlantoaxial instability.'},
+  {t:'Alar ligaments',d:'Bilateral ligaments from sides of dens → occipital condyles. Limit rotation + contralateral lateral flexion. Provide atlantoaxial stability with transverse ligament. Tested with alar ligament stress tests (lateral flexion stops C1 rotation).',m:'"Alar ligaments = check reins of head rotation." Bilateral. Limit rotation + contralateral lateral flexion.'},
+  {t:'Iliolumbar ligament',d:'Runs from transverse processes of L4-L5 → iliac crest. Restrains L5 on sacrum, resists anterior slide of L5. Also tethers L5 to pelvis. Important stabilizer of lumbosacral junction. Can be strained in heavy lifting.',m:'"Iliolumbar lig = tethers L5 to ilium." Prevents anterior displacement of L5. Strain in heavy lifting.'},
+]},
+
+{id:'lig-shoulder', label:'Shoulder Ligaments', icon:'🤝', color:'#b084f5', cards:[
+  {t:'Glenohumeral ligaments (SGHL, MGHL, IGHL)',d:'Superior GHL: from supraglenoid tubercle → lesser tubercle. Limits ER at 0° abduction. Middle GHL: from anterior glenoid → lesser tubercle. Limits ER at 45–60° abduction. Inferior GHL (strongest): anterior + posterior bands + axillary pouch. Limits ER + anterior-inferior translation at 90° abduction. Bankart lesion = anterior IGHL + labrum avulsion.',m:'"IGHL = most important at 90° (throwing position)." Bankart = IGHL + anterior labrum.'},
+  {t:'Coracohumeral ligament (CHL)',d:'From base + lateral coracoid → greater + lesser tubercles of humerus. Covers rotator interval (gap between supraspinatus + subscapularis). Limits ER at side + inferior translation. Contracted in frozen shoulder (adhesive capsulitis) → most limits ER.',m:'"CHL = contracted in frozen shoulder." Limits ER most. Rotator interval ligament.'},
+  {t:'Coracoacromial ligament (CAL)',d:'From coracoid process → acromion. Completes coracoacromial arch (CA arch). Prevents superior humeral head migration. Supraspinatus impinges under this arch. NOT a true joint ligament — a ligamentous roof. Sometimes surgically divided in acromioplasty.',m:'"CA arch = coracoacromial ligament + acromion + coracoid." Supraspinatus impinges under it.'},
+  {t:'Coracoclavicular ligaments (trapezoid + conoid)',d:'Suspend the scapula from clavicle. Trapezoid (lateral): coracoid → trapezoid line of clavicle. Resists anterior translation. Conoid (medial): coracoid → conoid tubercle of clavicle. Resists superior displacement. Primary suspensors of upper limb from clavicle.',m:'"CC ligaments = vertical stability of ACJ." Trapezoid (lateral) + conoid (medial). AC separation disrupts these.'},
+  {t:'Acromioclavicular (AC) ligaments',d:'Superior + inferior AC ligaments surround ACJ. Provide horizontal stability. Resist AP translation at ACJ. Disrupted in Grade I-II AC sprains. Coracoclavicular ligaments disrupted in Grade III+.',m:'"AC ligaments = horizontal stability." CC ligaments = vertical stability. Grades I-II = AC only; III+ = CC also.'},
+  {t:'Sternoclavicular (SC) ligaments',d:'Anterior + posterior SC ligaments. Costoclavicular ligament (strongest). Interclavicular ligament. SC joint is only true joint connecting UL to axial skeleton. Costoclavicular lig = strongest = "rhomboid ligament." SC joint rarely dislocated; posterior dislocation = emergency (compresses trachea/great vessels).',m:'"SC joint = only axial-UL connection." Posterior SC dislocation = emergency (trachea compression).'},
+]},
+
+{id:'lig-elbow-wrist', label:'Elbow & Wrist Ligaments', icon:'✋', color:'#52d18a', cards:[
+  {t:'Ulnar collateral ligament of elbow (UCL)',d:'3 bundles: anterior (most important, thickest), posterior, transverse. Medial epicondyle → coronoid process (anterior) + olecranon (posterior). PRIMARY valgus stabilizer. Anterior bundle = primary restraint in throwing. Tommy John = UCL reconstruction.',m:'"UCL anterior bundle = primary valgus stabilizer." Tommy John surgery. Medial epicondyle to coronoid.'},
+  {t:'Radial collateral ligament of elbow (RCL)',d:'Lateral epicondyle → annular ligament + ulna. Primary varus stabilizer. Part of lateral collateral ligament complex (with lateral ulnar collateral). Disrupted in posterolateral rotatory instability (PLRI).',m:'"RCL = lateral epicondyle to annular lig." Varus stabilizer. PLRI when torn.'},
+  {t:'Lateral ulnar collateral ligament (LUCL)',d:'Lateral epicondyle → proximal ulna (crista supinatoris). KEY for posterolateral rotatory stability. Disrupted in PLRI (posterolateral rotatory instability) after elbow dislocation or lateral release for tennis elbow.',m:'"LUCL = posterolateral rotatory stability." PLRI if torn. Most important lateral elbow ligament.'},
+  {t:'Annular ligament of radius',d:'Encircles radial head: from anterior → posterior margin of radial notch of ulna. Holds radial head in radial notch (proximal RUJ). Lined with fibrocartilage + synovium. Allows pronation/supination. Nursemaid\'s elbow = annular ligament slips over radial head.',m:'"Annular lig = ring around radial head." Nursemaid\'s (pulled elbow) = slips over radial head.'},
+  {t:'Flexor retinaculum (transverse carpal ligament)',d:'Pisiform + hamate (medial) → scaphoid tubercle + trapezium (lateral). Roof of carpal tunnel. Contains: 4 FDS + 4 FDP + 1 FPL tendons + median nerve (10 structures). Ulnar nerve is OUTSIDE in Guyon\'s canal. Carpal tunnel release = divide this ligament.',m:'"10 structures in carpal tunnel." Ulnar nerve OUTSIDE. CTS = median nerve compression.'},
+  {t:'Extensor retinaculum (wrist)',d:'Horizontal band on dorsum of wrist retaining extensor tendons in 6 compartments. Compartment 1: APL + EPB (de Quervain\'s tenosynovitis). Compartment 2: ECRL + ECRB. Compartment 3: EPL (Drummer\'s palsy). Compartment 4: EDC + EIP. Compartment 5: EDM. Compartment 6: ECU.',m:'"6 extensor compartments." De Quervain\'s = compartment 1 (APL + EPB). EPL can rupture (distal radius fractures).'},
+  {t:'Scapholunate ligament (SL)',d:'Intrinsic wrist ligament connecting scaphoid + lunate. Most important wrist ligament for carpal stability. Tear = scapholunate dissociation = "Terry Thomas sign" (gap between scaphoid + lunate on AP X-ray). Wrist instability: DISI (scaphoid flexes forward, lunate extends).',m:'"SL lig = most important wrist lig." SL dissociation = Terry Thomas sign (gap on X-ray).'},
+  {t:'Lunotriquetral ligament (LT)',d:'Intrinsic ligament connecting lunate + triquetrum. LT tear → VISI pattern (volar intercalated segment instability). Less common than SL injury. LT compression test positive.',m:'"LT lig tear → VISI." Ulnar-sided wrist pain. LT ballottement test.'},
+]},
+
+{id:'lig-hip', label:'Hip Ligaments', icon:'🦴', color:'#f5c842', cards:[
+  {t:'Iliofemoral ligament (Y-ligament of Bigelow)',d:'STRONGEST ligament in body (~350N force to rupture). 2 bands: iliotrochanteric (lateral, from ASIS to greater trochanter) + iliocapsular (medial, from AIIS to lesser trochanter). Limits hip extension + external rotation. Tightens in standing → "screws" femoral head into acetabulum → passive standing with minimal muscle use.',m:'"Iliofemoral = STRONGEST ligament (body)." Y-shape from ASIS/AIIS. Limits hyperextension.'},
+  {t:'Pubofemoral ligament',d:'From pubic part of acetabular rim + superior pubic ramus → intertrochanteric line (inferior). Limits abduction + extension of hip. Reinforces inferior + anterior capsule.',m:'"Pubofemoral = limits abduction." Inferior-anterior capsule reinforcement.'},
+  {t:'Ischiofemoral ligament',d:'From ischial part of acetabular rim → posterior greater trochanter. Limits internal rotation + extension. Posterior capsule reinforcement. Weakest of the 3 main hip capsular ligaments.',m:'"Ischiofemoral = posterior capsule, limits internal rotation." Weakest hip lig.'},
+  {t:'Ligamentum teres (round ligament of femur)',d:'From acetabular notch (transverse acetabular ligament) → fovea capitis of femoral head. Carries blood supply to femoral head in CHILDREN (obturator artery branch). In adults: minimal mechanical role, carries small artery. Torn in hip dislocation. AVN risk when torn in children.',m:'"Ligamentum teres = blood supply femoral head in children." Tears in hip dislocation.'},
+  {t:'Transverse acetabular ligament',d:'Bridges acetabular notch, completing the acetabular ring. Converts notch into foramen. Allows obturator vessels + ligamentum teres to enter acetabulum.',m:'"Transverse acetabular lig = bridges notch." Creates foramen for ligamentum teres + obturator vessels.'},
+  {t:'Labrum of hip (acetabular labrum)',d:'Fibrocartilaginous rim deepening acetabulum. Increases contact area by 28%, depth by 21%. Anterior labrum: most commonly torn (hip impingement/FAI). SLAP-equivalent of hip. Labral tears: groin pain + clicking + C-sign.',m:'"Acetabular labrum = deepens hip socket." Anterior most torn. FAI tears labrum.'},
+]},
+
+{id:'lig-knee', label:'Knee Ligaments', icon:'🦵', color:'#f07060', cards:[
+  {t:'ACL (Anterior Cruciate Ligament)',d:'2 bundles: AM (anteromedial, primary, taut in flexion) + PL (posterolateral, taut in extension). Origin: anterior intercondylar area of tibia. Insertion: posterior medial surface of LATERAL femoral condyle. Prevents: anterior tibial translation + tibial IR. Avascular center → cannot heal without surgery. Female ACL: narrower notch, wider Q-angle, hormonal factors.',m:'"ACL: femoral attachment = LATERAL condyle." Lachman = most sensitive. Cannot heal spontaneously.'},
+  {t:'PCL (Posterior Cruciate Ligament)',d:'2 bundles: AL (anterolateral, larger, primary) + PM (posteromedial). Origin: posterior intercondylar tibia. Insertion: anterior medial surface of MEDIAL femoral condyle. Prevents: posterior tibial translation. STRONGEST knee ligament (2× ACL strength). Dashboard injury mechanism.',m:'"PCL: femoral attachment = MEDIAL condyle." Strongest knee lig. Dashboard + fall on flexed knee.'},
+  {t:'MCL (Medial Collateral Ligament)',d:'2 layers: superficial MCL (femur → tibia, 4-5cm below joint line) + deep MCL (medial capsule, attached to medial meniscus). Superficial = PRIMARY valgus stabilizer. Deep attached to medial meniscus = meniscus also injured. Valgus stress test grades I-III.',m:'"Deep MCL attached to medial meniscus." Unhappy triad = ACL + MCL + medial meniscus. Heals without surgery.'},
+  {t:'LCL (Lateral Collateral Ligament)',d:'Cord-like (NOT flat). From lateral femoral condyle → fibular head. NOT attached to lateral meniscus. Primary varus stabilizer. Part of posterolateral corner (PLC) with popliteofibular lig + popliteus tendon. Varus stress test.',m:'"LCL = cord-like, NOT attached to lateral meniscus." PLC = LCL + popliteofibular + popliteus.'},
+  {t:'Posterior capsule + oblique popliteal ligament',d:'Posterior knee capsule reinforced by oblique popliteal ligament (expansion of semimembranosus tendon). Arcuate popliteal ligament = lateral expansion. Important secondary stabilizers. Resist hyperextension.',m:'"Oblique popliteal lig = semimembranosus expansion." Posterior capsule resists hyperextension.'},
+  {t:'Medial + lateral menisci',d:'Fibrocartilage C-shaped. Medial: attached to MCL (can be torn with MCL injury), less mobile, more commonly torn. Lateral: more circular, not attached to LCL, more mobile. Functions: load distribution (transmit 50-70% load), shock absorption, joint lubrication, stability. Outer 1/3 vascular (red-red zone, heals). Inner 2/3 avascular (white-white, resection).',m:'"Medial meniscus attached to MCL → injured together." Outer = heals. Inner = avascular, cannot heal.'},
+  {t:'Patellar ligament (patellar tendon)',d:'Continuation of quadriceps tendon through patella. From inferior pole of patella → tibial tuberosity. Transmits quad force for knee extension. Patellar tendinopathy at inferior pole. Rupture: gap below patella + high-riding patella. Osgood-Schlatter at tibial tuberosity (adolescent apophysitis).',m:'"Patellar lig rupture = gap BELOW." vs "Quad tendon rupture = gap ABOVE." Osgood-Schlatter at tuberosity.'},
+]},
+
+{id:'lig-ankle-foot', label:'Ankle & Foot Ligaments', icon:'🦶', color:'#4ecdc4', cards:[
+  {t:'ATFL (Anterior talofibular ligament)',d:'From anterior distal fibula → anterior talus (lateral neck). Weakest lateral ankle ligament. Limits anterior talar slide + inversion at 0° plantarflexion. Most commonly torn in ankle sprains (~70%). Anterior drawer test positive when torn.',m:'"ATFL = most commonly torn." Weakest lateral lig. Anterior drawer test.'},
+  {t:'CFL (Calcaneofibular ligament)',d:'From fibula (just anterior to tip of lateral malleolus) → lateral calcaneus. Crosses both tibiotalar and subtalar joints. Limits inversion in dorsiflexion. Torn in severe ankle sprains (2nd after ATFL). Talar tilt test positive when torn.',m:'"CFL = 2nd most commonly torn." Talar tilt test. Limits inversion in neutral-dorsiflexion.'},
+  {t:'PTFL (Posterior talofibular ligament)',d:'From posterior lateral malleolus → posterior talus. STRONGEST of 3 lateral ligaments. Resists posterior talar displacement. Rarely torn (only in complete dislocation). Limits dorsiflexion.',m:'"PTFL = STRONGEST lateral ankle lig, RARELY torn." Only torn in frank dislocation.'},
+  {t:'Deltoid ligament (4 parts)',d:'Medial ankle. Fan-shaped, very strong, frequently avulses bone rather than tearing. Tibionavicular → tibiospring → tibiocalcaneal → posterior tibiotalar bands. PRIMARY medial ankle stabilizer. Eversion mechanism. High ankle sprain often disrupts deltoid + syndesmosis.',m:'"Deltoid = medial fan, very strong." 4 parts. Eversion mechanism. Often avulses malleolus.'},
+  {t:'Syndesmotic ligaments (high ankle)',d:'Anterior inferior tibiofibular lig (AITFL — most commonly injured), posterior inferior tibiofibular lig (PITFL — stronger), transverse tibiofibular lig, interosseous membrane. Bind tibia + fibula at distal joint. "High ankle sprain" = syndesmotic injury. Longer recovery than lateral sprain.',m:'"High ankle sprain = syndesmotic injury." AITFL most commonly torn. Squeeze test + external rotation test.'},
+  {t:'Spring ligament (plantar calcaneonavicular)',d:'From sustentaculum tali of calcaneus → navicular. Supports head of talus. Critical for medial longitudinal arch integrity. Torn in tibialis posterior dysfunction → progressive flatfoot. Contains fibrocartilage (articular surface for talar head).',m:'"Spring lig = arch keystone." Torn with tibialis posterior → flatfoot. Supports talar head.'},
+  {t:'Plantar fascia (plantar aponeurosis)',d:'3 bands from medial calcaneal tuberosity → bases of proximal phalanges. Windlass mechanism: toe dorsiflexion → tightens fascia → raises medial arch. Plantar fasciitis: degenerative (not inflammatory) at calcaneal insertion. Worst morning, improves with activity. Night splints + stretching help.',m:'"Windlass = tighten toes = raise arch." Plantar fasciitis NOT inflammatory = fasciosis. Worst first steps.'},
+  {t:'Long plantar ligament',d:'From calcaneus (inferior surface, posterior tubercle) → cuboid groove + bases of MT2-5. Longest foot ligament. Converts peroneal groove into tunnel for fibularis longus tendon. Supports lateral longitudinal arch.',m:'"Long plantar lig = LONGEST foot ligament." Covers peroneal groove → tunnel for fibularis longus.'},
+  {t:'Short plantar ligament (plantar calcaneocuboid)',d:'From anterior calcaneus → inferior cuboid (deep to long plantar ligament). Supports calcaneocuboid joint. Shorter and deeper than long plantar ligament.',m:'"Short plantar lig = calcaneocuboid support." Deeper to long plantar lig.'},
+]},
+
+// ══════════════════════════════════════════
+// GROUP 14: TENDONS (COMPREHENSIVE)
+// ══════════════════════════════════════════
+{id:'tendons-upper', label:'Upper Limb Tendons', icon:'💪', color:'#52d18a', cards:[
+  {t:'Rotator cuff tendons (SITS)',d:'Supraspinatus: superior facet greater tubercle (from supraspinous fossa). Infraspinatus: middle facet (infraspinous fossa). Teres minor: inferior facet (lateral scapular border). Subscapularis: lesser tubercle (subscapular fossa). Form cuff around GH joint. Critical zone: supraspinatus tendon 1cm from insertion = critical zone (poor blood supply = most tears here).',m:'"Critical zone = 1cm from SS insertion = avascular." Most tears here. SITS order on greater tubercle.'},
+  {t:'Long head of biceps tendon',d:'From supraglenoid tubercle → travels intra-articularly through joint → into bicipital groove (intertubercular groove). Held in groove by transverse humeral ligament. Tendon sheath communicates with GH joint. Speed\'s test: resisted forward flexion at 90° = bicipital tendinopathy. Yergason\'s: resisted supination.',m:'"LHB = intra-articular but extrasynovial." SLAP tear = origin avulsion. Speed\'s + Yergason\'s tests.'},
+  {t:'Distal biceps tendon',d:'Inserts radial tuberosity. Must be directly visible on MRI (requires FABS position: flexion, abduction, supination). Rupture: audible pop + Popeye sign + weakness supination > flexion. Hook test: cannot hook finger under cord = ruptured. Repair important for supination strength.',m:'"Distal biceps rupture = supination weakness > flexion weakness." Hook test.'},
+  {t:'Triceps tendon',d:'All 3 heads converge → olecranon process of ulna. Rarely ruptured (most common complete tendon rupture that is missed). Anconeus helps reinforce. Associated with systemic disease (hyperparathyroidism, renal failure, SLE). Triceps reflex = C7.',m:'"Triceps tendon rupture = most missed complete rupture." Associated with systemic disease.'},
+  {t:'Common flexor tendon',d:'Origin: medial epicondyle. Attaches: pronator teres, FCR, palmaris longus, FDS, FCU. Medial epicondylitis ("golfer\'s elbow") = degeneration at common flexor origin. Tender medial epicondyle with resisted wrist flexion. Compare with lateral epicondylitis (tennis elbow = common extensor tendon).',m:'"Golfer\'s elbow = medial epicondyle (common flexors)." Resisted wrist flexion reproduces pain.'},
+  {t:'Common extensor tendon',d:'Origin: lateral epicondyle. Attaches: ECRB (primary), ECRL, ECU, EDC, EDM. Lateral epicondylitis ("tennis elbow") = ECRB most affected. Cozen\'s test: resisted wrist extension reproduces pain. Mill\'s test: passive wrist flexion with elbow extended.',m:'"Tennis elbow = lateral epicondyle (ECRB primarily)." Cozen\'s test. Resisted wrist extension.'},
+  {t:'De Quervain\'s tenosynovitis tendons',d:'Tendons in 1st dorsal compartment: APL (abductor pollicis longus) + EPB (extensor pollicis brevis). Stenosing tenosynovitis at radial styloid. Finkelstein\'s test: ulnar deviation with thumb in fist reproduces pain. Common in new mothers + repetitive radial-ulnar deviation.',m:'"1st compartment = APL + EPB = De Quervain\'s." Finkelstein\'s test. Radial styloid tenderness.'},
+  {t:'EPL (Extensor pollicis longus) tendon',d:'3rd dorsal compartment. Wraps around Lister\'s tubercle (dorsal radius) — acts as pulley. Can rupture spontaneously in: distal radius fractures (even undisplaced), RA, steroid injections. Rupture = "Drummer\'s palsy" = cannot extend thumb IP joint.',m:'"EPL wraps Lister\'s tubercle." Rupture after distal radius fracture (even undisplaced). Drummer\'s palsy.'},
+]},
+
+{id:'tendons-lower', label:'Lower Limb Tendons', icon:'🦵', color:'#f07060', cards:[
+  {t:'Quadriceps tendon',d:'All 4 quads → superior pole of patella (4 layers: RF on surface, then VL + VM, then VI deepest). Continues as patellar ligament below patella. Rupture: gap above patella + patient cannot extend knee actively + patella descends (patella baja/lower). Occurs >40 yrs (vs patellar tendon <40).',m:'"Quad tendon rupture = gap ABOVE patella." >40 years. Inability to extend knee.'},
+  {t:'Patellar tendon/ligament',d:'Inferior patella → tibial tuberosity. Transmits quad force. Patellar tendinopathy ("jumper\'s knee"): degenerative, at inferior patellar pole, ultrasound hypoechoic area. Rupture: gap BELOW patella + patella rides high (patella alta). <40 yrs. Osgood-Schlatter = apophysitis at tibial tuberosity in adolescents.',m:'"Patellar tendon rupture = gap BELOW + patella alta." <40 yrs. Jumper\'s knee = inferior pole.'},
+  {t:'Iliotibial band (IT band)',d:'Dense fascia: TFL + gluteus maximus → Gerdy\'s tubercle lateral tibia. Crosses knee lateral side. IT band syndrome: repetitive friction over lateral femoral condyle at 30° flexion. Ober\'s test = IT band tightness. Noble compression test at lateral condyle. Common in runners.',m:'"IT band syndrome = lateral knee pain at 30°." Ober\'s test for tightness. Distance runners.'},
+  {t:'Achilles tendon (calcaneal tendon)',d:'Gastrocnemius + soleus (triceps surae) → calcaneal tuberosity. Strongest tendon in body (withstands ~4000N). Rotates 90° (medial gastrocnemius becomes posterior at insertion). Watershed zone: 2-6cm above insertion (poor vascularity = most ruptures + tendinopathy here). Thompson test = positive if no plantarflexion on calf squeeze.',m:'"Achilles = strongest tendon." Watershed zone 2-6cm above insertion. Thompson test.'},
+  {t:'Tibialis anterior tendon',d:'From lateral tibia → medial cuneiform + base MT1. Crosses ankle anterior to medial malleolus. Largest tendon crossing ankle anteriorly. Rupture (rare): foot slap, weak dorsiflexion in elderly. Tendinopathy at insertion.',m:'"TA = dorsiflexion + inversion tendon." Anterior to medial malleolus. Largest anterior ankle tendon.'},
+  {t:'Tibialis posterior tendon',d:'Behind medial malleolus (first, most medial). Primary dynamic arch stabilizer. Inserts navicular + springs (spring lig). Tendinopathy → PTTD (posterior tibial tendon dysfunction) → acquired flatfoot. Too many toes sign (excess foot externally rotated). Single heel raise test (inability = PTTD).',m:'"Tibialis posterior tendinopathy → adult flatfoot." Single heel raise test. Too many toes sign.'},
+  {t:'Peroneal tendons',d:'Both run behind lateral malleolus in peroneal groove held by superior + inferior peroneal retinaculum. Peroneus brevis (anterior in groove) + longus (posterior). Peroneal tendon subluxation: retinaculum avulsed, tendons snap over malleolus. Longitudinal tears of peroneus brevis (split tear) common.',m:'"Peroneal tendons = behind lateral malleolus." Brevis = anterior. Subluxation = retinaculum avulsion.'},
+  {t:'FHL (Flexor hallucis longus) tendon',d:'Passes through sustentaculum tali groove (natural pulley). FHL tenosynovitis: dancers ("dancer\'s tendinopathy"), posterior ankle impingement. Trigger toe = FHL stenosing tenosynovitis → hallux catches in flexion. Hallux saltans = snapping hallux.',m:'"FHL = dancer\'s tendon." Trigger toe = stenosing tenosynovitis. Passes through sustentaculum tali.'},
+  {t:'Hamstring tendons',d:'Biceps femoris → fibular head. Semitendinosus + gracilis → pes anserinus (medial tibia). Semimembranosus → posterior medial tibial condyle. Hamstring strain: most common muscle injury in sport. Grade I-III. "High hamstring" = proximal avulsion from ischial tuberosity.',m:'"High hamstring tear = ischial tuberosity avulsion." Pes anserinus = ST + gracilis + sartorius. Proximal = most severe.'},
+  {t:'Pes anserinus tendons',d:'3 tendons inserting medial tibia (DISTAL to MCL): Sartorius (most superior) + Gracilis (middle) + Semitendinosus (most inferior). "SAY GRACE TOGETHER." Pes anserinus bursitis: medial knee pain below joint line, tender over insertion, common in obese patients with osteoarthritis.',m:'"SAY GRACE TOGETHER = Sartorius, Gracilis, Semitendinosus (medial tibia)." SGS mnemonic.'},
+]},
+]; // END CARD_GROUPS
+
+// ═══════════════════════════════════
+// BUILD DECK FROM GROUPS (3 CARD TYPES)
+// ═══════════════════════════════════
+const ALL_DECK = [];
+CARD_GROUPS.forEach(g => {
+  g.cards.forEach(c => {
+    // Mode 1: Term → Definition
+    ALL_DECK.push({term:c.t, def:c.d, mnemonic:c.m||'', mode:'term→def', group:g.label, gid:g.id, color:g.color, icon:g.icon});
+    // Mode 2: Definition → Term
+    ALL_DECK.push({term:c.t, def:c.d, mnemonic:c.m||'', mode:'def→term', group:g.label, gid:g.id, color:g.color, icon:g.icon});
+    // Mode 3: Identify the Structure (def snippet → term)
+    ALL_DECK.push({term:c.t, def:c.d, mnemonic:c.m||'', mode:'identify', group:g.label, gid:g.id, color:g.color, icon:g.icon});
+  });
+});
+
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+let mastered = JSON.parse(localStorage.getItem('af_mastered') || '[]');
+let review = JSON.parse(localStorage.getItem('af_review') || '[]');
+
+function save() {
+  localStorage.setItem('af_mastered', JSON.stringify(mastered));
+  localStorage.setItem('af_review', JSON.stringify(review));
+}
+
+const MODE_INFO = {
+  'term→def': {label:'Term → Definition', emoji:'📖'},
+  'def→term': {label:'Definition → Term', emoji:'🔍'},
+  'identify':  {label:'Identify Structure', emoji:'🎯'},
+  'all':       {label:'All 3 Types', emoji:'🔀'},
+};
+
+let curDeck = [];
+let curIdx = 0;
+let curFlipped = false;
+let curMode = 'all';
+let curGroup = null;
+
+// ═══════════════════════════════════
+// HOME
+// ═══════════════════════════════════
+function showHome() {
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('fcView').style.display = 'none';
+  renderHome();
+}
+
+function renderHome() {
+  const totalBase = ALL_DECK.length / 3;
+  document.getElementById('statTotal').textContent = ALL_DECK.length;
+  document.getElementById('statMastered').textContent = mastered.length;
+  document.getElementById('statReview').textContent = review.length;
+  document.getElementById('statRemaining').textContent = ALL_DECK.length - mastered.length;
+  document.getElementById('groupGrid').innerHTML = CARD_GROUPS.map(g => {
+    const total = g.cards.length * 3;
+    const m = g.cards.filter(c => mastered.includes(c.t + '|' + g.id)).length * 3;
+    const pct = total > 0 ? Math.round(m/total*100) : 0;
+    return `<div class="gcard" style="border-top-color:${g.color}" onclick="startGroup('${g.id}')">
+      <div class="gcard-icon">${g.icon}</div>
+      <h3>${g.label}</h3>
+      <p>${g.cards.length} terms × 3 = ${total} cards</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${g.color}"></div></div>
+      <div style="font-size:10px;color:var(--text3);margin-top:5px">${m}/${total} mastered</div>
+    </div>`;
+  }).join('');
+}
+
+function startGroup(gid) {
+  curGroup = gid;
+  const g = CARD_GROUPS.find(x => x.id === gid);
+  buildCurDeck();
+  showFC(g.label);
+}
+
+function shuffleAll() {
+  curGroup = null;
+  buildCurDeck();
+  showFC('All Groups — Shuffled');
+}
+
+function buildCurDeck() {
+  let source = curGroup
+    ? ALL_DECK.filter(c => c.gid === curGroup)
+    : [...ALL_DECK];
+  if (curMode !== 'all') source = source.filter(c => c.mode === curMode);
+  curDeck = source.sort(() => Math.random() - .5);
+  curIdx = 0;
+  curFlipped = false;
+}
+
+// ═══════════════════════════════════
+// FLASHCARD SCREEN
+// ═══════════════════════════════════
+function showFC(title) {
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('fcView').style.display = 'block';
+  document.getElementById('fcTitle').textContent = title;
+  renderModeRow();
+  renderCard();
+}
+
+function renderModeRow() {
+  document.getElementById('modeRow').innerHTML = Object.entries(MODE_INFO).map(([mode, info]) => {
+    const isOn = mode === curMode;
+    const g = curGroup ? CARD_GROUPS.find(x => x.id === curGroup) : null;
+    const bg = isOn ? (g ? g.color : 'var(--accent2)') : 'transparent';
+    const clr = isOn ? '#0d0f14' : '';
+    return `<button class="mbtn ${isOn?'on':''}" style="${isOn?`background:${bg};color:${clr}`:''}" onclick="setMode('${mode}')">${info.emoji} ${info.label}</button>`;
+  }).join('');
+}
+
+function setMode(m) {
+  curMode = m;
+  buildCurDeck();
+  renderModeRow();
+  renderCard();
+}
+
+function renderCard() {
+  if (!curDeck.length) {
+    document.getElementById('cardFront').innerHTML = '<div class="fc-term">No cards</div>';
+    return;
+  }
+  const total = curDeck.length;
+  const idx = curIdx % total;
+  const c = curDeck[idx];
+  const pct = Math.round(idx/total*100);
+  const key = c.term + '|' + c.gid;
+  const isMastered = mastered.includes(key);
+  const isReview = review.includes(key);
+
+  document.getElementById('fcCounter').textContent = `${idx+1} / ${total}`;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('cardInner').className = 'card-inner' + (curFlipped ? ' flipped' : '');
+
+  // Mode badge
+  const mInfo = MODE_INFO[c.mode];
+  const badge = `<div class="mode-badge" style="background:${c.color}33;color:${c.color}">${mInfo.emoji} ${mInfo.label}</div>`;
+  const statusBadge = isMastered
+    ? `<div class="status-badge" style="background:rgba(82,209,138,.12);color:var(--green)">✓ Mastered</div>`
+    : isReview
+    ? `<div class="status-badge" style="background:rgba(240,112,96,.12);color:var(--coral)">↺ Review</div>`
+    : '';
+
+  // FRONT content
+  let frontContent = '';
+  if (c.mode === 'term→def') {
+    frontContent = `<div style="font-size:28px;margin-bottom:10px">${c.icon}</div>
+      <div class="fc-term">${c.term}</div>
+      <div style="font-size:11px;color:var(--text3)">${c.group}</div>`;
+  } else if (c.mode === 'def→term') {
+    frontContent = `<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px">What term matches this definition?</div>
+      <div class="fc-def">${c.def}</div>`;
+  } else {
+    // identify mode - show first sentence of def + mnemonic clue
+    const snippet = c.def.split('.')[0] + '.';
+    frontContent = `<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px">Identify the structure:</div>
+      <div class="fc-def">${snippet}</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:8px">Group: ${c.group}</div>`;
+  }
+
+  // BACK content
+  let backContent = '';
+  if (c.mode === 'term→def') {
+    backContent = `<div class="fc-def">${c.def}</div>
+      ${c.mnemonic ? `<div class="mnem-box">💡 ${c.mnemonic}</div>` : ''}`;
+  } else {
+    backContent = `<div class="fc-term" style="font-size:20px">${c.term}</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px">${c.group}</div>
+      ${c.mode === 'def→term' ? '' : `<div class="fc-def" style="font-size:12px">${c.def}</div>`}
+      ${c.mnemonic ? `<div class="mnem-box">💡 ${c.mnemonic}</div>` : ''}`;
+  }
+
+  document.getElementById('cardFront').innerHTML = badge + statusBadge + frontContent + '<div class="fc-hint">tap to flip</div>';
+  document.getElementById('cardBack').innerHTML = badge + backContent + '<div class="fc-hint">tap to flip back</div>';
+
+  // Update score row
+  document.getElementById('scMastered').textContent = mastered.length;
+  document.getElementById('scReview').textContent = review.length;
+  document.getElementById('scRemaining').textContent = curDeck.length - mastered.filter(k => curDeck.some(c => c.term+'|'+c.gid === k)).length;
+}
+
+function flip() { curFlipped = !curFlipped; renderCard(); }
+
+function nav(dir) {
+  curIdx = (curIdx + dir + curDeck.length) % curDeck.length;
+  curFlipped = false;
+  renderCard();
+}
+
+function mark(type) {
+  const c = curDeck[curIdx % curDeck.length];
+  const key = c.term + '|' + c.gid;
+  if (type === 'mastered') {
+    mastered = [...new Set([...mastered, key])];
+    review = review.filter(k => k !== key);
+  } else {
+    review = [...new Set([...review, key])];
+    mastered = mastered.filter(k => k !== key);
+  }
+  save();
+  nav(1);
+}
+
+// ═══════════════════════════════════
+// INIT
+// ═══════════════════════════════════
+showHome();
+</script>
+</body>
+</html>
