@@ -1021,6 +1021,325 @@ const CHAPTERS = [
       ]},
     ]
   },
+
+  {
+    id:'endocrine', label:'17. Endocrine System', color:'purple', icon:'🧬',
+    desc:'Hormones, endocrine glands, signaling mechanisms, and feedback loops',
+    sections:[
+      { title:'Endocrine vs. Nervous System', items:[
+        {term:'Endocrine system',def:'Uses hormones (chemical messengers) secreted into the bloodstream to reach distant target cells. Slower onset, longer duration, widespread effects. Works with the cardiovascular system to deliver signals.',mnemonic:'"Endo = inside → hormones released INto the blood."',svg:'endoVsNerveSVG'},
+        {term:'Nervous system signaling',def:'Uses neurotransmitters released at synaptic clefts for rapid, precise, local communication. Fast onset (milliseconds), short duration. Neurotransmitter travels across synaptic cleft to adjacent target cell.',mnemonic:'"Neuro = fast and focused; Endo = slow and widespread."',svg:''},
+        {term:'Hormone',def:'Chemical messenger secreted by an endocrine gland or cell directly into interstitial fluid → bloodstream → reaches target cells anywhere in body. Target cells must have specific receptors.',mnemonic:'"Hormone = chemical text message sent through the blood."',svg:''},
+        {term:'Target cell',def:'A cell that has specific receptors for a particular hormone. A cell without the receptor will not respond even if the hormone is present. Receptor location: membrane (water-soluble hormones) or intracellular (lipid-soluble hormones).',mnemonic:'"Target = must have the RECEPTOR lock to fit the hormone key."',svg:''},
+      ]},
+      { title:'Hormone Chemistry & Signaling', items:[
+        {term:'Lipid-soluble hormones (steroid + thyroid)',def:'Steroids derived from cholesterol (sex hormones, cortisol, aldosterone). Thyroid hormones (T3, T4) also lipid-soluble. Cross plasma membrane → bind intracellular receptors → receptor-hormone complex acts as transcription factor → alters gene expression directly.',mnemonic:'"Lipid-soluble = sneaky — walks right through the membrane."',svg:'lipidHormoneSVG'},
+        {term:'Water-soluble hormones (peptide/amine)',def:'Peptide hormones (insulin, glucagon, GH, ADH, oxytocin) and catecholamines (epinephrine, norepinephrine). Cannot cross plasma membrane → bind membrane receptors → trigger second-messenger cascade (e.g., cAMP).',mnemonic:'"Water-soluble = knocks on the door — uses a second messenger inside."',svg:''},
+        {term:'cAMP second-messenger pathway',def:'Hormone (first messenger) binds GPCR → activates G protein → activates adenylyl cyclase → converts ATP to cAMP (second messenger) → activates protein kinase A → phosphorylates enzymes → cellular response. Effect amplified at each step.',mnemonic:'"cAMP = Cell\'s Amplified Message Plan." G protein is the middleman.',svg:'cAMPsvg'},
+        {term:'Half-life of hormones',def:'Time for hormone concentration to decrease by 50%. Determines duration of effect. Short half-life (minutes, e.g., epinephrine) = rapid response. Long half-life (days, e.g., thyroid hormones) = sustained effect. Hormones degraded by liver and kidneys.',mnemonic:'"Half-life = how long the signal stays alive."',svg:''},
+        {term:'Upregulation',def:'Target cells INCREASE receptor number when hormone levels are chronically low → enhances sensitivity. Example: ADH receptors increase during dehydration.',mnemonic:'"Up = more receptors when hormone is scarce → cell becomes MORE sensitive."',svg:''},
+        {term:'Downregulation',def:'Target cells DECREASE receptor number when hormone levels are chronically high → reduces sensitivity. Example: insulin receptors decrease in type 2 diabetes (insulin resistance).',mnemonic:'"Down = fewer receptors when hormone is excessive → cell becomes LESS sensitive. Type 2 diabetes example."',svg:''},
+      ]},
+      { title:'Hypothalamus & Pituitary Gland', items:[
+        {term:'Hypothalamus',def:'Master controller of the endocrine system. Located in diencephalon. Produces releasing hormones (RH) and inhibiting hormones (IH) that control anterior pituitary. Also synthesizes ADH and oxytocin (stored in posterior pituitary).',mnemonic:'"Hypo = below the thalamus = boss of the pituitary."',svg:'hypothPitSVG'},
+        {term:'Anterior pituitary (adenohypophysis)',def:'True endocrine gland — made of glandular epithelium. Controlled by hypothalamic releasing/inhibiting hormones via hypothalamo-hypophyseal portal system. Produces: GH, TSH, ACTH, FSH, LH, PRL, MSH.',mnemonic:'"Anterior = GLANDULAR tissue. GT AAFP = GH, TSH, ACTH, FSH, LH, PRL." Controlled by hypothalamus.',svg:''},
+        {term:'Posterior pituitary (neurohypophysis)',def:'NOT a true endocrine gland — made of axon terminals. Stores and releases ADH (antidiuretic hormone) and oxytocin, which are synthesized in the hypothalamus and transported down axons.',mnemonic:'"Posterior = NEURAL tissue. Stores ADH and OXYtocin. Just a storage locker for hypothalamus."',svg:''},
+        {term:'Growth hormone (GH)',def:'Secreted by somatotrophs of anterior pituitary. Stimulates IGF-1 release from liver → promotes bone growth, muscle growth, protein synthesis, fat breakdown (lipolysis). Controlled by GHRH (+) and somatostatin (-). Peaks during sleep.',mnemonic:'"GH = Grow Here. Peaks during sleep — get your rest!" Deficiency = dwarfism; excess = gigantism/acromegaly.',svg:''},
+        {term:'ADH (antidiuretic hormone / vasopressin)',def:'Synthesized in hypothalamus, released from posterior pituitary. High osmolarity or low blood volume → ↑ADH → kidneys reabsorb more water → concentrated urine → blood volume/pressure rises. Alcohol inhibits ADH → frequent urination.',mnemonic:'"ADH = Against Diuresis = keeps water IN the body." Alcohol blocks ADH = more urine.',svg:'adhSVG'},
+        {term:'Oxytocin',def:'Synthesized in hypothalamus, released from posterior pituitary. Positive feedback: uterine contractions during labor (fetal head stretches cervix → more oxytocin → stronger contractions). Also triggers milk ejection during nursing. "Love hormone" — bonding.',mnemonic:'"Oxy = quick birth (oxys = swift in Greek). POSITIVE feedback loop in labor."',svg:''},
+      ]},
+      { title:'Thyroid & Parathyroid Glands', items:[
+        {term:'Thyroid gland',def:'Butterfly-shaped gland anterior to trachea, inferior to larynx. Composed of thyroid follicles (filled with colloid containing thyroglobulin). Produces T3 (triiodothyronine) and T4 (thyroxine) from tyrosine + iodine. Also produces calcitonin from parafollicular (C) cells.',mnemonic:'"Thyroid = butterfly shape over trachea. T3 = 3 iodines; T4 = 4 iodines."',svg:'thyroidSVG'},
+        {term:'Thyroid hormones T3 and T4',def:'T4 is more abundant but T3 is more active (T4 converted to T3 in tissues). Effects: ↑metabolic rate (BMR), ↑ heat production, ↑ heart rate, essential for normal brain development in fetus/infant. Lipid-soluble → bind intracellular receptors → alter gene expression.',mnemonic:'"T3 = Turbo-active; T4 = precursor converted to T3." Hypothyroidism = slow; hyperthyroidism = fast.',svg:''},
+        {term:'TSH (thyroid-stimulating hormone)',def:'Released from anterior pituitary in response to TRH from hypothalamus. Stimulates thyroid follicular cells to produce and release T3/T4. Negative feedback: high T3/T4 inhibits both TRH and TSH.',mnemonic:'"TSH tells the Thyroid to Speak (make hormones). Negative feedback shuts it off."',svg:'thyroidAxisSVG'},
+        {term:'Hypothyroidism vs. hyperthyroidism',def:'Hypothyroidism: ↓T3/T4 → slowed metabolism, fatigue, weight gain, cold intolerance, myxedema, goiter (if iodine deficient). Cretinism = congenital deficiency. Hyperthyroidism: ↑T3/T4 → ↑BMR, weight loss, heat intolerance, exophthalmos, Graves disease (autoimmune — TSH-receptor antibodies).',mnemonic:'"Hypo = slow thyroid = slow everything (cold, fat, tired). Hyper = fast thyroid = fast everything (hot, thin, anxious)."',svg:''},
+        {term:'Calcitonin',def:'Secreted by parafollicular (C) cells of thyroid when blood Ca²⁺ is HIGH. Lowers blood Ca²⁺ by: inhibiting osteoclasts (↓ bone resorption) and ↑ renal Ca²⁺ excretion. Antagonizes PTH.',mnemonic:'"CaliTONIN TONes down calcium — it\'s the calcium LOWERER."',svg:''},
+        {term:'Parathyroid hormone (PTH)',def:'Released from chief cells of 4 parathyroid glands when blood Ca²⁺ is LOW. ↑ blood Ca²⁺ by: ↑ osteoclast activity (bone resorption), ↑ Ca²⁺ reabsorption in kidneys, ↑ calcitriol synthesis (vitamin D activation → ↑ GI Ca²⁺ absorption).',mnemonic:'"PTH = Please Take (calcium) Home. It RAISES blood calcium." Calcitonin is the opposite.',svg:'ptcSVG'},
+      ]},
+      { title:'Adrenal Glands', items:[
+        {term:'Adrenal gland structure',def:'Sits atop each kidney. Two distinct regions: CORTEX (outer, 3 zones — GFR: Glomerulosa, Fasciculata, Reticularis) and MEDULLA (inner, modified neural tissue). Cortex = steroid hormones; Medulla = catecholamines.',mnemonic:'"GFR zones: Glomerulosa (salt), Fasciculata (sugar), Reticularis (sex). Salt, Sugar, Sex from outside in."',svg:'adrenalSVG'},
+        {term:'Mineralocorticoids (aldosterone)',def:'From zona glomerulosa. Aldosterone: ↑ Na⁺ reabsorption and ↑ K⁺ secretion in kidneys → water follows Na⁺ → ↑ blood volume and pressure. Stimulated by: angiotensin II (RAAS), ↑ K⁺, ↓ Na⁺.',mnemonic:'"Aldo = Saves Salt (Na⁺), Spills K⁺. Blood pressure rises." RAAs activates it.',svg:''},
+        {term:'Glucocorticoids (cortisol)',def:'From zona fasciculata. Cortisol: ↑ blood glucose (gluconeogenesis), ↑ protein catabolism, ↑ fat mobilization, anti-inflammatory, suppresses immune response. Released in stress (stress response). Controlled by CRH → ACTH → cortisol (negative feedback).',mnemonic:'"Cortisol = stressed SUGAR: breaks down protein/fat → makes glucose." Chronic elevation → Cushing syndrome.',svg:'cortisolSVG'},
+        {term:'Sex hormones (gonadocorticoids)',def:'From zona reticularis. Mainly androgens (DHEA). Contribute to libido, axillary and pubic hair in both sexes, adrenarche (pubic hair onset).',mnemonic:'"Zona Reticularis = sex hormones (R = Romance)."',svg:''},
+        {term:'Epinephrine and norepinephrine',def:'From adrenal medulla (chromaffin cells). Released during sympathetic "fight-or-flight." Effects: ↑ heart rate, ↑ BP, ↑ blood glucose (glycogenolysis), bronchodilation, vasodilation in skeletal muscle, vasoconstriction in skin/GI. Water-soluble (catecholamines) → bind membrane receptors.',mnemonic:'"Epi + NorEpi = Emergency hormones for Fight or Flight." Last 1-3 minutes only.',svg:''},
+        {term:'Cushing syndrome vs. Addison disease',def:'Cushing: excess cortisol → central obesity, buffalo hump, moon face, hyperglycemia, hypertension, immune suppression. Often from exogenous steroids or ACTH-secreting tumor. Addison: adrenal cortex destruction → ↓ cortisol + aldosterone → hypoglycemia, hypotension, hyperkalemia, bronze skin (↑ ACTH/MSH).',mnemonic:'"Cushing = Cushioned with fat (excess cortisol). Addison = worn Addison = deficient (bronze + low BP)."',svg:''},
+      ]},
+      { title:'Pancreas & Blood Glucose', items:[
+        {term:'Pancreatic islets (islets of Langerhans)',def:'Endocrine portion of pancreas (~1-2% of pancreas). Contains: alpha cells (glucagon), beta cells (insulin), delta cells (somatostatin), F cells (pancreatic polypeptide). Surrounded by exocrine acinar cells (digestive enzymes).',mnemonic:'"Alpha = Away (raises glucose), Beta = Below (lowers glucose), Delta = Dampens both."',svg:'pancreasIsletSVG'},
+        {term:'Insulin',def:'From beta cells. Released when blood glucose is HIGH (after meals). Effects: ↑ glucose uptake into cells (via GLUT4 in muscle/fat), ↑ glycogen synthesis, ↑ protein synthesis, ↑ fat storage. Lowers blood glucose. Water-soluble peptide hormone.',mnemonic:'"Insulin = INto cells (lowers blood sugar). After eating — I\'m full, store it."',svg:'glucoseRegSVG'},
+        {term:'Glucagon',def:'From alpha cells. Released when blood glucose is LOW (fasting). Effects: ↑ glycogenolysis (breaks glycogen → glucose) in liver, ↑ gluconeogenesis, ↑ lipolysis. Raises blood glucose. Antagonizes insulin.',mnemonic:'"Glucagon = GLUCose is Gone — time to release stored glucose."',svg:''},
+        {term:'Diabetes mellitus type 1',def:'Autoimmune destruction of beta cells → absolute insulin deficiency. Requires insulin injections. Hyperglycemia → glucosuria → osmotic diuresis (polyuria, polydipsia). Can develop ketoacidosis (fat breakdown → ketone bodies → acidosis).',mnemonic:'"Type 1 = No beta cells = No insulin = must inject. Younger onset, autoimmune."',svg:''},
+        {term:'Diabetes mellitus type 2',def:'Insulin resistance (↓ receptor sensitivity via downregulation) + progressive beta cell failure. Most common (90%). Associated with obesity. Hyperglycemia despite initially normal or ↑ insulin. Managed with diet, exercise, oral medications, eventually insulin.',mnemonic:'"Type 2 = Two problems: resistance + beta cell failure. Lifestyle-linked." Downregulation of receptors.',svg:''},
+        {term:'Somatostatin',def:'From delta cells (also hypothalamus and GI tract). Inhibits release of both insulin AND glucagon. Also inhibits GH release. Acts as a paracrine regulator within pancreatic islets.',mnemonic:'"Somatostatin = STOPS everything (insulin, glucagon, GH)."',svg:''},
+      ]},
+      { title:'Other Endocrine Organs', items:[
+        {term:'Pineal gland',def:'In epithalamus. Secretes melatonin in response to darkness (light inhibits it via retinohypothalamic tract). Regulates circadian rhythm and sleep-wake cycles. Peaks between 2-4 AM. Decreases with age.',mnemonic:'"Pineal = Pine cone shaped. MELatonin = MELancholy darkness hormone = sleep."',svg:''},
+        {term:'Thymus',def:'In superior mediastinum. Secretes thymosins (thymosin α1 and β4) which promote T-lymphocyte maturation. Large in childhood, atrophies after puberty. Critical for immune system development.',mnemonic:'"Thymus = T-cell school. Trains T cells. Shrinks after puberty."',svg:''},
+        {term:'Gonads (testes and ovaries)',def:'Testes: Leydig cells produce testosterone (LH stimulus) → male secondary sex characteristics, spermatogenesis. Ovaries: produce estrogens (follicle development, FSH stimulus) and progesterone (corpus luteum, LH stimulus) → female characteristics, menstrual cycle.',mnemonic:'"Gonads = sex hormone factories controlled by FSH and LH from anterior pituitary."',svg:''},
+        {term:'Atrial natriuretic peptide (ANP)',def:'Released from cardiac atria when atrial walls are stretched (↑ blood volume/pressure). Effects: ↑ Na⁺ excretion (natriuresis), ↑ water excretion (diuresis) → ↓ blood volume and pressure. Antagonizes aldosterone and ADH.',mnemonic:'"ANP = Atria saying \'I\'m too full\' → dumps Na⁺ and water to reduce volume."',svg:''},
+        {term:'Erythropoietin (EPO)',def:'Secreted by peritubular cells of kidneys in response to hypoxia (low O₂). Stimulates red blood cell production (erythropoiesis) in red bone marrow. Blood doping in athletes exploits this.',mnemonic:'"EPO = Erythropoiesis Promoter from kidneys. Low O₂ → make more RBCs."',svg:''},
+        {term:'Prostaglandins',def:'Lipid-based paracrine/autocrine signaling molecules derived from arachidonic acid (membrane lipids). Act locally. Effects vary by tissue: inflammation, pain, fever, vasodilation/constriction, uterine contractions. NSAIDs block prostaglandin synthesis.',mnemonic:'"Prostaglandins = local lipid signals. NSAIDs block them → reduce pain/fever/inflammation."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'blood', label:'18. Blood', color:'coral', icon:'🩸',
+    desc:'Composition, formed elements, hemostasis, and blood types',
+    sections:[
+      { title:'Blood Composition & Functions', items:[
+        {term:'Blood composition',def:'Connective tissue — liquid extracellular matrix. ~8% of body weight (~5L in adult). 45% formed elements (cells + platelets), 55% plasma. Hematocrit = % formed elements (normal: men 42-52%, women 37-47%).',mnemonic:'"Blood = 55% plasma + 45% formed elements. Hematocrit = % cells."',svg:'bloodCompositionSVG'},
+        {term:'Plasma',def:'~91% water. Proteins: albumin (58% — osmotic pressure, transport), globulins (37% — immune α,β,γ), fibrinogen (4% — clotting precursor), others. Also: electrolytes, nutrients, gases, hormones, waste products.',mnemonic:'"Plasma = protein soup: Albumin (osmotic), Globulins (immune), Fibrinogen (clotting). AGF."',svg:''},
+        {term:'Functions of blood',def:'(1) Transport: O₂/CO₂, nutrients, hormones, waste, heat. (2) Regulation: pH (buffers), temperature (heat distribution), fluid balance (osmotic pressure). (3) Protection: clotting (hemostasis), immune defense (WBCs, antibodies).',mnemonic:'"Blood TRP: Transport, Regulate, Protect."',svg:''},
+        {term:'Serum vs. plasma',def:'Plasma = fluid with clotting proteins (fibrinogen). Serum = plasma MINUS clotting factors (what remains after blood clots). Serum is used for antibody tests, chemistry panels.',mnemonic:'"Serum = plasma Stripped of clotting proteins. S = Subtract clotting factors."',svg:''},
+      ]},
+      { title:'Red Blood Cells (Erythrocytes)', items:[
+        {term:'RBC structure',def:'Biconcave disc — maximizes surface area for gas exchange. Diameter ~7-8 µm (fits through capillaries ~8 µm). Anucleate (no nucleus) and no organelles in mature form → more room for hemoglobin (~280 million/RBC). Flexible membrane.',mnemonic:'"RBC = Biconcave disc, no nucleus = more hemoglobin space."',svg:'rbcSVG'},
+        {term:'Hemoglobin',def:'Each RBC contains ~280 million hemoglobin molecules. Each Hb = 4 globin chains + 4 heme groups. Each heme contains Fe²⁺ → binds 1 O₂. So 1 Hb carries 4 O₂. Oxyhemoglobin (HbO₂) = bright red; deoxyhemoglobin = dark red/purple.',mnemonic:'"Hemo = blood, globin = protein. 4 chains, 4 hemes, 4 O₂ per molecule."',svg:'hemoglobinSVG'},
+        {term:'Erythropoiesis',def:'RBC production. Occurs in red bone marrow. Triggered by EPO (from kidneys) when O₂ is low. Stages: hemocytoblast → proerythroblast → erythroblasts → reticulocyte (still has ribosomes) → erythrocyte. Takes ~7 days. Requires: iron, B12, folate, protein.',mnemonic:'"EPO triggers RBC birth from bone marrow. Reticulocyte = almost there (has ribosomes still)."',svg:'erythropoiesisSVG'},
+        {term:'RBC lifespan and destruction',def:'Normal lifespan ~120 days. Aging RBCs become rigid and fragile → destroyed by macrophages in spleen ("graveyard of RBCs") and liver. Heme → biliverdin → bilirubin (excreted in bile). Globin → amino acids (recycled). Iron → transferrin → bone marrow (recycled).',mnemonic:'"RBCs live 120 days then die in SPLEEN. Iron recycled, bilirubin excreted (makes stool/urine yellow)."',svg:''},
+        {term:'Anemia',def:'Insufficient O₂-carrying capacity. Types: (1) Blood loss (hemorrhagic), (2) Decreased production — iron deficiency (microcytic), B12/folate deficiency (megaloblastic/pernicious), EPO deficiency, (3) Increased destruction — sickle cell, hemolytic. Signs: fatigue, pallor, dyspnea, tachycardia.',mnemonic:'"Anemia = 3Ds: Decrease in production, Destruction of RBCs, Dilution (blood loss)."',svg:''},
+        {term:'Sickle cell disease',def:'Autosomal recessive — point mutation in β-globin gene (Glu→Val at position 6). HbS polymerizes under low O₂ → rigid sickle shape → obstructs capillaries, hemolysis, organ damage. Sickle trait (heterozygous) provides malaria resistance.',mnemonic:'"Sickle cell = S for Sickle-shaped cells that Sludge. One letter change in DNA."',svg:'sickleSVG'},
+      ]},
+      { title:'White Blood Cells (Leukocytes)', items:[
+        {term:'WBC overview',def:'5 types, all nucleated (unlike RBCs). Diapedesis = squeezing between endothelial cells to exit blood. Chemotaxis = movement toward chemical signals of infection. Normal WBC count 5,000-10,000/µL. Leukocytosis = ↑ (infection), Leukopenia = ↓ (immunosuppression).',mnemonic:'"WBCs use Diapedesis to exit and Chemotaxis to find infection. NEVER Let Monkeys Eat Bananas = Never,Lympho,Mono,Eosino,Baso (% order)."',svg:''},
+        {term:'Neutrophils',def:'Most abundant (60-70% of WBCs). First responders. Phagocytose bacteria. Multi-lobed nucleus (3-5 lobes). Short-lived (hours to days). Form pus. Release defensins and oxidative burst. Increased in bacterial infections.',mnemonic:'"Neutrophils = Numerous + Now (first to arrive). Pus is dead neutrophils." Multi-lobed nucleus.',svg:'wbcSVG'},
+        {term:'Lymphocytes',def:'Second most common (20-30%). T lymphocytes (cellular immunity — kill virus-infected cells + tumor cells), B lymphocytes (humoral immunity — produce antibodies), NK cells (natural killer — innate). Small, large round nucleus. Increased in viral infections.',mnemonic:'"Lymphocytes = Longer-term immunity. T = cell-to-cell; B = antibody bombs."',svg:''},
+        {term:'Monocytes',def:'Largest WBC (2-8%). Kidney-shaped or horseshoe nucleus. Become macrophages when they migrate into tissues. Phagocytose pathogens, dead cells, debris. Present antigens to T cells (antigen-presenting cells).',mnemonic:'"Mono = one big horseshoe nucleus. Becomes MACROPHAGE in tissues = big eater."',svg:''},
+        {term:'Eosinophils',def:'2-4% of WBCs. Bilobed nucleus + large red/orange granules (eosin-staining). Combat parasitic infections and allergic reactions. Release histaminase (counteracts histamine) and toxic proteins against parasites.',mnemonic:'"Eosinophils = allergies and parasites. Easy Identification by RED granules, bilobed nucleus."',svg:''},
+        {term:'Basophils',def:'Rarest WBC (<1%). Large purple/blue granules contain histamine (causes vasodilation, inflammation) and heparin (prevents clotting). Play role in allergic and inflammatory responses. Related to mast cells in tissues.',mnemonic:'"Basophils = BLUE/purple granules. Histamine and heparin bombs. Very BASIC/blue."',svg:''},
+      ]},
+      { title:'Platelets & Hemostasis', items:[
+        {term:'Platelets (thrombocytes)',def:'Cell fragments from megakaryocytes (bone marrow). No nucleus. Diameter 2-4 µm. Normal count 150,000-400,000/µL. Lifespan ~7-10 days. Contain granules with clotting chemicals. Essential for hemostasis.',mnemonic:'"Platelets = cell fragments for plugging holes. From megaKARYOcytes."',svg:''},
+        {term:'Hemostasis overview',def:'3 steps to stop bleeding: (1) Vascular spasm: immediate vasoconstriction at injury site. (2) Platelet plug: platelets adhere to damaged endothelium via vWF + collagen → activated platelets release chemicals → platelet aggregation. (3) Coagulation: clotting cascade → fibrin mesh.',mnemonic:'"Stop bleeding in 3 steps: Spasm → Plug → Coagulation. SPC."',svg:'hemostasisSVG'},
+        {term:'Platelet plug formation',def:'Damaged endothelium exposes collagen. (1) Platelet adhesion: platelets bind collagen via vWF (von Willebrand factor). (2) Platelet activation: release ADP, thromboxane A2, serotonin → attract more platelets. (3) Platelet aggregation: GP IIb/IIIa receptor + fibrinogen links platelets together. Temporary plug.',mnemonic:'"Von Willebrand factor = the glue between collagen and platelets. ADP = calling all platelets."',svg:''},
+        {term:'Coagulation cascade',def:'Intrinsic pathway (damaged vessel surface, slow) + Extrinsic pathway (tissue factor/TF from damaged tissue, fast) → Common pathway: Factor X → prothrombin activator → thrombin → fibrinogen → fibrin → clot stabilized by Factor XIII. Calcium and phospholipids required.',mnemonic:'"ITCH = Intrinsic TF Common → fibrin. Thrombin = key enzyme. Fibrinogen → Fibrin."',svg:'coagulationSVG'},
+        {term:'Fibrinolysis',def:'Dissolving the clot. Plasminogen (inactive) activated to plasmin by tPA (tissue plasminogen activator) → plasmin digests fibrin → clot dissolves. tPA is used clinically as a "clot buster" in stroke/MI.',mnemonic:'"Plasminogen → Plasmin = clot digester. tPA activates it. tPA = clot buster drug."',svg:''},
+        {term:'Anticoagulants',def:'Natural: antithrombin III (inhibits thrombin + factor X), protein C (inhibits V and VIII), heparin (enhances antithrombin III, released by basophils/mast cells). Prostacyclin (from intact endothelium prevents platelet aggregation). Warfarin blocks vitamin K-dependent factors (II, VII, IX, X).',mnemonic:'"Heparin = fast anticoagulant (IV use). Warfarin = slow oral anticoagulant. Vitamin K needed for 4 factors."',svg:''},
+        {term:'Blood clotting disorders',def:'Hemophilia A: Factor VIII deficiency (X-linked recessive). Hemophilia B: Factor IX deficiency (Christmas disease). Von Willebrand disease: most common inherited bleeding disorder (vWF deficiency). Thrombocytopenia: low platelets → petechiae. DIC (disseminated intravascular coagulation): widespread clotting that consumes clotting factors → paradoxical bleeding.',mnemonic:'"Hemophilia A = A for 8 (VIII). Hemophilia B = B for 9 (IX). Von Willebrand = most common bleeding disorder."',svg:''},
+      ]},
+      { title:'Blood Types & Transfusions', items:[
+        {term:'ABO blood group',def:'Determined by presence of antigens (agglutinogens) on RBC surface and antibodies (agglutinins) in plasma. Type A: A antigen, anti-B antibody. Type B: B antigen, anti-A antibody. Type AB: both antigens, no antibodies (universal recipient). Type O: no antigens, both antibodies (universal donor).',mnemonic:'"What you HAVE on your RBC → what antibody you DON\'T need. AB = accepts All (universal recipient). O = Others can receive it (universal donor)."',svg:'aboSVG'},
+        {term:'Rh blood group',def:'85% of people are Rh+ (have Rh/D antigen on RBCs). Rh- people do not naturally have anti-Rh antibodies — but develop them after exposure to Rh+ blood. Hemolytic disease of the newborn (HDN/erythroblastosis fetalis): Rh- mother sensitized by first Rh+ baby → anti-Rh IgG attacks second Rh+ baby.',mnemonic:'"Rh+ = has the Rh antigen. Rh- mother with Rh+ baby = HDN risk in 2nd pregnancy. RhoGAM prevents sensitization."',svg:''},
+        {term:'Transfusion reactions',def:'ABO mismatch → recipient antibodies attack donor RBCs → agglutination → hemolysis → kidney failure, shock, death. Symptoms: fever, chills, back pain, hemoglobinuria. Type and crossmatch before transfusion.',mnemonic:'"Wrong blood type = agglutination = clumping = hemolysis = FATAL. Always crossmatch!"',svg:''},
+        {term:'Blood typing procedure',def:'Add anti-A serum and anti-B serum to separate samples. Agglutination (clumping) = antigen present. If anti-A clumps → type A antigen present. If anti-B clumps → type B antigen present. Both clump = AB. Neither clumps = O.',mnemonic:'"Clumping = that antigen is present. Test with anti-A and anti-B."',svg:''},
+      ]},
+    ]
+  },
+
+  {
+    id:'heart', label:'19. Heart', color:'coral', icon:'❤️',
+    desc:'Heart anatomy, cardiac cycle, conduction system, and ECG',
+    sections:[
+      { title:'Heart Anatomy', items:[
+        {term:'Heart location and coverings',def:'Located in mediastinum, slightly left of midline. Apex points left/inferiorly (5th intercostal space, midclavicular line). Base at top (where great vessels attach). Pericardium: fibrous outer layer + serous inner (parietal + visceral/epicardium). Pericardial cavity filled with serous fluid (reduces friction).',mnemonic:'"Heart = mediastinum, apex left 5th ICS MCL. Pericardium = 2 layers + fluid-filled cavity."',svg:'heartLocationSVG'},
+        {term:'Heart wall layers',def:'3 layers: EPICARDIUM (outer, visceral pericardium, fat), MYOCARDIUM (middle, cardiac muscle — thickest; left ventricle has thickest wall for systemic circulation), ENDOCARDIUM (inner, smooth endothelium lining chambers and valves).',mnemonic:'"EME: Epi (outside), Myo (muscle middle), Endo (inside). My Energetic Heart."',svg:'heartWallSVG'},
+        {term:'Heart chambers',def:'4 chambers: RIGHT ATRIUM (receives deoxygenated blood from SVC, IVC, coronary sinus) → RIGHT VENTRICLE (pumps to lungs via pulmonary trunk) → LEFT ATRIUM (receives oxygenated blood from 4 pulmonary veins) → LEFT VENTRICLE (pumps to body via aorta). Interventricular septum separates ventricles.',mnemonic:'"Right side = pulmonary (lungs). Left side = systemic (body). Blood flows RA → RV → lungs → LA → LV → body."',svg:'heartChambersSVG'},
+        {term:'Heart valves',def:'AV valves (between atria and ventricles): Tricuspid (right — 3 cusps) and Bicuspid/Mitral (left — 2 cusps). Held by chordae tendineae attached to papillary muscles — prevent eversion into atria during systole. Semilunar valves (at artery exits): Pulmonary (right) and Aortic (left) — 3 cusps each, no chordae.',mnemonic:'"Try Before Pumping Aorta = Tricuspid, Bicuspid, Pulmonary, Aortic (right to left, atria to arteries)."',svg:'heartValvesSVG'},
+        {term:'Coronary circulation',def:'Heart\'s own blood supply. Right and Left coronary arteries arise from aortic sinuses just above aortic valve. Left coronary → LAD (anterior interventricular) + left circumflex. Right coronary → right marginal + posterior interventricular. Coronary veins → coronary sinus → right atrium. Heart is perfused during diastole.',mnemonic:'"LAD = Left Anterior Descending = widow maker artery. Heart fed during diastole (when relaxed)."',svg:'coronaryCircSVG'},
+      ]},
+      { title:'Cardiac Physiology', items:[
+        {term:'Cardiac muscle properties',def:'Striated and involuntary. Intercalated discs: desmosomes (mechanical coupling) + gap junctions (electrical coupling → action potentials spread cell-to-cell → functional syncytium). Long refractory period prevents tetanus (sustained contraction would be fatal). Relies on aerobic metabolism (mitochondria-rich).',mnemonic:'"Intercalated discs = desmosomes (hold together) + gap junctions (electrical). Long refractory = no tetanus."',svg:'cardiacMuscleSVG'},
+        {term:'Cardiac action potential',def:'Phases: 0 = rapid depolarization (fast Na⁺ channels open), 1 = brief repolarization (Na⁺ channels close), 2 = PLATEAU (Ca²⁺ channels open + K⁺ channels partly open — unique to cardiac muscle, lasts 200-300ms), 3 = repolarization (K⁺ out), 4 = resting. Plateau creates long refractory period.',mnemonic:'"Phases 0-4. Phase 2 PLATEAU = Ca²⁺ in = unique to heart = causes long refractory period."',svg:'cardiacAPsvg'},
+        {term:'Conduction system',def:'SA node (sinoatrial, right atrium = pacemaker, 60-100/min) → internodal pathways → AV node (atrioventricular, between atria and ventricles — delays 0.1 sec) → Bundle of His → right and left bundle branches → Purkinje fibers (rapid ventricular conduction from apex upward → efficient squeeze).',mnemonic:'"SA → AV → Bundle of His → Bundle branches → Purkinje. SA = starter, AV = gatekeeper (delays), Purkinje = floor-to-ceiling spread."',svg:'conductionSVG'},
+        {term:'ECG (electrocardiogram)',def:'Records electrical activity. P wave = atrial depolarization. QRS complex = ventricular depolarization (atrial repolarization hidden). T wave = ventricular repolarization. PR interval = AV node delay (0.12-0.20 sec). QT interval = ventricular depolarization + repolarization.',mnemonic:'"P = atria fire. QRS = ventricles fire. T = ventricles reset. P-QRS-T."',svg:'ecgSVG'},
+        {term:'Abnormal cardiac rhythms',def:'Bradycardia <60 bpm. Tachycardia >100 bpm. Atrial flutter: atria 250-350 bpm. Atrial fibrillation: irregular, chaotic atrial activity, no P waves. Ventricular fibrillation: fatal — no coordinated pumping, defibrillation needed. Heart block: impaired AV conduction.',mnemonic:'"V-fib = FATAL — defibrillate immediately. A-fib = irregular — stroke risk (clots in atria)."',svg:''},
+      ]},
+      { title:'Cardiac Cycle & Output', items:[
+        {term:'Cardiac cycle',def:'One complete heartbeat (~0.8 sec at 75 bpm). Systole = contraction, diastole = relaxation. (1) Atrial diastole: AV valves open, blood fills ventricles passively. (2) Atrial systole: atria contract → 25% more blood into ventricles (atrial kick). (3) Ventricular systole: AV valves close (S1 = "lub"), pressure rises → semilunar valves open → ejection. (4) Ventricular diastole: semilunar valves close (S2 = "dub").',mnemonic:'"LUB = AV valves close (systole begins). DUB = semilunar valves close (diastole begins). Lub-Dub."',svg:'cardiacCycleSVG'},
+        {term:'Stroke volume and cardiac output',def:'Stroke volume (SV) = volume ejected per beat. Normal ~70 mL/beat. Cardiac output (CO) = HR × SV. Normal ~5.25 L/min at rest. Cardiac reserve = CO during exercise / CO at rest (normal up to 4-5x increase). Ejection fraction (EF) = SV/EDV × 100. Normal EF ≥ 55%.',mnemonic:'"CO = HR × SV. 75 × 70 = 5250 mL/min ≈ 5.25 L/min at rest."',svg:''},
+        {term:'Preload (Frank-Starling law)',def:'Preload = stretch of ventricular walls at END of diastole (= EDV, end-diastolic volume). ↑ venous return → ↑ EDV → ↑ stretch → ↑ force of contraction → ↑ SV. The heart pumps what it receives. Frank-Starling law: force ∝ preload (up to a limit).',mnemonic:'"Frank-Starling = MORE stretch = MORE force. Like a rubber band — stretch it more, snaps harder."',svg:'frankStarlingSVG'},
+        {term:'Afterload',def:'Resistance the ventricle must overcome to eject blood. Determined by arterial blood pressure. ↑ afterload → ↑ myocardial work → ↓ SV if heart can\'t compensate. Hypertension chronically ↑ afterload → left ventricular hypertrophy → heart failure.',mnemonic:'"Afterload = resistance AFTER the valve opens. High BP = high afterload = harder pump work."',svg:''},
+        {term:'Autonomic regulation of heart rate',def:'Sympathetic (epinephrine/NE, β1 receptors): ↑ HR (chronotropy), ↑ contractility (inotropy), ↑ conduction velocity. Parasympathetic (ACh, M2 receptors via vagus nerve): ↓ HR. Cardioacceleratory center and cardioinhibitory center in medulla oblongata. Baroreceptors monitor BP.',mnemonic:'"Sympathetic = speed up (fight-or-flight). Parasympathetic = slow down (rest-and-digest). Beta-1 = heart."',svg:''},
+        {term:'Heart sounds and murmurs',def:'S1 (lub) = AV valves close at start of ventricular systole. S2 (dub) = semilunar valves close at start of ventricular diastole. S3 = rapid ventricular filling (normal in young, abnormal = heart failure in adults). S4 = stiff ventricle. Murmurs = turbulent blood flow through stenotic or regurgitant valves.',mnemonic:'"Lub = valves close going IN (AV close). Dub = valves close going OUT (SL close)."',svg:''},
+      ]},
+      { title:'Heart Disease', items:[
+        {term:'Coronary artery disease (CAD)',def:'Atherosclerosis of coronary arteries → narrowed lumen → reduced O₂ to myocardium. Risk factors: hypertension, hyperlipidemia, smoking, diabetes, obesity, family history. Stable angina = chest pain with exertion, relieved by rest/nitroglycerin.',mnemonic:'"CAD = plaque in coronary arteries → less O₂ to heart. Angina = temporary ischemia pain."',svg:''},
+        {term:'Myocardial infarction (MI/heart attack)',def:'Coronary artery occlusion → complete cessation of O₂ → ischemia → infarction (necrosis) of myocardium. Symptoms: crushing chest pain radiating to left arm/jaw, diaphoresis, nausea, dyspnea. Treatment: thrombolytics, PCI (stenting), CABG. Elevated troponin + CK-MB on labs.',mnemonic:'"MI = Myocardium is Injured/dead. Troponin = cardiac specific marker rises in 3-4 hours."',svg:''},
+        {term:'Heart failure',def:'Heart unable to pump sufficient blood to meet body needs. Left-sided HF: ↓ CO → pulmonary edema (fluid backs up to lungs → dyspnea, orthopnea). Right-sided HF: → peripheral edema, jugular venous distension, hepatomegaly. Treatment: ACE inhibitors, β-blockers, diuretics, digoxin.',mnemonic:'"Left HF = Lungs fill (dyspnea). Right HF = body Retains fluid (ankle swelling, JVD)."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'vessels', label:'20. Blood Vessels', color:'blue', icon:'🫀',
+    desc:'Vessel structure, blood pressure, and circulatory routes',
+    sections:[
+      { title:'Vessel Structure', items:[
+        {term:'Artery structure (tunica layers)',def:'3 tunica layers: INTIMA (inner endothelium + basement membrane), MEDIA (middle — smooth muscle + elastic fibers, thickest in arteries, controlled by sympathetic NS for vasoconstriction/dilation), ADVENTITIA (outer connective tissue). Arteries have thick media for pressure resistance.',mnemonic:'"Tunica IMA: Intima, Media, Adventitia. Media = muscle = controls diameter = blood pressure control."',svg:'vesselStructureSVG'},
+        {term:'Elastic (conducting) arteries',def:'Largest arteries (aorta, pulmonary trunk, common carotid). Very thick wall with large amounts of elastic fibers. Expand during systole, recoil during diastole → maintain continuous blood flow (Windkessel effect). Act as pressure reservoirs.',mnemonic:'"Elastic arteries = stretchy large arteries. Aorta = biggest. Recoil pumps blood forward during diastole."',svg:''},
+        {term:'Muscular (distributing) arteries',def:'Medium-sized arteries (femoral, brachial, renal). Thick tunica media with mostly smooth muscle. Can actively regulate blood flow to specific organs by vasoconstriction/dilation. Most named arteries are muscular.',mnemonic:'"Muscular arteries = medium, mostly muscle. Distribute blood to organs."',svg:''},
+        {term:'Arterioles',def:'Smallest arteries. Main site of vascular resistance. Smooth muscle in wall regulated by sympathetic NS, local factors (O₂, CO₂, pH, temperature), hormones (epinephrine, angiotensin II). Control blood pressure and blood flow to capillary beds.',mnemonic:'"Arterioles = tiny BUT powerful pressure controllers. BP = CO × peripheral resistance (from arterioles)."',svg:''},
+        {term:'Capillaries',def:'Thinnest vessels — only tunica intima (endothelium). Three types: continuous (most common, tight junctions), fenestrated (pores for high filtration — kidneys, GI), sinusoidal (large gaps — liver, spleen, bone marrow). Site of exchange between blood and tissues.',mnemonic:'"Capillaries = 1 cell thick for maximum exchange. Continuous > Fenestrated > Sinusoidal (most to least restrictive)."',svg:'capillaryTypesSVG'},
+        {term:'Veins',def:'Thin tunica media (less smooth muscle than arteries). Thicker adventitia. Valves prevent backflow. Capacitance vessels — hold ~64% of blood volume at any time (blood reservoir). Venous return aided by: valves, skeletal muscle pump, respiratory pump.',mnemonic:'"Veins = thin walls + valves. Blood reservoir. Muscle pump + breathing helps blood return to heart."',svg:''},
+      ]},
+      { title:'Blood Pressure & Flow', items:[
+        {term:'Blood pressure',def:'Force exerted by blood on vessel walls. Systolic BP = peak pressure during ventricular systole. Diastolic BP = minimum pressure during ventricular diastole. Normal <120/80 mmHg. Measured with sphygmomanometer. Pulse pressure = systolic - diastolic. MAP = diastolic + 1/3 pulse pressure.',mnemonic:'"BP = CO × TPR (cardiac output × total peripheral resistance). 120/80 = normal. MAP = perfusion pressure."',svg:'bpSVG'},
+        {term:'Regulation of blood pressure',def:'Short-term: baroreceptors (carotid sinus, aortic arch) → medullary cardiovascular center → adjust HR, SV, vasomotor tone. Hormonal: RAAS (angiotensin II + aldosterone ↑BP), ADH (↑water retention = ↑BP), ANP (↓BP), epinephrine (↑HR + vasoconstiction). Long-term: kidneys regulate blood volume.',mnemonic:'"RAAS = Raises All About Sodium/pressure. Baroreceptors = rapid response. Kidneys = long-term."',svg:'bpRegulationSVG'},
+        {term:'RAAS (Renin-Angiotensin-Aldosterone System)',def:'↓BP or ↓Na⁺ or ↓blood volume → kidneys release renin → cleaves angiotensinogen → angiotensin I → ACE (in lungs) converts to angiotensin II → (1) vasoconstriction (↑TPR = ↑BP), (2) stimulates aldosterone (Na⁺/water retention = ↑volume), (3) stimulates ADH (↑water retention), (4) stimulates thirst.',mnemonic:'"RAAS: Renin → A-I → ACE → A-II → Aldosterone. All raise BP." ACE inhibitors block A-II formation.',svg:'raasSVG'},
+        {term:'Capillary exchange',def:'Starling forces: Filtration out of capillary: hydrostatic pressure (HP) pushes fluid out. Reabsorption into capillary: osmotic pressure (OP, from plasma proteins, mainly albumin) pulls fluid in. At arteriole end: HP > OP → filtration. At venule end: OP > HP → reabsorption. Net: slight excess filtered → lymph.',mnemonic:'"Hydrostatic pushes OUT. Osmotic pulls IN. Arteriole end = push (filter). Venule end = pull (reabsorb)."',svg:'capillaryExchangeSVG'},
+        {term:'Edema',def:'Abnormal fluid accumulation in tissues. Causes: (1) ↑ capillary HP (hypertension, HF), (2) ↓ plasma osmotic pressure (↓ albumin — liver failure, malnutrition), (3) lymphatic blockage, (4) ↑ capillary permeability (inflammation, burns). Pitting edema = finger indent remains.',mnemonic:'"Edema = fluid stuck in tissues. Low albumin = low osmotic pull = fluid stays outside. Edema from 4 causes."',svg:''},
+        {term:'Hypertension',def:'Persistent BP >130/80 mmHg. Primary (essential) = 90-95%, no single cause — genetics + lifestyle. Secondary = 5-10%, identifiable cause (renal, hormonal). Damages: kidneys (nephrosclerosis), heart (LVH, MI), brain (stroke), eyes (retinopathy). "Silent killer."',mnemonic:'"HTN = Silent Killer. Sustained high pressure damages target organs: HEART, KIDNEY, BRAIN, EYES."',svg:''},
+      ]},
+      { title:'Circulatory Routes', items:[
+        {term:'Pulmonary circulation',def:'Right side of heart to lungs and back. RV → pulmonary trunk → right + left pulmonary arteries → lungs (gas exchange) → 4 pulmonary veins → LA. Low pressure circuit (15-25 mmHg). Pulmonary arteries carry deoxygenated blood (unique — arteries carry deoxygenated blood here).',mnemonic:'"Pulmonary = lungs. Pulmonary ARTERIES carry DEOXYGENATED blood (only exception to artery = oxygenated rule)."',svg:'circulationRoutesSVG'},
+        {term:'Systemic circulation',def:'Left side of heart to body and back. LV → aorta → systemic arteries → capillaries (gas exchange) → systemic veins → SVC + IVC → RA. High pressure circuit (~120 mmHg systolic). Portal circulation = blood from GI → liver via portal vein before returning to heart.',mnemonic:'"Systemic = everywhere else (body). High pressure. LV → aorta → body → SVC/IVC → RA."',svg:''},
+        {term:'Hepatic portal system',def:'Nutrient-rich blood from digestive organs (stomach, intestines, spleen, pancreas) drains into hepatic portal vein → liver (first pass) → liver processes nutrients, drugs, toxins → hepatic veins → IVC. Liver = first to receive absorbed nutrients.',mnemonic:'"Portal = blood goes to LIVER before returning to heart. First-pass metabolism for drugs."',svg:'portalCircSVG'},
+        {term:'Fetal circulation',def:'Bypass structures (absent in adult): foramen ovale (RA → LA bypass, closes at birth), ductus arteriosus (pulmonary trunk → aorta bypass, becomes ligamentum arteriosum), ductus venosus (bypasses liver, becomes ligamentum venosum), umbilical vessels (2 umbilical arteries — deoxygenated to placenta; 1 umbilical vein — oxygenated from placenta).',mnemonic:'"Fetal bypasses: FOval (RA→LA), Ductus Arteriosus (pulm→aorta), Ductus Venosus (liver bypass). All close at birth."',svg:''},
+      ]},
+    ]
+  },
+
+  {
+    id:'lymphimmune', label:'21-22. Lymphatics & Immunity', color:'teal', icon:'🛡️',
+    desc:'Lymphatic system anatomy, innate immunity, and adaptive immunity',
+    sections:[
+      { title:'Lymphatic System', items:[
+        {term:'Lymphatic system overview',def:'One-way system of vessels, nodes, and organs. Functions: (1) return excess interstitial fluid to blood (~3L/day), (2) transport dietary fats (chylomicrons from small intestine via lacteals), (3) immune defense. Lymph flows: lymph capillaries → lymph vessels → lymph nodes → lymph trunks → thoracic duct (left side) or right lymphatic duct → subclavian veins.',mnemonic:'"Lymph = Fluid returning home. 3 jobs: fluid return, fat transport, immunity."',svg:'lymphSystemSVG'},
+        {term:'Lymph capillaries and formation',def:'Blind-ended tubes in tissues. Highly permeable — overlapping endothelial cells act as one-way flap valves. Collect excess interstitial fluid (from capillary filtration). Lacteals = lymph capillaries in small intestinal villi that absorb dietary fat → milky chyle.',mnemonic:'"Lymph capillaries = one-way flap valves in tissues. Lacteals = fat absorbers in gut."',svg:''},
+        {term:'Lymph nodes',def:'Bean-shaped organs along lymph vessels. Outer cortex (B cell follicles, germinal centers for antibody production) + paracortex (T cells) + medulla (macrophages, plasma cells). Filter lymph — macrophages destroy pathogens and debris. Lymph enters via afferent vessels, exits via efferent vessels at hilum.',mnemonic:'"Lymph node = filter station. B cells outer (cortex), T cells middle (paracortex), macrophages inner (medulla)."',svg:'lymphNodeSVG'},
+        {term:'Spleen',def:'Largest lymphoid organ. In left upper quadrant. Red pulp (macrophages destroy old RBCs, stores platelets/blood) + White pulp (lymphoid tissue — immune response). Filters blood (not lymph). Can be ruptured in trauma → internal hemorrhage.',mnemonic:'"Spleen: RED pulp = RBC graveyard + blood reservoir. WHITE pulp = immune response. Filters BLOOD."',svg:''},
+        {term:'Thymus',def:'Superior mediastinum. Site of T cell maturation (T cell education — positive and negative selection). Lymphoid tissue, no lymph follicles. Largest in childhood, atrophies after puberty under influence of sex hormones. Secretes thymosins for T cell development.',mnemonic:'"Thymus = T cell school. Teaches T cells what\'s self and nonself. Shrinks after puberty."',svg:''},
+        {term:'MALT (mucosa-associated lymphoid tissue)',def:'Lymphoid nodules in mucous membranes throughout body. Tonsils (palatine, pharyngeal/adenoid, lingual) guard throat. Peyer\'s patches in ileum guard GI. Appendix — lymphoid tissue. First line of defense at body entrances.',mnemonic:'"MALT = lymphoid tissue at entrances to body: throat (tonsils) and gut (Peyer\'s patches)."',svg:''},
+      ]},
+      { title:'Innate (Nonspecific) Immunity', items:[
+        {term:'First line of defense',def:'Physical and chemical barriers. Skin: physical barrier + acid mantle (pH 3-5), antimicrobial peptides (defensins), sebum. Mucous membranes: mucus traps pathogens, cilia sweep out. Secretions: lysozyme (tears, saliva — breaks peptidoglycan), stomach acid, normal microbiome.',mnemonic:'"First line = SKIN and MUCOUS MEMBRANES + their chemicals. Never lets pathogens enter."',svg:'defenseLinesSVG'},
+        {term:'Second line of defense (innate)',def:'Rapid, nonspecific internal defenses. Phagocytes (neutrophils = first to arrive, macrophages = sustained), natural killer (NK) cells, inflammation, fever, complement system, interferons, antimicrobial proteins.',mnemonic:'"Second line = internal rapid response. Phagocytes + NK cells + inflammation + fever + complement."',svg:''},
+        {term:'Phagocytosis',def:'Phagocytes (neutrophils, macrophages) engulf and destroy pathogens. Steps: (1) chemotaxis (move to site), (2) adherence (pathogen binds to receptor), (3) ingestion (pseudopods engulf → phagosome), (4) digestion (lysosome fuses → phagolysosome → enzymes destroy pathogen), (5) disposal.',mnemonic:'"Phagocytosis CAID: Chemotaxis → Adherence → Ingestion → Digestion."',svg:'phagocytosisSVG'},
+        {term:'Inflammation',def:'4 cardinal signs: redness, heat, swelling, pain (+ loss of function = 5th). Triggered by: tissue damage, pathogens, chemical mediators (histamine from mast cells, prostaglandins, bradykinin). Process: vasodilation + ↑ permeability → edema → neutrophil diapedesis → phagocytosis → healing.',mnemonic:'"RHSP = Redness, Heat, Swelling, Pain — all from vasodilation and permeability increase."',svg:'inflammationSVG'},
+        {term:'Fever',def:'Elevated body temperature set by hypothalamic thermostat. Pyrogens (LPS from bacteria, cytokines) → hypothalamus → prostaglandins → ↑ set point → shivering, vasoconstriction to reach new set point. Benefits: ↑ metabolic rate, inhibits microbial growth, ↑ immune cell activity. Danger >41°C (106°F).',mnemonic:'"Fever = hypothalamus raises the thermostat. Pyrogens → prostaglandins → higher set point."',svg:''},
+        {term:'Complement system',def:'20+ plasma proteins. 3 activation pathways: classical (antibody), lectin, alternative (pathogen surfaces). All lead to C3 convertase → C3b (opsonization — coats pathogen for phagocytosis) → membrane attack complex (MAC) punches holes in pathogen → lysis.',mnemonic:'"Complement = CALL, COAT, and KILL: Call more immune cells, Coat pathogens (opsonization), Kill by MAC."',svg:'complementSVG'},
+        {term:'Interferons',def:'Proteins secreted by virus-infected cells. Warn neighboring cells → trigger antiviral defenses (inhibit viral replication). Alpha and beta interferons = antiviral. Gamma interferon = activates macrophages and NK cells. Do not protect the infected cell — protect NEIGHBORS.',mnemonic:'"Interferons = INTERFERE with viral spread to neighbors. Too late for the infected cell."',svg:''},
+      ]},
+      { title:'Adaptive (Specific) Immunity', items:[
+        {term:'Adaptive immunity overview',def:'Specific, slower (days), long-lasting. Three properties: (1) Specificity — recognizes specific antigens. (2) Diversity — millions of different lymphocyte receptors. (3) Memory — faster, stronger response on re-exposure (immunological memory). Two arms: humoral (B cells → antibodies) and cell-mediated (T cells).',mnemonic:'"Adaptive = SDM: Specific, Diverse, Memory. Humoral (B cells = antibodies) + Cell-mediated (T cells)."',svg:'adaptiveImmuneSVG'},
+        {term:'Antigens and MHC',def:'Antigen = molecule that triggers immune response (usually foreign protein). Epitope = specific part of antigen that antibody binds. MHC I (on all nucleated cells — presents intracellular antigens to CD8+ T cells). MHC II (on antigen-presenting cells: macrophages, dendritic cells, B cells — presents extracellular antigens to CD4+ T cells).',mnemonic:'"MHC I = 1 for all cells → CD8 T cells. MHC II = 2 for APCs only → CD4 T cells. 1 and 8, 2 and 4."',svg:'mhcSVG'},
+        {term:'T lymphocytes',def:'Mature in thymus. CD4+ Helper T cells (Th): activate B cells and cytotoxic T cells; secrete cytokines. CD8+ Cytotoxic T cells (Tc): directly kill infected and cancerous cells by perforin/granzymes. Regulatory T cells (Treg): suppress immune response, prevent autoimmunity. Memory T cells: persist long-term.',mnemonic:'"CD4 = Helper = organizes the attack. CD8 = Cytotoxic = kills infected cells. CD4 helps, CD8 kills."',svg:'tCellSVG'},
+        {term:'B lymphocytes and antibodies',def:'Activated B cells → plasma cells (antibody factories) + memory B cells. 5 classes of antibodies (immunoglobulins): IgG (most abundant, long-term, crosses placenta), IgM (first responder, pentamer), IgA (in secretions — tears, saliva, breast milk, GI), IgE (allergies and parasites), IgD (B cell activation).',mnemonic:'"IgGMADE: IgG = most, IgM = first, IgA = secretions, IgD = B cell, IgE = Enemies (allergies/parasites)."',svg:'antibodySVG'},
+        {term:'Primary vs. secondary immune response',def:'Primary response: first exposure to antigen. Lag phase 5-10 days, low antibody titer, mostly IgM. Memory cells formed. Secondary response (anamnestic): re-exposure. Fast (1-2 days), high antibody titer, mostly IgG, longer lasting. Basis of vaccination.',mnemonic:'"Primary = slow, IgM. Secondary = fast, IgG, memory. Vaccines = create memory without disease."',svg:'immuneResponseSVG'},
+        {term:'Hypersensitivity and autoimmunity',def:'Type I (immediate hypersensitivity/allergy): IgE + mast cells → histamine. Anaphylaxis = severe Type I → epinephrine. Type II: IgG/IgM against self-antigens (blood transfusion reactions, hemolytic disease). Type III: immune complex deposition. Type IV: delayed (T-cell mediated — TB test, contact dermatitis). Autoimmunity = immune attack on self.',mnemonic:'"ABCD hypersensitivity: Anaphylaxis(I), aBo(II), Complex(III), Delayed(IV)."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'respiratory', label:'23. Respiratory System', color:'blue', icon:'🫁',
+    desc:'Respiratory anatomy, ventilation mechanics, and gas exchange',
+    sections:[
+      { title:'Respiratory Anatomy', items:[
+        {term:'Upper respiratory tract',def:'Nose, nasal cavity (conchae increase turbulence and surface area for filtering/warming/humidifying air), paranasal sinuses (lighten skull, resonate voice), pharynx (naso-, oro-, laryngopharynx), larynx. Nasal conchae = superior, middle, inferior (inferior largest). Olfactory epithelium in superior nasal cavity.',mnemonic:'"Nose → nasal cavity (conchae) → pharynx (3 parts) → larynx. Conchae = turbulence = air conditioning."',svg:'upperRespSVG'},
+        {term:'Larynx',def:'Voice box. Thyroid cartilage (Adam\'s apple — larger in males after puberty), cricoid cartilage (inferior, complete ring), epiglottis (elastic cartilage — covers larynx during swallowing). Vocal folds (true cords) vibrate for speech. Rima glottidis = opening between vocal folds.',mnemonic:'"Larynx = voice box. Thyroid cartilage = Adam\'s apple. Epiglottis = covers larynx when swallowing."',svg:'larynxSVG'},
+        {term:'Lower respiratory tract',def:'Trachea (C-rings of hyaline cartilage, carina at bifurcation T4/T5) → primary bronchi → secondary bronchi (lobar, 1 per lobe) → tertiary bronchi (segmental) → bronchioles → terminal bronchioles → respiratory bronchioles → alveolar ducts → alveolar sacs → alveoli.',mnemonic:'"Tract goes smaller: Trachea → Primary → Secondary → Tertiary → Bronchioles → Alveoli. T PST BA."',svg:'respiratoryTractSVG'},
+        {term:'Alveoli',def:'~300 million alveoli per lung. Site of gas exchange. Type I pneumocytes (squamous cells, 95% of surface, gas exchange). Type II pneumocytes (cuboidal, secrete surfactant — reduces surface tension, prevents collapse). Alveolar macrophages ("dust cells") — remove debris. Respiratory membrane = 0.5 µm thick.',mnemonic:'"Alveoli = grapes. Type I = exchange. Type II = surfactant (tension reducer). Respiratory membrane = very thin."',svg:'alveoliSVG'},
+      ]},
+      { title:'Pulmonary Ventilation', items:[
+        {term:'Boyle\'s Law and breathing',def:'Boyle\'s Law: P × V = constant (at constant temperature). ↑ volume → ↓ pressure. ↓ volume → ↑ pressure. Breathing: inspiration = ↑ thoracic volume → ↓ pressure → air flows in. Expiration = ↓ thoracic volume → ↑ pressure → air flows out.',mnemonic:'"Boyle = Big volume = low pressure, small volume = high pressure. Inhale = thorax enlarges = low pressure."',svg:'boyleSVG'},
+        {term:'Muscles of breathing',def:'Inspiration: diaphragm (primary — flattens, descends → ↑ vertical dimension) + external intercostals (elevate ribs → ↑ lateral/AP dimensions). Forced inspiration: sternocleidomastoid, scalenes, pec minor. Expiration (quiet): passive recoil of lungs and chest wall. Forced expiration: internal intercostals, abdominal muscles.',mnemonic:'"Inspiration = diaphragm + external intercostals. Expiration at rest = PASSIVE (no muscle needed)."',svg:'breathingMusclesSVG'},
+        {term:'Lung volumes and capacities',def:'Tidal volume (TV) = 500 mL (normal breath). IRV (inspiratory reserve) = 3100 mL (extra inhale). ERV (expiratory reserve) = 1200 mL (extra exhale). Residual volume (RV) = 1200 mL (always in lungs). Vital capacity (VC) = TV + IRV + ERV = 4800 mL. TLC = VC + RV = 6000 mL.',mnemonic:'"TIRE V = Tidal, IRV, ERV, Residual Volume. VC = everything you can move. RV = never leaves."',svg:'lungVolumesSVG'},
+        {term:'Surfactant',def:'Mixture of phospholipids + proteins secreted by type II pneumocytes. Reduces surface tension in alveoli → prevents collapse (atelectasis) during expiration. Allows alveoli to remain open even at low volumes. Begins at ~26 weeks gestation — premature infants may lack it → respiratory distress syndrome (RDS).',mnemonic:'"Surfactant = Surface tension reducer. Premature babies lack it → RDS. Saves alveoli from collapse."',svg:''},
+        {term:'Anatomical dead space',def:'Volume of conducting airways that does not participate in gas exchange (~150 mL). Includes nasal cavity, pharynx, larynx, trachea, bronchi, bronchioles. Alveolar dead space = unperfused alveoli (normally minimal). Physiologic dead space = anatomical + alveolar dead space.',mnemonic:'"Dead space = space where NO gas exchange happens. Anatomical dead space = 150 mL."',svg:''},
+      ]},
+      { title:'Gas Exchange & Transport', items:[
+        {term:'Partial pressures and gas exchange',def:'Dalton\'s Law: total pressure = sum of partial pressures of all gases. O₂ in alveoli (PAO₂) = ~105 mmHg. O₂ in venous blood = 40 mmHg. O₂ diffuses from alveoli into blood (105→40). CO₂ in venous blood = 45 mmHg. CO₂ in alveoli = 40 mmHg. CO₂ diffuses from blood to alveoli (45→40).',mnemonic:'"Gas moves from HIGH partial pressure to LOW. O₂ moves into blood. CO₂ moves into alveoli."',svg:'gasExchangeSVG'},
+        {term:'Hemoglobin and O₂ transport',def:'98.5% of O₂ carried bound to hemoglobin (oxyhemoglobin). 1.5% dissolved in plasma. O₂-Hb dissociation curve: sigmoidal shape. Right shift (↑ temp, ↑ CO₂, ↓ pH, ↑ BPG) = ↓ affinity = more O₂ released to tissues (Bohr effect). Left shift = ↑ affinity = O₂ held tighter.',mnemonic:'"Right shift = release O₂ (tissues are hot, acidic, high CO₂). Bohr effect = CO₂/H⁺ unload O₂."',svg:'oxydissociationSVG'},
+        {term:'CO₂ transport',def:'3 ways: (1) 7% dissolved in plasma, (2) 23% bound to hemoglobin as carbaminohemoglobin (binds globin, not heme), (3) 70% as bicarbonate (CO₂ + H₂O → H₂CO₃ → H⁺ + HCO₃⁻ via carbonic anhydrase in RBCs → HCO₃⁻ moves to plasma, Cl⁻ moves in = chloride shift).',mnemonic:'"CO₂ transport: 7% dissolved, 23% carb-amino, 70% bicarb. Bicarb is the main form."',svg:'co2TransportSVG'},
+        {term:'Control of breathing',def:'Medullary rhythmicity center (dorsal group = inspiratory neurons, ventral group = forced breathing). Apneustic center (pons — prolongs inspiration). Pneumotaxic center (pons — limits inspiration). Chemical control: ↑ CO₂ / ↑ H⁺ / ↓ pH → strongest stimulus for breathing. Central chemoreceptors (medulla) respond to H⁺. Peripheral chemoreceptors (carotid and aortic bodies) respond to ↓ PO₂ too.',mnemonic:'"CO₂ is the #1 breathing driver. ↑ CO₂ = ↑ breathing rate/depth. O₂ only at very low levels."',svg:'breathingControlSVG'},
+      ]},
+      { title:'Respiratory Disorders', items:[
+        {term:'COPD (chronic obstructive pulmonary disease)',def:'Encompasses chronic bronchitis (↑ mucus, cough >3 months ×2 years, "blue bloater" — hypoxic, cyanotic, edematous) and emphysema (alveolar wall destruction → ↓ surface area + loss of elasticity → air trapping, "pink puffer" — pursed-lip breathing, barrel chest). Caused primarily by smoking.',mnemonic:'"COPD = obstructs expiration. Bronchitis = blue, puffy. Emphysema = pink puffer. Both from smoking."',svg:''},
+        {term:'Asthma',def:'Reversible airway obstruction from bronchospasm, inflammation, and mucus hypersecretion. Triggers: allergens, cold air, exercise, pollutants. Episodic wheezing, dyspnea, chest tightness. Treatment: bronchodilators (albuterol — β2 agonist), anti-inflammatory (corticosteroids).',mnemonic:'"Asthma = Airways Spasm Temporarily (reversible). Albuterol = Airway opener (β2 agonist)."',svg:''},
+        {term:'Pneumonia',def:'Infection/inflammation of lung parenchyma. Bacteria (Streptococcus pneumoniae most common), viruses, fungi. Alveoli fill with fluid/pus (consolidation) → ↓ gas exchange. Signs: fever, productive cough, crackles, lobar infiltrate on X-ray. Bacterial: antibiotics. Viral: supportive.',mnemonic:'"Pneumonia = alveoli fill with fluid = consolidation = ↓ gas exchange. Strep pneumo most common."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'digestive', label:'26. Digestive System', color:'amber', icon:'🫄',
+    desc:'GI tract anatomy, digestion, absorption, and accessory organs',
+    sections:[
+      { title:'GI Tract Overview', items:[
+        {term:'GI tract layers (tunics)',def:'4 layers from inside out: MUCOSA (inner epithelium + lamina propria + muscularis mucosae), SUBMUCOSA (CT, blood vessels, Meissner\'s/submucosal plexus for secretion), MUSCULARIS EXTERNA (inner circular + outer longitudinal smooth muscle — peristalsis; Auerbach\'s/myenteric plexus for motility), SEROSA/ADVENTITIA (outer covering — serosa in abdomen/pelvis).',mnemonic:'"MSMS from inside: Mucosa, Submucosa, Muscularis, Serosa. Meissner = submucosa. Auerbach = muscularis."',svg:'giLayersSVG'},
+        {term:'Peristalsis and segmentation',def:'Peristalsis: coordinated waves of contraction and relaxation of circular and longitudinal muscle → propels food forward. Segmentation: localized contractions that mix food with digestive juices → better absorption. Controlled by enteric nervous system (ENS = "gut brain" — 100 million neurons).',mnemonic:'"Peristalsis = PROPELS (moves forward). Segmentation = STIRS (mixes in place)."',svg:''},
+        {term:'Digestive processes overview',def:'6 processes: (1) Ingestion, (2) Propulsion (swallowing, peristalsis), (3) Mechanical digestion (chewing, churning, segmentation), (4) Chemical digestion (enzymes hydrolyze polymers), (5) Absorption (nutrients into blood/lymph), (6) Defecation.',mnemonic:'"I Pushed My Cat Away Daintily = Ingest, Propel, Mechanical digest, Chemical digest, Absorb, Defecate."',svg:''},
+        {term:'Peritoneum',def:'Serous membrane lining abdominal cavity. Visceral peritoneum covers organs. Parietal peritoneum lines body wall. Peritoneal cavity (potential space) between them. Mesentery (double layer) anchors small intestine to posterior wall + carries vessels/nerves. Greater omentum hangs from stomach (fat apron, immunity). Retroperitoneal organs: kidneys, pancreas, duodenum, ascending/descending colon.',mnemonic:'"Retroperitoneal organs: SAD PUCKER = Suprarenal, Aorta, Duodenum, Pancreas, Ureters, Colon (asc/desc), Kidneys, Esophagus, Rectum."',svg:''},
+      ]},
+      { title:'Mouth to Stomach', items:[
+        {term:'Oral cavity and salivary glands',def:'Mechanical digestion (mastication). Tongue mixes food → bolus. 3 pairs salivary glands: parotid (largest, serous, amylase), submandibular (mixed, largest output), sublingual (mucous mainly). Saliva: water (99%), amylase (digests starch), lingual lipase (fat), lysozyme, IgA, mucus. pH 6.75-7.0.',mnemonic:'"Salivary amylase = starts starch digestion. Parotid = Pump (largest). 99% water, amylase the key enzyme."',svg:''},
+        {term:'Esophagus and swallowing',def:'25 cm muscular tube. Upper 1/3 = skeletal muscle, middle = mixed, lower 1/3 = smooth muscle. Upper esophageal sphincter (skeletal muscle) and lower esophageal sphincter (LES/cardiac sphincter, smooth muscle). Swallowing reflex: pharyngeal phase (involuntary) → epiglottis covers larynx. GERD = LES incompetence.',mnemonic:'"Esophagus = nothing but transit. LES failure = GERD (acid reflux)."',svg:''},
+        {term:'Stomach anatomy and functions',def:'J-shaped organ. Regions: cardia (near LES), fundus (dome above LES), body (main), pylorus (inferior, connects to duodenum). Rugae = folds that allow expansion. Functions: storage (1-4L), mechanical churning, chemical digestion (pepsin + HCl), limited absorption (alcohol, aspirin). Produces chyme.',mnemonic:'"Stomach = 4 regions: CFB-P (Cardia, Fundus, Body, Pylorus). Makes chyme (semi-liquid food)."',svg:'stomachAnatomySVG'},
+        {term:'Gastric secretions',def:'Parietal cells: HCl (kills bacteria, activates pepsinogen, denatures proteins) and intrinsic factor (binds B12 for absorption). Chief cells: pepsinogen (activated to pepsin by HCl → digests proteins). Mucous cells: mucus (protects stomach wall). G cells (antrum): gastrin (↑ HCl secretion, ↑ motility).',mnemonic:'"Parietal cells: HCl + intrinsic factor. Chief cells: pepsinogen. G cells: gastrin." Parietal = Powerful acid.',svg:'gastricSecretionsSVG'},
+        {term:'Regulation of gastric secretion',def:'3 phases: Cephalic (before food enters — sight/smell/thought → vagus nerve → ↑ secretion), Gastric (food in stomach — distension + protein → gastrin → ↑ HCl + pepsinogen), Intestinal (chyme in duodenum — fatty/acidic chyme → CCK + secretin → INHIBIT gastric secretion).',mnemonic:'"3 phases: Cephalic (brain), Gastric (stomach), Intestinal (duodenum stops it). CGI."',svg:''},
+      ]},
+      { title:'Small Intestine & Absorption', items:[
+        {term:'Small intestine anatomy',def:'~6 meters long. 3 regions: duodenum (25cm, C-shaped, receives bile + pancreatic juice at hepatopancreatic ampulla/Sphincter of Oddi), jejunum (2.5m, main digestion + absorption), ileum (3.5m, B12 + bile salt reabsorption). Plicae circulares (circular folds), villi, microvilli (brush border) → 200× surface area.',mnemonic:'"Surface area: Plicae × Villi × Microvilli = 200×. DJI = Duodenum, Jejunum, Ileum."',svg:'smallIntestineSVG'},
+        {term:'Intestinal brush border enzymes',def:'On microvilli of small intestine. Complete digestion: maltase (maltose → 2 glucose), sucrase (sucrose → glucose + fructose), lactase (lactose → glucose + galactose), peptidases (dipeptides/tripeptides → amino acids). Lactase deficiency → lactose intolerance.',mnemonic:'"Brush border enzymes finish the job: maltase, sucrase, lactase, peptidases."',svg:''},
+        {term:'Absorption of nutrients',def:'Carbohydrates: monosaccharides (glucose, galactose by Na⁺-cotransport; fructose by facilitated diffusion) → capillaries → portal vein. Proteins: amino acids → capillaries → portal vein. Fats: fatty acids + monoglycerides → micelles → enterocytes → chylomicrons → lacteals → lymph → blood. Vit B12: requires intrinsic factor, absorbed in terminal ileum.',mnemonic:'"Carbs + protein = capillaries (portal vein). Fats = lacteals (lymph). B12 = ileum with intrinsic factor."',svg:'absorptionSVG'},
+        {term:'Regulation: CCK and secretin',def:'CCK (cholecystokinin): from I cells of small intestine when fat/protein arrives. Stimulates pancreas (enzyme secretion) and gallbladder contraction (bile release). Also signals satiety. Secretin: from S cells when acidic chyme arrives. Stimulates pancreas to secrete HCO₃⁻ (neutralizes acid) and liver to produce bile.',mnemonic:'"CCK = fat + protein → enzymes + bile. Secretin = acid → bicarbonate (neutralize). CCK = enzymes; Secretin = neutralize."',svg:''},
+      ]},
+      { title:'Accessory Organs', items:[
+        {term:'Liver functions',def:'500+ functions. Key: (1) Metabolic: glucose homeostasis (glycogen storage/glycogenolysis), fat metabolism, protein synthesis (albumin, clotting factors), amino acid deamination (→ urea). (2) Detoxification: drugs, alcohol, hormones. (3) Bile production (500-1000mL/day). (4) Storage: glycogen, fat-soluble vitamins (A,D,E,K), B12, iron.',mnemonic:'"Liver = METABOLIC powerhouse. 500 functions: metabolism, detox, bile, storage. Albumin + clotting factors."',svg:'liverSVG'},
+        {term:'Bile',def:'Produced by hepatocytes, stored/concentrated in gallbladder, released via bile duct into duodenum. Contains: bile salts (cholesterol derivatives that emulsify fats — mechanically break into micelles for lipase access), bilirubin (RBC breakdown product), cholesterol, phospholipids. NOT an enzyme.',mnemonic:'"Bile = emulsifier (detergent) for fats. NOT an enzyme. Made by liver, stored in gallbladder."',svg:'bileFlowSVG'},
+        {term:'Pancreas (exocrine)',def:'Pancreatic juice (1200-1500 mL/day): (1) HCO₃⁻ (bicarbonate from ductal cells — neutralizes acid chyme), (2) digestive enzymes from acinar cells: pancreatic amylase (starch), lipase (fats), proteases (trypsinogen → trypsin by enterokinase, chymotrypsinogen, elastase, carboxypeptidase). Released in response to CCK + secretin.',mnemonic:'"Pancreas = big enzyme maker + acid neutralizer. Proteases released INACTIVE (prevents autodigestion). Enterokinase activates trypsin."',svg:''},
+        {term:'Large intestine',def:'1.5m long. Regions: cecum (ileum connects at ileocecal valve, appendix here) → ascending colon → transverse colon → descending colon → sigmoid colon → rectum → anal canal. Functions: water/electrolyte absorption (90% of remaining water), vitamin synthesis (K, B) by bacteria, compaction of feces, defecation.',mnemonic:'"Large intestine = water absorber + feces maker. Bacteria make vitamin K and B vitamins."',svg:'largeIntestineSVG'},
+      ]},
+    ]
+  },
+
+  {
+    id:'urinary', label:'24-25. Urinary & Fluid Balance', color:'amber', icon:'🫘',
+    desc:'Kidney anatomy, urine formation, fluid/electrolyte balance, and acid-base',
+    sections:[
+      { title:'Kidney Anatomy', items:[
+        {term:'Kidney location and structure',def:'Retroperitoneal, T12-L3. Right kidney slightly lower (pushed by liver). Covered by renal capsule (fibrous) + perirenal fat + renal fascia. External: hilum (where ureter, renal vein, renal artery, lymphatics enter/exit). Internal: cortex (outer, contains glomeruli + tubules), medulla (inner, pyramids + columns), renal pelvis (collects urine).',mnemonic:'"Kidney = retroperitoneal. Cortex = outer (glomeruli). Medulla = inner (pyramids). Pelvis = urine collector."',svg:'kidneyAnatomySVG'},
+        {term:'Nephron',def:'Functional unit of kidney. ~1 million per kidney. 2 types: cortical (85%, short loop) and juxtamedullary (15%, long loop — concentrate urine). Parts: renal corpuscle (glomerulus + Bowman\'s capsule) → proximal convoluted tubule (PCT) → loop of Henle (descending + ascending limb) → distal convoluted tubule (DCT) → collecting duct.',mnemonic:'"Nephron path: Glomerulus → PCT → Loop of Henle → DCT → Collecting duct. Filter → Reabsorb → Adjust."',svg:'nephronSVG'},
+        {term:'Glomerulus and filtration membrane',def:'Glomerulus = tuft of fenestrated capillaries. Filtration membrane has 3 layers: fenestrated endothelium (large pores), basement membrane (negative charge blocks proteins), podocytes with filtration slits. Allows passage of water + small solutes but NOT proteins or cells. GFR = ~125 mL/min (~180 L/day filtration, 1-2 L urine produced).',mnemonic:'"GFR = 125 mL/min = 180 L/day filtered. 99% reabsorbed. Proteins BLOCKED by negative charge + small pores."',svg:'glomerulusSVG'},
+        {term:'Juxtaglomerular apparatus (JGA)',def:'Located where DCT contacts afferent arteriole. Macula densa cells (DCT — detect Na⁺/Cl⁻ flow, sense GFR). Juxtaglomerular (JG) cells (afferent arteriole — produce renin). Mesangial cells (regulate glomerular surface area). Macula densa + low BP → JG cells release renin → RAAS activation.',mnemonic:'"JGA = blood pressure sensor of the kidney. Macula densa senses tubule flow. JG cells release renin."',svg:''},
+      ]},
+      { title:'Urine Formation', items:[
+        {term:'Glomerular filtration (step 1)',def:'Blood pressure in glomerulus drives filtrate into Bowman\'s capsule. NFP (net filtration pressure) = glomerular HP (55 mmHg) - capsular HP (15 mmHg) - osmotic pressure (30 mmHg) = +10 mmHg (net out). Autoregulation: myogenic response and tubuloglomerular feedback maintain GFR 80-180 mmHg systemic BP.',mnemonic:'"NFP = GHP - CHP - Osmotic. 55-15-30 = +10 mmHg → filtration. GFR stays constant via autoregulation."',svg:'filtrationSVG'},
+        {term:'Tubular reabsorption (step 2)',def:'PCT: reabsorbs ~65% of filtrate. Obligatory reabsorption: all glucose, amino acids, vitamins, uric acid + Na⁺ (by cotransport), Cl⁻ (follows Na⁺), water (follows osmotically). Transcellular (through cells) or paracellular (between cells). Loop of Henle: countercurrent multiplier. DCT and collecting duct: controlled by hormones (ADH, aldosterone).',mnemonic:'"PCT = bulk reabsorber (65%). All glucose reabsorbed here (threshold = 180 mg/dL; above = glucosuria)."',svg:'reabsorptionSVG'},
+        {term:'Tubular secretion (step 3)',def:'Active movement FROM peritubular capillaries INTO tubule lumen. Eliminates: H⁺, K⁺, NH₄⁺, creatinine, drugs, toxins, bile salts. PCT secretes: H⁺, NH₄⁺, drugs. DCT/collecting duct: H⁺ (acid-base), K⁺ (aldosterone regulation). Important for fine-tuning blood pH and eliminating drugs.',mnemonic:'"Secretion = squirt waste INTO the tubule. Gets rid of drugs, H⁺, K⁺."',svg:''},
+        {term:'Countercurrent multiplier',def:'Loop of Henle creates osmotic gradient in medulla (300 mOsm at cortex → 1200 mOsm deep medulla). Descending loop: permeable to water only → water leaves, concentrates filtrate. Ascending loop: impermeable to water, pumps NaCl out → dilutes filtrate, concentrates medullary interstitium. Vasa recta (peritubular capillaries of juxtamedullary nephrons) maintain gradient.',mnemonic:'"Loop of Henle = makes the medulla salty (concentrates) so ADH can make concentrated urine."',svg:'loopSVG'},
+        {term:'ADH and aldosterone effects on urine',def:'ADH (vasopressin): ↑ water permeability of collecting duct (inserts aquaporins) → more water reabsorbed → concentrated urine. High serum osmolarity or ↓ BP triggers ADH release. Aldosterone: ↑ Na⁺ reabsorption + ↑ K⁺ secretion in DCT/collecting duct → water follows Na⁺ → ↑ volume + ↑ BP.',mnemonic:'"ADH = water in. Aldosterone = Na⁺ in (water follows) + K⁺ out. Both increase urine concentration."',svg:''},
+      ]},
+      { title:'Fluid, Electrolyte & Acid-Base Balance', items:[
+        {term:'Fluid compartments',def:'Total body water = 60% of body weight. Intracellular fluid (ICF) = 2/3 (40%). Extracellular fluid (ECF) = 1/3 (20%): plasma (8%, inside vessels) + interstitial fluid (12%, around cells). Electrolyte differences: ICF = high K⁺, Mg²⁺, PO₄³⁻, proteins. ECF = high Na⁺, Cl⁻, HCO₃⁻.',mnemonic:'"ICF = 2/3, ECF = 1/3. ICF loves K⁺ (K = inside). ECF loves Na⁺ (Na = outside)."',svg:'fluidCompartmentsSVG'},
+        {term:'Sodium and water balance',def:'Na⁺ = major ECF cation → major determinant of ECF osmolarity and volume. Where Na⁺ goes, water follows. Hypernatremia (↑ Na⁺) → cells shrink (water leaves by osmosis) → CNS effects. Hyponatremia (↓ Na⁺) → cells swell → cerebral edema. Regulated by: aldosterone (↑ Na⁺ retention), ANP (↑ Na⁺ excretion), ADH (water retention).',mnemonic:'"Na⁺ = osmotic skeleton of ECF. Hypernatremia = cells shrink. Hyponatremia = cells swell."',svg:''},
+        {term:'Potassium balance',def:'K⁺ = major ICF cation. Normal plasma K⁺ = 3.5-5.0 mEq/L. Critical for resting membrane potential. Aldosterone ↑ K⁺ secretion in DCT. Hyperkalemia (>5.0) → cardiac arrhythmias, muscle weakness. Hypokalemia (<3.5) → cardiac arrhythmias, muscle weakness/cramps.',mnemonic:'"K⁺ = inside cells. 3.5-5.0 normal. Too high or too low = HEART PROBLEMS + muscle weakness."',svg:''},
+        {term:'Calcium balance',def:'Normal plasma Ca²⁺ = 8.5-10.5 mg/dL. 99% in bone. Regulated by PTH (↑ Ca²⁺), calcitonin (↓ Ca²⁺), calcitriol/vitamin D (↑ GI absorption). Hypocalcemia → tetany, hyperreflexia, Chvostek\'s sign, Trousseau\'s sign. Hypercalcemia → muscle weakness, kidney stones, confusion.',mnemonic:'"Ca²⁺: PTH = raises, calcitonin = lowers. Hypocalcemia = tetany (muscles spasm). Hypercalcemia = stones, groans, moans."',svg:''},
+        {term:'Acid-base balance overview',def:'Normal blood pH = 7.35-7.45. Buffers (immediate): bicarbonate (most important in blood), proteins, phosphate. Respiratory (minutes): ↑ breathing → exhale more CO₂ → ↑ pH. Renal (hours-days): kidneys excrete H⁺ or HCO₃⁻. Henderson-Hasselbalch: pH = pKa + log ([HCO₃⁻]/[CO₂]).',mnemonic:'"pH 7.35-7.45. Three defenses: Buffers (immediate), Breathing (minutes), Kidneys (days). BBK."',svg:'acidBaseSVG'},
+        {term:'Respiratory acidosis and alkalosis',def:'Resp. acidosis: ↓ breathing → CO₂ accumulates → ↑ H⁺ → ↓ pH. Causes: COPD, drug overdose, respiratory failure. Compensation: kidneys ↑ H⁺ excretion + ↑ HCO₃⁻ reabsorption. Resp. alkalosis: ↑ breathing (hyperventilation) → exhale too much CO₂ → ↓ H⁺ → ↑ pH. Causes: anxiety, altitude. Compensation: kidneys ↓ HCO₃⁻ reabsorption.',mnemonic:'"ROME: Respiratory Opposite, Metabolic Equal. Resp acidosis: ↓pH, ↑CO₂. Resp alkalosis: ↑pH, ↓CO₂."',svg:''},
+        {term:'Metabolic acidosis and alkalosis',def:'Met. acidosis: ↓ pH, ↓ HCO₃⁻. Causes: diarrhea (lose HCO₃⁻), DKA, lactic acidosis, renal failure. Compensation: Kussmaul respirations (deep + fast breathing → exhale CO₂). Met. alkalosis: ↑ pH, ↑ HCO₃⁻. Causes: vomiting (lose HCl), antacid overdose, diuretics. Compensation: shallow breathing.',mnemonic:'"Met acidosis: diarrhea, DKA, lactic acid, renal failure. Met alkalosis: vomiting (lose acid)."',svg:''},
+      ]},
+    ]
+  },
+  {
+    id:'reproductive', label:'28-29. Reproduction & Development', color:'pink', icon:'👶',
+    desc:'Male/female reproductive anatomy, hormonal cycles, fertilization, and embryology',
+    sections:[
+      { title:'Male Reproductive System', items:[
+        {term:'Testes anatomy and spermatogenesis',def:'Located in scrotum (3°C below body temp — required for spermatogenesis). Lobules contain seminiferous tubules (site of sperm production). Sertoli cells (nurse cells): nourish developing sperm, form blood-testis barrier, produce inhibin + androgen-binding protein. Leydig (interstitial) cells: between tubules, produce testosterone (stimulated by LH).',mnemonic:'"Sertoli = Sperm Support + inhibin. Leydig = Leydig (testosterone). LH → Leydig → testosterone."',svg:'testesAnatomySVG'},
+        {term:'Spermatogenesis',def:'Spermatogonia → primary spermatocytes (meiosis I) → secondary spermatocytes (meiosis II) → spermatids → spermatozoa (via spermiogenesis — shape change). Takes ~64 days. FSH stimulates sertoli cells to support spermatogenesis. Testosterone required.',mnemonic:'"SpermatoCYTES → spermatIDS → spermatoZOA. FSH + testosterone needed."',svg:'spermatogenesisSVG'},
+        {term:'Sperm anatomy',def:'Head: acrosome (enzymes to penetrate egg — hyaluronidase + acrosin) + nucleus (23 chromosomes). Midpiece: mitochondria (ATP for movement). Tail: flagellum for motility. Normal sperm count: >20 million/mL. Abnormal: oligospermia (↓), azoospermia (absent).',mnemonic:'"Sperm: Head (DNA + acrosome = entry tools), Midpiece (mitochondria = engine), Tail (propeller)."',svg:'spermAnatomySVG'},
+        {term:'Male reproductive tract and glands',def:'Sperm path (SEVEN UP): Seminiferous tubules → Epididymis (maturation + storage) → Vas deferens → Ejaculatory duct → Nothing (urethra) → Urethra → Penis. Accessory glands: seminal vesicles (60% of semen — fructose, prostaglandins, fibrinogen), prostate (30% — citric acid, enzymes, PSA), bulbourethral glands (5% — alkaline mucus, pre-ejaculate).',mnemonic:'"SEVEN UP mnemonic for sperm path. Seminal vesicles = most semen (60% fructose). PSA from prostate."',svg:''},
+        {term:'Male hormonal regulation',def:'Hypothalamus → GnRH (pulsatile) → anterior pituitary → LH + FSH. LH → Leydig cells → testosterone → negative feedback on hypo/pituitary + male secondary sex characteristics + spermatogenesis. FSH → Sertoli cells → sperm support. Inhibin (from Sertoli) → negative feedback on FSH.',mnemonic:'"GnRH → LH + FSH. LH → testosterone (Leydig). FSH → spermatogenesis (Sertoli). Inhibin shuts off FSH."',svg:'maleHormoneSVG'},
+      ]},
+      { title:'Female Reproductive System', items:[
+        {term:'Female reproductive organs',def:'Ovaries (produce eggs + hormones), uterine tubes/fallopian tubes (catch and transport oocyte — fertilization usually in ampulla of uterine tube), uterus (implantation + fetal development: fundus, body, cervix; layers = perimetrium, myometrium, endometrium), vagina (birth canal + receives semen).',mnemonic:'"Ovaries → tubes (fertilization in ampulla) → uterus (implantation) → vagina. Endometrium = uterine lining shed in menstruation."',svg:'femaleReproductiveSVG'},
+        {term:'Oogenesis',def:'Begins in fetal life — oogonia undergo mitosis → primary oocytes arrested in prophase I before birth. At puberty: 1 primary oocyte/month completes meiosis I → secondary oocyte + polar body. Secondary oocyte arrested in metaphase II until fertilization. Meiosis II completed only if fertilized → ovum + second polar body.',mnemonic:'"Born with all primary oocytes (arrested in meiosis I). Ovulation releases secondary oocyte. Fertilization completes meiosis II."',svg:'oogenesisSVG'},
+        {term:'Ovarian cycle',def:'Follicular phase (days 1-13): FSH → primordial → primary → secondary → tertiary/antral follicle → mature Graafian follicle. Dominant follicle produces estrogen → LH surge. Ovulation (day 14): LH surge → oocyte released. Luteal phase (days 15-28): corpus luteum forms → produces progesterone (+ estrogen) → prepares endometrium. If no fertilization, corpus luteum regresses → menstruation.',mnemonic:'"Follicular phase: FSH builds follicle. LH surge = ovulation. Luteal phase: corpus luteum = progesterone."',svg:'ovarianCycleSVG'},
+        {term:'Menstrual cycle (uterine)',def:'Menstrual phase (days 1-5): falling progesterone → endometrium shed. Proliferative phase (days 6-14): rising estrogen → endometrium thickens, regenerates. Secretory phase (days 15-28): progesterone → endometrium secretes glycogen, becomes vascular (prepares for implantation). If no fertilization → menstruation.',mnemonic:'"Menstrual cycle: Period → Proliferate (estrogen) → Secrete (progesterone) → Period. PPS pattern."',svg:'menstrualCycleSVG'},
+        {term:'Female hormonal regulation',def:'GnRH → LH + FSH. Estrogen: negative feedback (usually), but HIGH estrogen → POSITIVE feedback → LH surge → ovulation. Progesterone: negative feedback on LH + FSH. Inhibin (from granulosa cells): negative feedback on FSH.',mnemonic:'"Estrogen usually negative feedback EXCEPT peak just before ovulation = POSITIVE feedback = LH surge."',svg:'femaleHormoneSVG'},
+        {term:'Estrogen and progesterone effects',def:'Estrogen: female secondary sex characteristics (breast development, fat distribution, pubic/axillary hair), endometrial proliferation, bone density (with calcitonin), negative feedback (usually) on hypothalamus/pituitary, LDL↓ HDL↑. Progesterone: maintain endometrium for implantation, inhibit uterine contractions, thicken cervical mucus, stimulate breast development for lactation.',mnemonic:'"Estrogen = builds up endometrium. Progesterone = maintains it (pro-gestation = for pregnancy)."',svg:''},
+      ]},
+      { title:'Fertilization & Pregnancy', items:[
+        {term:'Fertilization',def:'Sperm + secondary oocyte in ampulla of uterine tube (~12-24 hours after ovulation). Capacitation: sperm acquire ability to fertilize in female reproductive tract. Acrosomal reaction: acrosomal enzymes digest zona pellucida. Cortical reaction: prevents polyspermy (zona reaction). Fertilization → zygote → meiosis II completed → 2 pro-nuclei → 1st cleavage.',mnemonic:'"Fertilization: sperm + oocyte in ampulla. Acrosome reaction = enzyme digestion of zona pellucida. Cortical reaction = prevents extra sperm."',svg:'fertilizationSVG'},
+        {term:'Cleavage and implantation',def:'Zygote → cleavage (mitotic divisions, no growth) → 2-cell → 4-cell → morula (solid ball) → blastocyst (hollow, ~day 4-5): inner cell mass (embryoblast → embryo) + trophoblast (→ placenta). Blastocyst implants in uterine endometrium day 6-10. hCG produced by trophoblast → maintains corpus luteum → progesterone production continues.',mnemonic:'"Morula → Blastocyst (hollow). Inner cell mass = baby. Trophoblast = placenta. hCG = "I\'m pregnant" signal."',svg:'cleavageSVG'},
+        {term:'Placenta',def:'Develops from trophoblast + endometrial decidua. Functions: gas exchange (O₂/CO₂), nutrient/waste exchange, hormone production (hCG, progesterone, estrogen, HPL), immune protection (IgG across to fetus). Placental barrier: selective but NOT absolute. Fully functional by week 12.',mnemonic:'"Placenta = fetal life support. Makes hCG (1st trimester), then progesterone (after corpus luteum fades)."',svg:'placentaSVG'},
+        {term:'Embryonic period (weeks 3-8)',def:'Critical period: all major organs established. Week 3: gastrulation → 3 primary germ layers: ectoderm (nervous system, epidermis), mesoderm (muscle, bone, cardiovascular, kidneys), endoderm (GI, respiratory linings). Neurulation (week 3-4): neural tube → brain + spinal cord. Organogenesis: weeks 4-8 — heart beats by day 22, limb buds appear week 4.',mnemonic:'"3 germ layers: Ecto = outside (skin/nerves), Meso = middle (muscle/bone), Endo = inside (gut/lungs)."',svg:'germLayersSVG'},
+        {term:'Fetal period (week 9 - birth)',def:'Growth and maturation of structures established in embryonic period. Week 9-12: kidneys produce urine, sex determinable by ultrasound. Week 20: quickening (mother feels movement). Week 26-28: surfactant begins, lungs capable of gas exchange (viability). Week 38-40: full term. Teratogens most dangerous during embryonic period (organogenesis).',mnemonic:'"Embryonic period = set up organs. Fetal period = grow them. Teratogens worst in weeks 3-8."',svg:''},
+        {term:'Parturition (labor)',def:'Positive feedback loop. Estrogen ↑ near term (ratio reversal → progesterone withdrawal). Fetal hormones (cortisol) + ↑ estrogen → uterine oxytocin receptors ↑. Oxytocin (from posterior pituitary) → uterine contractions → fetal head stretches cervix → more oxytocin → stronger contractions → birth → positive feedback loop ends.',mnemonic:'"Labor = oxytocin positive feedback. Estrogen primes. Stretch → oxytocin → more stretch → birth."',svg:'parturitionSVG'},
+        {term:'Lactation',def:'During pregnancy: high progesterone + estrogen inhibit lactation despite prolactin. After delivery: progesterone drops → prolactin (from anterior pituitary) can act → milk synthesis. Infant suckling → oxytocin → milk ejection (let-down reflex). Prolactin inhibits GnRH → contraceptive effect (lactational amenorrhea).',mnemonic:'"Prolactin = milk PRODUCTION. Oxytocin = milk EJECTION. Suckling stimulates both via positive feedback."',svg:''},
+      ]},
+    ]
+  },
+
 ];
 
 // Build all flashcards
@@ -1037,7 +1356,7 @@ CHAPTERS.forEach(ch => {
 // ANATOMY GROUPS (for flashcards + notes + quiz)
 // ═══════════════════════════════════════════
 const ANATOMY_GROUPS = [
-  { id:'muscles', label:'Muscles', color:'#b084f5', icon:'\u{1F4AA}', cards:[
+  { id:'muscles', label:'Muscles', color:'#b084f5', icon:'💪', cards:[
     {term:'Sternocleidomastoid',def:'O: sternal head (manubrium) + clavicular head (medial clavicle). I: mastoid process + superior nuchal line. A: bilateral = neck flexion; unilateral = ipsilateral lateral flex + contralateral rotation. N: CN XI + C2\u20133.',mnemonic:'Contract RIGHT SCM = head turns LEFT. CN XI damage = dropped shoulder.'},
     {term:'Trapezius',def:'O: EOP + nuchal lig + C7\u2013T12 spinous processes. I: lateral clavicle (upper), acromion (middle), spine of scapula (lower). A: upper=elevate; middle=retract; lower=depress scapula; all=upward rotation. N: CN XI + C3\u20134.',mnemonic:'3 parts, 3 actions. Largest superficial back muscle.'},
     {term:'Supraspinatus',def:'O: supraspinous fossa. I: superior facet of greater tubercle. A: initiates abduction 0\u201315\u00b0. N: suprascapular (C5,C6). Critical zone = 1 cm from insertion (avascular = most tears).',mnemonic:'Most commonly torn RC muscle. Empty can test. Under coracoacromial arch.'},
@@ -1067,7 +1386,7 @@ const ANATOMY_GROUPS = [
     {term:'Fibularis longus',def:'O: head + upper 2/3 fibula. I: medial cuneiform + base MT1 (crosses sole). A: eversion + plantarflexion. N: superficial fibular (L5,S1).',mnemonic:"Crosses sole = supports transverse arch."},
     {term:'Fibularis brevis',def:'O: lower 2/3 fibula. I: tuberosity of 5th metatarsal. A: eversion. N: superficial fibular (L5,S1).',mnemonic:'5th MT tuberosity avulsion = most common ankle X-ray finding.'},
   ]},
-  { id:'nerves', label:'Nerves', color:'#f5c842', icon:'\u26A1', cards:[
+  { id:'nerves', label:'Nerves', color:'#f5c842', icon:'⚡', cards:[
     {term:'CN I \u2014 Olfactory',def:'Type: sensory. Origin: olfactory epithelium. Pathway: cribriform plate \u2192 olfactory bulb \u2192 olfactory cortex (temporal lobe). Function: smell.',mnemonic:'Anosmia from head trauma (shear at cribriform plate) or COVID-19.'},
     {term:'CN II \u2014 Optic',def:'Type: sensory. Origin: retinal ganglion cells. Pathway: optic nerve \u2192 chiasm (nasal fibers cross) \u2192 optic tract \u2192 LGN \u2192 V1 occipital cortex. Function: vision.',mnemonic:'Chiasm lesion = bitemporal hemianopia. RAPD = CN II lesion (Marcus Gunn pupil).'},
     {term:'CN III \u2014 Oculomotor',def:'Type: motor + parasympathetic. Motor: SR, IR, MR, IO, levator palpebrae. Para: pupil constriction + accommodation. Exits midbrain ventrally.',mnemonic:'"Down-and-out" + dilated pupil = CN III palsy. PComm aneurysm. Uncal herniation: dilated pupil FIRST.'},
@@ -1091,7 +1410,7 @@ const ANATOMY_GROUPS = [
     {term:'Tibial nerve (L4\u2013S3)',def:'Posterior compartment. Tarsal tunnel behind medial malleolus. Motor: plantarflexion + intrinsic foot. Sensory: sole of foot.',mnemonic:"Tarsal tunnel = foot’s carpal tunnel. Absent ankle jerk = S1 lesion."},
     {term:'Phrenic nerve (C3,4,5)',def:'From cervical plexus. Motor: entire diaphragm. Sensory: diaphragmatic pleura + pericardium.',mnemonic:'C3,4,5 keeps the diaphragm alive.'},
   ]},
-  { id:'ligaments', label:'Ligaments', color:'#f07060', icon:'\U0001F517', cards:[
+  { id:'ligaments', label:'Ligaments', color:'#f07060', icon:'🔗', cards:[
     {term:'Glenohumeral ligaments (SGHL, MGHL, IGHL)',def:'Glenoid labrum to humeral neck (3 bands). IGHL most important at 90\u00b0 abduction (throwing position). Anterior GH stability.',mnemonic:"Bankart lesion = anterior labral + IGHL avulsion with anterior shoulder dislocation."},
     {term:'Coracohumeral ligament',def:'Coracoid process to greater + lesser tubercles. Covers rotator interval. Limits ER + inferior translation. Contracted in frozen shoulder (adhesive capsulitis).',mnemonic:'Contracted in frozen shoulder = limits ER most.'},
     {term:'Coracoacromial ligament',def:'Coracoid to acromion. Forms coracoacromial arch. Supraspinatus impinges under it.',mnemonic:'CA arch = supraspinatus enemy.'},
@@ -1107,7 +1426,7 @@ const ANATOMY_GROUPS = [
     {term:'Deltoid ligament (medial ankle)',def:'4 parts from medial malleolus: tibionavicular, tibiocalcaneal, anterior + posterior tibiotalar. Primary medial ankle stabilizer. Very strong.',mnemonic:'Often avulses bone rather than tears. Eversion mechanism.'},
     {term:'Transverse ligament of atlas',def:'Holds dens of C2 against anterior arch of C1. Critical for atlantoaxial stability.',mnemonic:'Torn in RA + Down syndrome. Atlantoaxial instability = cord compression risk.'},
   ]},
-  { id:'tendons', label:'Tendons', color:'#52d18a', icon:'\U0001FA79', cards:[
+  { id:'tendons', label:'Tendons', color:'#52d18a', icon:'🩹', cards:[
     {term:'Rotator cuff tendons (SITS)',def:'Supraspinatus: superior facet greater tubercle. Infraspinatus: middle facet. Teres minor: inferior facet. Subscapularis: lesser tubercle. Critical zone = 1cm from SS insertion (avascular = most tears).',mnemonic:'Critical zone = avascular = most tears here.'},
     {term:'Long head of biceps (LHB)',def:'From supraglenoid tubercle. Intra-articular but extrasynovial. Through bicipital groove (held by transverse humeral ligament). Rupture = Popeye sign. Speed\u2019s test for tendinopathy.',mnemonic:"LHB = SLAP tears + Popeye sign. Speed’s + Yergason’s tests."},
     {term:'Achilles tendon',def:'Gastrocnemius + soleus (triceps surae) to calcaneal tuberosity. STRONGEST tendon in body (~4000N). Watershed zone 2\u20136cm above insertion = poor vascularity = most ruptures.',mnemonic:'Thompson test = positive = ruptured Achilles. Fluoroquinolones increase risk.'},
@@ -1120,7 +1439,7 @@ const ANATOMY_GROUPS = [
     {term:'Common extensor tendon',def:'Origin: lateral epicondyle. ECRB most affected in lateral epicondylitis (tennis elbow). Also ECRL, ECU, EDC, EDM.',mnemonic:"Tennis elbow = lateral epicondyle = ECRB. Cozen’s test."},
     {term:'FDS and FDP tendons',def:'FDS: medial epicondyle to middle phalanges (PIP flexion). FDP passes through FDS split (Camper\u2019s chiasm) to distal phalanges (DIP flexion). Jersey finger = FDP avulsion ring finger.',mnemonic:'FDS = Stops at middle phalanx. FDP = Passes through to distal. Zone II = no man\u2019s land.'},
   ]},
-  { id:'eye', label:'Eye Anatomy', color:'#4ecdc4', icon:'\U0001F441\uFE0F', cards:[
+  { id:'eye', label:'Eye Anatomy', color:'#4ecdc4', icon:'👁️', cards:[
     {term:'Cornea',def:'Transparent anterior fibrous tunic (1/6 of eye). ~70% of refractive power. Avascular. 5 layers: Epithelium, Bowman\u2019s, Stroma (90%), Descemet\u2019s, Endothelium. Sensory: CN V1 (corneal reflex afferent).',mnemonic:'Every Brave Student Deserves Excellence (5 layers). 70% of refraction.'},
     {term:'Sclera',def:'"White of eye." Posterior 5/6 fibrous tunic. Dense CT maintains globe shape. Attachment for all 6 extraocular muscles. Pierced by optic nerve at lamina cribrosa.',mnemonic:'Sclera = shell of eye. 5/6 of fibrous tunic.'},
     {term:'Iris + Pupil',def:'Sphincter pupillae (circular, CN III para) = MIOSIS (constriction). Dilator pupillae (radial, sympathetic) = MYDRIASIS (dilation). Iris color = melanin.',mnemonic:"CN III para = constrict (miosis). Sympathetic = dilate (mydriasis). Horner’s = miosis + ptosis."},
@@ -1136,7 +1455,7 @@ const ANATOMY_GROUPS = [
     {term:'Glaucoma',def:'Elevated IOP \u2192 optic nerve damage \u2192 peripheral visual field loss. Open-angle (gradual, painless, most common) vs narrow-angle (acute: red eye + cloudy cornea + fixed mid-dilated pupil + severe pain + nausea).',mnemonic:"Open-angle = silent thief of peripheral vision. Narrow-angle = emergency: RSVP (Red, Severe pain, Vomiting, halos)."},
     {term:'Retinal detachment',def:'"Curtain" across visual field + floaters + photopsia (flashing lights). Neurosensory retina separates from RPE. Surgical emergency.',mnemonic:'Curtain + floaters + flashes = retinal detachment. Surgical emergency.'},
   ]},
-  { id:'ear', label:'Ear Anatomy', color:'#f472b6', icon:'\U0001F442', cards:[
+  { id:'ear', label:'Ear Anatomy', color:'#f472b6', icon:'👂', cards:[
     {term:'Tympanic membrane (eardrum)',def:'3 layers: outer epithelium (CN X), fibrous middle, inner mucosa (CN IX). Landmarks: umbo (center = malleus handle tip), cone of light (anteroinferior = normal). Pars tensa (most of TM) vs pars flaccida/Shrapnell\u2019s (superior).',mnemonic:"Umbo = center of TM. Cone of light anteroinferior = normal. Pars flaccida = cholesteatoma risk."},
     {term:'Ossicles (3 smallest bones)',def:'MALLEUS (handle attached to TM) \u2192 INCUS (bridge) \u2192 STAPES (footplate in oval window). Amplify sound ~17\u00d7. Tensor tympani (V3) dampens malleus; stapedius (CN VII) dampens stapes.',mnemonic:'My Interesting Stapes. Smallest bones. Otosclerosis = stapes fixation = conductive HL.'},
     {term:'Eustachian tube',def:'Connects middle ear to nasopharynx. Normally closed; opens with swallowing/yawning (tensor veli palatini = CN V3). Equalizes pressure. Children: shorter + more horizontal = higher OM rate.',mnemonic:'Eustachian = pressure equalizer. Children = short + horizontal = more otitis media.'},
@@ -1270,737 +1589,4 @@ const ANATOMY_NOTES = {
     {term:'Anterior longitudinal ligament (ALL)',def:'Runs entire length of vertebral column along ANTERIOR surface of vertebral bodies + IVDs. Occiput to sacrum. Broad and strong. Resists hyperextension. Ossification of ALL = DISH (diffuse idiopathic skeletal hyperostosis).',clinical:'Torn in extension injuries (whiplash). DISH = widespread ALL ossification, especially thoracic spine, can fuse vertebrae.',mnemonic:'ALL = covers All the anterior vertebrae. Prevents hyperEXTENSION.'},
     {term:'Posterior longitudinal ligament (PLL)',def:'Runs along POSTERIOR surface of vertebral bodies INSIDE the canal. Narrow over vertebral bodies, wider over discs (hourglass). Resists flexion. Weak posterolaterally = disc herniation occurs here.',clinical:'Ossification of PLL (OPLL): common in East Asian populations, causes cervical myelopathy. Posterolateral disc herniation = where PLL is weakest.',mnemonic:'PLL = inside canal, prevents flexion. Posterolateral disc herniation = PLL weak spot.'},
     {term:'Ligamentum flavum',def:'Connects adjacent LAMINAE (not spinous processes). High elastin content (80% elastin, 20% collagen). From C2-C3 to L5-S1. Yellow color = high elastin. Maintains upright posture passively without muscle effort. Hypertrophies with degeneration.',clinical:'Ligamentum flavum hypertrophy + osteophytes + disc bulge = central canal stenosis = neurogenic claudication (pain with walking, relieved by flexion/sitting = opens canal).',mnemonic:'Flavum = yellow = high elastin. Hypertrophies = spinal stenosis. Neurogenic claudication.'},
-    {term:'Supraspinous + interspinous ligaments',def:'Supraspinous: connects tips of spinous processes C7 to sacrum (above C7 = nuchal ligament). Interspinous: between adjacent spinous processes. Both resist flexion. Supraspinous = last to fail in progressive flexion injury.',clinical:'Flexion-distraction (seat belt) injury: interspinous + supraspinous torn first, then PLL, then disc. Chance fracture through posterior elements.',mnemonic:'Supraspinous = last to fail in flexion. Above C7 = nuchal ligament.'},
-    {term:'Transverse ligament of atlas',def:'Crosses posterior to dens. Connects lateral masses of C1. Holds dens snugly against anterior arch of C1. Part of cruciform ligament. PRIMARY stabilizer of atlantoaxial joint (C1-C2).',clinical:'Torn in RA (pannus erodes it), Down syndrome (ligamentous laxity), Jefferson burst fracture of C1, trauma. Atlantoaxial subluxation = spinal cord compression risk at craniocervical junction.',mnemonic:'Transverse lig holds dens. Torn in RA + Down syndrome = atlantoaxial instability.'},
-   ]},
-   {title:'Shoulder Ligaments',items:[
-    {term:'Glenohumeral ligaments (SGHL, MGHL, IGHL)',def:'3 thickenings of GH capsule. SGHL: limits ER + inferior translation at 0 degrees. MGHL: limits ER at 45 degrees. IGHL (strongest): anterior band limits ER + anterior translation at 90 degrees (throwing position); posterior band limits IR + posterior translation.',clinical:'IGHL anterior band = most important in anterior shoulder instability. Bankart lesion = anterior labrum + IGHL avulsion from glenoid (fracture = bony Bankart). Hill-Sachs = posterolateral humeral head impaction.',mnemonic:'IGHL most important at 90 degrees. Bankart = anterior labrum + IGHL torn.'},
-    {term:'Coracohumeral + coracoacromial ligaments',def:'Coracohumeral (CHL): coracoid > greater + lesser tubercles. Covers rotator interval. Limits ER + inferior translation. Contracted in frozen shoulder. Coracoacromial (CAL): coracoid > acromion. Forms coracoacromial arch. Supraspinatus impinges under this arch.',clinical:'Frozen shoulder (adhesive capsulitis): CHL fibrosis = ER limited most. CAL: acromioplasty = dividing this ligament. Subacromial impingement under CA arch.',mnemonic:'CHL = frozen shoulder = ER lost. CA arch = supraspinatus impingement zone.'},
-    {term:'Coracoclavicular ligaments (trapezoid + conoid)',def:'Trapezoid (lateral): coracoid > trapezoid ridge of clavicle. Conoid (medial): coracoid > conoid tubercle of clavicle. Together suspend scapula from clavicle. PRIMARY vertical stability of ACJ.',clinical:'AC separation grading: I = AC lig sprained, CC intact. II = AC ruptured, CC sprained. III = BOTH ruptured (clavicle rides up, scapula drops). IV-VI = severe displacement.',mnemonic:'CC ligaments = vertical stability. AC ligaments = horizontal stability.'},
-   ]},
-   {title:'Elbow & Wrist Ligaments',items:[
-    {term:'UCL of elbow (Tommy John)',def:'3 bundles: anterior (primary, thickest), posterior, transverse. Medial epicondyle > coronoid process (anterior bundle most critical) + olecranon (posterior). PRIMARY valgus stabilizer of elbow.',clinical:'Tear in overhead throwing athletes (baseball pitchers). Medial elbow pain + valgus instability. Moving valgus stress test. Tommy John surgery = UCL reconstruction (palmaris longus or gracilis graft).',mnemonic:"Tommy John = UCL reconstruction. Anterior bundle = most important for throwing."},
-    {term:'Radial + lateral ulnar collateral ligaments',def:'Radial collateral (RCL): lateral epicondyle > annular ligament. Primary varus stabilizer. Lateral ulnar collateral (LUCL): lateral epicondyle > proximal ulna. KEY for posterolateral rotatory stability.',clinical:'LUCL injury: posterolateral rotatory instability (PLRI) = elbow dislocation or lateral epicondyle release complication. Lateral pivot shift test of elbow positive.',mnemonic:'LUCL = posterolateral rotatory stability. PLRI = LUCL torn.'},
-    {term:'Annular ligament',def:'Encircles radial head. Attached to anterior + posterior margins of radial notch of ulna. Maintains proximal radioulnar joint. Allows pivot motion (pronation + supination).',clinical:"Nursemaid’s elbow (pulled elbow): longitudinal traction with forearm pronated pulls annular ligament over radial head in children under 5. Immediate pain + arm held pronated. Reduced by supination + flexion.",mnemonic:"Nursemaid’s = annular ligament slips over radial head. Reduce = supination."},
-    {term:'Flexor + extensor retinaculum (wrist)',def:'Flexor retinaculum (transverse carpal ligament): pisiform + hook of hamate > scaphoid tubercle + trapezium ridge. Roof of carpal tunnel (9 tendons + median nerve inside). Extensor retinaculum: 6 compartments on dorsum of wrist.',clinical:'CTS: most common entrapment neuropathy. Carpal tunnel release = divide flexor retinaculum. De Quervain\'s: 1st compartment stenosis (APL + EPB). Finkelstein\'s test.',mnemonic:'Carpal tunnel contents: 4 FDS + 4 FDP + FPL + median nerve (10 structures). Ulnar nerve = OUTSIDE in Guyon\'s canal.'},
-   ]},
-   {title:'Hip Ligaments',items:[
-    {term:'Iliofemoral ligament (Y-ligament of Bigelow)',def:'STRONGEST ligament in body (~350N force to rupture). From AIIS + acetabular rim > intertrochanteric line (2 bands = iliotrochanteric + iliocapsular). Limits hip extension + ER. Tightens in standing = passively stabilizes hip = allows standing with minimal muscle effort.',clinical:'Must be disrupted in anterior hip dislocation. Prevents hyperextension during standing. Hip capsule repair during hip replacement surgery.',mnemonic:'Y-ligament = strongest in body. Prevents hip hyperextension. Allows passive standing.'},
-    {term:'Other hip capsular ligaments',def:'Pubofemoral: pubic ramus > intertrochanteric line. Limits abduction + extension. Ischiofemoral: ischial acetabular rim > posterior greater trochanter. Limits IR + extension. Weakest of the 3 capsular ligaments.',clinical:'All 3 capsular ligaments tighten in hip extension (standing) = passive stability. They relax in hip flexion (sitting).',mnemonic:'Ilio = Y = strongest. Pubofemoral = limits abduction. Ischiofemoral = limits IR.'},
-    {term:'Ligamentum teres + acetabular labrum',def:'Ligamentum teres: acetabular notch (via transverse acetabular lig) > fovea capitis of femoral head. Carries blood supply to femoral head in children (obturator artery branch). Minimal mechanical stability in adults. Labrum: fibrocartilaginous rim deepens acetabulum by 21%, increases coverage by 28%.',clinical:'Ligamentum teres tear = hip instability (especially rotation). AVN of femoral head: blood supply compromised after femoral neck fracture (primarily from retinacular vessels). Labral tear = groin pain + clicking + C-sign.',mnemonic:'Lig teres = blood supply to femoral head in children. Labrum = deepens socket.'},
-   ]},
-   {title:'Knee Ligaments',items:[
-    {term:'ACL (Anterior Cruciate Ligament)',def:'Origin: anterior intercondylar area of tibia. Insertion: posterior medial surface of LATERAL femoral condyle. 2 bundles: AM (anteromedial, primary, taut in flexion) + PL (posterolateral, taut in extension). Prevents anterior tibial translation + tibial internal rotation. Avascular central region = cannot heal without surgery.',clinical:'Most commonly injured knee ligament. "Pop" + immediate hemarthrosis. Lachman test (most sensitive 84%), anterior drawer, pivot shift (most specific). ACL-R: BPTB or hamstring autograft.',mnemonic:'ACL: tibial attachment = ANTERIOR; femoral = LATERAL condyle. Lachman = best test.'},
-    {term:'PCL (Posterior Cruciate Ligament)',def:'Origin: posterior intercondylar area of tibia. Insertion: anterior medial surface of MEDIAL femoral condyle. 2 bundles: AL (anterolateral, primary, taut in flexion) + PM. Prevents posterior tibial translation. STRONGEST knee ligament (2x ACL).',clinical:'Dashboard injury (MVA). Posterior drawer test + posterior sag sign. Often heals conservatively. PCL-R when symptomatic instability.',mnemonic:'PCL: tibial attachment = POSTERIOR; femoral = MEDIAL condyle. Dashboard injury. Strongest knee lig.'},
-    {term:'MCL (Medial Collateral Ligament)',def:'Superficial MCL: medial femoral condyle > medial tibia (4-5cm below joint). Deep MCL: medial capsule, attached to medial meniscus (unique!). PRIMARY valgus stabilizer.',clinical:"Unhappy triad: ACL + MCL + medial meniscus (deep MCL attached to MM). MCL usually heals conservatively (good blood supply). Pellegrini-Stieda = chronic MCL calcification.",mnemonic:"Deep MCL = attached to medial meniscus = tear together. Unhappy triad."},
-    {term:'LCL (Lateral Collateral Ligament)',def:'Lateral femoral condyle > fibular head. Cord-like (not flat). NOT attached to lateral meniscus. Primary varus stabilizer. Part of posterolateral corner (PLC) with popliteofibular ligament + popliteus tendon.',clinical:'Less commonly injured. PLC injuries. Varus stress test. Dial test for ER at 30 degrees + 90 degrees to distinguish PLC from PCL.',mnemonic:'LCL = cord-like. NOT attached to lateral meniscus (unlike MCL). PLC = LCL + popliteofibular + popliteus.'},
-    {term:'Menisci (medial + lateral)',def:'Fibrocartilage C-shaped (medial) and O-shaped (lateral) wedges. Medial: attached to MCL (deep fibers), less mobile, larger. Lateral: NOT attached to LCL, more mobile. Outer 1/3 = vascular (red-red zone, heals). Inner 2/3 = avascular (white-white, cannot heal).',clinical:'McMurray + Thessaly tests. Bucket-handle tear = locked knee. Medial meniscus more commonly torn (less mobile).',mnemonic:'Medial meniscus attached to MCL. Outer = heals, inner = cannot heal. Bucket handle = locked knee.'},
-   ]},
-   {title:'Ankle & Foot Ligaments',items:[
-    {term:'Lateral ankle ligaments (ATFL, CFL, PTFL)',def:'ATFL (anterior talofibular): distal fibula > anterior talus. WEAKEST. Limits plantarflexion + inversion + anterior talar shift. CFL (calcaneofibular): fibula > lateral calcaneus. Crosses both tibiotalar + subtalar joints. PTFL (posterior talofibular): STRONGEST lateral ligament. Limits dorsiflexion. Rarely torn.',clinical:'Most common ligament injury in body. Ottawa ankle rules for X-ray. ATFL: anterior drawer test. CFL: talar tilt test. Chronic ankle instability = recurrent sprains = peroneal weakness.',mnemonic:'ATFL most commonly torn (70% of sprains). CFL 2nd. PTFL almost never. Inversion sprain = plantarflexed ankle.'},
-    {term:'Deltoid ligament (4 parts)',def:'Fan-shaped from medial malleolus: tibionavicular (anterior), tibiospring (to spring lig), tibiocalcaneal, posterior tibiotalar. PRIMARY medial ankle stabilizer. Resists eversion + lateral talar shift.',clinical:'Eversion ankle sprain. Very strong = often avulses medial malleolus rather than tears. High ankle sprain (syndesmosis) often associated.',mnemonic:'Deltoid = fan-shaped, very strong = avulses bone. Eversion mechanism. 4 parts.'},
-    {term:'Syndesmotic ligaments (high ankle)',def:'AITFL (anterior inferior tibiofibular, most commonly injured) + PITFL (posterior, stronger) + transverse tibiofibular + interosseous membrane. Bind distal tibia + fibula. Maintain ankle mortise width.',clinical:'High ankle sprain = much longer recovery (6-12 weeks vs 2-6 for lateral). Squeeze test + external rotation (Cotton) test positive. Significant instability = syndesmotic screw fixation.',mnemonic:'High ankle sprain = syndesmosis injury. Longer recovery. Squeeze test positive.'},
-    {term:'Spring ligament + plantar fascia',def:'Spring ligament (plantar calcaneonavicular): sustentaculum tali > inferior navicular. Supports talar head. Key to medial arch. Plantar fascia: medial calcaneal tuberosity > proximal phalanx bases. Windlass mechanism: toe DF tightens fascia = raises arch.',clinical:'Spring lig tear = flatfoot with PTTD. Plantar fasciitis: degenerative (fasciosis), worst first steps, calcaneal spur often present, night splints helpful.',mnemonic:'Spring lig = supports talar head = key arch ligament. Plantar fasciitis = worst morning.'},
-   ]},
-  ]
- },
- tendons:{
-  desc:'Complete tendon reference — structure, function, clinical pathology and surgical relevance for every major tendon in the body',
-  sections:[
-   {title:'Shoulder & Arm Tendons',items:[
-    {term:'Rotator cuff tendons (SITS)',def:'Supraspinatus: supraspinous fossa > superior facet greater tubercle. Critical zone = 1cm from insertion (hypovasular = most tears). Infraspinatus: infraspinous fossa > middle facet. Teres minor: lateral scapular border > inferior facet. Subscapularis: subscapular fossa > lesser tubercle. Together form cuff stabilizing GH joint.',clinical:'Full-thickness SS tears: drop arm test. RC repair for young/active. Massive irreparable tears: superior capsular reconstruction or tendon transfer. MRI gold standard for diagnosis and tear characterization.',mnemonic:'SITS = Supra, Infra, Teres, Subscapularis. Critical zone 1cm from insertion = avascular = most tears.'},
-    {term:'Long head of biceps (LHB) tendon',def:'Origin: supraglenoid tubercle + superior labrum (intra-articular, extrasynovial). Passes through bicipital groove held by transverse humeral ligament + subscapularis. Functions: head depressor + shoulder flexor + elbow flexor/supinator.',clinical:"SLAP tear (Superior Labrum Anterior-Posterior): LHB anchor avulsion. Types I-IV. LHB tendinopathy: Speed’s test (resisted forward flexion at 90 degrees) + Yergason’s test (resisted supination). LHB rupture: Popeye sign + supination weakness.",mnemonic:"SLAP = LHB anchor tears. Speed’s + Yergason’s for tendinopathy. Popeye = LHB rupture."},
-    {term:'Distal biceps tendon',def:'Inserts radial tuberosity. Unique: tendon must be visualized in FABS position (Flexion, Abduction, Supination) on MRI to see full length. Avulsion = loss of 40-50% elbow flexion strength + 90% supination strength.',clinical:'Distal biceps rupture: "pop" + painful ecchymosis antecubital fossa + palpable gap + Popeye deformity. Hook test: cannot hook finger under cord = ruptured. Repair within 2 weeks for best results.',mnemonic:'Distal biceps rupture: supination > flexion weakness. Hook test. Repair urgently.'},
-    {term:'Common flexor + extensor tendons (elbow)',def:'Common flexor tendon (CFT): medial epicondyle > pronator teres + FCR + palmaris longus + FDS + FCU. Common extensor tendon (CET): lateral epicondyle > ECRB (primary) + ECRL + ECU + EDC + EDM.',clinical:"Medial epicondylitis (golfer’s elbow): CFT degeneration at medial epicondyle. Lateral epicondylitis (tennis elbow): CET degeneration (ECRB primarily). Both = tendinosis (degenerative, NOT inflammatory histologically). Cozen’s test = lateral.",mnemonic:"Golfer’s = medial = flexors. Tennis = lateral = ECRB. Both = tendinosis not tendinitis."},
-   ]},
-   {title:'Hand & Wrist Tendons',items:[
-    {term:'Flexor tendon zones',def:'Zone I: distal to FDS insertion (FDP only). Zone II: "no man\'s land" A1-A5 pulleys (FDS + FDP together = most difficult repair, worst prognosis). Zone III: palm (FDS + FDP separate). Zone IV: carpal tunnel under flexor retinaculum. Zone V: forearm.',clinical:'Zone II repairs: most difficult, worst outcomes. Jersey finger = Zone I FDP avulsion (ring finger most common from flexion at DIP during tackling). Mallet finger = distal phalanx extensor avulsion.',mnemonic:"Zone II = no man’s land = worst prognosis. Jersey finger = Zone I FDP avulsion."},
-    {term:'Flexor pulley system',def:'5 annular pulleys (A1-A5) + 3 cruciate pulleys (C1-C3) prevent bowstringing. A1 (MCP), A2 (proximal phalanx proximal), A3 (PIP), A4 (middle phalanx), A5 (DIP). A2 + A4 most critical for function.',clinical:'Trigger finger: A1 pulley stenosis = catching/locking on flexion. A1 release = treatment. Rock climbing: ring finger A2 pulley rupture most common. FDP avulsion = "jersey finger."',mnemonic:'A2 + A4 = most critical pulleys. A1 stenosis = trigger finger. A1 release = treatment.'},
-    {term:'Extensor tendon injuries',def:'Mallet finger: terminal tendon avulsion at DIP = DIP cannot extend (drooping). Zone I. Treat: splint DIP in extension 6-8 weeks. Boutonniere deformity: central slip rupture at PIP = PIP flexion + DIP hyperextension (lateral bands migrate volar). Treat: splint PIP in extension.',clinical:"Mallet finger: Zone I extensor mechanism. Boutonniere: Zone III (PIP level) central slip tear. Swan neck deformity: opposite = PIP hyperextension + DIP flexion (from volar plate injury or intrinsic tightness).",mnemonic:'Mallet = DIP droops (terminal tendon). Boutonniere = PIP flexes (central slip). Swan neck = PIP extends (volar plate).'},
-    {term:"De Quervain’s + 1st compartment",def:"1st dorsal compartment at radial styloid: APL (abductor pollicis longus) + EPB (extensor pollicis brevis). Stenosing tenosynovitis of these tendons = de Quervain’s. Pain with thumb + wrist motion, especially ulnar deviation.",clinical:"Finkelstein’s test: ulnar deviation with thumb in fist = reproduces pain. Common in new mothers + repetitive radial-ulnar deviation occupations. Treatment: corticosteroid injection (85% success), surgical release (1st compartment).",mnemonic:"De Quervain’s = 1st compartment = APL + EPB. Finkelstein’s test."},
-   ]},
-   {title:'Lower Limb Tendons',items:[
-    {term:'Quadriceps tendon + patellar ligament',def:'Quadriceps tendon: 4 layers (RF superficial > VI deep) > superior pole of patella. Continues as patellar ligament > tibial tuberosity. Patella = sesamoid bone within mechanism. Articularis genu = small VI fibers retract suprapatellar bursa.',clinical:'Quad tendon rupture (>40 yrs): gap ABOVE patella + patella descends + cannot extend knee. Patellar lig rupture (<40 yrs): gap BELOW patella + patella rides high (alta). Patellar tendinopathy = inferior pole. Osgood-Schlatter = tibial tuberosity apophysitis.',mnemonic:'Above patella = quad tendon ruptured (older). Below patella = patellar lig ruptured (younger).'},
-    {term:'Achilles tendon',def:'Triceps surae (gastrocnemius + soleus) + plantaris converge. Inserts posterior calcaneal tuberosity. Strongest tendon in body (4000-7000N). Rotates 90 degrees (medial gastrocnemius becomes posterior at insertion). Watershed zone: 2-6cm above insertion = poor blood supply.',clinical:'Thompson test: squeeze calf, no plantarflexion = ruptured. Audible "pop." Risk: fluoroquinolones, steroids, age, male. Achilles tendinopathy: midportion (watershed) vs insertional. Retrocalcaneal bursitis between tendon + calcaneus (Haglund deformity).',mnemonic:'Strongest tendon. Watershed 2-6cm = most ruptures + tendinopathy. Thompson test. Fluoroquinolones = risk.'},
-    {term:'Tibialis posterior tendon',def:'Most medial tendon behind medial malleolus (Tom). Inserts navicular primarily + multiple tarsals + MT bases. PRIMARY dynamic medial arch stabilizer. Works with spring ligament + deltoid to support arch.',clinical:'PTTD = 4 stages: I tendinitis; II elongated/torn + flexible flatfoot; III fixed flatfoot; IV ankle valgus arthritis. Too many toes sign + single heel raise failure. Management: orthotics (early) to reconstruction (late).',mnemonic:"PTTD = 4 stages: I=pain, II=flexible flat, III=rigid, IV=ankle arthritis. Too many toes + can’t heel raise."},
-    {term:'Peroneal tendons',def:'Both run behind lateral malleolus in fibular groove. Held by superior peroneal retinaculum (SPR). Brevis (anterior in groove): inserts 5th MT tuberosity. Longus (posterior): crosses sole via cuboid groove > medial cuneiform + MT1. Peroneal retinaculum holds both.',clinical:'SPR avulsion = peroneal subluxation (snap over lateral malleolus during eversion). Longitudinal split tears of peroneus brevis (anterior position in groove = trapped). 5th MT avulsion (Jones = metaphysis vs avulsion = tuberosity).',mnemonic:'Brevis anterior in groove to 5th MT. Longus posterior crosses sole. SPR avulsion = subluxation.'},
-    {term:'IT Band + hamstring tendons',def:'IT band: TFL + glute max > Gerdy\'s tubercle lateral tibia. Dense fascia, not true tendon. Hamstring tendons: biceps femoris > fibular head; semitendinosus > pes anserinus (medial tibia); semimembranosus > posterior medial tibial condyle + oblique popliteal ligament.',clinical:"IT band syndrome: lateral knee pain at 30 degrees flexion. Ober’s test. High hamstring tear: ischial tuberosity avulsion = surgical. Pes anserine bursitis: medial knee pain below joint line in obese/OA patients.",mnemonic:"IT band syndrome = runner’s knee. Pes anserine = SGS = Sartorius + Gracilis + Semitendinosus."},
-    {term:'Plantar fascia',def:'3 bands from medial calcaneal tuberosity > bases of proximal phalanges. Central band strongest. Windlass mechanism: toe dorsiflexion tightens fascia > raises medial arch. Works with tibialis posterior + intrinsic muscles for arch support.',clinical:'Plantar fasciitis (fasciosis): degenerative not inflammatory. Worst pain first steps in morning (nocturnal tight-ening). Calcaneal heel spur often co-present (not causative). Treatment: stretching, night splints, orthotics, PRP, surgery (last resort).',mnemonic:'Plantar fasciitis = worst in morning = fasciosis. Windlass test. Night splints help.'},
-   ]},
-  ]
- },
- eye:{
-  desc:'Complete eye anatomy — all ocular structures, visual pathway, reflexes, and clinical correlations for the A&P special senses unit',
-  sections:[
-   {title:'Outer Coat (Fibrous Tunic)',items:[
-    {term:'Cornea',def:'Transparent anterior fibrous tunic. 1/6 of total ocular surface. About 12mm diameter. 5 layers from front to back: (1) Stratified squamous epithelium (regenerates in 24h), (2) Bowman\'s layer (acellular, cannot regenerate), (3) Stroma (90% of thickness = collagen fibrils, must remain dehydrated for transparency), (4) Descemet\'s membrane (thickens with age), (5) Endothelium (single layer, pumps water out of stroma, CANNOT regenerate = fixed number). AVASCULAR: O2 from aqueous humor anteriorly + tears posteriorly. ~70% of total refractive power (~+43 diopters).',clinical:'Corneal abrasion: epithelial disruption = heals rapidly. Recurrent erosion: Bowman\'s defect. Fuchs\' endothelial dystrophy: endothelial cell loss = corneal edema = decreased vision. Keratoconus: cone-shaped cornea = irregular astigmatism.',mnemonic:'5 layers: Every Brave Student Deserves Excellence. Avascular. 70% of refraction.'},
-    {term:'Sclera',def:'"White of eye." Posterior 5/6 of fibrous tunic. Continuous with cornea at limbus. Dense irregular collagenous CT. Thickness varies: 0.3mm near EOM insertions to 1.0mm at posterior pole. All 6 extraocular muscles attach to sclera. Tenon\'s capsule separates from orbital fat. Pierced by optic nerve at lamina cribrosa (posteriorly).',clinical:'Episcleritis: episcleral inflammation, benign, self-limited. Scleritis: deep scleral inflammation, severe pain, associated with systemic disease (RA, Wegener\'s). Blue sclera: osteogenesis imperfecta (thin sclera lets choroid show through).',mnemonic:'Sclera = shell of eye. 5/6. EOM attachment. Lamina cribrosa = optic nerve exit.'},
-    {term:'Conjunctiva',def:'Thin mucous membrane lining inner eyelids (palpebral) + covering anterior sclera (bulbar). Goblet cells secrete mucin (innermost layer of tear film). Meets cornea at limbus. Contains blood vessels + lymphatics. Reflects from lid onto globe at fornices.',clinical:'Conjunctivitis: viral (adenovirus = most common, highly contagious), bacterial (purulent), allergic (chemosis + itch). Subconjunctival hemorrhage: benign, coughing/Valsalva/hypertension. Pinguecula (benign degeneration) vs pterygium (grows onto cornea = surgery needed).',mnemonic:'Conjunctiva = mucous membrane. Goblet cells = mucin layer of tears.'},
-   ]},
-   {title:'Middle Coat (Uveal Tract)',items:[
-    {term:'Choroid',def:'Highly vascular middle tunic, posterior 2/3 of uvea. Choriocapillaris layer (inner): nourishes outer retina (photoreceptors avascular). Contains melanin (absorbs scattered light = prevents internal reflection). Bruch\'s membrane separates choroid from RPE.',clinical:'Choroidal melanoma: most common primary intraocular malignancy. Wet AMD: choroidal neovascularization grows through Bruch\'s membrane under retina. Uveitis: choroid inflammation.',mnemonic:'Choroid = vascular layer nourishing outer retina. Bruch\'s membrane = barrier.'},
-    {term:'Ciliary body',def:'Anterior uvea. Pars plana (flat, posterior, surgical access zone) + pars plicata (anterior, ciliary processes). Ciliary PROCESSES: secrete aqueous humor into posterior chamber (active transport). Ciliary MUSCLE: smooth muscle innervated by CN III parasympathetics. Contraction = zonule fibers relax = lens becomes more convex = accommodation for near objects.',clinical:'Ciliary body melanoma. Cycloplegic drops (atropine, cyclopentolate): paralyze ciliary muscle = no accommodation = used for refraction in children + uveitis.',mnemonic:'Ciliary contracts = zonules relax = lens rounds up = NEAR vision. Ciliary relaxes = zonules tight = lens flat = FAR vision.'},
-    {term:'Iris + Pupil control',def:'Colored diaphragm with central aperture (pupil). 2 muscles: (1) Sphincter pupillae: circular fibers, CN III parasympathetics (short ciliary nerves from ciliary ganglion) = MIOSIS (constriction). (2) Dilator pupillae: radial fibers, sympathetics (long ciliary nerves, from superior cervical ganglion via nasociliary) = MYDRIASIS (dilation). Normal pupil: 2-7mm diameter depending on light.',clinical:"Horner’s syndrome: sympathetic chain disruption (ptosis + miosis + anhidrosis + enophthalmos). Causes: Pancoast tumor, carotid dissection, brainstem stroke. Argyll Robertson pupil: accommodates but doesn’t react to light (neurosyphilis). Adie’s tonic pupil: postganglionic parasympathetic denervation = large pupil + slow response.",mnemonic:"CN III para = constrict (miosis). Sympathetic = dilate (mydriasis). Horner’s = miosis + ptosis."},
-   ]},
-   {title:'Retina (Neural Tunic)',items:[
-    {term:'Photoreceptors (rods and cones)',def:'RODS (120 million): peripheral distribution (highest density at ~20 degrees from fovea). Contain rhodopsin (bleaches in bright light = dark adaptation). Scotopic vision (low light, night, black/white). High convergence (many rods to 1 ganglion cell = sensitive but low acuity). CONES (6 million): concentrated in fovea/macula. 3 types: L (red, long wavelength), M (green, medium), S (blue, short). Photopic vision (bright light, color, high acuity). 1:1 ratio with ganglion cells at fovea.',clinical:'Color blindness: X-linked (males 8% affected). Red-green most common (M or L cone deficiency). Retinitis pigmentosa: rod degeneration progressing centripetally = night blindness + tunnel vision + bone spicule pigmentation.',mnemonic:'Rods = Road/peripheral + night vision. Cones = Color + central = fovea. 120M rods, 6M cones.'},
-    {term:'Macula, fovea, and optic disc',def:'Macula lutea (yellow spot): ~5.5mm diameter, temporal to optic disc. Yellow xanthophyll pigment absorbs blue + UV light. Highest cone density. FOVEA CENTRALIS (1.5mm): depression in center of macula. Foveola (0.35mm): only cones, no rods, no overlying vessels, no nerve fiber layer = SHARPEST VISION. OPTIC DISC (1.5mm): nasal to fovea. Where CN II + central retinal artery/vein exit. NO photoreceptors = physiologic blind spot. Cup-to-disc ratio: normal <0.3.',clinical:'AMD: macula degeneration = central scotoma. Dry (drusen, slow) vs wet (CNV, rapid). Glaucoma: optic disc cupping (cup/disc ratio >0.6). Papilledema: disc swelling from raised ICP (CN II sheath connects to subarachnoid space).',mnemonic:'Fovea = sharpest vision (cones only). Optic disc = blind spot. AMD = central vision lost.'},
-    {term:'Aqueous humor production and drainage',def:'PRODUCTION: ciliary processes (pars plicata) actively secrete aqueous into posterior chamber (between iris + lens). FLOW: posterior chamber > through pupil > anterior chamber (between iris + cornea). DRAINAGE: 90% via trabecular meshwork (conventional) at iridocorneal angle > Schlemm\'s canal > aqueous collector channels > episcleral veins. 10% via uveoscleral (unconventional) route. Maintains IOP: 10-21 mmHg (average ~15).',clinical:'Primary open-angle glaucoma (POAG): increased resistance in trabecular meshwork = elevated IOP = optic nerve cupping + peripheral field loss = "silent thief of sight." Narrow-angle (closed-angle) glaucoma: iris blocks trabecular meshwork = acute IOP rise = EMERGENCY.',mnemonic:'Aqueous flows: Ciliary processes > posterior chamber > pupil > anterior chamber > trabecular > Schlemm. Glaucoma = drainage blocked.'},
-    {term:'Vitreous humor and posterior segment',def:'Gel-like (99% water + type II collagen + hyaluronic acid). Fills vitreous chamber (posterior segment = 4.5mL = 80% of eye volume). NOT replaced after fetal synthesis. Firmly attached at: vitreous base (ora serrata, strongest), optic disc, macula, retinal vessels.',clinical:'PVD (posterior vitreous detachment): gel liquefies + collapses posteriorly (common >50 yrs). Symptoms: floaters + photopsia. Risk of retinal tear at firm attachments. Vitreous hemorrhage: can obscure vision (diabetic proliferative DR, retinal tear). Terson syndrome: vitreous hemorrhage from SAH.',mnemonic:'PVD = common + benign but watch for retinal tear. Floaters + flashes = PVD until proven otherwise.'},
-   ]},
-   {title:'Visual Pathway and Reflexes',items:[
-    {term:'Complete visual pathway',def:'Photoreceptors > bipolar cells (in retina) > retinal ganglion cells > optic nerve fibers (CN II) > OPTIC CHIASM: nasal retinal fibers (representing temporal visual fields) cross contralaterally; temporal retinal fibers stay ipsilateral > optic tract > lateral geniculate nucleus (thalamus, 6 layers: 1,2 = magnocellular; 3-6 = parvocellular) > optic radiation (inferior = Meyer\'s loop via temporal lobe; superior = parietal lobe) > primary visual cortex V1 (calcarine sulcus, occipital lobe).',clinical:'Visual field defect localization: optic nerve = monocular blindness. Chiasm = bitemporal hemianopia. Optic tract = contralateral homonymous hemianopia. Meyer\'s loop temporal lobe = contralateral superior quadrantanopia ("pie in sky"). Parietal = contralateral inferior quadrantanopia.',mnemonic:'Temporal lobe = inferior visual field (pie in the sky). Parietal = superior visual field. Chiasm = bitemporal. Remember: nasal retina sees temporal field.'},
-    {term:'Pupillary light reflex',def:'AFFERENT: retina > optic nerve (CN II) > optic chiasm > optic tract > PRETECTAL NUCLEUS (midbrain, NOT LGN = bypasses LGN entirely) > bilateral Edinger-Westphal nuclei (EW). EFFERENT: EW nucleus > preganglionic parasympathetics via CN III > cavernous sinus > orbit > ciliary ganglion > short ciliary nerves > sphincter pupillae. DIRECT response: ipsilateral pupil. CONSENSUAL: contralateral pupil (via bilateral EW nuclei). Bilateral = both pupils constrict when light hits either eye.',clinical:'RAPD (relative afferent pupillary defect): swinging flashlight test. CN II lesion on affected side = both pupils dilate when light swung to affected eye. CN III palsy: ipsilateral fixed dilated pupil + loss of efferent (cannot constrict when light shone in either eye ipsilaterally).',mnemonic:'Afferent = CN II (optic). Efferent = CN III (oculomotor). RAPD = swinging light = CN II lesion.'},
-    {term:'Accommodation + convergence reflexes',def:'Near triad (3 simultaneous responses when focusing near): (1) ACCOMMODATION: ciliary muscle contracts (CN III parasympathetics) > zonule fibers relax > lens increases curvature (more diopters). (2) CONVERGENCE: both medial recti contract (CN III) > eyes turn inward = maintain binocular single vision. (3) MIOSIS: sphincter pupillae contracts (CN III parasympathetics) > pupil constricts = increased depth of focus. Pathway: pretectum + midbrain > CN III nucleus (EW for constriction) + Perlia\'s nucleus (convergence).',clinical:"Dissociation: light-near dissociation = eye accommodates but doesn’t react to light. Argyll Robertson (neurosyphilis): near reflex intact, light reflex lost ('accommodates but doesn’t react = prostitute’s pupil'). Parinaud syndrome (dorsal midbrain): light-near dissociation + upgaze palsy.",mnemonic:"Near triad = 3 C’s: Ciliary (accommodation), Convergence, Constriction. ALL via CN III."},
-    {term:'Corneal reflex',def:'AFFERENT: cornea > trigeminal nerve V1 (ophthalmic division, nasociliary branch) > trigeminal sensory nucleus (pons). EFFERENT: bilateral facial nerve (CN VII) nucleus > orbicularis oculi > BILATERAL blink. Direct = ipsilateral blink. Consensual = contralateral blink.',clinical:'Tests: V1 integrity (afferent) + CN VII integrity (efferent) + pontine connections. Absent in: CN V lesion (no afferent), CN VII lesion (no efferent blink on that side), pontine lesion, deep coma, contact lens wear (decreased sensitivity). Preserved in cortical blindness (retina + brainstem intact).',mnemonic:'Corneal = V1 in, VII out (bilateral). Preserved in cortical blindness = retina + brainstem intact.'},
-    {term:'Major eye disorders summary',def:'GLAUCOMA: elevated IOP > optic nerve cupping > peripheral field loss (arcuate scotomas > tunnel vision). Open-angle = gradual + painless (most common). Narrow-angle = emergency (red eye + fixed mid-dilated pupil + pain + nausea + halos). AMD: dry (drusen, geographic atrophy, slow) vs wet (CNV = anti-VEGF treatment). RETINAL DETACHMENT: floaters + flashes + curtain = emergency surgery.',clinical:'DR (diabetic retinopathy): nonproliferative (microaneurysms, hemorrhages) > proliferative (NVD/NVE = neovascularization). VEGF inhibitors for DME. Retinal laser for proliferative. Leading cause blindness working age adults. Cataracts: most common cause of correctable blindness worldwide.',mnemonic:'Major eye diseases: Glaucoma=IOP. AMD=macula. Retinal detachment=curtain+floaters. DR=diabetes. Cataracts=opacity.'},
-   ]},
-  ]
- },
- ear:{
-  desc:'Complete ear anatomy — external, middle, and inner ear with auditory and vestibular pathways and clinical correlations for the A&P special senses unit',
-  sections:[
-   {title:'External Ear',items:[
-    {term:'Pinna (auricle)',def:'Elastic cartilage framework (EXCEPT lobule = fat + CT, no cartilage). Skin with sebaceous glands. Key landmarks: helix (outer rim), antihelix (inner C-shaped ridge), tragus (anterior projection), antitragus, concha (bowl leads to EAM), scapha, triangular fossa. Darwin\'s tubercle = vestigial remnant. Innervation: CN V3 (auriculotemporal = anterior pinna), CN VII (small posterior area), CN IX (Jacobson\'s = inner surface), CN X (Arnold\'s nerve = auricular branch = posterior/inferior EAM).',clinical:"Arnold’s nerve (auricular branch vagus CN X): stimulation of posterior EAM triggers cough reflex. Clinically important: otoscopists can trigger cough + sometimes bradycardia. Keloid formation common after ear piercing (treat: pressure + silicone + steroid injection).",mnemonic:"Elastic cartilage (except fat lobule). Arnold’s nerve = EAM touch triggers cough."},
-    {term:'External acoustic meatus (EAM)',def:'S-shaped canal ~2.5cm long. Outer 1/3: cartilaginous (cerumen glands = modified apocrine glands, hair follicles = defense against insects). Inner 2/3: bony (temporal bone, thin skin, no glands). Skin has OUTWARD epithelial migration = self-cleaning conveyor belt mechanism. Orientation: adults = pull pinna SUPEROPOSTERIORLY to straighten. Children: pull pinna INFEROANTERIORLY (more horizontal canal + TM position).',clinical:"Otitis externa (swimmer’s ear): Pseudomonas aeruginosa + Staphylococcus. Pain on tragus pressure + EAM edema + discharge. Malignant (necrotizing) OE: Pseudomonas invades skull base = osteomyelitis. Diabetics + immunocompromised.",mnemonic:'Adults: pull pinna UP-BACK. Children: pull pinna DOWN-FORWARD. EAM = self-cleaning by epithelial migration outward.'},
-    {term:'Tympanic membrane (eardrum)',def:'Semi-transparent pearl-gray membrane. ~1cm diameter. 3 layers: (1) outer epithelium (CN X innervation, part of EAM skin), (2) fibrous middle layer (thickest in pars tensa, 3 fiber layers: radial, circular, parabolic), (3) inner mucosal layer (CN IX, part of middle ear mucosa). 2 regions: PARS TENSA (inferior 4/5, has fibrous layer, attached to bony ring via annulus) + PARS FLACCIDA/SHRAPNELL\'S MEMBRANE (superior 1/5, 2 layers only, no bony ring attachment). Key landmarks: umbo (center = tip of malleus handle), cone of light (anteroinferior = normal light reflex at 5 o\'clock right/7 o\'clock left), anterior + posterior malleolar folds.',clinical:'Acute OM: red/yellow/bulging TM + loss of cone of light + obscured landmarks + bulging = AOM. Pars flaccida perforation = unsafe = cholesteatoma risk (squamous epithelium grows in). Central perforation (pars tensa) = safe = often heals spontaneously.',mnemonic:'Pars flaccida = floppy = unsafe perforation. Pars tensa = tense = safe. Cone of light anteroinferior = normal.'},
-   ]},
-   {title:'Middle Ear (Tympanic Cavity)',items:[
-    {term:'Ossicles and sound amplification',def:'3 smallest bones in body: MALLEUS (manubrium = handle embedded in fibrous TM layer; head articulates with incus via incudomalleolar joint) > INCUS (body + lenticular process) > STAPES (head + crura + footplate in oval window via annular ligament). SOUND AMPLIFICATION: (1) Area ratio: TM (~55mm2) vs oval window (~3.2mm2) = ~17x pressure amplification. (2) Lever ratio: incudomalleolar lever arm ratio = ~1.3x. Total amplification = ~22x (25 dB). Ossicular chain transmits vibrations from TM to inner ear fluid.',clinical:'Otosclerosis: fixation of stapes footplate by abnormal bone = conductive HL. Treatment: stapedectomy/stapedotomy. Ossicular discontinuity (trauma or cholesteatoma): maximum conductive HL (60 dB). Reconstructed with ossicular prosthesis (TORP/PORP).',mnemonic:'My Interesting Stapes. Malleus to TM. Stapes to oval window. Amplify 17x area + 1.3x lever.'},
-    {term:'Middle ear muscles',def:'TENSOR TYMPANI: origin = cartilaginous part of eustachian tube + greater wing of sphenoid > inserts malleus handle. Nerve: medial pterygoid branch CN V3. Action: tightens TM (pulls medially). STAPEDIUS: smallest muscle in body. Origin: pyramidal eminence (posterior tympanic cavity) > inserts stapes neck. Nerve: CN VII (facial). Action: ACOUSTIC REFLEX = reflexively stiffens ossicular chain in response to loud sounds > reduces transmission of loud sounds > protects cochlea.',clinical:'Acoustic reflex (stapedial reflex): tympanometry measures it. ABSENT in: CN VII palsy (stapedius paralysis = hyperacusis + loudness intolerance), severe CHL, sensorineural HL (if >85 dB). Hyperacusis in Bell\'s palsy = loss of stapedius reflex.',mnemonic:"Stapedius = CN VII = smallest muscle = acoustic reflex. Bell’s palsy = hyperacusis (stapedius paralyzed)."},
-    {term:'Eustachian (pharyngotympanic) tube',def:'Connects middle ear cavity to nasopharynx. Adult length ~35mm. Bony portion (medial 1/3): always open. Cartilaginous portion (lateral 2/3): normally CLOSED (prevents nasal secretions refluxing + protects from nasopharyngeal pathogens). Opens with: swallowing, yawning, Valsalva. Opening muscle: tensor veli palatini (CN V3). Children: shorter (~17mm), more horizontal (10 degrees vs 45 degrees adult), less rigid cartilage = more horizontal = higher middle ear infection rate.',clinical:'Chronic OME (otitis media with effusion = glue ear): eustachian tube dysfunction > negative pressure > effusion > conductive HL. Cleft palate: tensor VP absent or abnormal = chronic OME. Barotrauma: pressure difference from diving/flying. Tympanostomy tubes (grommets) = treatment for chronic OME.',mnemonic:'Eustachian = pressure equalizer. Children = short + horizontal = more OM. Tensor VP (V3) opens it.'},
-   ]},
-   {title:'Inner Ear - Cochlea (Hearing)',items:[
-    {term:'Cochlear anatomy',def:'Bony cochlea: 2.5 turns (spiral from base = wide to apex = narrow). Modiolus = central bony column. 3 fluid-filled compartments: SCALA VESTIBULI (top, perilymph = high Na+, low K+, like CSF) + SCALA MEDIA/COCHLEAR DUCT (middle, endolymph = HIGH K+ ~150mM, low Na+ ~1mM, endocochlear potential +80mV) + SCALA TYMPANI (bottom, perilymph). Reissner\'s membrane separates SV from SM. Basilar membrane separates SM from ST. HELICOTREMA: apex connection between SV + ST. Round window: base of ST = pressure relief.',clinical:'Perilymph fistula: perilymph leaks into middle ear (heavy lifting, Valsalva, trauma) = fluctuating SNHL + vertigo. SSCD (superior semicircular canal dehiscence): missing bone = sound-induced vertigo (Tullio phenomenon).',mnemonic:'High K+ endolymph drives hair cell depolarization. SV on top, ST on bottom. Helicotrema at apex.'},
-    {term:'Organ of Corti and hair cells',def:'Sensory organ of hearing. Sits on BASILAR MEMBRANE within cochlear duct. Inner hair cells (IHC): 3,500 cells in single row. 95% of afferent fibers to CN VIII. Primary auditory SENSORS. Outer hair cells (OHC): 12,000 cells in 3 rows. 5% of afferent fibers. Electromotile (prestin protein changes cell length with voltage changes) = amplify + tune basilar membrane movement (cochlear amplifier = 40-50dB gain). TECTORIAL MEMBRANE overlies stereocilia (attached to OHC, free-floating over IHC). Deflection of stereocilia > K+ influx from endolymph > depolarization > NT release.',clinical:'OHC = first damaged by: noise, aminoglycosides, cisplatin, loop diuretics, age (presbycusis). OAE (otoacoustic emissions) = test OHC function (newborn hearing screening). Auditory neuropathy spectrum disorder: IHC or AN dysfunction.',mnemonic:'IHC = 1 row = input (afferents to brain). OHC = 3 rows = amplifiers (electromotile). OHCs damaged first by noise/ototoxins.'},
-    {term:'Tonotopy and basilar membrane',def:'TONOTOPIC organization: frequency encoded by LOCATION along basilar membrane. HIGH frequency (>4kHz): BASE of cochlea (narrow, stiff basilar membrane). LOW frequency (<500Hz): APEX (wide, flaccid basilar membrane). The place principle = specific frequency activates peak vibration at specific location. 4000 Hz = "C5 notch" = most vulnerable location (cochlear blood supply anatomy).',clinical:'Noise-induced HL: 4000Hz notch on audiogram = most sensitive frequency to noise damage. Presbycusis (age-related): high-frequency loss first (basal cochlea degenerates). Aminoglycosides: stria vascularis basal turn affected first.',mnemonic:'HIGH = BASE (like guitar = high notes at guitar body). LOW = APEX. 4kHz notch = noise-induced HL.'},
-   ]},
-   {title:'Inner Ear - Vestibular System',items:[
-    {term:'Semicircular canals (3)',def:'Three membranous canals suspended in bony semicircular canals. HORIZONTAL (lateral) SCC: roughly horizontal plane (tilted 30 degrees posteriorly) = detects horizontal head rotation (shaking "no"). ANTERIOR (superior) SCC: detects head pitch/nodding ("yes"). POSTERIOR SCC: detects head tilt. Each has dilated end = AMPULLA containing crista ampullaris: hair cells embedded in gelatinous CUPULA (extends across entire ampullary lumen). Head rotation > endolymph inertia > relative cupula deflection > hair cells signal.',clinical:'BPPV (Benign Paroxysmal Positional Vertigo): posterior SCC most commonly affected (90%). Free-floating otoconia deflect cupula with position change. Dix-Hallpike = positive (delayed rotatory nystagmus). Epley = repositioning maneuver.',mnemonic:'3 canals = 3 planes = all rotations covered. Posterior SCC = BPPV. Cupula = gate in ampulla.'},
-    {term:'Utricle and saccule (otolith organs)',def:'UTRICLE: horizontal orientation macula. Detects HORIZONTAL linear acceleration + lateral head tilt (side to side). SACCULE: vertical orientation macula. Detects VERTICAL linear acceleration (elevator) + anterior-posterior tilt. MACULA anatomy: hair cells + supporting cells + otolithic membrane (gelatinous layer) + OTOCONIA (calcium carbonate crystals = "ear rocks" on top = add weight). Otoconia gravity/inertia causes shearing force on hair cells.',clinical:"BPPV pathophysiology: otoconia detach from utricle (age, trauma, viral labyrinthitis) > fall into posterior SCC (most dependent) > when SCC moves, otoconia stimulate cupula inappropriately. Otolith dysfunction: Mal de debarquement (prolonged sea/air motion sensation).",mnemonic:'Utricle = Upright/Horizontal. Saccule = Sagittal/Vertical. Otoconia = calcium carbonate ear rocks. BPPV = rocks in posterior SCC.'},
-    {term:'Endolymph, perilymph and fluid dynamics',def:'ENDOLYMPH: inside membranous labyrinth (cochlear duct, SCCs, utricle, saccule). HIGH K+ (~150mM), LOW Na+ (~1mM), ~-80mV potential in SCCs/otolith organs, +80mV endocochlear potential in cochlea. Produced by STRIA VASCULARIS (cochlea) + dark cells (vestibular). Reabsorbed by endolymphatic sac. PERILYMPH: in bony labyrinth surrounding membranous labyrinth. LOW K+, HIGH Na+, similar to CSF. Communication between cochlear perilymph and CSF via cochlear aqueduct.',clinical:"Meniere’s disease = endolymphatic hydrops: overproduction or decreased reabsorption of endolymph > increased volume + pressure > rupture of Reissner’s membrane > endolymph-perilymph mixing > acute attacks. Treat: low Na diet + diuretics.",mnemonic:"Endolymph = HIGH K+ (like ICF). Perilymph = HIGH Na+ (like ECF/CSF). Meniere’s = too much endolymph."},
-   ]},
-   {title:'Auditory Pathway and Hearing Tests',items:[
-    {term:'Complete auditory pathway',def:'Sound > pinna > EAM > TM vibrates > malleus > incus > stapes > oval window > perilymph (scala vestibuli) > traveling wave on basilar membrane (tonotopic) > OHC amplification > IHC depolarization > spiral ganglion bipolar neurons > CN VIII cochlear nerve > COCHLEAR NUCLEI (dorsal + ventral, pons, first relay, BILATERAL) > SUPERIOR OLIVARY COMPLEX (bilateral crossing = first binaural processing = sound localization via interaural time difference) > lateral lemniscus > INFERIOR COLLICULUS (midbrain, reflex auditory-motor responses) > MEDIAL GENICULATE NUCLEUS thalamus > internal capsule > PRIMARY AUDITORY CORTEX A1 (Heschl\'s gyri, superior temporal plane, Brodmann 41+42, BILATERAL representation).',clinical:'Bilateral cortical representation from superior olivary complex = unilateral central auditory lesion (cortex/brainstem) causes subtle bilateral HL. Acoustic neuroma: arises from vestibular branch CN VIII in IAM/CPA > unilateral SNHL + tinnitus. ABR (auditory brainstem response) tests pathway integrity.',mnemonic:'Superior olivary = first bilateral relay = why cortical lesions give subtle HL. A1 = Heschl\'s gyri.'},
-    {term:'Rinne and Weber tuning fork tests',def:'RINNE TEST (512 Hz tuning fork): (1) Place vibrating fork on mastoid process = bone conduction (BC). (2) When can no longer hear, move immediately to ear canal entrance = air conduction (AC). Result: AC > BC = Rinne POSITIVE (normal + SNHL). BC > AC = Rinne NEGATIVE (conductive HL = something blocking air conduction route). WEBER TEST (512 Hz fork on midline forehead): Vibrations conducted to both cochleas via skull bones. Normal + symmetric HL: heard midline. SNHL: lateralizes to BETTER ear (more functioning hair cells respond). Conductive HL: lateralizes to WORSE/AFFECTED ear (less ambient noise masking + enhanced BC on that side).',clinical:'Always do Rinne + Weber together. If Rinne negative = must confirm with Weber. Pure tone audiogram = definitive test. Tympanometry = middle ear compliance. Stapedial reflex = acoustic reflex testing.',mnemonic:'Weber SNHL = Well ear. Weber Conductive = Crummy (worse) ear. Negative Rinne = Conductive HL.'},
-    {term:'Hearing loss types and causes',def:'CONDUCTIVE HL: outer or middle ear problem. AC impaired, BC normal. Rinne negative. Weber to affected/worse ear. Causes: cerumen impaction, TM perforation, otitis media with effusion, otosclerosis, ossicular disruption/discontinuity. Max CHL = 60-70 dB. SENSORINEURAL HL (SNHL): cochlea or CN VIII pathology. Both AC + BC impaired equally. Rinne positive. Weber to better ear. Causes: noise exposure, presbycusis (age = high freq first), Meniere\'s, acoustic neuroma, ototoxic drugs. MIXED HL: both components.',clinical:'Presbycusis: symmetric bilateral high-frequency SNHL, gradual, most common HL in elderly. Noise-induced: 4kHz notch, permanent, most preventable. Aminoglycosides (cochleotoxic + vestibulotoxic). Cisplatin: high-frequency SNHL dose-dependent. Loop diuretics (furosemide): usually reversible.',mnemonic:'Conductive = blocked pathway (outer/middle). SNHL = damaged transducer (cochlea/nerve). Presbycusis = SNHL high freq first.'},
-    {term:'BPPV, Meniere\'s, and acoustic neuroma',def:"BPPV: canalithiasis = otoconia in posterior SCC (most common, 90%). Episodic positional vertigo <1 minute. Dix-Hallpike: delayed (2-5 sec latency), fatigable, rotatory geotropic nystagmus. Treatment: Epley maneuver (reposition particles) = 90%+ cure. MENIERE’S DISEASE: endolymphatic hydrops. Classic tetrad: episodic VERTIGO (hours, 20 min-12 hours), fluctuating low-frequency SNHL, TINNITUS, aural fullness. Medical: low-Na diet + diuretics. Surgical: intratympanic gentamicin (vestibulotoxic) or endolymphatic sac decompression. ACOUSTIC NEUROMA (vestibular schwannoma): Schwann cell tumor of vestibular branch CN VIII. Unilateral SNHL (gradual) + tinnitus + imbalance (NOT acute vertigo). CPA tumor. MRI gadolinium = gold standard.",clinical:'BPPV most common cause of vertigo overall. Meniere\'s: episodes last hours (not seconds like BPPV). Acoustic neuroma: screen with MRI for any unilateral SNHL. ABR (abnormal wave V latency).',mnemonic:'BPPV = brief + positional (seconds). Meniere\'s = hours of vertigo. Acoustic neuroma = gradual SNHL + no acute vertigo.'},
-   ]},
-  ]
- }
-};
-
-
-// ═══════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════
-let state = {
-  mastered: JSON.parse(localStorage.getItem('ap_mastered') || '[]'),
-  review: JSON.parse(localStorage.getItem('ap_review') || '[]'),
-  bestScore: JSON.parse(localStorage.getItem('ap_bestScore') || 'null'),
-  sessions: JSON.parse(localStorage.getItem('ap_sessions') || '0'),
-  streak: JSON.parse(localStorage.getItem('ap_streak') || '1'),
-  currentNote: 'org',
-  fcFilteredCards: [...ALL_CARDS],
-  fcIndex: 0,
-  fcFlipped: false,
-  fcActiveFilter: 'All',
-  quizMode: 'mixed',
-  quizChapter: null,
-  quizQuestions: [],
-  quizCurrent: 0,
-  quizScore: 0,
-  quizAnswered: false,
-};
-
-function saveState() {
-  localStorage.setItem('ap_mastered', JSON.stringify(state.mastered));
-  localStorage.setItem('ap_review', JSON.stringify(state.review));
-  localStorage.setItem('ap_bestScore', JSON.stringify(state.bestScore));
-  localStorage.setItem('ap_sessions', JSON.stringify(state.sessions));
-  localStorage.setItem('ap_streak', JSON.stringify(state.streak));
-}
-
-// ═══════════════════════════════════════════
-// SVG DIAGRAMS
-// ═══════════════════════════════════════════
-function getSVG(id) {
-  const svgs = {
-    levelsSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker></defs>
-      ${[['Chem',10],['Cell',55],['Tissue',100],['Organ',152],['System',198],['Organism',240]].map((l,i)=>`
-        <rect x="${l[1]}" y="35" width="42" height="28" rx="5" fill="#1a1e28" stroke="#5577e8" stroke-width="1"/>
-        <text x="${l[1]+21}" y="53" text-anchor="middle" fill="#9099b0" font-size="8">${l[0]}</text>
-        ${i<5?`<line x1="${l[1]+42}" y1="49" x2="${[55,100,152,198,240][i]}" y2="49" stroke="#5577e8" stroke-width="1" marker-end="url(#arr)"/>`:''}
-      `).join('')}
-    </svg>`,
-
-    bondSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
-      <circle cx="50" cy="45" r="20" fill="#1a1e28" stroke="#7c9ef8" stroke-width="1.5"/>
-      <text x="50" y="50" text-anchor="middle" fill="#7c9ef8" font-size="11" font-weight="500">H</text>
-      <circle cx="110" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="110" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">H</text>
-      <circle cx="155" cy="45" r="20" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="155" y="50" text-anchor="middle" fill="#52d18a" font-size="11" font-weight="500">O</text>
-      <line x1="70" y1="45" x2="90" y2="45" stroke="#9099b0" stroke-width="1.5" stroke-dasharray="3,2"/>
-      <line x1="130" y1="38" x2="138" y2="33" stroke="#f5c842" stroke-width="1.5"/>
-      <line x1="130" y1="52" x2="138" y2="57" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="100" y="18" text-anchor="middle" fill="#9099b0" font-size="7">shared electrons = covalent</text>
-    </svg>`,
-
-    phSVG: `<svg viewBox="0 0 280 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f07060"/><stop offset="50%" stop-color="#52d18a"/><stop offset="100%" stop-color="#7c9ef8"/></linearGradient></defs>
-      <rect x="10" y="25" width="260" height="14" rx="7" fill="url(#phg)" opacity="0.7"/>
-      ${[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(n=>`
-        <line x1="${10+n*260/14}" y1="20" x2="${10+n*260/14}" y2="40" stroke="#0d0f14" stroke-width="${n%7===0?2:0.5}"/>
-        <text x="${10+n*260/14}" y="55" text-anchor="middle" fill="#5c6480" font-size="7">${n}</text>
-      `).join('')}
-      <rect x="96" y="16" width="36" height="26" rx="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
-      <text x="114" y="12" text-anchor="middle" fill="#52d18a" font-size="7">Blood</text>
-      <text x="30" y="16" fill="#f07060" font-size="7">Acid</text>
-      <text x="230" y="16" fill="#7c9ef8" font-size="7">Base</text>
-    </svg>`,
-
-    membraneSVG: `<svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      ${Array.from({length:12},(_,i)=>`
-        <circle cx="${20+i*20}" cy="35" r="7" fill="#5577e8" opacity="0.8"/>
-        <line x1="${20+i*20}" y1="42" x2="${18+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="42" x2="${22+i*20}" y2="56" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="65" x2="${18+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
-        <line x1="${20+i*20}" y1="65" x2="${22+i*20}" y2="51" stroke="#9099b0" stroke-width="2"/>
-        <circle cx="${20+i*20}" cy="65" r="7" fill="#5577e8" opacity="0.8"/>
-      `).join('')}
-      <rect x="95" y="28" width="30" height="44" rx="8" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="110" y="54" text-anchor="middle" fill="#52d18a" font-size="7">protein</text>
-      <text x="5" y="95" fill="#9099b0" font-size="7">hydrophilic heads</text>
-      <text x="5" y="20" fill="#9099b0" font-size="7">extracellular</text>
-    </svg>`,
-
-    mitoSVG: `<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
-      <ellipse cx="110" cy="50" rx="100" ry="38" fill="none" stroke="#5577e8" stroke-width="2"/>
-      <ellipse cx="110" cy="50" rx="82" ry="25" fill="none" stroke="#52d18a" stroke-width="1.5"/>
-      ${[40,60,80,100,120,140,160].map(x=>`<path d="M${x},25 Q${x-12},50 ${x},75" fill="none" stroke="#52d18a" stroke-width="1" opacity="0.6"/>`).join('')}
-      <text x="110" y="54" text-anchor="middle" fill="#9099b0" font-size="8">matrix + cristae</text>
-      <text x="110" y="12" text-anchor="middle" fill="#7c9ef8" font-size="7">outer membrane</text>
-    </svg>`,
-
-    diffusionSVG: `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px">
-      <rect x="0" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.1)" stroke="#5577e8" stroke-width="1"/>
-      <rect x="110" y="15" width="90" height="65" rx="6" fill="rgba(85,119,232,0.04)" stroke="#5577e8" stroke-width="0.5"/>
-      ${[[15,30],[25,55],[40,25],[55,60],[70,38],[20,45],[50,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.7"/>`).join('')}
-      ${[[130,45],[170,50],[155,30]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="#5577e8" opacity="0.3"/>`).join('')}
-      <line x1="90" y1="47" x2="110" y2="47" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="97" y="43" fill="#f5c842" font-size="9">→</text>
-      <text x="20" y="95" fill="#9099b0" font-size="7">high concentration</text>
-      <text x="120" y="95" fill="#9099b0" font-size="7">low concentration</text>
-    </svg>`,
-
-    tonicSVG: `<svg viewBox="0 0 240 85" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
-      <ellipse cx="40" cy="42" rx="25" ry="25" fill="none" stroke="#52d18a" stroke-width="2"/>
-      <text x="40" y="46" text-anchor="middle" fill="#52d18a" font-size="8">isotonic</text>
-      <ellipse cx="120" cy="42" rx="32" ry="32" fill="none" stroke="#7c9ef8" stroke-width="2"/>
-      <text x="120" y="46" text-anchor="middle" fill="#7c9ef8" font-size="7">hypotonic</text>
-      <text x="120" y="56" text-anchor="middle" fill="#7c9ef8" font-size="6">(swells)</text>
-      <ellipse cx="200" cy="42" rx="18" ry="18" fill="none" stroke="#f07060" stroke-width="2"/>
-      <text x="200" y="46" text-anchor="middle" fill="#f07060" font-size="7">hypertonic</text>
-      <text x="200" y="56" text-anchor="middle" fill="#f07060" font-size="6">(shrinks)</text>
-    </svg>`,
-
-    skinSVG: `<svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      ${[
-        ['Stratum corneum','#9099b0',5,8],
-        ['Stratum granulosum','#7c9ef8',20,8],
-        ['Stratum spinosum','#5577e8',35,8],
-        ['Stratum basale','#52d18a',50,10],
-        ['Dermis (papillary)','#f5c842',65,18],
-        ['Dermis (reticular)','#f07060',88,20],
-      ].map(([lbl,col,y,h])=>`
-        <rect x="10" y="${y}" width="170" height="${h}" rx="2" fill="${col}" opacity="0.25"/>
-        <rect x="10" y="${y}" width="2" height="${h}" rx="1" fill="${col}"/>
-        <text x="18" y="${y+h*0.67}" fill="${col}" font-size="7.5">${lbl}</text>
-      `).join('')}
-      <text x="10" y="112" fill="#9099b0" font-size="7">← superficial</text>
-      <text x="10" y="7" fill="#9099b0" font-size="7">← deep</text>
-    </svg>`,
-
-    osteonSVG: `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" style="width:120px;height:120px">
-      ${[50,42,34,26,18,10].map(r=>`<circle cx="70" cy="70" r="${r}" fill="none" stroke="#5577e8" stroke-width="${r===10?2:1}" opacity="${0.3+r/80}"/>`).join('')}
-      <circle cx="70" cy="70" r="7" fill="#f5c842" opacity="0.9"/>
-      <text x="70" y="74" text-anchor="middle" fill="#0d0f14" font-size="6" font-weight="500">canal</text>
-      <text x="70" y="18" text-anchor="middle" fill="#9099b0" font-size="6">concentric lamellae</text>
-      ${[[30,50],[110,50],[50,105],[90,105]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.5" fill="#52d18a"/>`).join('')}
-      <text x="112" y="53" fill="#52d18a" font-size="5.5">osteocyte</text>
-    </svg>`,
-
-    sarcomeresSVG: `<svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <line x1="10" y1="40" x2="270" y2="40" stroke="#222736" stroke-width="20"/>
-      <line x1="10" y1="40" x2="270" y2="40" stroke="#5577e8" stroke-width="12" opacity="0.5"/>
-      <rect x="35" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
-      <rect x="160" y="30" width="85" height="20" rx="2" fill="#52d18a" opacity="0.6"/>
-      <line x1="10" y1="25" x2="10" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <line x1="140" y1="25" x2="140" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <line x1="270" y1="25" x2="270" y2="55" stroke="#f5c842" stroke-width="2.5"/>
-      <text x="75" y="70" text-anchor="middle" fill="#52d18a" font-size="7">thin (actin) filaments</text>
-      <text x="140" y="20" text-anchor="middle" fill="#5577e8" font-size="7">thick (myosin)</text>
-      <text x="10" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="140" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="270" y="18" text-anchor="middle" fill="#f5c842" font-size="7">Z</text>
-      <text x="75" y="12" text-anchor="middle" fill="#9099b0" font-size="6">← I band →</text>
-      <text x="140" y="12" text-anchor="middle" fill="#9099b0" font-size="6">A band</text>
-    </svg>`,
-
-    crossbridgeSVG: `<svg viewBox="0 0 240 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
-      <rect x="10" y="45" width="220" height="14" rx="3" fill="#52d18a" opacity="0.4"/>
-      <text x="120" y="55" text-anchor="middle" fill="#52d18a" font-size="7">ACTIN (thin filament)</text>
-      ${[40,90,140,190].map(x=>`
-        <rect x="${x}" y="48" width="16" height="10" rx="2" fill="#52d18a" opacity="0.7"/>
-      `).join('')}
-      <rect x="30" y="72" width="180" height="12" rx="3" fill="#5577e8" opacity="0.5"/>
-      <text x="120" y="81" text-anchor="middle" fill="#7c9ef8" font-size="7">MYOSIN (thick filament)</text>
-      ${[55,105,155].map(x=>`
-        <line x1="${x+8}" y1="72" x2="${x}" y2="58" stroke="#7c9ef8" stroke-width="2"/>
-        <circle cx="${x}" cy="55" r="4" fill="#7c9ef8"/>
-      `).join('')}
-      <text x="120" y="100" text-anchor="middle" fill="#9099b0" font-size="6.5">Power stroke: myosin head pulls actin → center</text>
-      <circle cx="120" cy="25" r="8" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
-      <text x="120" y="29" text-anchor="middle" fill="#f5c842" font-size="7">Ca²⁺</text>
-      <text x="120" y="14" text-anchor="middle" fill="#9099b0" font-size="6">triggers troponin → exposes binding sites</text>
-    </svg>`,
-
-    neuronSVG: `<svg viewBox="0 0 300 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
-      ${[[10,35],[20,25],[15,50],[5,43]].map(([x,y])=>`<line x1="${x}" y1="${y}" x2="55" y2="45" stroke="#7c9ef8" stroke-width="1.5"/>`).join('')}
-      <ellipse cx="70" cy="45" rx="18" ry="18" fill="#1a1e28" stroke="#5577e8" stroke-width="2"/>
-      <text x="70" y="49" text-anchor="middle" fill="#7c9ef8" font-size="6.5">soma</text>
-      <line x1="88" y1="45" x2="230" y2="45" stroke="#52d18a" stroke-width="2.5"/>
-      ${[100,120,140,160,180,200,220].map(x=>`<ellipse cx="${x}" cy="45" rx="7" ry="5" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>`).join('')}
-      <circle cx="240" cy="45" r="8" fill="#1a1e28" stroke="#f5c842" stroke-width="1.5"/>
-      <text x="240" y="72" text-anchor="middle" fill="#f5c842" font-size="6">terminal</text>
-      <text x="160" y="35" text-anchor="middle" fill="#9099b0" font-size="6">myelin sheath</text>
-      <text x="10" y="80" fill="#7c9ef8" font-size="6">dendrites</text>
-      <text x="88" y="80" fill="#52d18a" font-size="6">axon →</text>
-    </svg>`,
-
-    apSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><marker id="ap_arr" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#5c6480"/></marker></defs>
-      <line x1="20" y1="10" x2="20" y2="90" stroke="#222736" stroke-width="1"/>
-      <line x1="20" y1="80" x2="265" y2="80" stroke="#222736" stroke-width="1"/>
-      <path d="M20,65 L60,65 L80,10 L100,90 L115,70 L140,65 L265,65" fill="none" stroke="#7c9ef8" stroke-width="2.5"/>
-      <line x1="60" y1="65" x2="60" y2="90" stroke="#f07060" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="60" y="96" text-anchor="middle" fill="#f07060" font-size="6.5">threshold</text>
-      <text x="80" y="16" text-anchor="middle" fill="#52d18a" font-size="6.5">+30mV</text>
-      <text x="8" y="68" fill="#9099b0" font-size="6">−70mV</text>
-      <text x="75" y="52" fill="#7c9ef8" font-size="6">depol.</text>
-      <text x="102" y="68" fill="#f5c842" font-size="6">repol.</text>
-    </svg>`,
-
-    brainSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <path d="M30,90 Q20,60 35,40 Q50,15 80,20 Q110,10 130,25 Q150,10 175,18 Q210,20 220,45 Q235,65 225,88 Z" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <line x1="145" y1="20" x2="145" y2="90" stroke="#222736" stroke-width="1.5"/>
-      <rect x="32" y="38" width="55" height="25" rx="4" fill="rgba(240,112,96,0.2)" stroke="#f07060" stroke-width="1"/>
-      <text x="59" y="53" text-anchor="middle" fill="#f07060" font-size="7">frontal</text>
-      <rect x="90" y="25" width="50" height="28" rx="4" fill="rgba(245,200,66,0.2)" stroke="#f5c842" stroke-width="1"/>
-      <text x="115" y="42" text-anchor="middle" fill="#f5c842" font-size="7">parietal</text>
-      <rect x="32" y="65" width="55" height="22" rx="4" fill="rgba(78,205,196,0.2)" stroke="#4ecdc4" stroke-width="1"/>
-      <text x="59" y="79" text-anchor="middle" fill="#4ecdc4" font-size="7">temporal</text>
-      <rect x="160" y="30" width="55" height="30" rx="4" fill="rgba(176,132,245,0.2)" stroke="#b084f5" stroke-width="1"/>
-      <text x="187" y="48" text-anchor="middle" fill="#b084f5" font-size="7">occipital</text>
-      <ellipse cx="187" cy="82" rx="28" ry="18" fill="rgba(82,209,138,0.15)" stroke="#52d18a" stroke-width="1"/>
-      <text x="187" y="85" text-anchor="middle" fill="#52d18a" font-size="6.5">cerebellum</text>
-    </svg>`,
-
-    feedbackSVG: `<svg viewBox="0 0 280 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-      <defs><marker id="fb_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5577e8"/></marker>
-      <marker id="neg_arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#52d18a"/></marker></defs>
-      ${[['Receptor',30,40,'#f5c842'],['Control\nCenter',120,40,'#7c9ef8'],['Effector',210,40,'#52d18a']].map(([lbl,x,cy,col])=>`
-        <rect x="${x}" y="${cy-18}" width="68" height="36" rx="8" fill="#1a1e28" stroke="${col}" stroke-width="1.5"/>
-        <text x="${x+34}" y="${cy+4}" text-anchor="middle" fill="${col}" font-size="8">${lbl}</text>
-      `).join('')}
-      <line x1="98" y1="40" x2="120" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
-      <line x1="188" y1="40" x2="210" y2="40" stroke="#5577e8" stroke-width="1.5" marker-end="url(#fb_arr)"/>
-      <path d="M245,58 Q245,85 140,85 Q80,85 64,58" fill="none" stroke="#52d18a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#neg_arr)"/>
-      <text x="140" y="97" text-anchor="middle" fill="#52d18a" font-size="7">negative feedback loop</text>
-    </svg>`,
-
-    ansSVG: `<svg viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px">
-      <rect x="90" y="5" width="80" height="25" rx="6" fill="#1a1e28" stroke="#9099b0" stroke-width="1.5"/>
-      <text x="130" y="21" text-anchor="middle" fill="#9099b0" font-size="8">CNS (brain/SC)</text>
-      <line x1="130" y1="30" x2="50" y2="55" stroke="#5577e8" stroke-width="1.5"/>
-      <line x1="130" y1="30" x2="210" y2="55" stroke="#52d18a" stroke-width="1.5"/>
-      <rect x="10" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="50" y="68" text-anchor="middle" fill="#7c9ef8" font-size="7.5">Sympathetic</text>
-      <text x="50" y="78" text-anchor="middle" fill="#7c9ef8" font-size="6">norepinephrine</text>
-      <rect x="170" y="55" width="80" height="28" rx="6" fill="#1a1e28" stroke="#52d18a" stroke-width="1.5"/>
-      <text x="210" y="68" text-anchor="middle" fill="#52d18a" font-size="7.5">Parasympathetic</text>
-      <text x="210" y="78" text-anchor="middle" fill="#52d18a" font-size="6">acetylcholine</text>
-      <text x="50" y="103" text-anchor="middle" fill="#f07060" font-size="6.5">fight or flight ⚡</text>
-      <text x="210" y="103" text-anchor="middle" fill="#4ecdc4" font-size="6.5">rest &amp; digest 🌿</text>
-    </svg>`,
-
-    synovialSVG: `<svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px">
-      <rect x="30" y="5" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="110" y="24" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
-      <rect x="30" y="75" width="160" height="30" rx="6" fill="#1a1e28" stroke="#5577e8" stroke-width="1.5"/>
-      <text x="110" y="94" text-anchor="middle" fill="#7c9ef8" font-size="7">bone</text>
-      <rect x="20" y="35" width="180" height="40" rx="4" fill="rgba(85,119,232,0.05)" stroke="#5577e8" stroke-width="1" stroke-dasharray="3,2"/>
-      <rect x="30" y="35" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
-      <rect x="30" y="69" width="160" height="6" rx="2" fill="#52d18a" opacity="0.5"/>
-      <text x="110" y="57" text-anchor="middle" fill="#f5c842" font-size="7">synovial fluid</text>
-      <text x="190" y="50" fill="#9099b0" font-size="5.5">← joint</text>
-      <text x="190" y="58" fill="#9099b0" font-size="5.5">capsule</text>
-      <text x="32" y="44" fill="#52d18a" font-size="5.5">articular cartilage</text>
-    </svg>`,
-  };
-  return svgs[id] || '';
-}
-
-// ═══════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════
-function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if(page === 'notes') renderNotes();
-  if(page === 'flashcards') renderFlashcards();
-  if(page === 'quiz') renderQuizSetup();
-  if(page === 'dashboard') renderDashboard();
-}
-
-// ═══════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════
-function renderDashboard() {
-  document.getElementById('masteredCount').textContent = state.mastered.length;
-  document.getElementById('reviewStatCount').textContent = state.review.length;
-  document.getElementById('bestScore').textContent = state.bestScore !== null ? state.bestScore + '%' : '—';
-  document.getElementById('sessionsToday').textContent = state.sessions;
-  document.getElementById('streakNum').textContent = state.streak;
-  const grid = document.getElementById('chapterGrid');
-  grid.innerHTML = CHAPTERS.map(ch => {
-    const total = ch.sections.reduce((a,s)=>a+s.items.length,0);
-    const mastered = ch.sections.reduce((a,s)=>a+s.items.filter(i=>state.mastered.includes(i.term)).length,0);
-    const pct = total > 0 ? Math.round(mastered/total*100) : 0;
-    return `<div class="chapter-card ${ch.color}" onclick="goToNotes('${ch.id}')">
-      <div class="chapter-card-icon">${ch.icon}</div>
-      <h3>${ch.label}</h3>
-      <p>${ch.desc}</p>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--${ch.color==='blue'?'accent':ch.color==='teal'?'teal':ch.color==='purple'?'purple':ch.color==='amber'?'amber':ch.color==='coral'?'coral':ch.color==='pink'?'pink':'accent'})"></div></div>
-      <div style="font-size:11px;color:var(--text3);margin-top:6px">${mastered}/${total} mastered</div>
-    </div>`;
-  }).join('');
-}
-
-function goToNotes(chId) {
-  state.currentNote = chId;
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.nav-btn')[1].classList.add('active');
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-notes').classList.add('active');
-  renderNotes();
-}
-
-// ═══════════════════════════════════════════
-// NOTES
-// ═══════════════════════════════════════════
-function renderNotes() {
-  const colors = {blue:'#7c9ef8',teal:'#4ecdc4',purple:'#b084f5',amber:'#f5c842',coral:'#f07060',pink:'#f472b6'};
-  const sidebar = document.getElementById('notesSidebar');
-
-  // Build sidebar with A&P chapters + anatomy groups separated by a divider
-  let sHTML = '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--color-text-tertiary,#5c6480);padding:6px 14px 4px;font-weight:600">A&P 1 Chapters</div>';
-  sHTML += CHAPTERS.map(ch => `
-    <button class="sidebar-btn ${ch.id === state.currentNote ? 'active' : ''}" onclick="selectNote('${ch.id}')">
-      <span class="sidebar-dot" style="background:${colors[ch.color]||'#7c9ef8'}"></span>
-      ${ch.label}
-    </button>`).join('');
-  sHTML += '<div style="height:1px;background:rgba(255,255,255,.06);margin:8px 0"></div>';
-  sHTML += '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--color-text-tertiary,#5c6480);padding:2px 14px 4px;font-weight:600">Anatomy Atlas</div>';
-  sHTML += ANATOMY_GROUPS.map(g => `
-    <button class="sidebar-btn ${g.id === state.currentNote ? 'active' : ''}" onclick="selectNote('${g.id}')">
-      <span class="sidebar-dot" style="background:${g.color}"></span>
-      ${g.icon} ${g.label}
-    </button>`).join('');
-  sidebar.innerHTML = sHTML;
-
-  const main = document.getElementById('notesMain');
-
-  // A&P 1 chapter notes
-  const ch = CHAPTERS.find(c => c.id === state.currentNote);
-  if (ch) {
-    main.innerHTML =
-      '<div class="notes-chapter-title">' + ch.icon + ' ' + ch.label + '</div>' +
-      '<div class="notes-chapter-sub">' + ch.desc + '</div>' +
-      ch.sections.map(sec =>
-        '<div class="notes-section">' +
-        '<div class="notes-section-title">' + sec.title + '</div>' +
-        sec.items.map(item =>
-          '<div class="term-row">' +
-          '<div class="term-name">' + item.term + '</div>' +
-          '<div>' +
-          '<div class="term-def">' + item.def + '</div>' +
-          (item.svg ? '<div class="term-visual">' + getSVG(item.svg) + '</div>' : '') +
-          (item.mnemonic ? '<div style="margin-top:6px;font-size:12px;color:var(--amber);background:rgba(245,200,66,0.06);border-radius:6px;padding:6px 10px;border-left:2px solid var(--amber)">&#x1F4A1; ' + item.mnemonic + '</div>' : '') +
-          '</div></div>'
-        ).join('') +
-        '</div>'
-      ).join('');
-    return;
-  }
-
-  // Anatomy group notes
-  const ag = ANATOMY_GROUPS.find(g => g.id === state.currentNote);
-  if (ag) {
-    const nc = ANATOMY_NOTES[ag.id];
-    if (nc) {
-      let html = '<div class="notes-chapter-title">' + ag.icon + ' ' + ag.label + '</div>';
-      html += '<div class="notes-chapter-sub">' + nc.desc + '</div>';
-      nc.sections.forEach(function(sec) {
-        html += '<div class="notes-section"><div class="notes-section-title">' + sec.title + '</div>';
-        sec.items.forEach(function(item) {
-          html += '<div class="term-row"><div class="term-name">' + item.term + '</div><div>';
-          html += '<div class="term-def">' + item.def + '</div>';
-          if (item.clinical) html += '<div style="margin-top:5px;font-size:12px;color:var(--coral,#f07060);background:rgba(240,112,96,0.06);border-radius:6px;padding:6px 10px;border-left:2px solid var(--coral,#f07060)">&#x1F3E5; ' + item.clinical + '</div>';
-          if (item.mnemonic) html += '<div style="margin-top:5px;font-size:12px;color:var(--amber,#f5c842);background:rgba(245,200,66,0.06);border-radius:6px;padding:6px 10px;border-left:2px solid var(--amber,#f5c842)">&#x1F4A1; ' + item.mnemonic + '</div>';
-          html += '</div></div>';
-        });
-        html += '</div>';
-      });
-      main.innerHTML = html;
-    } else {
-      main.innerHTML = '<div style="padding:40px;text-align:center;color:#5c6480">Notes loading...</div>';
-    }
-    return;
-  }
-
-  main.innerHTML = '<div style="padding:40px;text-align:center;color:#5c6480">Select a topic from the sidebar</div>';
-}
-
-function selectNote(id) {
-  state.currentNote = id;
-  renderNotes();
-}
-
-// ═══════════════════════════════════════════
-// FLASHCARDS
-// ═══════════════════════════════════════════
-function renderFlashcards() {
-  state.sessions++;
-  saveState();
-  const chCats = CHAPTERS.map(c => c.label.split('. ')[1] || c.label);
-  const agCats = ANATOMY_GROUPS.map(g => g.label);
-  const cats = ['All', ...chCats, ...agCats];
-  document.getElementById('fcFilterRow').innerHTML = cats.map(function(cat) {
-    const ag = ANATOMY_GROUPS.find(function(g){ return g.label === cat; });
-    const isActive = cat === state.fcActiveFilter;
-    const aStyle = (isActive && ag) ? 'background:' + ag.color + '33;border-color:' + ag.color + ';color:' + ag.color : '';
-    return '<button class="filter-btn ' + (isActive ? 'active' : '') + '" style="' + aStyle + '" onclick="fcSetFilter(\'' + cat + '\')">' + (ag ? ag.icon + ' ' : '') + cat + '</button>';
-  }).join('');
-  document.getElementById('fcMastered').textContent = state.mastered.length;
-  document.getElementById('fcNeedsReview').textContent = state.review.length;
-  document.getElementById('fcTotal').textContent = ALL_CARDS.length;
-  renderFCCard();
-}
-
-function fcSetFilter(cat) {
-  state.fcActiveFilter = cat;
-  state.fcIndex = 0;
-  state.fcFlipped = false;
-  if(cat === 'All') {
-    state.fcFilteredCards = [...ALL_CARDS];
-  } else {
-    state.fcFilteredCards = ALL_CARDS.filter(function(card) {
-      var label = card.chapter.includes('. ') ? card.chapter.split('. ')[1] : card.chapter;
-      return label === cat || card.chapter === cat;
-    });
-  }
-  document.querySelectorAll('.filter-btn').forEach(function(b) {
-    b.classList.remove('active');
-    if(b.textContent.replace(/^[^a-zA-Z0-9]*/, '').trim() === cat || b.textContent.trim() === cat) b.classList.add('active');
-  });
-  renderFCCard();
-}
-
-function renderFCCard() {
-  const cards = state.fcFilteredCards;
-  if(!cards.length) return;
-  const idx = state.fcIndex % cards.length;
-  const card = cards[idx];
-  document.getElementById('fcCounter').textContent = `${idx+1} / ${cards.length}`;
-  document.getElementById('fcInner').className = 'fc-inner' + (state.fcFlipped ? ' flipped' : '');
-  const isMastered = state.mastered.includes(card.term);
-  const isReview = state.review.includes(card.term);
-  document.getElementById('fcFront').innerHTML = `
-    ${card.svg ? `<div class="fc-visual">${getSVG(card.svg)}</div>` : `<div style="font-size:40px;margin-bottom:12px">${getChapterIcon(card.chapterId)}</div>`}
-    <div class="fc-term">${card.term}</div>
-    <div class="fc-category-tag">${card.chapter}</div>
-    ${isMastered ? '<div style="margin-top:10px;font-size:11px;color:var(--green)">✓ Mastered</div>' : ''}
-    ${isReview ? '<div style="margin-top:10px;font-size:11px;color:var(--coral)">↺ Needs review</div>' : ''}
-    <div class="fc-hint">tap to flip</div>`;
-  document.getElementById('fcBack').innerHTML = `
-    <div class="fc-def">${card.def}</div>
-    ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">Memory tip</div>${card.mnemonic}</div>` : ''}
-    ${card.svg ? `<div style="margin-top:10px">${getSVG(card.svg)}</div>` : ''}
-    <div class="fc-hint">tap to flip back</div>`;
-}
-
-function getChapterIcon(id) {
-  return (CHAPTERS.find(c=>c.id===id)||{icon:'📖'}).icon;
-}
-
-function flipFC() { state.fcFlipped = !state.fcFlipped; renderFCCard(); }
-function fcNav(dir) {
-  state.fcIndex = (state.fcIndex + dir + state.fcFilteredCards.length) % state.fcFilteredCards.length;
-  state.fcFlipped = false;
-  renderFCCard();
-}
-function fcMark(type) {
-  const card = state.fcFilteredCards[state.fcIndex % state.fcFilteredCards.length];
-  if(type === 'mastered') {
-    state.mastered = [...new Set([...state.mastered, card.term])];
-    state.review = state.review.filter(t=>t!==card.term);
-  } else {
-    state.review = [...new Set([...state.review, card.term])];
-    state.mastered = state.mastered.filter(t=>t!==card.term);
-  }
-  saveState();
-  document.getElementById('fcMastered').textContent = state.mastered.length;
-  document.getElementById('fcNeedsReview').textContent = state.review.length;
-  fcNav(1);
-}
-
-// ═══════════════════════════════════════════
-// QUIZ
-// ═══════════════════════════════════════════
-let quizMode = 'mixed';
-function selectQuizMode(el, mode) {
-  quizMode = mode;
-  document.querySelectorAll('.quiz-opt-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('chapterSelectForQuiz').style.display = mode === 'chapter' ? 'block' : 'none';
-}
-
-function renderQuizSetup() {
-  const sel = document.getElementById('quizChapterSelect');
-  const chOpts = CHAPTERS.map(function(ch){ return '<option value="ch:' + ch.id + '">' + ch.label + '</option>'; }).join('');
-  const agOpts = ANATOMY_GROUPS.map(function(g){ return '<option value="ag:' + g.id + '">' + g.icon + ' ' + g.label + '</option>'; }).join('');
-  sel.innerHTML = '<optgroup label="A&P 1 Chapters">' + chOpts + '</optgroup><optgroup label="Anatomy Atlas">' + agOpts + '</optgroup>';
-  document.getElementById('quizSetup').style.display = 'block';
-  document.getElementById('quizActive').style.display = 'none';
-}
-
-function startQuiz() {
-  let pool;
-  if(quizMode === 'chapter') {
-    const val = document.getElementById('quizChapterSelect').value;
-    if(val.startsWith('ag:')) {
-      const agId = val.replace('ag:','');
-      const ag = ANATOMY_GROUPS.find(function(g){ return g.id===agId; });
-      pool = ag.cards.map(function(card){ return {term:card.term,def:card.def,mnemonic:card.mnemonic||'',chapter:ag.label,chapterId:ag.id}; });
-    } else {
-      const chId = val.replace('ch:','') || val;
-      const ch = CHAPTERS.find(function(c){ return c.id===chId; });
-      pool = ch.sections.flatMap(function(s){ return s.items; }).map(function(i){ return {...i,chapter:ch.label,chapterId:ch.id}; });
-    }
-  } else if(quizMode === 'anatomy') {
-    pool = ANATOMY_GROUPS.flatMap(function(g){ return g.cards.map(function(card){ return {term:card.term,def:card.def,mnemonic:card.mnemonic||'',chapter:g.label,chapterId:g.id}; }); });
-  } else if(quizMode === 'weak') {
-    pool = ALL_CARDS.filter(c=>state.review.includes(c.term));
-    if(!pool.length) { pool = [...ALL_CARDS]; }
-  } else {
-    pool = [...ALL_CARDS];
-  }
-  const count = quizMode === 'speed' ? 20 : 10;
-  const selected = pool.sort(()=>Math.random()-0.5).slice(0, Math.min(count, pool.length));
-  state.quizQuestions = selected.map(fc => {
-    const wrong = ALL_CARDS.filter(c=>c.term!==fc.term).sort(()=>Math.random()-0.5).slice(0,3);
-    const choices = [...wrong.map(c=>c.def), fc.def].sort(()=>Math.random()-0.5);
-    return {question: fc.term, answer: fc.def, choices, term: fc.term};
-  });
-  state.quizCurrent = 0;
-  state.quizScore = 0;
-  state.quizAnswered = false;
-  document.getElementById('quizSetup').style.display = 'none';
-  document.getElementById('quizActive').style.display = 'block';
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion() {
-  const qs = state.quizQuestions;
-  const cur = state.quizCurrent;
-  if(cur >= qs.length) { renderQuizResults(); return; }
-  const q = qs[cur];
-  const pct = Math.round(cur/qs.length*100);
-  document.getElementById('quizActive').innerHTML = `
-    <div class="quiz-question-area">
-      <div class="quiz-q-header">
-        <span class="quiz-progress-label">Question ${cur+1} of ${qs.length}</span>
-        <span class="quiz-score">${state.quizScore} correct</span>
-      </div>
-      <div class="quiz-q-bar"><div class="quiz-q-fill" style="width:${pct}%"></div></div>
-      <div class="quiz-question">Define: <em style="color:var(--accent)">${q.question}</em></div>
-      <div class="quiz-choices">
-        ${q.choices.map((c,i)=>`<button class="quiz-choice" onclick="answerQuiz(this,'${c.replace(/'/g,"\\'")}')">${c}</button>`).join('')}
-      </div>
-    </div>`;
-}
-
-function answerQuiz(el, answer) {
-  if(state.quizAnswered) return;
-  state.quizAnswered = true;
-  const q = state.quizQuestions[state.quizCurrent];
-  const correct = answer === q.answer;
-  if(correct) state.quizScore++;
-  document.querySelectorAll('.quiz-choice').forEach(btn => {
-    btn.disabled = true;
-    if(btn.textContent.trim() === q.answer) btn.classList.add('correct');
-    else if(btn.textContent.trim() === answer && !correct) btn.classList.add('wrong');
-  });
-  const area = document.querySelector('.quiz-question-area');
-  area.innerHTML += `<button class="quiz-next-btn" onclick="nextQuizQ()">
-    ${state.quizCurrent < state.quizQuestions.length-1 ? 'Next question →' : 'See results →'}
-  </button>`;
-}
-
-function nextQuizQ() {
-  state.quizCurrent++;
-  state.quizAnswered = false;
-  renderQuizQuestion();
-}
-
-function renderQuizResults() {
-  const pct = Math.round(state.quizScore/state.quizQuestions.length*100);
-  if(state.bestScore === null || pct > state.bestScore) { state.bestScore = pct; saveState(); }
-  const grade = pct >= 90 ? '🎉 Excellent!' : pct >= 70 ? '👍 Good work!' : pct >= 50 ? '📚 Keep studying' : '🔄 Review needed';
-  document.getElementById('quizActive').innerHTML = `
-    <div class="quiz-results">
-      <div class="quiz-score-big"><span class="quiz-score-pct">${pct}%</span></div>
-      <div style="font-size:20px;margin-bottom:8px">${grade}</div>
-      <div style="font-size:14px;color:var(--text2);margin-bottom:24px">${state.quizScore} of ${state.quizQuestions.length} correct</div>
-      <div class="results-breakdown">
-        <div><span>${pct >= 90 ? '⭐' : pct >= 70 ? '✅' : '❌'}</span>Score</div>
-        <div><span>${state.bestScore}%</span>Best ever</div>
-        <div><span>${state.mastered.length}</span>Mastered</div>
-      </div>
-      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="startQuiz()">Retake Quiz</button>
-        <button class="btn" onclick="renderQuizSetup()">New Quiz</button>
-        <button class="btn" onclick="showPage2('flashcards')">Review Flashcards</button>
-      </div>
-    </div>`;
-}
-
-function showPage2(page) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const idx = {dashboard:0,notes:1,flashcards:2,quiz:3,science:4}[page];
-  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
-  document.getElementById('page-'+page).classList.add('active');
-  if(page==='flashcards') renderFlashcards();
-}
-
-// ── INIT ──
-renderDashboard();
-</script>
-</body>
-</html>
+    {term:'Supraspinous + interspinous ligaments',def:'Supraspinous: connects tips of spinous processes C7 to sacrum (above C7 = nuchal ligament). Interspinous: between adjacent spinous processes. Both resist flexion. Supraspinous = last to fail in progressive flexion injury.',clinical:'Flexion-distraction (seat belt) injury: interspinous +
