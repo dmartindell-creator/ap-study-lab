@@ -1053,9 +1053,9 @@ function renderCard() {
   const fullDefId = 'fulldef_' + idx;
   const defHTML = c.def.length > shortDef.length
     ? '<div class="fc-def-short">' + shortDef + '</div>'
-      + '<div class="fc-def-full" id="' + fullDefId + '" style="display:none">'
+      + '<div class="fc-def-full" id="' + fullDefId + '" style="display:none" onclick="event.stopPropagation()">'
       + '<div class="fc-def" style="margin-top:8px">' + c.def + '</div></div>'
-      + '<button class="expand-btn" onclick="toggleDef(\'' + fullDefId + '\',this)">+ More detail</button>'
+      + '<button class="expand-btn" onclick="event.stopPropagation();toggleDef(\'' + fullDefId + '\',this)">+ More detail</button>'
     : '<div class="fc-def-short">' + c.def + '</div>';
 
   const mnemonicHTML = c.mnemonic
