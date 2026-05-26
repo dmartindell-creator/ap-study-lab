@@ -620,7 +620,7 @@
   <nav class="nav">
     <button class="nav-btn active" onclick="showPage('dashboard')">Dashboard</button>
     <button class="nav-btn" onclick="showPage('notes')">Notes</button>
-    <button class="nav-btn" onclick="showPage('flashcards')">Flashcards</button>
+
     <button class="nav-btn" onclick="showPage('quiz')">Quiz</button>
     <button class="nav-btn" onclick="showPage('science')">Study Science</button>
   </nav>
@@ -668,47 +668,14 @@
 <div id="page-notes" class="page">
   <div class="notes-layout">
     <aside class="notes-sidebar" id="notesSidebar"></aside>
-    <main id="notesMain"></main>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════
-     FLASHCARDS
-═════════════════════════════════════════════ -->
-<div id="page-flashcards" class="page">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-    <div>
-      <div style="font-family:'Fraunces',serif;font-size:24px;font-weight:300;margin-bottom:4px">Flashcards</div>
-      <div style="font-size:13px;color:var(--text3)">Flip to reveal definition, diagram, and memory trick</div>
-    </div>
-    <div class="fc-progress-row" id="fcProgressRow">
-      <div>Mastered: <span id="fcMastered">0</span></div>
-      <div>Review: <span id="fcNeedsReview">0</span></div>
-      <div>Total: <span id="fcTotal">0</span></div>
-    </div>
-  </div>
-  <div class="fc-filter-row" id="fcFilterRow"></div>
-  <div class="fc-arena">
-    <div class="fc-counter" id="fcCounter"></div>
-    <div class="fc-card-wrap" id="fcCardWrap" onclick="flipFC()">
-      <div class="fc-inner" id="fcInner">
-        <div class="fc-face fc-front-face" id="fcFront"></div>
-        <div class="fc-face fc-back-face" id="fcBack"></div>
+    <main class="notes-main" id="notesMain">
+      <div style="display:flex;align-items:center;justify-content:center;height:300px;color:var(--text-muted);font-size:15px;">
+        Select a chapter from the sidebar
       </div>
-    </div>
-    <div class="fc-actions">
-      <button class="fc-action-btn" onclick="fcNav(-1)">← Prev</button>
-      <button class="fc-action-btn review" onclick="fcMark('review')">Needs Review</button>
-      <button class="fc-action-btn flip" onclick="flipFC()">Flip Card</button>
-      <button class="fc-action-btn got-it" onclick="fcMark('mastered')">Got It ✓</button>
-      <button class="fc-action-btn" onclick="fcNav(1)">Next →</button>
-    </div>
+    </main>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════
-     QUIZ
-═════════════════════════════════════════════ -->
 <div id="page-quiz" class="page">
   <div id="quizSetup" class="quiz-setup">
     <div style="font-size:40px;margin-bottom:16px">🧠</div>
@@ -720,9 +687,6 @@
       </div>
       <div class="quiz-opt-card" data-mode="chapter" onclick="selectQuizMode(this,'chapter')">
         <h4>📖 By Chapter</h4><p>Focus on one topic area</p>
-      </div>
-      <div class="quiz-opt-card" data-mode="anatomy" onclick="selectQuizMode(this,'anatomy')">
-        <h4>🦴 Anatomy Only</h4><p>Muscles, nerves, ligaments, tendons, eye, ear</p>
       </div>
       <div class="quiz-opt-card" data-mode="weak" onclick="selectQuizMode(this,'weak')">
         <h4>🔄 Weak Spots</h4><p>Cards marked "needs review"</p>
@@ -739,9 +703,6 @@
   <div id="quizActive" style="display:none"></div>
 </div>
 
-<!-- ════════════════════════════════════════════
-     STUDY SCIENCE
-═════════════════════════════════════════════ -->
 <div id="page-science" class="page">
   <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;margin-bottom:6px">The Science of Remembering</div>
   <div style="color:var(--text2);font-size:14px;margin-bottom:28px">Evidence-based techniques for long-term retention — not cramming</div>
@@ -841,24 +802,30 @@ const CHAPTERS = [
     sections:[
       { title:'Levels of Organization', items:[
         {term:'Chemical level',def:'Atoms and molecules — smallest level; includes water, proteins, lipids, DNA, ATP.',mnemonic:'Cells Can\'t Talk On Saturday Organically (Chemical→Cellular→Tissue→Organ→System→Organism)',svg:'levelsSVG'},
-        {term:'Cellular level',def:'Cells are the basic structural and functional units of life. All cells come from pre-existing cells.',mnemonic:'Just remember: CELL = CErtainly the smaLLest living unit.',svg:''},
-        {term:'Tissue level',def:'Groups of similar cells with a common function (epithelial, connective, muscle, nervous).',mnemonic:'Think of tissue paper — layers of similar material together.',svg:''},
-        {term:'Organ level',def:'Two or more tissue types working together to perform a specific function.',mnemonic:'An ORGAN is an ORGANized group of tissues.',svg:''},
-        {term:'Organ system level',def:'Several organs cooperating toward a common purpose (e.g., digestive system).',mnemonic:'',svg:''},
-        {term:'Organismal level',def:'All organ systems working together to sustain the life of one organism.',mnemonic:'',svg:''},
+        {term:'Cellular level',def:'Cells are the basic structural and functional units of life. All cells come from pre-existing cells (cell theory).',mnemonic:'CELL = CErtainly the smaLLest living unit.',svg:''},
+        {term:'Tissue level',def:'Groups of similar cells performing a common function. Four types: epithelial, connective, muscle, nervous.',mnemonic:'Think of tissue paper — layers of similar material.',svg:''},
+        {term:'Organ level',def:'Two or more tissue types working together for a specific function.',mnemonic:'ORGAN = ORGANized tissues.',svg:''},
+        {term:'Organ system level',def:'Several organs cooperating toward a common purpose.',mnemonic:'',svg:''},
+        {term:'Organismal level',def:'All organ systems working together to sustain life via homeostasis.',mnemonic:'',svg:''},
+        {term:'Anatomical position',def:'Body erect, feet together, palms facing forward. Standard reference for all directional terms.',mnemonic:'Standing at attention, thumbs out.',svg:''},
+        {term:'Directional terms',def:'Superior/inferior (up/down). Anterior/posterior (front/back). Medial/lateral (toward/away from midline). Proximal/distal (near/far from origin). Superficial/deep.',mnemonic:'Super Infants Are Prone to Medial Lateral Problems Sometimes Deep.',svg:''},
+        {term:'Body planes',def:'Sagittal (divides L/R). Frontal/coronal (front/back). Transverse/horizontal (top/bottom). Oblique = diagonal cut.',mnemonic:'SFT like X, Y, Z axes.',svg:''},
+        {term:'Body cavities',def:'Dorsal: cranial + spinal. Ventral: thoracic (pleural + pericardial) + abdominopelvic (abdominal + pelvic). Mediastinum = central thoracic region.',mnemonic:'Dorsal = back. Ventral = front.',svg:''},
       ]},
       { title:'Basic Chemistry', items:[
-        {term:'Covalent bond',def:'Atoms share electrons. Can be polar (unequal sharing, e.g., water) or nonpolar (equal sharing, e.g., O₂). Strong bonds.',mnemonic:'"Co" = together → covalent = sharing together.',svg:'bondSVG'},
-        {term:'Ionic bond',def:'One atom gives electron(s) to another. Creates charged ions. Dissolved by water. E.g., NaCl.',mnemonic:'"I" gave my electron to you — ionic.',svg:''},
-        {term:'Hydrogen bond',def:'Weak attraction between δ+ hydrogen and a δ− atom (O or N). Key to DNA base pairing and water\'s surface tension.',mnemonic:'H-bonds: Helpful but Weak. Critical in DNA and proteins.',svg:''},
-        {term:'pH scale',def:'0–14 scale. Below 7 = acidic (more H⁺). Above 7 = basic/alkaline (more OH⁻). Body blood pH = 7.35–7.45.',mnemonic:'pH 7 is Pure Heaven (neutral). Body hugs it tight.',svg:'phSVG'},
-        {term:'ATP',def:'Adenosine triphosphate — the cell\'s energy currency. Energy released when terminal phosphate bond is hydrolyzed (ATP → ADP + Pi + energy).',mnemonic:'ATP = A Tiny Powerhouse. Terminal phosphate = trigger.',svg:''},
+        {term:'Covalent bond',def:'Atoms share electrons. Polar: unequal sharing (water). Nonpolar: equal (O₂). Strong bonds — backbone of organic molecules.',mnemonic:'"Co" = together. Covalent = sharing together.',svg:'bondSVG'},
+        {term:'Ionic bond',def:'Atom donates electron(s) → oppositely charged ions attract. Dissolved by water. E.g., NaCl → Na⁺ + Cl⁻.',mnemonic:'"I" gave my electron to you — ionic.',svg:''},
+        {term:'Hydrogen bond',def:'Weak attraction between δ+ hydrogen and δ− atom (O or N). Stabilizes DNA, protein shape, water surface tension.',mnemonic:'H-bonds: Helpful but Weak. Critical in DNA and proteins.',svg:''},
+        {term:'pH scale',def:'0–14. Below 7 = acidic (↑H⁺). Above 7 = basic (↑OH⁻). Blood pH = 7.35–7.45. Buffers resist pH changes.',mnemonic:'pH 7 = Pure Heaven. Blood barely above it.',svg:'phSVG'},
+        {term:'ATP',def:'Adenosine triphosphate — energy currency. ATP→ADP+Pi releases energy. Made by cellular respiration. Powers muscle contraction, active transport, biosynthesis.',mnemonic:'ATP = A Tiny Powerhouse.',svg:''},
+        {term:'Enzymes',def:'Biological catalysts — lower activation energy. Proteins, not consumed. Specific (lock-and-key / induced fit). Denatured by extreme pH/temp.',mnemonic:'"EN-zymes ENhance reactions without being used up."',svg:''},
       ]},
       { title:'Organic Molecules', items:[
-        {term:'Carbohydrates',def:'C, H, O in ~1:2:1 ratio. Monosaccharides (glucose), disaccharides, polysaccharides (glycogen = animal storage; starch = plant). Primary short-term fuel.',mnemonic:'"Carbo" = carbon + "hydrate" = water (H₂O). Carbon + water.',svg:''},
-        {term:'Lipids',def:'Nonpolar, hydrophobic. Triglycerides (energy storage), phospholipids (cell membranes), steroids (cholesterol, hormones), waxes.',mnemonic:'Lipids Love to be Lone — they repel water.',svg:''},
-        {term:'Proteins',def:'Chains of amino acids linked by peptide bonds. Levels: primary (aa sequence) → secondary (α-helix/β-sheet) → tertiary (3D fold) → quaternary (multiple chains). Functions: structural (collagen), enzymatic, transport (hemoglobin), hormonal, defensive (antibodies).',mnemonic:'Proteins = Primary workers of the cell.',svg:'proteinSVG'},
-        {term:'Nucleic acids',def:'DNA: deoxyribose, double helix, ATGC — stores genetic info. RNA: ribose, single strand — protein synthesis. ATP is also a nucleotide.',mnemonic:'DNA = Durable Nucleus Archive. RNA = Reads No Archives (it acts on DNA).',svg:''},
+        {term:'Carbohydrates',def:'C:H:O ratio ~1:2:1. Monosaccharides (glucose), disaccharides (sucrose), polysaccharides (glycogen = animal storage, starch = plant). Primary short-term fuel.',mnemonic:'"Carbo" = carbon + "hydrate" = water.',svg:''},
+        {term:'Lipids',def:'Nonpolar, hydrophobic. Triglycerides (energy storage), phospholipids (cell membranes), steroids (cholesterol→hormones).',mnemonic:'Lipids Love to be Lone — they repel water.',svg:''},
+        {term:'Proteins',def:'Amino acids linked by peptide bonds. Primary → secondary (α-helix/β-sheet) → tertiary (3D fold) → quaternary. Functions: structural, enzymatic, transport (Hb), hormonal, immune.',mnemonic:'Proteins = Primary workers of the cell.',svg:'proteinSVG'},
+        {term:'Nucleic acids',def:'DNA: deoxyribose, double helix, ATGC — stores genetic info. RNA: ribose, single strand — transcribes and translates. mRNA carries code, tRNA brings amino acids.',mnemonic:'DNA = blueprint. RNA = working copy.',svg:''},
+        {term:'Dehydration synthesis vs hydrolysis',def:'Dehydration synthesis: H₂O removed to join monomers → polymer. Hydrolysis: H₂O added to break polymer → monomers. All digestion = hydrolysis; biosynthesis = dehydration.',mnemonic:'Dehydration = remove water to build. Hydrolysis = add water to break.',svg:''},
       ]},
     ]
   },
@@ -867,26 +834,32 @@ const CHAPTERS = [
     desc:'Ch. 4 — Cell biology, membrane transport, organelles, DNA, and cell division',
     sections:[
       { title:'Key Organelles', items:[
-        {term:'Plasma membrane',def:'Phospholipid bilayer — hydrophilic heads out, hydrophobic tails in. Fluid mosaic model: proteins float in bilayer. Selectively permeable. Cholesterol stabilizes fluidity.',mnemonic:'FMM = Fluid Mosaic Model. Like icebergs (proteins) in a sea (phospholipid).',svg:'membraneSVG'},
-        {term:'Nucleus',def:'Contains DNA as chromatin (unwound) or chromosomes (condensed). Nucleolus makes rRNA and assembles ribosomes. Nuclear envelope has pores for transport.',mnemonic:'"Nucle-us" = the boss. Contains the instruction manual (DNA).',svg:''},
-        {term:'Mitochondria',def:'Double membrane: outer (smooth) + inner (cristae). Matrix contains enzymes for Krebs cycle. Site of aerobic respiration → ATP. Has own DNA → endosymbiotic origin.',mnemonic:'"Mighty Mitochondria Make Much ATP."',svg:'mitoSVG'},
-        {term:'Ribosomes',def:'Free (cytoplasm) → make proteins used in cytoplasm. Bound (on rough ER) → make proteins for secretion or membranes. Made of rRNA + proteins. No membrane.',mnemonic:'"Ribosomes = Responsible for Building proteins."',svg:''},
-        {term:'Golgi apparatus',def:'Stack of flattened membranes. Cis (receiving) face receives vesicles from rough ER. Trans (shipping) face buds off vesicles to destinations. Modifies, tags, and sorts proteins/lipids.',mnemonic:'Golgi = the FedEx of the cell. Receives, packages, ships.',svg:''},
-        {term:'Lysosomes',def:'Membrane-bound sacs containing 40+ hydrolytic enzymes. pH ~5 (acidic). Digest: worn-out organelles (autophagy), foreign material (phagosomes), cellular debris. "Suicide bag."',mnemonic:'"Lysosome = the cell\'s stomach + trash compactor."',svg:''},
+        {term:'Plasma membrane',def:'Phospholipid bilayer — hydrophilic heads out, hydrophobic tails in. Fluid mosaic model. Selectively permeable. Cholesterol stabilizes fluidity. Glycoproteins for cell recognition.',mnemonic:'FMM = Fluid Mosaic Model. Icebergs in a sea.',svg:'membraneSVG'},
+        {term:'Nucleus',def:'Largest organelle. Double membrane + pores. Nucleolus: makes rRNA, assembles ribosomes. Chromatin ↔ chromosomes. Contains DNA.',mnemonic:'"Nucle-us" = the boss with the instruction manual.',svg:''},
+        {term:'Mitochondria',def:'Double membrane: outer (smooth) + inner (cristae). Matrix: Krebs cycle. Inner membrane: ETC → ATP. Own DNA → endosymbiotic origin.',mnemonic:'"Mighty Mitochondria Make Much ATP."',svg:'mitoSVG'},
+        {term:'Rough ER',def:'Ribosomes studded on surface. Synthesizes proteins for secretion, membranes, lysosomes. Sends transport vesicles → Golgi.',mnemonic:'"Rough ER = factory with workers making exports."',svg:''},
+        {term:'Smooth ER',def:'No ribosomes. Lipid/steroid synthesis, detoxification (liver), Ca²⁺ storage (muscle = sarcoplasmic reticulum).',mnemonic:'"Smooth = no bumps. Lipid factory + detox."',svg:''},
+        {term:'Ribosomes',def:'Free (proteins for cytoplasm) or bound (proteins for secretion). Made of rRNA + proteins. Two subunits. No membrane.',mnemonic:'"Ribosomes = Responsible for Building proteins."',svg:''},
+        {term:'Golgi apparatus',def:'Cis face receives from rough ER. Trans face ships. Modifies, packages, sorts proteins/lipids. Makes lysosomes.',mnemonic:'Golgi = FedEx. Cis receives, Trans ships.',svg:''},
+        {term:'Lysosomes',def:'Membrane sacs with hydrolytic enzymes. pH ~5. Digest organelles (autophagy), bacteria (phagolysosomes). "Suicide bag" if ruptured.',mnemonic:'"Lysosome = cell stomach + trash compactor."',svg:''},
+        {term:'Cytoskeleton',def:'Microfilaments (actin — shape/movement). Intermediate filaments (stability). Microtubules (tubulin — division, organelle transport, cilia/flagella).',mnemonic:'"MIT: Microfilaments, Intermediate, Tubules."',svg:''},
+        {term:'Cilia & flagella',def:'Cilia: short, numerous, sweep substances (respiratory, uterine tube). Flagella: long, single (sperm). Both: 9+2 microtubule array. Dynein motors.',mnemonic:'"Cilia sweep, flagella propel."',svg:''},
       ]},
       { title:'Membrane Transport', items:[
-        {term:'Diffusion',def:'High → low concentration. Passive (no ATP). Rate ↑ with temperature, surface area, concentration gradient; ↓ with distance, molecule size.',mnemonic:'"Diffusion Doesn\'t Demand energy."',svg:'diffusionSVG'},
-        {term:'Osmosis',def:'Diffusion of WATER only across a selectively permeable membrane. Water moves toward higher solute concentration (lower water concentration).',mnemonic:'"Osmosis = Only water moves." Toward the more concentrated solution.',svg:''},
-        {term:'Facilitated diffusion',def:'Passive — uses integral membrane proteins (channel or carrier). No ATP. Follows concentration gradient. E.g., glucose into cells via GLUT transporters.',mnemonic:'"Facilitated = uses a protein FACILITATOR."',svg:''},
-        {term:'Active transport (primary)',def:'Low → high concentration. Requires ATP + carrier protein. E.g., Na⁺/K⁺ ATPase: pumps 3 Na⁺ out and 2 K⁺ in per ATP. Maintains resting membrane potential.',mnemonic:'"Active = needs ATP energy to go against the gradient."',svg:'atpSVG'},
-        {term:'Isotonic',def:'Solute concentration equal inside and outside cell. No net osmosis. Cell size unchanged. Normal saline (0.9% NaCl) is isotonic to blood.',mnemonic:'"Iso = equal" → cell is happy.',svg:''},
-        {term:'Hypotonic',def:'Lower solute outside cell. Water enters cell by osmosis. Cell swells → may lyse (hemolysis in RBCs).',mnemonic:'"Hypo = less" outside → water pours IN → cell pops.',svg:'tonicSVG'},
-        {term:'Hypertonic',def:'Higher solute outside cell. Water leaves cell by osmosis. Cell shrinks (crenation in RBCs).',mnemonic:'"Hyper = more" outside → water leaves → cell shrivels.',svg:''},
+        {term:'Diffusion',def:'High → low concentration (down gradient). Passive (no ATP). Rate ↑ with temp, surface area, gradient; ↓ with distance, molecule size.',mnemonic:'"Diffusion Doesn\'t Demand energy."',svg:'diffusionSVG'},
+        {term:'Osmosis',def:'Water diffusion across selectively permeable membrane. Water moves toward higher solute concentration.',mnemonic:'"Osmosis = Only water moves." Toward more concentrated side.',svg:''},
+        {term:'Facilitated diffusion',def:'Passive — channel or carrier proteins. No ATP. Follows gradient. Channels: ions. Carriers: glucose (GLUT). Saturable.',mnemonic:'"Facilitated = protein FACILITATOR."',svg:''},
+        {term:'Active transport (primary)',def:'Against gradient. Requires ATP + carrier. Na⁺/K⁺ ATPase: 3 Na⁺ out, 2 K⁺ in. Maintains RMP at −70 mV.',mnemonic:'"Active = ATP to go Against the gradient."',svg:'atpSVG'},
+        {term:'Secondary active transport',def:'Uses Na⁺ gradient (built by Na⁺/K⁺ pump) to move other substances. Symport: Na⁺ + glucose (intestine). Antiport: Na⁺ in, Ca²⁺ out.',mnemonic:'"Secondary = piggybacks on Na⁺ gradient."',svg:''},
+        {term:'Endocytosis & exocytosis',def:'Endocytosis: phagocytosis (cells/debris), pinocytosis (fluids), receptor-mediated (LDL). Exocytosis: vesicle fuses with plasma membrane, releases contents.',mnemonic:'"Endo = into. Exo = out."',svg:''},
+        {term:'Tonicity',def:'Isotonic (0.9% NaCl): no net osmosis. Hypotonic: water enters → swells/lyses (hemolysis). Hypertonic: water leaves → shrinks (crenation).',mnemonic:'"Iso = equal. Hypo = less → pops. Hyper = more → shrivels."',svg:'tonicSVG'},
       ]},
       { title:'Cell Division', items:[
-        {term:'Interphase',def:'G1 (cell grows, makes proteins) → S phase (DNA replication — each chromosome duplicated into sister chromatids joined at centromere) → G2 (cell prepares for division, centrioles duplicate).',mnemonic:'"I Studied Genetics" = Interphase: G1-S-G2.',svg:''},
-        {term:'Mitosis (PMAT)',def:'Prophase (chromatin condenses, spindle forms, nuclear envelope dissolves) → Metaphase (chromosomes align at metaphase plate) → Anaphase (sister chromatids pulled to opposite poles) → Telophase (nuclear envelopes reform, chromosomes decondense) + Cytokinesis.',mnemonic:'"PMAT: People Meet And Talk."',svg:'mitosisSVG'},
-        {term:'Meiosis',def:'Two sequential divisions (meiosis I and II) producing 4 haploid (n) gametes. Crossing over in prophase I creates genetic diversity. Oogenesis vs spermatogenesis.',mnemonic:'"Meiosis makes gametes — half the chromosomes."',svg:''},
+        {term:'Interphase',def:'G1: growth + protein synthesis. S phase: DNA replication (each chromosome → 2 sister chromatids at centromere). G2: final prep, centrioles duplicate. ~90% of cell cycle.',mnemonic:'"I Studied Genetics" = G1-S-G2.',svg:''},
+        {term:'Mitosis (PMAT)',def:'Prophase (condense, spindle forms). Metaphase (align at plate). Anaphase (chromatids to poles). Telophase (nuclear envelopes reform) + cytokinesis.',mnemonic:'"PMAT: People Meet And Talk."',svg:'mitosisSVG'},
+        {term:'Meiosis',def:'Two divisions → 4 haploid gametes. Crossing over in prophase I → genetic diversity. Spermatogenesis: 4 sperm. Oogenesis: 1 egg + 3 polar bodies.',mnemonic:'"Meiosis makes gametes — half the chromosomes."',svg:''},
+        {term:'Cell cycle control',def:'Checkpoints: G1, G2, M. Cyclins + CDKs drive cycle forward. p53 = guardian of genome. Proto-oncogenes → oncogenes = cancer.',mnemonic:'"G1-G2-M: Go? Go? Go?"',svg:''},
+        {term:'DNA replication',def:'Semi-conservative. Helicase unwinds, primase adds primer, DNA polymerase builds 5\'→3\', ligase seals Okazaki fragments. Occurs in S phase.',mnemonic:'"HPPL: Helicase, Primase, Polymerase, Ligase."',svg:''},
       ]},
     ]
   },
@@ -895,25 +868,32 @@ const CHAPTERS = [
     desc:'Ch. 5 — Epithelial, connective, muscle, and nervous tissue types and functions',
     sections:[
       { title:'Epithelial Tissue', items:[
-        {term:'Epithelium basics',def:'Covers body surfaces, lines cavities, forms glands. Avascular (no blood vessels — gets O₂ by diffusion from underlying CT). High mitotic rate. Anchored to basement membrane.',mnemonic:'"Epithelium = Edge tissue — it lines everything."',svg:'epitheliumSVG'},
-        {term:'Simple squamous',def:'Single layer of flat cells. Allows diffusion and filtration. Found: alveoli (gas exchange), kidney glomeruli (filtration), lining of blood vessels (endothelium), lining of body cavities (mesothelium).',mnemonic:'"Simple squamous is squashed flat — one layer, paper thin."',svg:''},
-        {term:'Stratified squamous',def:'Multiple layers; surface cells flat and dead (keratinized) or alive (nonkeratinized). Keratinized: skin (epidermis) — waterproof. Nonkeratinized: mouth, esophagus, vagina — moist, resists abrasion.',mnemonic:'"Stratified = strong. Skin has it."',svg:''},
-        {term:'Simple columnar',def:'Single layer of tall cells. Often has microvilli (increase surface area for absorption) and goblet cells (secrete mucus). Lines stomach, small intestine, large intestine.',mnemonic:'"Tall columns stand in the gut — absorbing nutrients."',svg:''},
-        {term:'Pseudostratified columnar',def:'Appears multilayered but all cells touch basement membrane (only some reach surface). Usually ciliated with goblet cells. Lines most of respiratory tract — mucus trap + cilia sweep.',mnemonic:'"Pseudo = fake stratified." All cells touch the base.',svg:''},
-        {term:'Transitional epithelium',def:'Stretchy stratified epithelium lining the urinary bladder, ureter, and renal pelvis. Dome-shaped surface cells (relaxed) → flatten when stretched (full bladder).',mnemonic:'"Transitional = transforms with stretch." Bladder bliss.',svg:''},
+        {term:'Epithelium basics',def:'Covers body surfaces, lines cavities/organs, forms glands. Avascular (diffusion from CT below). High mitotic rate. Basement membrane anchors it. Apical surface faces lumen/environment.',mnemonic:'"Epithelium = Edge tissue — it lines everything."',svg:'epitheliumSVG'},
+        {term:'Simple squamous',def:'Single layer, flat cells. Alveoli (gas exchange), glomeruli (filtration), endothelium (BVs), mesothelium (body cavities). Minimizes diffusion distance.',mnemonic:'"Squished flat — one layer thin for diffusion."',svg:''},
+        {term:'Simple cuboidal',def:'Single layer, cube-shaped cells. Kidney tubules (absorption/secretion), thyroid follicles, small gland ducts.',mnemonic:'"Cube cells = kidney tubes."',svg:''},
+        {term:'Simple columnar',def:'Single layer, tall cells. Microvilli ↑absorption. Goblet cells secrete mucus. Lines stomach, small/large intestine, gallbladder.',mnemonic:'"Tall columns guard the gut."',svg:''},
+        {term:'Pseudostratified columnar',def:'All cells on basement membrane; only some reach surface. Ciliated with goblet cells. Lines respiratory tract — mucus trap + cilia sweep.',mnemonic:'"Pseudo = fake stratified. All touch the base."',svg:''},
+        {term:'Stratified squamous',def:'Multiple layers. Keratinized (dead, waterproof): skin. Nonkeratinized (living, moist): mouth, esophagus, vagina, cornea.',mnemonic:'"Stratified = stacked for strength."',svg:''},
+        {term:'Transitional epithelium',def:'Stratified, stretchy. Dome-shaped cells relax → flat when stretched. Lines urinary bladder, ureter, renal pelvis.',mnemonic:'"Transitional = transforms with stretch." Bladder.',svg:''},
+        {term:'Glands',def:'Endocrine: ductless, hormones into blood. Exocrine: ducted, onto surface/lumen. Secretion: merocrine (exocytosis), apocrine (apical cytoplasm lost), holocrine (whole cell ruptures = sebaceous).',mnemonic:'"Endo = no duct, into blood. Exo = duct, out."',svg:''},
       ]},
       { title:'Connective Tissue', items:[
-        {term:'CT basics',def:'Most abundant and widely distributed tissue. Cells scattered in an extracellular matrix (ECM) of ground substance + fibers. ECM provides structural support. Highly vascularized (except cartilage and tendons).',mnemonic:'"CT = Connects and supports everything."',svg:''},
-        {term:'Collagen fibers',def:'Most abundant protein in body. Thick, white fibers. High tensile strength (resists pulling forces). Found in tendons, ligaments, dermis, bone matrix.',mnemonic:'"Collagen = very strong COrd-like fibers."',svg:''},
-        {term:'Dense regular CT',def:'Parallel bundles of collagen fibers. Withstands unidirectional stress. Found in tendons (muscle to bone) and ligaments (bone to bone).',mnemonic:'"Dense Regular = Direct pull only — all fibers one direction."',svg:''},
-        {term:'Hyaline cartilage',def:'Most abundant cartilage. Glassy, smooth. Fine collagen fibers not visible. Found: articular cartilage on joint surfaces, costal cartilage, fetal skeleton, nose, trachea rings. No blood vessels → slow healing.',mnemonic:'"Hyaline = glassy (Greek: hyalos). The most common cartilage."',svg:'cartilageSVG'},
-        {term:'Bone (osseous tissue)',def:'Matrix of collagen + hydroxyapatite (calcium phosphate crystals) = hard + flexible. Osteon = structural unit: concentric lamellae around central canal (Haversian). Osteoblasts (build) → become trapped as osteocytes → osteoclasts (resorb).',mnemonic:'"B comes before C in alphabet: osteoBLASTs Build, osteoCLASTs Crush (resorb)."',svg:'boneSVG'},
+        {term:'CT basics',def:'Most abundant tissue. Cells + ECM (ground substance + fibers). Functions: support, binding, protection, insulation, transport (blood).',mnemonic:'"CT = Connects and supports everything."',svg:''},
+        {term:'CT fibers',def:'Collagen (most abundant — thick, white, high tensile strength). Elastic (stretch/recoil). Reticular (thin collagen framework — lymph nodes, liver, bone marrow).',mnemonic:'"CER: Collagen, Elastic, Reticular."',svg:''},
+        {term:'Loose CT (areolar)',def:'Most widely distributed CT. Gel-like ground substance. Wraps BVs, nerves, underlies epithelia. Fluid reservoir.',mnemonic:'"Areolar = airy and loose — bubble wrap for organs."',svg:''},
+        {term:'Dense regular CT',def:'Parallel collagen bundles. Withstands unidirectional stress. Tendons (muscle→bone), ligaments (bone→bone), aponeuroses.',mnemonic:'"Dense Regular = Direct pull only."',svg:''},
+        {term:'Adipose tissue',def:'Adipocytes with lipid droplet (nucleus pushed to periphery). Energy storage, insulation, cushion. Brown fat = thermogenesis in newborns.',mnemonic:'"Adipose = fat. Storage, insulation, cushion."',svg:''},
+        {term:'Hyaline cartilage',def:'Glassy ground substance (type II collagen invisible). Chondrocytes in lacunae. Avascular → slow healing. Articular surfaces, costal cartilage, trachea, nose.',mnemonic:'"Hyaline = glassy. Most common cartilage."',svg:'cartilageSVG'},
+        {term:'Fibrocartilage',def:'Thick parallel collagen + chondrocytes. Strongest cartilage. Intervertebral discs, pubic symphysis, menisci.',mnemonic:'"Fibrocartilage = fibrous + cushioning. Discs and menisci."',svg:''},
+        {term:'Bone (osseous tissue)',def:'Matrix: collagen + hydroxyapatite. Osteon = structural unit: concentric lamellae, central canal, osteocytes in lacunae connected by canaliculi.',mnemonic:'"B before C: BLASTs Build, CLASTs Crush."',svg:'boneSVG'},
+        {term:'Blood',def:'Fluid CT. Matrix = plasma. Formed elements: RBCs (O₂), WBCs (immunity), platelets (clotting). Hematopoiesis in red bone marrow.',mnemonic:'"Blood = fluid CT — cells in liquid matrix."',svg:''},
       ]},
-      { title:'Muscle & Nervous', items:[
-        {term:'Skeletal muscle tissue',def:'Long cylindrical cells (fibers), multinucleated, striated (visible bands). Voluntary control. Attached to bones via tendons. Sarcomere = functional unit.',mnemonic:'"Skeletal = striped, strong, and self-controlled."',svg:''},
-        {term:'Cardiac muscle tissue',def:'Branching cells, ONE nucleus, striated, INVOLUNTARY. Intercalated discs = gap junctions + desmosomes → electrical and mechanical coupling. Found only in heart wall.',mnemonic:'"Cardiac = can\'t stop — intercalated discs keep it in sync."',svg:''},
-        {term:'Smooth muscle tissue',def:'Spindle-shaped cells, one central nucleus, nonstriated, involuntary. Slow, sustained contractions. Found in walls of hollow organs (GI tract, blood vessels, bladder, uterus, airways).',mnemonic:'"Smooth = no stripes, slow, sustained."',svg:''},
-        {term:'Nervous tissue',def:'Neurons (excitable — send electrical signals) + neuroglia (supporting cells, 10–50× more numerous). CNS (brain + spinal cord) and PNS (all neural tissue outside CNS).',mnemonic:'"Neurons are the speakers; glia are the stage crew."',svg:''},
+      { title:'Muscle & Nervous Tissue', items:[
+        {term:'Skeletal muscle',def:'Long cylindrical fibers. Multinucleated (peripheral). Striated. Voluntary. Attached by tendons. Sarcomere = functional unit.',mnemonic:'"Skeletal = Striped, Strong, Self-controlled."',svg:''},
+        {term:'Cardiac muscle',def:'Branching cells. Single central nucleus. Striated. Involuntary. Intercalated discs: desmosomes (mechanical) + gap junctions (electrical). Only in myocardium.',mnemonic:'"Cardiac = can\'t stop — discs keep it synced."',svg:''},
+        {term:'Smooth muscle',def:'Spindle-shaped. Single central nucleus. Nonstriated. Involuntary. Walls of hollow organs: GI, BVs, bladder, uterus, airways.',mnemonic:'"Smooth = no stripes, slow, sustained."',svg:''},
+        {term:'Neurons',def:'Dendrites (receive) → soma (nucleus) → axon hillock (AP initiation) → axon → synaptic terminals (release NT). Amitotic.',mnemonic:'"DAD: Dendrites Absorb, Axon Delivers."',svg:'neuronSVG'},
+        {term:'Neuroglia',def:'Support cells (10–50× more than neurons). CNS: astrocytes (BBB), oligodendrocytes (myelin), microglia (immune), ependymal (CSF). PNS: Schwann cells (myelin), satellite cells.',mnemonic:'"Glia = glue. AOME in CNS."',svg:''},
       ]},
     ]
   },
@@ -921,20 +901,24 @@ const CHAPTERS = [
     id:'integumentary', label:'Ch. 6: Integumentary System', color:'amber', icon:'🫀',
     desc:'Ch. 6 — Epidermis, dermis, subcutaneous layer, hair, nails, and glands',
     sections:[
-      { title:'Epidermal Layers (deep to superficial)', items:[
-        {term:'Stratum basale',def:'Deepest layer. Single row of cells on basement membrane. Contains: keratinocytes (dividing — replenishes layers above), melanocytes (produce melanin pigment), Merkel cells (touch receptors).',mnemonic:'"Basale = BASE layer. Babies are Born at the Base."',svg:'skinSVG'},
-        {term:'Stratum spinosum',def:'"Spiny layer" — cells connected by desmosomes that look like spines. Contains Langerhans cells (dendritic immune cells — antigen presenting). Keratin synthesis begins.',mnemonic:'"Spinosum = spiny connections."',svg:''},
-        {term:'Stratum granulosum',def:'3–5 layers. Cells flatten, nucleus and organelles degrade. Keratohyalin granules accumulate → become keratin. Lamellar granules release lipids → waterproofing barrier.',mnemonic:'"Granulosum = grains forming. Cells are dying but making waterproofing."',svg:''},
+      { title:'Epidermal Layers — Deep to Superficial', items:[
+        {term:'Stratum basale',def:'Deepest layer on basement membrane. Keratinocytes (mitotic — replenish all layers every 2–4 weeks). Melanocytes (produce melanin, transfer to keratinocytes). Merkel cells (touch receptors).',mnemonic:'"Basale = BASE. Babies Born at the Base."',svg:'skinSVG'},
+        {term:'Stratum spinosum',def:'8–10 layers. Desmosomes appear spiny. Langerhans cells (antigen presentation). Keratin synthesis begins.',mnemonic:'"Spinosum = spiny connections."',svg:''},
+        {term:'Stratum granulosum',def:'3–5 layers. Keratohyalin granules → keratin. Lamellar granules release lipids → waterproof barrier. Cells flatten and die.',mnemonic:'"Granulosum = grains forming. Waterproofing here."',svg:''},
         {term:'Stratum lucidum',def:'Only in thick skin (palms, soles). Thin, clear, dead cells. Transitional zone.',mnemonic:'"Lucid = clear. Only in palm and sole."',svg:''},
-        {term:'Stratum corneum',def:'Outermost layer. 20–30 layers of dead, flat, keratinized (anucleate) cells. Shed (desquamation) and replaced every 2 weeks. Main barrier against water loss, UV, microbes.',mnemonic:'"Corneum = horny (cornea-like). The dead bodyguard layer."',svg:''},
+        {term:'Stratum corneum',def:'20–30 layers dead, flat, anucleate, keratinized cells. Main barrier vs water loss, UV, microbes. Shed every 2 weeks.',mnemonic:'"Corneum = horny dead bodyguard layer."',svg:''},
       ]},
-      { title:'Dermis & Appendages', items:[
-        {term:'Dermis — papillary layer',def:'Superficial dermis. Areolar CT with dermal papillae (finger-like projections into epidermis). Contains: Meissner\'s corpuscles (light touch), free nerve endings, capillary loops.',mnemonic:'"Papillary = tiny bumps (papillae)."',svg:''},
-        {term:'Dermis — reticular layer',def:'Deep dermis. Dense irregular CT — bundles of collagen and elastic fibers. Provides strength and elasticity. Contains: Pacinian corpuscles (deep pressure), hair follicles, sweat/sebaceous glands.',mnemonic:'"Reticular = net-like. Strong weave provides strength."',svg:''},
-        {term:'Melanocytes & melanin',def:'In stratum basale. All races have similar melanocyte NUMBER — skin color differences are due to melanin PRODUCTION RATE and distribution. Melanin absorbs and scatters UV radiation → protects DNA.',mnemonic:'"Everyone has the same factory (melanocytes) — just different output."',svg:''},
-        {term:'Eccrine sweat glands',def:'Most numerous sweat glands. Merocrine secretion (exocytosis). Found all over body (most dense on palms/soles/forehead). Produce sweat (mostly water + NaCl + urea). Thermoregulation.',mnemonic:'"Eccrine = everywhere, exocytosis, cooling you down."',svg:''},
-        {term:'Sebaceous glands',def:'Oil glands. Holocrine secretion (whole cell ruptures). Associated with hair follicles. Produce sebum — waterproofs/softens hair and skin, has mild antibacterial effect. Activated at puberty.',mnemonic:'"Sebum = SEBaceous glands = SEBum." Acne when clogged.',svg:''},
-        {term:'Burns — classification',def:'1st degree: epidermis only (redness, no blisters). 2nd degree: epidermis + partial dermis (blisters, pain). 3rd degree: full thickness into hypodermis/below (painless — nerves destroyed, leathery skin).',mnemonic:'"1st = sunburn. 2nd = blisters. 3rd = no pain (nerves gone)."',svg:'burnsSVG'},
+      { title:'Dermis, Hypodermis & Appendages', items:[
+        {term:'Dermis — papillary layer',def:'Superficial 20%. Loose areolar CT. Dermal papillae → fingerprints. Meissner\'s corpuscles (light touch), free nerve endings (pain/temp), capillary loops.',mnemonic:'"Papillary = tiny papillae bumps."',svg:''},
+        {term:'Dermis — reticular layer',def:'Deep 80%. Dense irregular CT — interlacing collagen + elastic. Pacinian corpuscles (deep pressure), hair follicles, sweat/sebaceous glands.',mnemonic:'"Reticular = net-like weave = strength."',svg:''},
+        {term:'Hypodermis (subcutaneous)',def:'Not part of skin. Loose CT + adipose. Anchors skin, insulation, energy storage, shock absorption. SC injection site.',mnemonic:'"Hypo = below skin. Fat layer under everything."',svg:''},
+        {term:'Melanocytes & melanin',def:'In stratum basale. Same number in all races — skin color = melanin production rate. Eumelanin (brown/black), pheomelanin (yellow/red). Absorbs UV → protects DNA.',mnemonic:'"Same factory, different output."',svg:''},
+        {term:'Eccrine sweat glands',def:'Merocrine secretion. Everywhere (densest: palms, soles, forehead). H₂O + NaCl + urea. Thermoregulation via evaporative cooling.',mnemonic:'"Eccrine = Everywhere, Evaporative cooling."',svg:''},
+        {term:'Apocrine sweat glands',def:'Axilla, groin, areola. Protein-rich secretion. Odorless until bacteria metabolize. Activated at puberty. Emotional sweating.',mnemonic:'"Apocrine = Axilla, puberty."',svg:''},
+        {term:'Sebaceous glands',def:'Holocrine secretion (whole cell ruptures → sebum). Associated with hair follicles. Sebum waterproofs + softens. Activated at puberty. Blocked → acne.',mnemonic:'"Sebum = SEBaceous = SEBum."',svg:''},
+        {term:'Skin functions',def:'Protection (UV, microbes, water loss). Thermoregulation (sweating + vasodilation). Sensation. Vitamin D synthesis. Excretion (urea, salts via sweat).',mnemonic:'"PTSVSE: Protection, Thermo, Sensation, Vitamin D, Secretion, Excretion."',svg:''},
+        {term:'Burns — classification',def:'1st degree: epidermis only — redness (sunburn). 2nd degree: epidermis + partial dermis — blisters, pain. 3rd degree: full thickness — painless (nerves destroyed), leathery, needs grafting.',mnemonic:'"1st = sunburn. 2nd = blisters. 3rd = no pain = deep."',svg:'burnsSVG'},
+        {term:'Vitamin D synthesis',def:'UV converts 7-dehydrocholesterol → D3 in skin → liver → kidney → active calcitriol. Required for Ca²⁺ absorption. Deficiency → rickets / osteomalacia.',mnemonic:'"Skin → liver → kidney = active vitamin D."',svg:''},
       ]},
     ]
   },
@@ -942,22 +926,28 @@ const CHAPTERS = [
     id:'skeletal', label:'Ch. 7-9: Skeletal System', color:'coral', icon:'🦴',
     desc:'Ch. 7-9 — Bone tissue, axial and appendicular skeleton, articulations and joints',
     sections:[
-      { title:'Bone Structure', items:[
-        {term:'Osteon (Haversian system)',def:'Structural unit of compact bone. Concentric lamellae around a central (Haversian) canal containing blood vessels and nerves. Osteocytes in lacunae connected by canaliculi.',mnemonic:'"Osteon = bull\'s-eye. Central canal in the center."',svg:'osteonSVG'},
-        {term:'Osteoblasts',def:'Bone-forming cells. Secrete osteoid (unmineralized matrix = collagen + proteoglycans). Calcium phosphate then precipitates → hydroxyapatite. Once trapped in lacunae → become osteocytes.',mnemonic:'"osteoBLAST = BLASTs bone matrix into existence."',svg:''},
-        {term:'Osteoclasts',def:'Multinucleated, derived from macrophage lineage. Resorb bone: secrete HCl (dissolves mineral) + collagenase. Regulated by PTH (↑ resorption) and calcitonin (↓ resorption).',mnemonic:'"osteoCLAST = CLAShes (destroys) bone." Big, mean, multinucleated.',svg:''},
-        {term:'Bone remodeling',def:'Continuous process: osteoclasts resorb old/damaged bone → osteoblasts refill with new. Bone is 100% replaced every ~10 years. Key for: calcium homeostasis, adapting to stress (Wolff\'s law), healing fractures.',mnemonic:'"Bones are NOT static — they remodel like a city under construction."',svg:''},
+      { title:'Bone Structure & Histology', items:[
+        {term:'Gross bone anatomy',def:'Diaphysis (shaft — compact bone, yellow marrow). Epiphyses (ends — spongy bone). Metaphysis (growth plate). Periosteum (outer CT — Sharpey\'s fibers). Endosteum (inner lining). Articular cartilage on joint surfaces.',mnemonic:'"DEMP: Diaphysis, Epiphysis, Metaphysis, Periosteum."',svg:''},
+        {term:'Compact bone (osteon)',def:'Dense outer layer. Osteons = concentric lamellae around central canal (BVs + nerves). Osteocytes in lacunae connected by canaliculi. Circumferential + interstitial lamellae.',mnemonic:'"Osteon = bull\'s-eye. Central canal in center."',svg:'osteonSVG'},
+        {term:'Spongy bone',def:'Trabeculae aligned along stress. Red marrow → hematopoiesis. Lighter, absorbs compression. Epiphyses, vertebral bodies, sternum, iliac crests.',mnemonic:'"Spongy = trabeculae sponge. Red marrow for blood cells."',svg:''},
+        {term:'Bone matrix',def:'35% organic (osteoid = collagen → flexibility). 65% inorganic (hydroxyapatite → hardness). Remove mineral → rubbery. Remove organic → brittle.',mnemonic:'"Organic = flex. Mineral = hard. Both = bone."',svg:''},
+        {term:'Osteoblasts',def:'Bone-forming cells. Secrete osteoid. Mineralize with Ca²⁺ + PO₄³⁻. Once surrounded by matrix → become osteocytes.',mnemonic:'"osteoBLAST = BLASTs bone into existence."',svg:''},
+        {term:'Osteoclasts',def:'Bone-resorbing. Multinucleated. Ruffled border: HCl (dissolves mineral) + enzymes (digest collagen). PTH ↑resorption; calcitonin ↓resorption.',mnemonic:'"osteoCLAST = CLAShes and destroys bone."',svg:''},
+        {term:'Bone remodeling',def:'Continuous: osteoclasts resorb → osteoblasts refill. Driven by Wolff\'s law (stress), hormones (PTH, estrogen), vitamins (D, C). Bone replaced ~every 10 years.',mnemonic:'"Remodel = tear down, rebuild stronger."',svg:''},
+        {term:'Ossification',def:'Intramembranous: flat bones (skull, clavicle) — CT ossifies directly. Endochondral: most bones — hyaline cartilage template replaced. Epiphyseal plate = growth zone (closes 18–25 years).',mnemonic:'"Intra = in membrane. Endo = from cartilage."',svg:''},
+        {term:'Calcium homeostasis',def:'↓Ca²⁺ → PTH → ↑osteoclasts + ↑kidney Ca²⁺ reabsorption + ↑vitamin D → ↑intestinal absorption. ↑Ca²⁺ → calcitonin → ↑osteoblasts + ↓reabsorption.',mnemonic:'"PTH = raise Ca²⁺. Calcitonin = calm Ca²⁺."',svg:''},
       ]},
-      { title:'Joints & Classification', items:[
-        {term:'Fibrous joints',def:'No joint cavity. Dense CT connects bones. Types: sutures (skull — immovable), syndesmoses (interosseous membrane — slightly movable), gomphoses (teeth in sockets).',mnemonic:'"Fibrous = fixed or barely moves. Skull sutures are fused forever."',svg:''},
-        {term:'Cartilaginous joints',def:'No joint cavity. Cartilage connects bones. Synchondroses (hyaline cartilage — epiphyseal plates, sternocostal). Symphyses (fibrocartilage — pubic symphysis, intervertebral discs — slightly movable).',mnemonic:'"Cart-ilaginous = Cart wheels turn a little, not a lot."',svg:''},
-        {term:'Synovial joints',def:'Joint cavity filled with synovial fluid. Articular cartilage (hyaline) covers bone ends. Joint capsule: fibrous outer layer + synovial membrane inner layer (secretes synovial fluid). Reinforced by ligaments.',mnemonic:'"Synovial = Slippery, freely movable."',svg:'synovialSVG'},
-        {term:'Synovial joint types',def:'Hinge (flexion/extension — elbow, knee, interphalangeal). Ball & socket (multiaxial — hip, shoulder). Pivot (rotation — atlas-axis, proximal radioulnar). Saddle (biaxial — thumb CMC). Gliding (plane — intercarpal). Condyloid/ellipsoid (biaxial — knuckles).',mnemonic:'"His Ball Pivots Smoothly, Giving Confidence." (Hinge, Ball, Pivot, Saddle, Gliding, Condyloid)',svg:''},
+      { title:'Joints', items:[
+        {term:'Fibrous joints',def:'No cavity. Dense CT. Sutures (skull — immovable). Syndesmoses (interosseous membrane — slightly movable). Gomphoses (teeth in sockets).',mnemonic:'"Fibrous = fixed. Skull sutures forever."',svg:''},
+        {term:'Cartilaginous joints',def:'No cavity. Synchondroses (hyaline cartilage — epiphyseal plates). Symphyses (fibrocartilage — pubic symphysis, intervertebral discs — slightly movable).',mnemonic:'"Cartilaginous = barely turns."',svg:''},
+        {term:'Synovial joints',def:'Joint cavity with synovial fluid. Hyaline articular cartilage. Fibrous capsule + synovial membrane. Reinforced by ligaments.',mnemonic:'"Synovial = Slippery, freely movable."',svg:'synovialSVG'},
+        {term:'Synovial joint types',def:'Hinge (elbow, knee). Pivot (atlas-axis). Ball & socket (shoulder, hip). Saddle (thumb CMC). Gliding (intercarpal). Condyloid (knuckles).',mnemonic:'"His Ball Pivots Smoothly, Giving Confidence."',svg:''},
+        {term:'Joint movements',def:'Flexion/extension. Abduction/adduction. Rotation. Circumduction. Dorsiflexion/plantarflexion. Inversion/eversion. Pronation/supination.',mnemonic:'"Flex = decrease angle. Abduct = away from midline."',svg:''},
       ]},
       { title:'Skeleton Overview', items:[
-        {term:'Axial skeleton (80 bones)',def:'Skull (22: cranium 8 + facial 14) + vertebral column (26: C7, T12, L5, sacrum, coccyx) + thoracic cage (sternum + 12 pairs ribs). Forms the central axis.',mnemonic:'"AXIAL = AXis of the body — skull, spine, ribs."',svg:'skeletonSVG'},
-        {term:'Appendicular skeleton (126 bones)',def:'Pectoral girdle (clavicle + scapula) + upper limb (humerus, radius, ulna, 8 carpals, 5 metacarpals, 14 phalanges) + pelvic girdle (hip bones) + lower limb.',mnemonic:'"APPENDicular = APPENDages hang off the axial."',svg:''},
-        {term:'Vertebral column regions',def:'Cervical (7) — support head, greatest range of motion. Thoracic (12) — articulate with ribs, limited motion. Lumbar (5) — weight-bearing. Sacrum (5 fused). Coccyx (3-4 fused).',mnemonic:'"C7 T12 L5: Breakfast (7am) → Lunch (12pm) → Dinner at 5."',svg:'vertebralSVG'},
+        {term:'Axial skeleton (80 bones)',def:'Skull (22): cranium 8 + facial 14. Vertebral column (26): C7, T12, L5, sacrum, coccyx. Thoracic cage (25): sternum + 12 pairs ribs (7 true, 3 false, 2 floating).',mnemonic:'"AXIAL = AXis. Skull + Spine + Ribs."',svg:'skeletonSVG'},
+        {term:'Appendicular skeleton (126 bones)',def:'Pectoral girdle (clavicle + scapula ×2). Upper limb: humerus, radius, ulna, 8 carpals, 5 metacarpals, 14 phalanges ×2. Pelvic girdle (2 hip bones). Lower limb: femur, patella, tibia, fibula, 7 tarsals, 5 metatarsals, 14 phalanges ×2.',mnemonic:'"APPENDicular = APPENDages."',svg:''},
+        {term:'Vertebral column regions',def:'Cervical (7): C1 atlas (nodding), C2 axis (rotation). Thoracic (12): ribs attached, kyphosis. Lumbar (5): massive bodies, lordosis. Sacrum (5 fused). Coccyx (3–4 fused).',mnemonic:'"Breakfast 7am, Lunch 12pm, Dinner 5pm = C7, T12, L5."',svg:'vertebralSVG'},
       ]},
     ]
   },
@@ -965,22 +955,30 @@ const CHAPTERS = [
     id:'muscular', label:'Ch. 10-11: Muscular System', color:'pink', icon:'💪',
     desc:'Ch. 10-11 — Muscle tissue physiology and the named muscles of the body',
     sections:[
-      { title:'Sarcomere Structure', items:[
-        {term:'Sarcomere',def:'Functional unit of skeletal muscle. From Z-line to Z-line. Contains: thick filaments (myosin — in A band) and thin filaments (actin+troponin+tropomyosin — extend from Z-lines through I band into A band).',mnemonic:'"Sarcomere = the muscle\'s engine unit. Z-Z-Z = one sarcomere."',svg:'sarcomeresSVG'},
-        {term:'A band',def:'Full width of thick (myosin) filaments. Appears DARK. Does NOT change length during contraction. Contains H zone in center + M line.',mnemonic:'"A band is Always the same length — dark, stable, Always there."',svg:''},
-        {term:'I band',def:'Contains ONLY thin (actin) filaments. Appears LIGHT. SHORTENS during contraction as actin slides toward center. Contains Z-line in middle.',mnemonic:'"I band Is lighter and It shortens."',svg:''},
-        {term:'H zone',def:'Center of A band. Contains ONLY thick (myosin) filaments — no actin overlap. DISAPPEARS during full contraction as actin slides in to fill it.',mnemonic:'"H zone Hides during contraction."',svg:''},
+      { title:'Muscle Microstructure', items:[
+        {term:'Connective tissue wrappings',def:'Endomysium (each fiber). Perimysium (fascicle = bundle). Epimysium (whole muscle). All merge → tendon (to bone) or aponeurosis (broad flat tendon).',mnemonic:'"EPP outside in: Epimysium, Perimysium, Endomysium."',svg:''},
+        {term:'Sarcomere',def:'Functional unit: Z-line to Z-line. Thick filaments (myosin — A band). Thin filaments (actin + troponin + tropomyosin — I band, extend into A band). M line centers thick filaments.',mnemonic:'"Z-Z-Z = one sarcomere engine unit."',svg:'sarcomeresSVG'},
+        {term:'A band',def:'Full length of thick (myosin) filaments. DARK. Does not shorten. Contains H zone (myosin only, no actin) + M line.',mnemonic:'"A band is Always the same length."',svg:''},
+        {term:'I band',def:'Only thin (actin) filaments. LIGHT. SHORTENS during contraction. Bisected by Z-line.',mnemonic:'"I band Is lighter and It shortens."',svg:''},
+        {term:'H zone',def:'Center of A band — myosin only, no actin overlap. Disappears during maximal contraction.',mnemonic:'"H zone Hides when muscle contracts."',svg:''},
+        {term:'Thin filament proteins',def:'F-actin: two twisted strands with active sites. Tropomyosin: blocks active sites at rest. Troponin TnC: binds Ca²⁺ → conformational change → tropomyosin shifts → active sites exposed.',mnemonic:'"Troponin-tropomyosin = bouncer duo. Ca²⁺ = VIP card."',svg:''},
       ]},
-      { title:'Sliding Filament Theory', items:[
-        {term:'Cross-bridge cycle',def:'1. Ca²⁺ released from SR → binds troponin → tropomyosin shifts → actin binding sites exposed. 2. Energized myosin head binds actin (cross-bridge forms). 3. Power stroke: myosin head pivots → pulls actin toward M-line (ADP+Pi released). 4. ATP binds myosin → head detaches from actin. 5. ATP hydrolysis re-energizes head. Cycle repeats.',mnemonic:'"Calcium opens the door (troponin-tropomyosin), myosin walks in, ATP shows it out."',svg:'crossbridgeSVG'},
-        {term:'Neuromuscular junction',def:'Synapse between α motor neuron and muscle fiber. Motor neuron releases ACh into synaptic cleft → binds nicotinic receptors on motor end plate → generates end plate potential → triggers AP in sarcolemma. ACh broken down by acetylcholinesterase.',mnemonic:'"ACh = Action triggers Contraction at the junction."',svg:''},
-        {term:'Excitation-contraction coupling',def:'AP travels along sarcolemma → T-tubules (transverse tubules = invaginations) → triggers Ca²⁺ release from sarcoplasmic reticulum (SR) → Ca²⁺ binds troponin → contraction begins. Relaxation: Ca²⁺ pumped back into SR by Ca²⁺ ATPase.',mnemonic:'"T-tubules = telegraph wires delivering the signal deep into muscle."',svg:''},
-        {term:'Motor unit',def:'One α motor neuron + ALL muscle fibers it innervates. Small motor units (few fibers, e.g., eye muscles) = fine precise control. Large motor units (many fibers, e.g., gastrocnemius) = power but less precision.',mnemonic:'"Motor unit = one boss neuron and all its workers."',svg:''},
+      { title:'Contraction Mechanism', items:[
+        {term:'Cross-bridge cycle',def:'Ca²⁺ binds TnC → active sites exposed. Energized myosin (ADP+Pi) binds actin. Power stroke: myosin pivots, pulls actin toward M-line. ATP binds → detaches. Hydrolysis re-energizes. Repeats while Ca²⁺ present.',mnemonic:'"Ca opens door, myosin walks in, ATP shows it out."',svg:'crossbridgeSVG'},
+        {term:'Neuromuscular junction (NMJ)',def:'AP in motor neuron → Ca²⁺ in terminal → ACh released → nicotinic receptors on motor end plate → end plate potential → AP in sarcolemma. ACh degraded by acetylcholinesterase.',mnemonic:'"ACh = Action triggers Contraction."',svg:''},
+        {term:'Excitation-contraction coupling',def:'Sarcolemma AP → T-tubules → SR → Ca²⁺ released → binds TnC → contraction. Relaxation: SERCA pumps Ca²⁺ back into SR → tropomyosin re-covers actin.',mnemonic:'"AP → T-tubule → SR → Ca²⁺ → contract."',svg:''},
+        {term:'Motor unit',def:'One α motor neuron + ALL fibers it innervates. Small MU (eye) = precision. Large MU (gastrocnemius) = power. All-or-none within the unit.',mnemonic:'"Motor unit = one boss, all its workers."',svg:''},
+        {term:'Summation & recruitment',def:'Wave summation: APs before relaxation → increased force → tetanus. Motor unit recruitment: more MUs activated → greater force. Both mechanisms grade muscle force.',mnemonic:'"More APs = summation. More units = recruitment."',svg:''},
+        {term:'Isotonic vs isometric',def:'Isotonic: muscle changes length. Concentric = shortens (lifting). Eccentric = lengthens under load (lowering). Isometric: muscle contracts, no length change (holding).',mnemonic:'"Isotonic = movement. Isometric = immovable."',svg:''},
       ]},
-      { title:'Muscle Metabolism & Types', items:[
-        {term:'ATP sources',def:'1. Creatine phosphate (immediate, ~10 sec — CP + ADP → C + ATP). 2. Anaerobic glycolysis (30 sec–2 min — glucose → 2 ATP + lactic acid; no O₂ needed). 3. Aerobic respiration (prolonged — glucose+O₂ → 36-38 ATP; slow but vast capacity).',mnemonic:'"CP, GL, AER: Can Get A run? (Creatine, Glycolysis, Aerobic)"',svg:''},
-        {term:'Type I fibers (slow oxidative)',def:'Red (high myoglobin). Many mitochondria. Fatigue-resistant. Aerobic. Low twitch speed. Used for: endurance, posture. E.g., soleus, erector spinae.',mnemonic:'"Type I = Incredibly enduring. The marathon runners."',svg:'fiberTypesSVG'},
-        {term:'Type IIx fibers (fast glycolytic)',def:'White (low myoglobin). Few mitochondria. Fatigue rapidly. Anaerobic. High twitch speed, high force. Used for: power, sprinting. E.g., biceps brachii, gastrocnemius.',mnemonic:'"Type IIx = eXplosive. Fast, furious, fatigues fast."',svg:''},
+      { title:'Metabolism, Fiber Types & Naming', items:[
+        {term:'ATP sources for muscle',def:'1. Creatine phosphate: immediate, ~10 sec. 2. Anaerobic glycolysis: glucose → 2 ATP + lactate, ~2 min, no O₂. 3. Aerobic respiration: glucose + O₂ → 36–38 ATP, sustained.',mnemonic:'"CP → Glycolysis → Aerobic: sprint → 400m → marathon."',svg:''},
+        {term:'Muscle fiber types',def:'Type I (slow oxidative): red, fatigue-resistant, aerobic — posture (soleus). Type IIa (fast oxidative-glycolytic): moderate fatigue, mixed. Type IIx (fast glycolytic): white, rapid fatigue, anaerobic, high force — power/sprinting.',mnemonic:'"I = endurance. IIa = middle. IIx = explosive."',svg:'fiberTypesSVG'},
+        {term:'Oxygen debt (EPOC)',def:'After intense exercise: replenish CP, convert lactate, restore O₂ on myoglobin/Hb. "Burn" = H⁺ accumulation (not lactate).',mnemonic:'"O₂ debt = paying back the anaerobic loan."',svg:''},
+        {term:'Muscle naming conventions',def:'Named by: location (brachialis), action (extensor/flexor), shape (deltoid = triangle), size (maximus/minimus/longus/brevis), orientation (rectus = parallel, oblique = diagonal), heads (biceps, triceps), attachment (sternocleidomastoid).',mnemonic:'"LASSO-HA: Location, Action, Shape, Size, Orientation, Heads, Attachment."',svg:''},
+        {term:'Muscle action roles',def:'Prime mover (agonist): produces action. Antagonist: opposes (must relax). Synergist: assists + stabilizes. Fixator: immobilizes origin. Bicep curl: biceps = PM, triceps = antagonist.',mnemonic:'"PASF: Prime, Antagonist, Synergist, Fixator."',svg:''},
+        {term:'Key upper limb muscles',def:'Deltoid (abduction). Biceps brachii (flexion + supination). Triceps brachii (extension). Rotator cuff SITS: Supraspinatus, Infraspinatus, Teres minor, Subscapularis.',mnemonic:'"SITS = rotator cuff. SIT on the shoulder."',svg:''},
+        {term:'Key lower limb muscles',def:'Iliopsoas (hip flexion). Gluteus maximus (hip extension). Hamstrings (BFL: Biceps femoris, Semimembranosus, Semitendinosus — knee flexion). Quadriceps (knee extension). Gastrocnemius + soleus → plantarflexion.',mnemonic:'"Hams flex knee. Quads extend knee."',svg:''},
       ]},
     ]
   },
@@ -989,23 +987,29 @@ const CHAPTERS = [
     desc:'Ch. 12-16 — Nervous tissue, brain, cranial nerves, spinal cord, ANS, and senses',
     sections:[
       { title:'Neuron Physiology', items:[
-        {term:'Neuron anatomy',def:'Dendrites (receive input → toward soma) → Cell body/soma (nucleus, metabolic center) → Axon hillock (AP initiation zone) → Axon (propagates AP) → Axon terminals/synaptic knobs (release neurotransmitters).',mnemonic:'"DAD: Dendrites Absorb, then Axon Delivers."',svg:'neuronSVG'},
-        {term:'Resting membrane potential',def:'−70 mV (inside negative relative to outside). Maintained by: 1. K⁺ leak channels (K⁺ diffuses out). 2. Na⁺/K⁺ ATPase pump (3 Na⁺ out : 2 K⁺ in). High K⁺ inside, high Na⁺ outside.',mnemonic:'"Resting = −70 mV. Three Na out, Two K in (think 3-2 like a basketball score)."',svg:'rmvSVG'},
-        {term:'Action potential',def:'Threshold (−55mV) reached → Na⁺ channels open → Na⁺ rushes in → depolarization to +30 mV. Then Na⁺ channels inactivate + K⁺ channels open → repolarization → brief hyperpolarization → return to −70 mV. All-or-none law.',mnemonic:'"DEPOLARIZE = Na in. REPOLARIZE = K out."',svg:'apSVG'},
-        {term:'Saltatory conduction',def:'In myelinated axons, AP "jumps" from node of Ranvier to node of Ranvier. Faster (120 m/s vs. 0.5 m/s) and more energy-efficient than continuous conduction in unmyelinated axons. Multiple sclerosis = demyelination → slows conduction.',mnemonic:'"Saltatory = salt-atory = JUMPS (like a frog from pad to pad)."',svg:''},
-        {term:'Synapse & neurotransmitters',def:'AP arrives at terminal → Ca²⁺ enters → vesicles fuse → NT released into synaptic cleft → binds postsynaptic receptors → EPSP (depolarize) or IPSP (hyperpolarize). NT then degraded (acetylcholinesterase) or reuptaken.',mnemonic:'"Synapse: signal goes ONE way (pre → post)."',svg:'synapseSVG'},
+        {term:'Neuron anatomy',def:'Dendrites (receive → toward soma). Soma (nucleus, Nissl bodies/RER). Axon hillock (AP initiation). Axon (propagates AP). Axon terminals (release NT). Anterograde transport (kinesin, → terminal). Retrograde (dynein, ← soma).',mnemonic:'"DAD: Dendrites Absorb, Axon Delivers."',svg:'neuronSVG'},
+        {term:'Neuron classification',def:'Structural: multipolar (most CNS), bipolar (retina), pseudounipolar (sensory DRG). Functional: sensory/afferent (toward CNS), motor/efferent (away CNS), interneurons (99% — within CNS).',mnemonic:'"Afferent = Arrives at CNS. Efferent = Exits CNS."',svg:''},
+        {term:'Resting membrane potential',def:'−70 mV (inside negative). K⁺ leak channels (K⁺ diffuses out = main driver). Na⁺/K⁺ ATPase (3 Na⁺ out : 2 K⁺ in, electrogenic). High K⁺ inside, high Na⁺ outside.',mnemonic:'"−70 mV. 3 Na out, 2 K in (3-2 basketball)."',svg:'rmvSVG'},
+        {term:'Action potential',def:'Threshold (−55 mV) → Na⁺ channels open → Na⁺ in → depolarization (+30 mV). Na⁺ inactivate + K⁺ channels open → K⁺ out → repolarization → hyperpolarization → return to −70. All-or-none.',mnemonic:'"Na in depolarizes. K out repolarizes."',svg:'apSVG'},
+        {term:'Saltatory conduction',def:'Myelinated axons: AP jumps node to node (Ranvier). 10–100× faster (120 m/s vs 0.5). Energy efficient. MS = demyelination → slowed/blocked.',mnemonic:'"Saltatory = JUMPS like a frog node to node."',svg:''},
+        {term:'Synapse & neurotransmitters',def:'AP → Ca²⁺ in terminal → NT released → binds receptor → EPSP (depolarize) or IPSP (hyperpolarize). ACh (NMJ, PNS), glutamate (main CNS excitatory), GABA (main CNS inhibitory), dopamine, serotonin, NE.',mnemonic:'"Glu = go! GABA = stop. ACh = NMJ/PNS."',svg:'synapseSVG'},
       ]},
-      { title:'CNS — Brain Regions', items:[
-        {term:'Cerebral cortex lobes',def:'Frontal: primary motor cortex, prefrontal (executive function, personality, planning). Parietal: primary somatosensory cortex, spatial awareness. Temporal: primary auditory cortex, memory (hippocampus), language (Wernicke\'s). Occipital: primary visual cortex.',mnemonic:'"Front does the work; Parietal feels; Temporal hears & remembers; Occipital sees."',svg:'brainSVG'},
-        {term:'Diencephalon',def:'Thalamus: relay station — ALL sensory input (except olfaction) passes through on way to cortex. Hypothalamus: homeostasis central — regulates temperature, hunger, thirst, circadian rhythm, autonomic NS, pituitary hormone release.',mnemonic:'"Thalamus = Tollbooth for sensory signals. Hypothalamus = Homeostasis HQ."',svg:''},
-        {term:'Brain stem',def:'Midbrain: visual/auditory reflexes, dopamine (substantia nigra → Parkinson\'s). Pons: relay signals between cerebrum and cerebellum; sleep and breathing coordination. Medulla oblongata: vital autonomic reflexes — cardiac center, vasomotor center, respiratory center.',mnemonic:'"Medulla = mandatory for life. It runs HR, BP, and breathing."',svg:''},
-        {term:'Cerebellum',def:'"Little brain" — posterior to brain stem. Coordinates voluntary movements, balance, fine motor control, muscle tone. Receives: motor commands from cortex AND proprioception/sensory feedback. Output: smooth, coordinated movement.',mnemonic:'"Cerebellum = the body\'s COORDINATOR and GPS."',svg:''},
+      { title:'CNS — Spinal Cord & Brain', items:[
+        {term:'Spinal cord organization',def:'Gray matter: dorsal horn (sensory), ventral horn (motor — α motor neurons), lateral horn (T1–L2: sympathetic). White matter: ascending (sensory) + descending (motor) tracts. 31 spinal nerve pairs.',mnemonic:'"Dorsal = data in (sensory). Ventral = voluntary out (motor)."',svg:''},
+        {term:'Spinal reflexes',def:'Arc: receptor → afferent → spinal cord (integration) → efferent → effector. Monosynaptic: patellar stretch reflex. Polysynaptic: withdrawal (flexor) reflex.',mnemonic:'"RAIFE: Receptor, Afferent, Integration, Efferent, Effector."',svg:''},
+        {term:'Meninges & CSF',def:'Dura mater (tough outer). Arachnoid (subarachnoid space = CSF). Pia mater (adheres to brain). CSF: choroid plexus → subarachnoid space → arachnoid villi. Cushions + nourishes brain.',mnemonic:'"DAP: Dura, Arachnoid, Pia. CSF = brain\'s water cushion."',svg:''},
+        {term:'Cerebral cortex lobes',def:'Frontal: primary motor (precentral gyrus), Broca\'s (speech production), prefrontal (executive function). Parietal: somatosensory (postcentral gyrus), spatial. Temporal: auditory, hippocampus. Occipital: visual.',mnemonic:'"Front does, Parietal feels, Temporal hears, Occipital sees."',svg:'brainSVG'},
+        {term:'Diencephalon',def:'Thalamus: relay for ALL sensory (except smell) → cortex. Hypothalamus: homeostasis HQ — temp, hunger, thirst, circadian, ANS, pituitary. Pineal gland (melatonin).',mnemonic:'"Thalamus = Tollbooth. Hypothalamus = Homeostasis HQ."',svg:''},
+        {term:'Brain stem',def:'Midbrain: superior/inferior colliculi (reflexes), substantia nigra (dopamine — Parkinson\'s). Pons: sleep, respiration. Medulla oblongata: vital centers (cardiac, vasomotor, respiratory), vomiting/swallowing.',mnemonic:'"Medulla = mandatory for life."',svg:''},
+        {term:'Limbic system',def:'Emotional brain. Amygdala (fear, emotional memory). Hippocampus (short→long-term memory). Cingulate gyrus. Dysfunction → PTSD, anxiety, amnesia.',mnemonic:'"AHCH: Amygdala, Hippocampus, Cingulate, Hypothalamus."',svg:''},
+        {term:'Cerebellum',def:'Posterior brain. Receives motor commands from cortex + proprioceptive feedback. Coordinates voluntary movement, balance, muscle tone. Damage → ataxia.',mnemonic:'"Cerebellum = body\'s GPS + autocorrect for movement."',svg:''},
       ]},
       { title:'PNS & Autonomic NS', items:[
-        {term:'Autonomic NS overview',def:'Controls visceral effectors: smooth muscle, cardiac muscle, glands. Two-neuron chain: preganglionic neuron (CNS → ganglion) → postganglionic neuron (ganglion → effector). Sympathetic ("fight or flight") vs. Parasympathetic ("rest and digest").',mnemonic:'"Auto = automatic, involuntary. Sym vs Para = gas vs brake."',svg:'ansSVG'},
-        {term:'Sympathetic NS',def:'Thoracolumbar (T1–L2). Preganglionic = short → paravertebral ganglia. Postganglionic = long. NT: norepinephrine (NE) on most targets. Effects: ↑ HR, ↑ BP, dilates pupils, bronchodilation, diverts blood to muscles, inhibits digestion.',mnemonic:'"SYMPATHETIC: heart pumping, pupils dilated, ready to FIGHT or FLEE."',svg:''},
-        {term:'Parasympathetic NS',def:'Craniosacral (CN III, VII, IX, X + S2-S4). Preganglionic = long → terminal ganglia near/in organ. Postganglionic = short. NT: acetylcholine (ACh) everywhere. Effects: ↓ HR, constricts pupils, increases digestion (SLUDD), bronchoconstriction.',mnemonic:'"SLUDD: Salivation, Lacrimation, Urination, Defecation, Digestion — all para."',svg:''},
-        {term:'Cranial nerves (I–XII)',def:'I Olfactory (smell), II Optic (vision), III Oculomotor (eye movement, pupil), IV Trochlear (superior oblique), V Trigeminal (face sensation + chewing), VI Abducens (lateral rectus), VII Facial (facial expression, taste anterior 2/3), VIII Vestibulocochlear (hearing/balance), IX Glossopharyngeal (taste posterior 1/3, swallow), X Vagus (major para - thorax/abdomen), XI Accessory (SCM + trapezius), XII Hypoglossal (tongue movement).',mnemonic:'"Oh Oh Oh To Touch And Feel Very Good Velvet AH" (I through XII)',svg:''},
+        {term:'Somatic vs autonomic NS',def:'Somatic: voluntary, single efferent neuron, ACh at skeletal muscle. Autonomic: involuntary, two-neuron chain (pre + postganglionic), smooth/cardiac muscle + glands.',mnemonic:'"Somatic = skeletal, voluntary. Autonomic = visceral, involuntary."',svg:''},
+        {term:'Sympathetic NS',def:'Thoracolumbar (T1–L2). Short preganglionic → paravertebral ganglia. NE at most targets (α, β receptors). ACh at adrenal medulla → epi. ↑HR, ↑BP, dilates pupils/bronchi, ↓digestion.',mnemonic:'"Fight or Flight: Heart pumping, pupils wide."',svg:''},
+        {term:'Parasympathetic NS',def:'Craniosacral (CN III, VII, IX, X + S2–S4). Long preganglionic → terminal ganglia. ACh everywhere (muscarinic receptors). ↓HR, ↑digestion (SLUDD), constricts pupils, bronchoconstriction.',mnemonic:'"SLUDD: Salivation, Lacrimation, Urination, Defecation, Digestion."',svg:'ansSVG'},
+        {term:'Cranial nerves (I–XII)',def:'I Olfactory, II Optic, III Oculomotor (+para: pupil), IV Trochlear (SO4), V Trigeminal (face + mastication), VI Abducens (LR6), VII Facial (expression + taste ant 2/3), VIII Vestibulocochlear, IX Glossopharyngeal (taste post 1/3), X Vagus (para: thorax/abdomen), XI Accessory (SCM + trapezius), XII Hypoglossal (tongue).',mnemonic:'"Oh Oh Oh To Touch And Feel Very Good Velvet Ah."',svg:''},
+        {term:'Sensory receptors',def:'Meissner\'s corpuscles (light touch). Pacinian corpuscles (deep pressure/vibration). Merkel\'s discs (sustained pressure). Ruffini endings (skin stretch). Muscle spindles (stretch). Golgi tendon organs (tension). Nociceptors (pain). Thermoreceptors.',mnemonic:'"Meissner\'s = light, Pacinian = deep, Merkel = sustained, Ruffini = stretch."',svg:''},
       ]},
     ]
   },
@@ -1013,11 +1017,20 @@ const CHAPTERS = [
     id:'homeostasis', label:'Ch. 1: Anatomy & Physiology Intro', color:'blue', icon:'⚖️',
     desc:'Ch. 1 — Introduction to anatomy and physiology, homeostasis, anatomical terminology',
     sections:[
-      { title:'Homeostatic Control', items:[
-        {term:'Homeostasis',def:'Maintenance of a relatively stable internal environment despite external changes. Variables regulated: temperature, blood glucose, blood pH, blood O₂/CO₂, blood pressure, fluid osmolarity.',mnemonic:'"Homeostasis = Home is stable." The body maintains its comfort zone.',svg:'feedbackSVG'},
-        {term:'Negative feedback',def:'Response OPPOSES or reverses the stimulus → returns variable to set point. Examples: body temp regulation (too hot → sweat & vasodilate), blood glucose (too high → insulin released), blood pressure (too high → heart rate decreases).',mnemonic:'"Negative = goes back the other way. Like a thermostat."',svg:''},
-        {term:'Positive feedback',def:'Response AMPLIFIES the stimulus → drives variable further away from starting point. Self-reinforcing until interrupted. Examples: childbirth contractions (oxytocin → more contractions), platelet plug formation, fever escalation, LH surge (ovulation).',mnemonic:'"Positive = pushes further. Cascades to completion, then STOPS."',svg:''},
-        {term:'Control system components',def:'1. RECEPTOR/SENSOR: detects change in the variable (e.g., thermoreceptors in skin/hypothalamus). 2. CONTROL CENTER: determines set point and appropriate response (e.g., hypothalamus). 3. EFFECTOR: carries out the response (e.g., sweat glands, blood vessels).',mnemonic:'"RCE: Receptor, Control center, Effector. Think RaCE to homeostasis."',svg:''},
+      { title:'Homeostatic Mechanisms', items:[
+        {term:'Homeostasis definition',def:'Maintenance of a relatively stable internal environment despite external changes. Regulated variables: core temp (37°C), blood glucose (70–110 mg/dL), blood pH (7.35–7.45), osmolarity (280–300 mOsm), blood pressure.',mnemonic:'"Homeostasis = Home is stable."',svg:'feedbackSVG'},
+        {term:'Negative feedback',def:'Response opposes stimulus → returns variable to set point. Most homeostatic mechanisms. Examples: temp (hot → sweat + vasodilate), blood glucose (↑glucose → insulin), BP (↑BP → ↓HR).',mnemonic:'"Negative = goes back the other way. Like a thermostat."',svg:''},
+        {term:'Positive feedback',def:'Response amplifies stimulus → drives further from set point until interrupted. Examples: childbirth (oxytocin → more contractions), platelet plug, LH surge → ovulation, coagulation cascade.',mnemonic:'"Positive = pushes further. Cascades to completion, then STOPS."',svg:''},
+        {term:'Control system components',def:'1. Receptor/sensor: detects change (carotid body, hypothalamic thermoreceptors). 2. Control center: integrates + responds (hypothalamus, medulla). 3. Effector: executes response (sweat glands, BVs, heart).',mnemonic:'"RCE: Receptor, Control center, Effector. RaCE to homeostasis."',svg:''},
+      ]},
+      { title:'Key Regulatory Systems', items:[
+        {term:'Thermoregulation',def:'Set point: 37°C. Too hot: cutaneous vasodilation + sweating (evaporative cooling). Too cold: vasoconstriction + shivering (muscle heat) + piloerection. Hypothalamus = thermostat.',mnemonic:'"Hot = vasodilate + sweat. Cold = vasoconstrict + shiver."',svg:''},
+        {term:'Blood glucose regulation',def:'↑glucose → β cells → insulin → ↑GLUT4 (muscle/fat), ↑glycogen synthesis, ↓gluconeogenesis. ↓glucose → α cells → glucagon → ↑glycogenolysis + ↑gluconeogenesis (liver).',mnemonic:'"Insulin = deposit. Glucagon = withdraw."',svg:''},
+        {term:'Blood pressure regulation',def:'Short-term: baroreceptors (carotid sinus, aortic arch) → medulla → ±HR + vasomotor tone. Long-term: RAAS (renin→angiotensin→aldosterone → Na⁺/H₂O retention). ADH → ↑water reabsorption.',mnemonic:'"Baroreceptors = fast. RAAS + ADH = slow but lasting."',svg:''},
+        {term:'Acid-base balance',def:'Normal pH 7.35–7.45. Buffers (immediate): bicarbonate (HCO₃⁻/H₂CO₃), phosphate, proteins. Respiratory (minutes): ↑ventilation → ↓CO₂ → ↑pH. Renal (days): ↑/↓ H⁺ secretion + HCO₃⁻ reabsorption.',mnemonic:'"3 defenses: Buffers (instant), Lungs (minutes), Kidneys (days)."',svg:''},
+        {term:'Fluid compartments',def:'Total body water ~60% body weight. ICF (40%): K⁺ dominant inside. ECF (20%): plasma (3%) + interstitial (17%), Na⁺ dominant. Osmolarity drives water between compartments.',mnemonic:'"ICF = K⁺ inside. ECF = Na⁺ outside sea."',svg:''},
+        {term:'Disease as homeostasis failure',def:'Hypertension = chronic BP failure. Diabetes Type 1 (no insulin) / Type 2 (insulin resistance). Fever = temp set point raised by pyrogens. Acidosis/alkalosis = pH failure.',mnemonic:'"Disease = homeostasis that failed to compensate."',svg:''},
+        {term:'Circadian rhythms',def:'~24-hour physiological cycles. Suprachiasmatic nucleus (SCN) in hypothalamus = master clock. Light → retinohypothalamic tract → SCN → pineal gland (melatonin at night). Affects sleep, temp, cortisol.',mnemonic:'"SCN = master clock. Melatonin = darkness signal."',svg:''},
       ]},
     ]
   },
@@ -1272,30 +1285,28 @@ const CHAPTERS = [
     id:'lymphimmune', label:'Ch. 21-22: Lymphatics & Immunity', color:'teal', icon:'🛡️',
     desc:'Lymphatic system anatomy, innate immunity, and adaptive immunity',
     sections:[
-      { title:'Lymphatic System', items:[
-        {term:'Lymphatic system overview',def:'One-way system of vessels, nodes, and organs. Functions: (1) return excess interstitial fluid to blood (~3L/day), (2) transport dietary fats (chylomicrons from small intestine via lacteals), (3) immune defense. Lymph flows: lymph capillaries → lymph vessels → lymph nodes → lymph trunks → thoracic duct (left side) or right lymphatic duct → subclavian veins.',mnemonic:'"Lymph = Fluid returning home. 3 jobs: fluid return, fat transport, immunity."',svg:'lymphSystemSVG'},
-        {term:'Lymph capillaries and formation',def:'Blind-ended tubes in tissues. Highly permeable — overlapping endothelial cells act as one-way flap valves. Collect excess interstitial fluid (from capillary filtration). Lacteals = lymph capillaries in small intestinal villi that absorb dietary fat → milky chyle.',mnemonic:'"Lymph capillaries = one-way flap valves in tissues. Lacteals = fat absorbers in gut."',svg:''},
-        {term:'Lymph nodes',def:'Bean-shaped organs along lymph vessels. Outer cortex (B cell follicles, germinal centers for antibody production) + paracortex (T cells) + medulla (macrophages, plasma cells). Filter lymph — macrophages destroy pathogens and debris. Lymph enters via afferent vessels, exits via efferent vessels at hilum.',mnemonic:'"Lymph node = filter station. B cells outer (cortex), T cells middle (paracortex), macrophages inner (medulla)."',svg:'lymphNodeSVG'},
-        {term:'Spleen',def:'Largest lymphoid organ. In left upper quadrant. Red pulp (macrophages destroy old RBCs, stores platelets/blood) + White pulp (lymphoid tissue — immune response). Filters blood (not lymph). Can be ruptured in trauma → internal hemorrhage.',mnemonic:'"Spleen: RED pulp = RBC graveyard + blood reservoir. WHITE pulp = immune response. Filters BLOOD."',svg:''},
-        {term:'Thymus',def:'Superior mediastinum. Site of T cell maturation (T cell education — positive and negative selection). Lymphoid tissue, no lymph follicles. Largest in childhood, atrophies after puberty under influence of sex hormones. Secretes thymosins for T cell development.',mnemonic:'"Thymus = T cell school. Teaches T cells what\'s self and nonself. Shrinks after puberty."',svg:''},
-        {term:'MALT (mucosa-associated lymphoid tissue)',def:'Lymphoid nodules in mucous membranes throughout body. Tonsils (palatine, pharyngeal/adenoid, lingual) guard throat. Peyer\'s patches in ileum guard GI. Appendix — lymphoid tissue. First line of defense at body entrances.',mnemonic:'"MALT = lymphoid tissue at entrances to body: throat (tonsils) and gut (Peyer\'s patches)."',svg:''},
+      { title:'Lymphatic System Anatomy', items:[
+        {term:'Lymphatic vessels and flow',def:'One-way. Lymph capillaries to collecting vessels (valves) to trunks to ducts. Right lymphatic duct: right head/neck/arm to right subclavian vein. Thoracic duct: everything else to left subclavian. Cisterna chyli at L1-L2 receives intestinal lymph.',mnemonic:'Right = right upper quadrant only. Thoracic duct = everything else.',svg:''},
+        {term:'Lymph nodes',def:'Bean-shaped along lymph vessels. Cortex: B cell follicles. Paracortex: T cells. Medulla: plasma cells and macrophages. Multiple afferent vessels in, one efferent out. Filter lymph and mount immune responses. Cervical (head/neck), axillary (arm), inguinal (leg/pelvis).',mnemonic:'Lymph nodes = lymph filters and immune hubs.',svg:''},
+        {term:'Spleen',def:'Largest lymphoid organ. Left hypochondriac region. White pulp: lymphocytes (immune surveillance). Red pulp: macrophages filter old RBCs and store platelets. Filters BLOOD, not lymph.',mnemonic:'Spleen = blood filter and RBC graveyard.',svg:''},
+        {term:'Thymus',def:'Bilobed, in mediastinum. Largest in childhood, involutes after puberty. T lymphocyte maturation: positive selection (recognize self-MHC) and negative selection (destroy self-reactive T cells). Secretes thymosin.',mnemonic:'Thymus = T cell school. Graduate or die.',svg:''},
+        {term:'Tonsils',def:'Incomplete rings in pharynx. Palatine (oropharynx sides), pharyngeal/adenoids (posterior nasopharynx), lingual (base of tongue). First defense against inhaled and ingested pathogens.',mnemonic:'Tonsils = throat immune gatekeepers.',svg:''},
       ]},
-      { title:'Innate (Nonspecific) Immunity', items:[
-        {term:'First line of defense',def:'Physical and chemical barriers. Skin: physical barrier + acid mantle (pH 3-5), antimicrobial peptides (defensins), sebum. Mucous membranes: mucus traps pathogens, cilia sweep out. Secretions: lysozyme (tears, saliva — breaks peptidoglycan), stomach acid, normal microbiome.',mnemonic:'"First line = SKIN and MUCOUS MEMBRANES + their chemicals. Never lets pathogens enter."',svg:'defenseLinesSVG'},
-        {term:'Second line of defense (innate)',def:'Rapid, nonspecific internal defenses. Phagocytes (neutrophils = first to arrive, macrophages = sustained), natural killer (NK) cells, inflammation, fever, complement system, interferons, antimicrobial proteins.',mnemonic:'"Second line = internal rapid response. Phagocytes + NK cells + inflammation + fever + complement."',svg:''},
-        {term:'Phagocytosis',def:'Phagocytes (neutrophils, macrophages) engulf and destroy pathogens. Steps: (1) chemotaxis (move to site), (2) adherence (pathogen binds to receptor), (3) ingestion (pseudopods engulf → phagosome), (4) digestion (lysosome fuses → phagolysosome → enzymes destroy pathogen), (5) disposal.',mnemonic:'"Phagocytosis CAID: Chemotaxis → Adherence → Ingestion → Digestion."',svg:'phagocytosisSVG'},
-        {term:'Inflammation',def:'4 cardinal signs: redness, heat, swelling, pain (+ loss of function = 5th). Triggered by: tissue damage, pathogens, chemical mediators (histamine from mast cells, prostaglandins, bradykinin). Process: vasodilation + ↑ permeability → edema → neutrophil diapedesis → phagocytosis → healing.',mnemonic:'"RHSP = Redness, Heat, Swelling, Pain — all from vasodilation and permeability increase."',svg:'inflammationSVG'},
-        {term:'Fever',def:'Elevated body temperature set by hypothalamic thermostat. Pyrogens (LPS from bacteria, cytokines) → hypothalamus → prostaglandins → ↑ set point → shivering, vasoconstriction to reach new set point. Benefits: ↑ metabolic rate, inhibits microbial growth, ↑ immune cell activity. Danger >41°C (106°F).',mnemonic:'"Fever = hypothalamus raises the thermostat. Pyrogens → prostaglandins → higher set point."',svg:''},
-        {term:'Complement system',def:'20+ plasma proteins. 3 activation pathways: classical (antibody), lectin, alternative (pathogen surfaces). All lead to C3 convertase → C3b (opsonization — coats pathogen for phagocytosis) → membrane attack complex (MAC) punches holes in pathogen → lysis.',mnemonic:'"Complement = CALL, COAT, and KILL: Call more immune cells, Coat pathogens (opsonization), Kill by MAC."',svg:'complementSVG'},
-        {term:'Interferons',def:'Proteins secreted by virus-infected cells. Warn neighboring cells → trigger antiviral defenses (inhibit viral replication). Alpha and beta interferons = antiviral. Gamma interferon = activates macrophages and NK cells. Do not protect the infected cell — protect NEIGHBORS.',mnemonic:'"Interferons = INTERFERE with viral spread to neighbors. Too late for the infected cell."',svg:''},
+      { title:'Innate (Nonspecific) Defense', items:[
+        {term:'First line of defense',def:'Physical and chemical barriers. Skin (keratin, acid mantle pH 3-5). Mucous membranes and mucus (trap). Cilia (sweep). Lysozyme in saliva, tears, nasal secretions (destroys bacterial cell walls). Sebum (bacteriostatic). Gastric HCl. Protein enzymes.',mnemonic:'First line = walls and chemical weapons.',svg:''},
+        {term:'Second line: phagocytes and NK cells',def:'Neutrophils: first responders, phagocytize bacteria. Monocytes/macrophages: phagocytize, present antigens, release cytokines. NK cells: kill virus-infected cells and cancer cells without prior sensitization, recognize missing-self.',mnemonic:'Neutrophils first, macrophages follow, NK cells kill without asking.',svg:''},
+        {term:'Inflammatory response',def:'Purposes: limit spread, dispose of debris, promote repair. Cardinal signs: Pain, Redness, Swelling, Heat. Mast cell degranulation (histamine and prostaglandins) causes vasodilation and increased capillary permeability. Steps: margination, diapedesis, chemotaxis.',mnemonic:'PRSH: Pain, Redness, Swelling, Heat.',svg:''},
+        {term:'Phagocytosis process',def:'Margination: phagocytes adhere to vessel walls. Diapedesis: squeeze between endothelial cells. Chemotaxis: chemical gradient guides to pathogen. Engulfment forms phagosome, fuses with lysosome to form phagolysosome, enzymes destroy pathogen.',mnemonic:'M-D-C then engulf and destroy: Margination, Diapedesis, Chemotaxis.',svg:''},
+        {term:'Fever',def:'Hypothalamic set point raised by pyrogens such as LPS, IL-1, IL-6, TNF from macrophages. Benefits: increased metabolic rate, increased interferon production, inhibits bacterial growth. Dangerous above 40 degrees C.',mnemonic:'Fever = body thermostat turned up to fight infection.',svg:''},
+        {term:'Antimicrobial proteins',def:'Interferons (IFN-alpha, beta): secreted by virus-infected cells, warn neighbors to produce antiviral proteins. IFN-gamma from T cells activates macrophages. Complement system (C1-C9): classical, lectin, or alternative pathway leads to MAC (membrane attack complex) causing lysis.',mnemonic:'Interferon = warning signal. Complement = punch holes in pathogens.',svg:''},
       ]},
-      { title:'Adaptive (Specific) Immunity', items:[
-        {term:'Adaptive immunity overview',def:'Specific, slower (days), long-lasting. Three properties: (1) Specificity — recognizes specific antigens. (2) Diversity — millions of different lymphocyte receptors. (3) Memory — faster, stronger response on re-exposure (immunological memory). Two arms: humoral (B cells → antibodies) and cell-mediated (T cells).',mnemonic:'"Adaptive = SDM: Specific, Diverse, Memory. Humoral (B cells = antibodies) + Cell-mediated (T cells)."',svg:'adaptiveImmuneSVG'},
-        {term:'Antigens and MHC',def:'Antigen = molecule that triggers immune response (usually foreign protein). Epitope = specific part of antigen that antibody binds. MHC I (on all nucleated cells — presents intracellular antigens to CD8+ T cells). MHC II (on antigen-presenting cells: macrophages, dendritic cells, B cells — presents extracellular antigens to CD4+ T cells).',mnemonic:'"MHC I = 1 for all cells → CD8 T cells. MHC II = 2 for APCs only → CD4 T cells. 1 and 8, 2 and 4."',svg:'mhcSVG'},
-        {term:'T lymphocytes',def:'Mature in thymus. CD4+ Helper T cells (Th): activate B cells and cytotoxic T cells; secrete cytokines. CD8+ Cytotoxic T cells (Tc): directly kill infected and cancerous cells by perforin/granzymes. Regulatory T cells (Treg): suppress immune response, prevent autoimmunity. Memory T cells: persist long-term.',mnemonic:'"CD4 = Helper = organizes the attack. CD8 = Cytotoxic = kills infected cells. CD4 helps, CD8 kills."',svg:'tCellSVG'},
-        {term:'B lymphocytes and antibodies',def:'Activated B cells → plasma cells (antibody factories) + memory B cells. 5 classes of antibodies (immunoglobulins): IgG (most abundant, long-term, crosses placenta), IgM (first responder, pentamer), IgA (in secretions — tears, saliva, breast milk, GI), IgE (allergies and parasites), IgD (B cell activation).',mnemonic:'"IgGMADE: IgG = most, IgM = first, IgA = secretions, IgD = B cell, IgE = Enemies (allergies/parasites)."',svg:'antibodySVG'},
-        {term:'Primary vs. secondary immune response',def:'Primary response: first exposure to antigen. Lag phase 5-10 days, low antibody titer, mostly IgM. Memory cells formed. Secondary response (anamnestic): re-exposure. Fast (1-2 days), high antibody titer, mostly IgG, longer lasting. Basis of vaccination.',mnemonic:'"Primary = slow, IgM. Secondary = fast, IgG, memory. Vaccines = create memory without disease."',svg:'immuneResponseSVG'},
-        {term:'Hypersensitivity and autoimmunity',def:'Type I (immediate hypersensitivity/allergy): IgE + mast cells → histamine. Anaphylaxis = severe Type I → epinephrine. Type II: IgG/IgM against self-antigens (blood transfusion reactions, hemolytic disease). Type III: immune complex deposition. Type IV: delayed (T-cell mediated — TB test, contact dermatitis). Autoimmunity = immune attack on self.',mnemonic:'"ABCD hypersensitivity: Anaphylaxis(I), aBo(II), Complex(III), Delayed(IV)."',svg:''},
+      { title:'Adaptive (Specific) Defense', items:[
+        {term:'Antigen and antigen presentation',def:'Antigen: substance that mobilizes adaptive defenses and provokes an immune response. Epitopes = specific binding regions on antigen. APCs (dendritic cells, macrophages, B cells): engulf antigen, display fragments on MHC II, activate helper T cells. MHC I on all nucleated cells activates cytotoxic T cells.',mnemonic:'APC with MHC II activates helper T. MHC I activates cytotoxic T.',svg:''},
+        {term:'B lymphocytes and humoral immunity',def:'Mature in bone marrow. Activated by antigen plus T helper cells, differentiate into plasma cells (secrete antibodies) and memory B cells. Antibody structure: 2 heavy plus 2 light chains, Y-shaped. Fab region (variable, antigen-binding). Fc region (constant, binds complement and phagocyte receptors).',mnemonic:'B cells = antibody factories. Fab binds antigen. Fc = effector functions.',svg:''},
+        {term:'Immunoglobulin classes',def:'IgM: first produced, pentamer, best complement activator. IgG: most abundant (80%), secondary response, crosses placenta for fetal immunity. IgA: secretory in saliva, tears, breast milk, GI and respiratory mucosa. IgE: allergies and parasites, triggers mast cells. IgD: B cell surface receptor.',mnemonic:'MADGE: M=first, A=secretions, D=B cell receptor, G=most, E=allergies.',svg:''},
+        {term:'Antibody functions',def:'Neutralization: block toxins and pathogens from binding host cells. Agglutination: clump antigens for easier phagocytosis. Precipitation: soluble antigens become insoluble. Complement activation leading to MAC and opsonization. Enhanced phagocytosis via opsonization.',mnemonic:'NAPCE: Neutralize, Agglutinate, Precipitate, Complement, Enhance phagocytosis.',svg:''},
+        {term:'Types of acquired immunity',def:'Naturally acquired active: infection leads to own antibodies and memory. Naturally acquired passive: maternal IgG crosses placenta, IgA in breast milk. Artificially acquired active: vaccination gives memory without disease. Artificially acquired passive: injection of immune serum (antivenom, rabies) gives immediate protection but no memory.',mnemonic:'Active = your own memory. Passive = borrowed antibodies.',svg:''},
+        {term:'T lymphocytes and cell-mediated immunity',def:'Mature in thymus. Require APC and MHC. Helper T cells (CD4+): orchestrate immune response, activate B cells and cytotoxic T cells and macrophages. Cytotoxic T cells (CD8+): kill virus-infected, cancerous, transplant cells via perforins and granzymes. Regulatory T cells: suppress response and prevent autoimmunity.',mnemonic:'Helper T = commander. Cytotoxic T = killer. Regulatory T = peacekeeper.',svg:''},
       ]},
     ]
   },
@@ -1303,29 +1314,23 @@ const CHAPTERS = [
     id:'respiratory', label:'Ch. 23: Respiratory System', color:'blue', icon:'🫁',
     desc:'Respiratory anatomy, ventilation mechanics, and gas exchange',
     sections:[
-      { title:'Respiratory Anatomy', items:[
-        {term:'Upper respiratory tract',def:'Nose, nasal cavity (conchae increase turbulence and surface area for filtering/warming/humidifying air), paranasal sinuses (lighten skull, resonate voice), pharynx (naso-, oro-, laryngopharynx), larynx. Nasal conchae = superior, middle, inferior (inferior largest). Olfactory epithelium in superior nasal cavity.',mnemonic:'"Nose → nasal cavity (conchae) → pharynx (3 parts) → larynx. Conchae = turbulence = air conditioning."',svg:'upperRespSVG'},
-        {term:'Larynx',def:'Voice box. Thyroid cartilage (Adam\'s apple — larger in males after puberty), cricoid cartilage (inferior, complete ring), epiglottis (elastic cartilage — covers larynx during swallowing). Vocal folds (true cords) vibrate for speech. Rima glottidis = opening between vocal folds.',mnemonic:'"Larynx = voice box. Thyroid cartilage = Adam\'s apple. Epiglottis = covers larynx when swallowing."',svg:'larynxSVG'},
-        {term:'Lower respiratory tract',def:'Trachea (C-rings of hyaline cartilage, carina at bifurcation T4/T5) → primary bronchi → secondary bronchi (lobar, 1 per lobe) → tertiary bronchi (segmental) → bronchioles → terminal bronchioles → respiratory bronchioles → alveolar ducts → alveolar sacs → alveoli.',mnemonic:'"Tract goes smaller: Trachea → Primary → Secondary → Tertiary → Bronchioles → Alveoli. T PST BA."',svg:'respiratoryTractSVG'},
-        {term:'Alveoli',def:'~300 million alveoli per lung. Site of gas exchange. Type I pneumocytes (squamous cells, 95% of surface, gas exchange). Type II pneumocytes (cuboidal, secrete surfactant — reduces surface tension, prevents collapse). Alveolar macrophages ("dust cells") — remove debris. Respiratory membrane = 0.5 µm thick.',mnemonic:'"Alveoli = grapes. Type I = exchange. Type II = surfactant (tension reducer). Respiratory membrane = very thin."',svg:'alveoliSVG'},
+      { title:'Conducting Zone', items:[
+        {term:'Paranasal sinuses',def:'Air-filled cavities in skull bones: maxillary (largest), frontal, sphenoidal, ethmoidal. Lined with mucosa continuous with nasal cavity. Functions: reduce skull weight, warm and humidify air, resonate voice. Drain into nasal meatuses. Infection causes sinusitis.',mnemonic:'MFSE: Maxillary, Frontal, Sphenoidal, Ethmoidal sinuses.',svg:''},
+        {term:'Nasal cavity',def:'Divided by nasal septum (perpendicular plate of ethmoid + vomer). Superior, middle, inferior turbinates/conchae create turbulence to filter, warm, humidify air. Meatuses = passages below each concha. Olfactory mucosa in superior region. Posterior nasal aperture opens into nasopharynx.',mnemonic:'Turbinates create turbulence to condition incoming air.',svg:''},
+        {term:'Pharynx',def:'Nasopharynx (posterior to nasal cavity): pharyngeal tonsils/adenoids, auditory tube openings, air only. Oropharynx (posterior to oral cavity): palatine tonsils, lingual tonsils, uvula, air and food. Laryngopharynx (below hyoid): connects to larynx and esophagus.',mnemonic:'Naso = air only. Oro and Laryngo = air and food.',svg:''},
+        {term:'Larynx',def:'Thyroid cartilage (Adam apple). Epiglottis (elastic, covers larynx during swallowing). Glottis = vocal cords plus rima glottidis (opening between cords). True vocal cords (inferior, sound production). False vocal cords (superior, no sound, protection). Cricoid cartilage = complete ring at base.',mnemonic:'Thyroid = Adam apple. Epiglottis = food traffic cop. True cords = sound.',svg:''},
+        {term:'Trachea and bronchial tree',def:'Trachea: 16-20 C-shaped cartilage rings (open posteriorly, trachealis muscle). Carina at T4-T5 bifurcates into right and left primary bronchi. Right bronchus = steeper angle (foreign objects lodge here). Secondary (lobar) bronchi: 3 right, 2 left. Segmental (tertiary) bronchi. Bronchioles. Terminal bronchioles. Cartilage disappears in bronchioles.',mnemonic:'Right bronchus = steeper = objects go right. No cartilage in bronchioles.',svg:''},
       ]},
-      { title:'Pulmonary Ventilation', items:[
-        {term:'Boyle\'s Law and breathing',def:'Boyle\'s Law: P × V = constant (at constant temperature). ↑ volume → ↓ pressure. ↓ volume → ↑ pressure. Breathing: inspiration = ↑ thoracic volume → ↓ pressure → air flows in. Expiration = ↓ thoracic volume → ↑ pressure → air flows out.',mnemonic:'"Boyle = Big volume = low pressure, small volume = high pressure. Inhale = thorax enlarges = low pressure."',svg:'boyleSVG'},
-        {term:'Muscles of breathing',def:'Inspiration: diaphragm (primary — flattens, descends → ↑ vertical dimension) + external intercostals (elevate ribs → ↑ lateral/AP dimensions). Forced inspiration: sternocleidomastoid, scalenes, pec minor. Expiration (quiet): passive recoil of lungs and chest wall. Forced expiration: internal intercostals, abdominal muscles.',mnemonic:'"Inspiration = diaphragm + external intercostals. Expiration at rest = PASSIVE (no muscle needed)."',svg:'breathingMusclesSVG'},
-        {term:'Lung volumes and capacities',def:'Tidal volume (TV) = 500 mL (normal breath). IRV (inspiratory reserve) = 3100 mL (extra inhale). ERV (expiratory reserve) = 1200 mL (extra exhale). Residual volume (RV) = 1200 mL (always in lungs). Vital capacity (VC) = TV + IRV + ERV = 4800 mL. TLC = VC + RV = 6000 mL.',mnemonic:'"TIRE V = Tidal, IRV, ERV, Residual Volume. VC = everything you can move. RV = never leaves."',svg:'lungVolumesSVG'},
-        {term:'Surfactant',def:'Mixture of phospholipids + proteins secreted by type II pneumocytes. Reduces surface tension in alveoli → prevents collapse (atelectasis) during expiration. Allows alveoli to remain open even at low volumes. Begins at ~26 weeks gestation — premature infants may lack it → respiratory distress syndrome (RDS).',mnemonic:'"Surfactant = Surface tension reducer. Premature babies lack it → RDS. Saves alveoli from collapse."',svg:''},
-        {term:'Anatomical dead space',def:'Volume of conducting airways that does not participate in gas exchange (~150 mL). Includes nasal cavity, pharynx, larynx, trachea, bronchi, bronchioles. Alveolar dead space = unperfused alveoli (normally minimal). Physiologic dead space = anatomical + alveolar dead space.',mnemonic:'"Dead space = space where NO gas exchange happens. Anatomical dead space = 150 mL."',svg:''},
+      { title:'Respiratory Zone and Lungs', items:[
+        {term:'Respiratory zone structures',def:'Respiratory bronchioles (some alveoli in walls). Alveolar ducts. Alveolar sacs. Alveoli (gas exchange). About 300 million alveoli = 70 square meters surface area. Type I pneumocytes (simple squamous, gas exchange). Type II pneumocytes (cuboidal, secrete surfactant to reduce surface tension). Alveolar macrophages = dust cells.',mnemonic:'Type I = thin for gas exchange. Type II = surfactant factory.',svg:''},
+        {term:'Lungs',def:'Right lung: 3 lobes (superior, middle, inferior). Left lung: 2 lobes (superior, inferior) plus cardiac notch (accommodates heart). Visceral pleura adheres to lung. Parietal pleura lines thoracic wall. Pleural cavity has serous fluid to reduce friction and hold lungs via surface tension.',mnemonic:'Right = 3 lobes. Left = 2 plus cardiac notch.',svg:''},
+        {term:'Muscles of ventilation',def:'Quiet inspiration: diaphragm (flattens, increases vertical dimension) and external intercostals (elevate rib cage). Forced inspiration: sternocleidomastoid, scalenes, pectoralis minor. Quiet expiration: passive recoil of lungs and chest wall. Forced expiration: internal intercostals and abdominal muscles.',mnemonic:'Diaphragm and external intercostals for quiet breathing. Abdominals force air out.',svg:''},
+        {term:'Respiratory volumes',def:'Tidal volume (TV): 500 mL quiet breath. Inspiratory reserve volume (IRV): 3100 mL max above TV. Expiratory reserve volume (ERV): 1200 mL max below TV. Residual volume (RV): 1200 mL cannot be exhaled, keeps alveoli open. Vital capacity = TV + IRV + ERV = 4800 mL. Total lung capacity = VC + RV = 6000 mL.',mnemonic:'TV = 500. IRV + TV + ERV = vital capacity. Add RV = total.',svg:''},
       ]},
-      { title:'Gas Exchange & Transport', items:[
-        {term:'Partial pressures and gas exchange',def:'Dalton\'s Law: total pressure = sum of partial pressures of all gases. O₂ in alveoli (PAO₂) = ~105 mmHg. O₂ in venous blood = 40 mmHg. O₂ diffuses from alveoli into blood (105→40). CO₂ in venous blood = 45 mmHg. CO₂ in alveoli = 40 mmHg. CO₂ diffuses from blood to alveoli (45→40).',mnemonic:'"Gas moves from HIGH partial pressure to LOW. O₂ moves into blood. CO₂ moves into alveoli."',svg:'gasExchangeSVG'},
-        {term:'Hemoglobin and O₂ transport',def:'98.5% of O₂ carried bound to hemoglobin (oxyhemoglobin). 1.5% dissolved in plasma. O₂-Hb dissociation curve: sigmoidal shape. Right shift (↑ temp, ↑ CO₂, ↓ pH, ↑ BPG) = ↓ affinity = more O₂ released to tissues (Bohr effect). Left shift = ↑ affinity = O₂ held tighter.',mnemonic:'"Right shift = release O₂ (tissues are hot, acidic, high CO₂). Bohr effect = CO₂/H⁺ unload O₂."',svg:'oxydissociationSVG'},
-        {term:'CO₂ transport',def:'3 ways: (1) 7% dissolved in plasma, (2) 23% bound to hemoglobin as carbaminohemoglobin (binds globin, not heme), (3) 70% as bicarbonate (CO₂ + H₂O → H₂CO₃ → H⁺ + HCO₃⁻ via carbonic anhydrase in RBCs → HCO₃⁻ moves to plasma, Cl⁻ moves in = chloride shift).',mnemonic:'"CO₂ transport: 7% dissolved, 23% carb-amino, 70% bicarb. Bicarb is the main form."',svg:'co2TransportSVG'},
-        {term:'Control of breathing',def:'Medullary rhythmicity center (dorsal group = inspiratory neurons, ventral group = forced breathing). Apneustic center (pons — prolongs inspiration). Pneumotaxic center (pons — limits inspiration). Chemical control: ↑ CO₂ / ↑ H⁺ / ↓ pH → strongest stimulus for breathing. Central chemoreceptors (medulla) respond to H⁺. Peripheral chemoreceptors (carotid and aortic bodies) respond to ↓ PO₂ too.',mnemonic:'"CO₂ is the #1 breathing driver. ↑ CO₂ = ↑ breathing rate/depth. O₂ only at very low levels."',svg:'breathingControlSVG'},
-      ]},
-      { title:'Respiratory Disorders', items:[
-        {term:'COPD (chronic obstructive pulmonary disease)',def:'Encompasses chronic bronchitis (↑ mucus, cough >3 months ×2 years, "blue bloater" — hypoxic, cyanotic, edematous) and emphysema (alveolar wall destruction → ↓ surface area + loss of elasticity → air trapping, "pink puffer" — pursed-lip breathing, barrel chest). Caused primarily by smoking.',mnemonic:'"COPD = obstructs expiration. Bronchitis = blue, puffy. Emphysema = pink puffer. Both from smoking."',svg:''},
-        {term:'Asthma',def:'Reversible airway obstruction from bronchospasm, inflammation, and mucus hypersecretion. Triggers: allergens, cold air, exercise, pollutants. Episodic wheezing, dyspnea, chest tightness. Treatment: bronchodilators (albuterol — β2 agonist), anti-inflammatory (corticosteroids).',mnemonic:'"Asthma = Airways Spasm Temporarily (reversible). Albuterol = Airway opener (β2 agonist)."',svg:''},
-        {term:'Pneumonia',def:'Infection/inflammation of lung parenchyma. Bacteria (Streptococcus pneumoniae most common), viruses, fungi. Alveoli fill with fluid/pus (consolidation) → ↓ gas exchange. Signs: fever, productive cough, crackles, lobar infiltrate on X-ray. Bacterial: antibiotics. Viral: supportive.',mnemonic:'"Pneumonia = alveoli fill with fluid = consolidation = ↓ gas exchange. Strep pneumo most common."',svg:''},
+      { title:'Gas Exchange and Transport', items:[
+        {term:'External and internal respiration',def:'External respiration: O2 from alveoli to blood, CO2 from blood to alveoli. Alveolar PO2 = 105, venous PO2 = 40 mmHg. Internal respiration: O2 from blood to tissues, CO2 from tissues to blood. Both driven by partial pressure gradients (Dalton law).',mnemonic:'External = lungs. Internal = tissues. Both use partial pressure gradients.',svg:''},
+        {term:'O2 and CO2 transport',def:'O2: 98.5% bound to hemoglobin (oxyhemoglobin), 1.5% dissolved. Each Hb carries 4 O2. Bohr effect: increased CO2, H+, or temp decreases Hb-O2 affinity (releases O2 to active tissues). CO2: 70% as bicarbonate in plasma via carbonic anhydrase in RBCs, 23% carbaminohemoglobin, 7% dissolved.',mnemonic:'O2 rides hemoglobin. CO2 mostly becomes bicarbonate.',svg:''},
+        {term:'Control of breathing',def:'Medullary respiratory centers (dorsal and ventral respiratory groups) set basic rhythm. Pneumotaxic center in pons limits inspiration. Chemical factors: increased PCO2 is the most powerful stimulus, increases ventilation. Decreased pH also increases ventilation. Decreased PO2 only stimulates peripheral chemoreceptors (carotid and aortic bodies) when severely low.',mnemonic:'CO2 = strongest respiratory drive. O2 only matters at extreme low levels.',svg:''},
       ]},
     ]
   },
@@ -1333,30 +1338,22 @@ const CHAPTERS = [
     id:'digestive', label:'Ch. 26: Digestive System', color:'amber', icon:'🫄',
     desc:'GI tract anatomy, digestion, absorption, and accessory organs',
     sections:[
-      { title:'GI Tract Overview', items:[
-        {term:'GI tract layers (tunics)',def:'4 layers from inside out: MUCOSA (inner epithelium + lamina propria + muscularis mucosae), SUBMUCOSA (CT, blood vessels, Meissner\'s/submucosal plexus for secretion), MUSCULARIS EXTERNA (inner circular + outer longitudinal smooth muscle — peristalsis; Auerbach\'s/myenteric plexus for motility), SEROSA/ADVENTITIA (outer covering — serosa in abdomen/pelvis).',mnemonic:'"MSMS from inside: Mucosa, Submucosa, Muscularis, Serosa. Meissner = submucosa. Auerbach = muscularis."',svg:'giLayersSVG'},
-        {term:'Peristalsis and segmentation',def:'Peristalsis: coordinated waves of contraction and relaxation of circular and longitudinal muscle → propels food forward. Segmentation: localized contractions that mix food with digestive juices → better absorption. Controlled by enteric nervous system (ENS = "gut brain" — 100 million neurons).',mnemonic:'"Peristalsis = PROPELS (moves forward). Segmentation = STIRS (mixes in place)."',svg:''},
-        {term:'Digestive processes overview',def:'6 processes: (1) Ingestion, (2) Propulsion (swallowing, peristalsis), (3) Mechanical digestion (chewing, churning, segmentation), (4) Chemical digestion (enzymes hydrolyze polymers), (5) Absorption (nutrients into blood/lymph), (6) Defecation.',mnemonic:'"I Pushed My Cat Away Daintily = Ingest, Propel, Mechanical digest, Chemical digest, Absorb, Defecate."',svg:''},
-        {term:'Peritoneum',def:'Serous membrane lining abdominal cavity. Visceral peritoneum covers organs. Parietal peritoneum lines body wall. Peritoneal cavity (potential space) between them. Mesentery (double layer) anchors small intestine to posterior wall + carries vessels/nerves. Greater omentum hangs from stomach (fat apron, immunity). Retroperitoneal organs: kidneys, pancreas, duodenum, ascending/descending colon.',mnemonic:'"Retroperitoneal organs: SAD PUCKER = Suprarenal, Aorta, Duodenum, Pancreas, Ureters, Colon (asc/desc), Kidneys, Esophagus, Rectum."',svg:''},
+      { title:'GI Tract Layers and Peritoneum', items:[
+        {term:'GI wall layers',def:'Mucosa (innermost): epithelium, lamina propria, muscularis mucosae. Submucosa: dense CT, Meissner plexus (sensory, submucosal). Muscularis externa: inner circular, outer longitudinal smooth muscle, Auerbach/myenteric plexus (motor). Serosa: visceral peritoneum (outermost).',mnemonic:'MSMS inside out: Mucosa, Submucosa, Muscularis, Serosa.',svg:''},
+        {term:'Peritoneum and mesenteries',def:'Parietal peritoneum lines abdominal wall. Visceral peritoneum covers organs. Peritoneal cavity has serous fluid. Dorsal mesentery tethers small intestine. Greater omentum hangs from greater curvature (fat apron). Lesser omentum: liver to lesser curvature. Retroperitoneal = behind peritoneum (kidneys, duodenum, pancreas, aorta).',mnemonic:'Greater omentum = fat apron over small intestine. Lesser = liver to stomach.',svg:''},
       ]},
-      { title:'Mouth to Stomach', items:[
-        {term:'Oral cavity and salivary glands',def:'Mechanical digestion (mastication). Tongue mixes food → bolus. 3 pairs salivary glands: parotid (largest, serous, amylase), submandibular (mixed, largest output), sublingual (mucous mainly). Saliva: water (99%), amylase (digests starch), lingual lipase (fat), lysozyme, IgA, mucus. pH 6.75-7.0.',mnemonic:'"Salivary amylase = starts starch digestion. Parotid = Pump (largest). 99% water, amylase the key enzyme."',svg:''},
-        {term:'Esophagus and swallowing',def:'25 cm muscular tube. Upper 1/3 = skeletal muscle, middle = mixed, lower 1/3 = smooth muscle. Upper esophageal sphincter (skeletal muscle) and lower esophageal sphincter (LES/cardiac sphincter, smooth muscle). Swallowing reflex: pharyngeal phase (involuntary) → epiglottis covers larynx. GERD = LES incompetence.',mnemonic:'"Esophagus = nothing but transit. LES failure = GERD (acid reflux)."',svg:''},
-        {term:'Stomach anatomy and functions',def:'J-shaped organ. Regions: cardia (near LES), fundus (dome above LES), body (main), pylorus (inferior, connects to duodenum). Rugae = folds that allow expansion. Functions: storage (1-4L), mechanical churning, chemical digestion (pepsin + HCl), limited absorption (alcohol, aspirin). Produces chyme.',mnemonic:'"Stomach = 4 regions: CFB-P (Cardia, Fundus, Body, Pylorus). Makes chyme (semi-liquid food)."',svg:'stomachAnatomySVG'},
-        {term:'Gastric secretions',def:'Parietal cells: HCl (kills bacteria, activates pepsinogen, denatures proteins) and intrinsic factor (binds B12 for absorption). Chief cells: pepsinogen (activated to pepsin by HCl → digests proteins). Mucous cells: mucus (protects stomach wall). G cells (antrum): gastrin (↑ HCl secretion, ↑ motility).',mnemonic:'"Parietal cells: HCl + intrinsic factor. Chief cells: pepsinogen. G cells: gastrin." Parietal = Powerful acid.',svg:'gastricSecretionsSVG'},
-        {term:'Regulation of gastric secretion',def:'3 phases: Cephalic (before food enters — sight/smell/thought → vagus nerve → ↑ secretion), Gastric (food in stomach — distension + protein → gastrin → ↑ HCl + pepsinogen), Intestinal (chyme in duodenum — fatty/acidic chyme → CCK + secretin → INHIBIT gastric secretion).',mnemonic:'"3 phases: Cephalic (brain), Gastric (stomach), Intestinal (duodenum stops it). CGI."',svg:''},
+      { title:'Mouth Through Stomach', items:[
+        {term:'Oral cavity and salivary glands',def:'Hard palate (bone) + soft palate (muscle) + uvula. Tongue: filiform papillae (no taste), fungiform (some taste, scattered), circumvallate (most taste, row at back). Salivary glands: parotid (largest, serous, amylase), submandibular (mixed), sublingual (mostly mucous). Saliva contains amylase, lingual lipase, lysozyme, mucin.',mnemonic:'Parotid = amylase, starch digestion starts in mouth.',svg:''},
+        {term:'Esophagus',def:'Muscular tube from laryngopharynx to stomach. Upper third skeletal muscle, middle third mixed, lower third smooth muscle. Gastroesophageal sphincter (lower esophageal sphincter) prevents reflux. Peristalsis propels bolus. Dysfunction leads to GERD.',mnemonic:'Gastroesophageal sphincter prevents reflux. Upper = voluntary, lower = involuntary.',svg:''},
+        {term:'Stomach anatomy',def:'Fundus (gas pocket). Body (main region). Pylorus and pyloric sphincter (controls gastric emptying). Greater curvature (left, larger) and lesser curvature (right, smaller). Rugae = longitudinal folds allow expansion. Cardiac orifice and gastroesophageal sphincter at entry.',mnemonic:'Fundus, Body, Pylorus. Pyloric sphincter controls exit.',svg:''},
+        {term:'Stomach secretions',def:'Chief cells: secrete pepsinogen (activated to pepsin by HCl, begins protein digestion). Parietal cells: secrete HCl (activates pepsin, kills bacteria) and intrinsic factor (required for B12 absorption in ileum). G cells: secrete gastrin (stimulates HCl production). Mucous neck cells: protect stomach lining.',mnemonic:'Chief = pepsinogen. Parietal = HCl and intrinsic factor. G cells = gastrin.',svg:''},
       ]},
-      { title:'Small Intestine & Absorption', items:[
-        {term:'Small intestine anatomy',def:'~6 meters long. 3 regions: duodenum (25cm, C-shaped, receives bile + pancreatic juice at hepatopancreatic ampulla/Sphincter of Oddi), jejunum (2.5m, main digestion + absorption), ileum (3.5m, B12 + bile salt reabsorption). Plicae circulares (circular folds), villi, microvilli (brush border) → 200× surface area.',mnemonic:'"Surface area: Plicae × Villi × Microvilli = 200×. DJI = Duodenum, Jejunum, Ileum."',svg:'smallIntestineSVG'},
-        {term:'Intestinal brush border enzymes',def:'On microvilli of small intestine. Complete digestion: maltase (maltose → 2 glucose), sucrase (sucrose → glucose + fructose), lactase (lactose → glucose + galactose), peptidases (dipeptides/tripeptides → amino acids). Lactase deficiency → lactose intolerance.',mnemonic:'"Brush border enzymes finish the job: maltase, sucrase, lactase, peptidases."',svg:''},
-        {term:'Absorption of nutrients',def:'Carbohydrates: monosaccharides (glucose, galactose by Na⁺-cotransport; fructose by facilitated diffusion) → capillaries → portal vein. Proteins: amino acids → capillaries → portal vein. Fats: fatty acids + monoglycerides → micelles → enterocytes → chylomicrons → lacteals → lymph → blood. Vit B12: requires intrinsic factor, absorbed in terminal ileum.',mnemonic:'"Carbs + protein = capillaries (portal vein). Fats = lacteals (lymph). B12 = ileum with intrinsic factor."',svg:'absorptionSVG'},
-        {term:'Regulation: CCK and secretin',def:'CCK (cholecystokinin): from I cells of small intestine when fat/protein arrives. Stimulates pancreas (enzyme secretion) and gallbladder contraction (bile release). Also signals satiety. Secretin: from S cells when acidic chyme arrives. Stimulates pancreas to secrete HCO₃⁻ (neutralizes acid) and liver to produce bile.',mnemonic:'"CCK = fat + protein → enzymes + bile. Secretin = acid → bicarbonate (neutralize). CCK = enzymes; Secretin = neutralize."',svg:''},
-      ]},
-      { title:'Accessory Organs', items:[
-        {term:'Liver functions',def:'500+ functions. Key: (1) Metabolic: glucose homeostasis (glycogen storage/glycogenolysis), fat metabolism, protein synthesis (albumin, clotting factors), amino acid deamination (→ urea). (2) Detoxification: drugs, alcohol, hormones. (3) Bile production (500-1000mL/day). (4) Storage: glycogen, fat-soluble vitamins (A,D,E,K), B12, iron.',mnemonic:'"Liver = METABOLIC powerhouse. 500 functions: metabolism, detox, bile, storage. Albumin + clotting factors."',svg:'liverSVG'},
-        {term:'Bile',def:'Produced by hepatocytes, stored/concentrated in gallbladder, released via bile duct into duodenum. Contains: bile salts (cholesterol derivatives that emulsify fats — mechanically break into micelles for lipase access), bilirubin (RBC breakdown product), cholesterol, phospholipids. NOT an enzyme.',mnemonic:'"Bile = emulsifier (detergent) for fats. NOT an enzyme. Made by liver, stored in gallbladder."',svg:'bileFlowSVG'},
-        {term:'Pancreas (exocrine)',def:'Pancreatic juice (1200-1500 mL/day): (1) HCO₃⁻ (bicarbonate from ductal cells — neutralizes acid chyme), (2) digestive enzymes from acinar cells: pancreatic amylase (starch), lipase (fats), proteases (trypsinogen → trypsin by enterokinase, chymotrypsinogen, elastase, carboxypeptidase). Released in response to CCK + secretin.',mnemonic:'"Pancreas = big enzyme maker + acid neutralizer. Proteases released INACTIVE (prevents autodigestion). Enterokinase activates trypsin."',svg:''},
-        {term:'Large intestine',def:'1.5m long. Regions: cecum (ileum connects at ileocecal valve, appendix here) → ascending colon → transverse colon → descending colon → sigmoid colon → rectum → anal canal. Functions: water/electrolyte absorption (90% of remaining water), vitamin synthesis (K, B) by bacteria, compaction of feces, defecation.',mnemonic:'"Large intestine = water absorber + feces maker. Bacteria make vitamin K and B vitamins."',svg:'largeIntestineSVG'},
+      { title:'Small and Large Intestine', items:[
+        {term:'Small intestine',def:'Duodenum (25 cm): receives bile and pancreatic juice at hepatopancreatic ampulla/sphincter of Oddi. Jejunum (2.5 m): major absorption site. Ileum (3.5 m): B12 absorption, bile salt reabsorption, ileocecal valve. Surface area increased by: circular folds (plicae circulares), villi (finger projections), microvilli (brush border).',mnemonic:'Duodenum = factory. Jejunum = main absorber. Ileum = finisher.',svg:''},
+        {term:'Large intestine',def:'Cecum (blind pouch) + appendix (lymphoid). Ascending colon, hepatic flexure, transverse colon, splenic flexure, descending colon, sigmoid colon, rectum, anal canal, anus. External anal sphincter (voluntary, skeletal). Internal anal sphincter (involuntary, smooth). Taenia coli (3 longitudinal muscle bands) create haustrations. Absorbs H2O and electrolytes.',mnemonic:'AHTS-DSRAA: Ascending, Hepatic, Transverse, Splenic, Descending, Sigmoid, Rectum, Anal, Anus.',svg:''},
+        {term:'Accessory organs: liver and gallbladder',def:'Liver: right lobe (larger) and left lobe separated by falciform ligament. Hepatocytes produce bile (emulsifies fats), detoxify, metabolize nutrients. Gallbladder stores and concentrates bile under right lobe. Bile duct joins pancreatic duct at hepatopancreatic ampulla.',mnemonic:'Liver = bile factory + detox. Gallbladder = bile storage.',svg:''},
+        {term:'Pancreas',def:'Head in duodenal curve, body, tail toward spleen. Exocrine: acini secrete pancreatic juice (amylase, lipases, proteases, bicarbonate) via pancreatic duct into duodenum. Endocrine: islets of Langerhans: alpha cells = glucagon, beta cells = insulin.',mnemonic:'Pancreas: Exocrine = digestive enzymes. Endocrine = insulin and glucagon.',svg:''},
+        {term:'Absorption summary',def:'Carbohydrates: monosaccharides (glucose via SGLT1, fructose via GLUT5) absorbed into capillaries. Proteins: amino acids via active transport into capillaries. Fats: fatty acids and monoglycerides form micelles, enter epithelial cells, reform triglycerides, packaged as chylomicrons, enter lacteals (lymph). Fat-soluble vitamins ADEK via lacteals. B12 requires intrinsic factor.',mnemonic:'Fats go to lymph lacteals. Everything else to portal vein.',svg:''},
       ]},
     ]
   },
@@ -1366,26 +1363,23 @@ const CHAPTERS = [
     desc:'Kidney anatomy, urine formation, fluid/electrolyte balance, and acid-base',
     sections:[
       { title:'Kidney Anatomy', items:[
-        {term:'Kidney location and structure',def:'Retroperitoneal, T12-L3. Right kidney slightly lower (pushed by liver). Covered by renal capsule (fibrous) + perirenal fat + renal fascia. External: hilum (where ureter, renal vein, renal artery, lymphatics enter/exit). Internal: cortex (outer, contains glomeruli + tubules), medulla (inner, pyramids + columns), renal pelvis (collects urine).',mnemonic:'"Kidney = retroperitoneal. Cortex = outer (glomeruli). Medulla = inner (pyramids). Pelvis = urine collector."',svg:'kidneyAnatomySVG'},
-        {term:'Nephron',def:'Functional unit of kidney. ~1 million per kidney. 2 types: cortical (85%, short loop) and juxtamedullary (15%, long loop — concentrate urine). Parts: renal corpuscle (glomerulus + Bowman\'s capsule) → proximal convoluted tubule (PCT) → loop of Henle (descending + ascending limb) → distal convoluted tubule (DCT) → collecting duct.',mnemonic:'"Nephron path: Glomerulus → PCT → Loop of Henle → DCT → Collecting duct. Filter → Reabsorb → Adjust."',svg:'nephronSVG'},
-        {term:'Glomerulus and filtration membrane',def:'Glomerulus = tuft of fenestrated capillaries. Filtration membrane has 3 layers: fenestrated endothelium (large pores), basement membrane (negative charge blocks proteins), podocytes with filtration slits. Allows passage of water + small solutes but NOT proteins or cells. GFR = ~125 mL/min (~180 L/day filtration, 1-2 L urine produced).',mnemonic:'"GFR = 125 mL/min = 180 L/day filtered. 99% reabsorbed. Proteins BLOCKED by negative charge + small pores."',svg:'glomerulusSVG'},
-        {term:'Juxtaglomerular apparatus (JGA)',def:'Located where DCT contacts afferent arteriole. Macula densa cells (DCT — detect Na⁺/Cl⁻ flow, sense GFR). Juxtaglomerular (JG) cells (afferent arteriole — produce renin). Mesangial cells (regulate glomerular surface area). Macula densa + low BP → JG cells release renin → RAAS activation.',mnemonic:'"JGA = blood pressure sensor of the kidney. Macula densa senses tubule flow. JG cells release renin."',svg:''},
+        {term:'Gross kidney anatomy',def:'Retroperitoneal at T12-L3. Right kidney lower (liver). Hilum (medial concavity): renal artery, vein, ureter. Fibrous capsule, perirenal fat, renal fascia. Cortex (outer, nephrons). Medulla: renal pyramids (collecting ducts, loops). Renal columns (CT between pyramids). Papilla points to minor calyx, major calyx, renal pelvis, ureter.',mnemonic:'Cortex outside, pyramids inside. Papilla to calyx to pelvis to ureter.',svg:''},
+        {term:'Nephron blood supply',def:'Renal artery to interlobar to arcuate to interlobular arteries to afferent arteriole to glomerulus to efferent arteriole to peritubular capillaries (around PCT/DCT) and vasa recta (parallel to loop of Henle). Drains to renal vein.',mnemonic:'Afferent in, efferent out. Efferent feeds peritubular capillaries and vasa recta.',svg:''},
+        {term:'Nephron structure',def:'Renal corpuscle: Bowman capsule + glomerulus. Proximal convoluted tubule (PCT, 65% reabsorption). Loop of Henle: thin descending limb (H2O permeable), thick ascending limb (NaCl pumped out, impermeable to H2O). Distal convoluted tubule (DCT, regulated reabsorption). Collecting duct (final adjustment, ADH sensitive).',mnemonic:'Corpuscle to PCT to Loop to DCT to Collecting duct.',svg:''},
+        {term:'Urinary tract',def:'Ureters (25 cm, retroperitoneal, peristalsis). Urinary bladder: trigone (triangle between 2 ureteral openings and urethral orifice, no rugae, site of infection). Rugae allow expansion. Internal urethral sphincter (smooth, involuntary). External urethral sphincter (skeletal, voluntary). Male urethra 20 cm, female 4 cm (more UTIs in females).',mnemonic:'Trigone = 3-opening triangle. Internal = involuntary. External = voluntary.',svg:''},
       ]},
-      { title:'Urine Formation', items:[
-        {term:'Glomerular filtration (step 1)',def:'Blood pressure in glomerulus drives filtrate into Bowman\'s capsule. NFP (net filtration pressure) = glomerular HP (55 mmHg) - capsular HP (15 mmHg) - osmotic pressure (30 mmHg) = +10 mmHg (net out). Autoregulation: myogenic response and tubuloglomerular feedback maintain GFR 80-180 mmHg systemic BP.',mnemonic:'"NFP = GHP - CHP - Osmotic. 55-15-30 = +10 mmHg → filtration. GFR stays constant via autoregulation."',svg:'filtrationSVG'},
-        {term:'Tubular reabsorption (step 2)',def:'PCT: reabsorbs ~65% of filtrate. Obligatory reabsorption: all glucose, amino acids, vitamins, uric acid + Na⁺ (by cotransport), Cl⁻ (follows Na⁺), water (follows osmotically). Transcellular (through cells) or paracellular (between cells). Loop of Henle: countercurrent multiplier. DCT and collecting duct: controlled by hormones (ADH, aldosterone).',mnemonic:'"PCT = bulk reabsorber (65%). All glucose reabsorbed here (threshold = 180 mg/dL; above = glucosuria)."',svg:'reabsorptionSVG'},
-        {term:'Tubular secretion (step 3)',def:'Active movement FROM peritubular capillaries INTO tubule lumen. Eliminates: H⁺, K⁺, NH₄⁺, creatinine, drugs, toxins, bile salts. PCT secretes: H⁺, NH₄⁺, drugs. DCT/collecting duct: H⁺ (acid-base), K⁺ (aldosterone regulation). Important for fine-tuning blood pH and eliminating drugs.',mnemonic:'"Secretion = squirt waste INTO the tubule. Gets rid of drugs, H⁺, K⁺."',svg:''},
-        {term:'Countercurrent multiplier',def:'Loop of Henle creates osmotic gradient in medulla (300 mOsm at cortex → 1200 mOsm deep medulla). Descending loop: permeable to water only → water leaves, concentrates filtrate. Ascending loop: impermeable to water, pumps NaCl out → dilutes filtrate, concentrates medullary interstitium. Vasa recta (peritubular capillaries of juxtamedullary nephrons) maintain gradient.',mnemonic:'"Loop of Henle = makes the medulla salty (concentrates) so ADH can make concentrated urine."',svg:'loopSVG'},
-        {term:'ADH and aldosterone effects on urine',def:'ADH (vasopressin): ↑ water permeability of collecting duct (inserts aquaporins) → more water reabsorbed → concentrated urine. High serum osmolarity or ↓ BP triggers ADH release. Aldosterone: ↑ Na⁺ reabsorption + ↑ K⁺ secretion in DCT/collecting duct → water follows Na⁺ → ↑ volume + ↑ BP.',mnemonic:'"ADH = water in. Aldosterone = Na⁺ in (water follows) + K⁺ out. Both increase urine concentration."',svg:''},
+      { title:'Kidney Physiology', items:[
+        {term:'Kidney functions',def:'Filtration of blood and excretion of nitrogenous wastes (urea, creatinine, uric acid). Acid-base homeostasis. Fluid and electrolyte balance. Blood pressure regulation via renin and RAAS. Erythropoietin (EPO) production stimulates RBC production. Calcitriol (active vitamin D) activation.',mnemonic:'FAEBRE: Filtration, Acid-base, Electrolytes, Blood pressure, RBC (EPO), vitamin D.',svg:''},
+        {term:'Glomerular filtration',def:'NFP = HPg minus (HPc + OPg) = 60 minus (18 + 32) = 10 mmHg. GFR = 125 mL/min (about 180 L/day). Filtration membrane: fenestrated glomerular endothelium, basement membrane, podocytes with pedicels and filtration slits. Filtrate is isotonic to blood: water, ions, nitrogenous wastes, glucose, amino acids. No proteins or cells.',mnemonic:'NFP = 10 mmHg. GFR = 125 mL/min. Filtrate = blood minus proteins and cells.',svg:''},
+        {term:'Reabsorption and secretion',def:'PCT: obligatory reabsorption of 65% Na+, all glucose and amino acids, 65% H2O via aquaporins, HCO3-. Loop of Henle: countercurrent multiplier establishes medullary osmotic gradient. DCT: aldosterone increases Na+ reabsorption and K+ secretion. Collecting duct: ADH increases H2O reabsorption (aquaporins). Secretion of H+, K+, NH4+.',mnemonic:'PCT = bulk reabsorption. Loop = gradient. DCT and collecting duct = fine tuning.',svg:''},
+        {term:'GFR regulation',def:'Intrinsic: myogenic mechanism (smooth muscle autoregulates). Tubuloglomerular feedback (macula densa senses NaCl, adjusts afferent arteriole). Extrinsic: sympathetic stimulation decreases GFR. RAAS: low BP triggers renin from JG cells, angiotensin II causes vasoconstriction and aldosterone release. ANP from atria increases GFR and decreases Na+ reabsorption.',mnemonic:'RAAS = restore BP. ANP = dump excess Na+ and water.',svg:''},
+        {term:'Countercurrent mechanisms',def:'Countercurrent multiplier in loop of Henle: thin descending = H2O out, NaCl in. Thick ascending = NaCl actively pumped out, impermeable to H2O. Builds medullary gradient 300 to 1200 mOsm. Countercurrent exchanger (vasa recta) preserves gradient by passively exchanging solutes. ADH opens aquaporins in collecting duct for concentrated urine. Urea recycling contributes to inner medullary gradient.',mnemonic:'Loop builds gradient. Vasa recta preserves it. ADH uses it for concentrated urine.',svg:''},
       ]},
-      { title:'Fluid, Electrolyte & Acid-Base Balance', items:[
-        {term:'Fluid compartments',def:'Total body water = 60% of body weight. Intracellular fluid (ICF) = 2/3 (40%). Extracellular fluid (ECF) = 1/3 (20%): plasma (8%, inside vessels) + interstitial fluid (12%, around cells). Electrolyte differences: ICF = high K⁺, Mg²⁺, PO₄³⁻, proteins. ECF = high Na⁺, Cl⁻, HCO₃⁻.',mnemonic:'"ICF = 2/3, ECF = 1/3. ICF loves K⁺ (K = inside). ECF loves Na⁺ (Na = outside)."',svg:'fluidCompartmentsSVG'},
-        {term:'Sodium and water balance',def:'Na⁺ = major ECF cation → major determinant of ECF osmolarity and volume. Where Na⁺ goes, water follows. Hypernatremia (↑ Na⁺) → cells shrink (water leaves by osmosis) → CNS effects. Hyponatremia (↓ Na⁺) → cells swell → cerebral edema. Regulated by: aldosterone (↑ Na⁺ retention), ANP (↑ Na⁺ excretion), ADH (water retention).',mnemonic:'"Na⁺ = osmotic skeleton of ECF. Hypernatremia = cells shrink. Hyponatremia = cells swell."',svg:''},
-        {term:'Potassium balance',def:'K⁺ = major ICF cation. Normal plasma K⁺ = 3.5-5.0 mEq/L. Critical for resting membrane potential. Aldosterone ↑ K⁺ secretion in DCT. Hyperkalemia (>5.0) → cardiac arrhythmias, muscle weakness. Hypokalemia (<3.5) → cardiac arrhythmias, muscle weakness/cramps.',mnemonic:'"K⁺ = inside cells. 3.5-5.0 normal. Too high or too low = HEART PROBLEMS + muscle weakness."',svg:''},
-        {term:'Calcium balance',def:'Normal plasma Ca²⁺ = 8.5-10.5 mg/dL. 99% in bone. Regulated by PTH (↑ Ca²⁺), calcitonin (↓ Ca²⁺), calcitriol/vitamin D (↑ GI absorption). Hypocalcemia → tetany, hyperreflexia, Chvostek\'s sign, Trousseau\'s sign. Hypercalcemia → muscle weakness, kidney stones, confusion.',mnemonic:'"Ca²⁺: PTH = raises, calcitonin = lowers. Hypocalcemia = tetany (muscles spasm). Hypercalcemia = stones, groans, moans."',svg:''},
-        {term:'Acid-base balance overview',def:'Normal blood pH = 7.35-7.45. Buffers (immediate): bicarbonate (most important in blood), proteins, phosphate. Respiratory (minutes): ↑ breathing → exhale more CO₂ → ↑ pH. Renal (hours-days): kidneys excrete H⁺ or HCO₃⁻. Henderson-Hasselbalch: pH = pKa + log ([HCO₃⁻]/[CO₂]).',mnemonic:'"pH 7.35-7.45. Three defenses: Buffers (immediate), Breathing (minutes), Kidneys (days). BBK."',svg:'acidBaseSVG'},
-        {term:'Respiratory acidosis and alkalosis',def:'Resp. acidosis: ↓ breathing → CO₂ accumulates → ↑ H⁺ → ↓ pH. Causes: COPD, drug overdose, respiratory failure. Compensation: kidneys ↑ H⁺ excretion + ↑ HCO₃⁻ reabsorption. Resp. alkalosis: ↑ breathing (hyperventilation) → exhale too much CO₂ → ↓ H⁺ → ↑ pH. Causes: anxiety, altitude. Compensation: kidneys ↓ HCO₃⁻ reabsorption.',mnemonic:'"ROME: Respiratory Opposite, Metabolic Equal. Resp acidosis: ↓pH, ↑CO₂. Resp alkalosis: ↑pH, ↓CO₂."',svg:''},
-        {term:'Metabolic acidosis and alkalosis',def:'Met. acidosis: ↓ pH, ↓ HCO₃⁻. Causes: diarrhea (lose HCO₃⁻), DKA, lactic acidosis, renal failure. Compensation: Kussmaul respirations (deep + fast breathing → exhale CO₂). Met. alkalosis: ↑ pH, ↑ HCO₃⁻. Causes: vomiting (lose HCl), antacid overdose, diuretics. Compensation: shallow breathing.',mnemonic:'"Met acidosis: diarrhea, DKA, lactic acid, renal failure. Met alkalosis: vomiting (lose acid)."',svg:''},
+      { title:'Fluid, Electrolyte, and Acid-Base Balance', items:[
+        {term:'Fluid compartments',def:'Total body water about 60% of body weight. ICF (62% of TBW): K+ dominant at 140 mEq/L. ECF (38%): plasma (8%) and interstitial fluid (32%), Na+ dominant at 145 mEq/L. Osmolarity (280-300 mOsm) drives water movement between compartments.',mnemonic:'ICF = K+ inside. ECF = Na+ outside.',svg:''},
+        {term:'Water homeostasis regulation',def:'ADH (vasopressin): released by increased osmolarity or decreased blood volume, increases aquaporins in collecting duct, increases water reabsorption. RAAS: decreased BP triggers aldosterone, Na+ and water retention. Thirst: triggered by increased osmolarity or decreased blood volume via hypothalamus. ANP: atrial stretch releases ANP, increases Na+ and water excretion.',mnemonic:'ADH = water retention. Aldosterone = Na+ and water retention. ANP = excretion.',svg:''},
+        {term:'Acid-base balance',def:'Normal pH 7.35-7.45. Acidosis below 7.35. Alkalosis above 7.45. Buffers (immediate): bicarbonate (main ECF), phosphate (main ICF/urine), proteins including hemoglobin. Respiratory compensation (minutes): increased ventilation decreases CO2 and raises pH. Renal compensation (hours to days): adjusts H+ secretion and HCO3- reabsorption.',mnemonic:'CO2 + H2O makes H2CO3 makes H+ and HCO3-. Key equation for pH.',svg:''},
+        {term:'Acid-base disorders',def:'Respiratory acidosis: increased CO2 from hypoventilation (COPD, narcotic overdose). Respiratory alkalosis: decreased CO2 from hyperventilation (anxiety, high altitude, asthma). Metabolic acidosis: decreased HCO3- (diarrhea, DKA, renal failure). Metabolic alkalosis: increased HCO3- (vomiting, diuretics, excess antacids). Respiratory and renal systems compensate for each other.',mnemonic:'Respiratory acidosis = trapped CO2. Metabolic acidosis = lost HCO3-.',svg:''},
       ]},
     ]
   },
@@ -1394,28 +1388,19 @@ const CHAPTERS = [
     desc:'Male/female reproductive anatomy, hormonal cycles, fertilization, and embryology',
     sections:[
       { title:'Male Reproductive System', items:[
-        {term:'Testes anatomy and spermatogenesis',def:'Located in scrotum (3°C below body temp — required for spermatogenesis). Lobules contain seminiferous tubules (site of sperm production). Sertoli cells (nurse cells): nourish developing sperm, form blood-testis barrier, produce inhibin + androgen-binding protein. Leydig (interstitial) cells: between tubules, produce testosterone (stimulated by LH).',mnemonic:'"Sertoli = Sperm Support + inhibin. Leydig = Leydig (testosterone). LH → Leydig → testosterone."',svg:'testesAnatomySVG'},
-        {term:'Spermatogenesis',def:'Spermatogonia → primary spermatocytes (meiosis I) → secondary spermatocytes (meiosis II) → spermatids → spermatozoa (via spermiogenesis — shape change). Takes ~64 days. FSH stimulates sertoli cells to support spermatogenesis. Testosterone required.',mnemonic:'"SpermatoCYTES → spermatIDS → spermatoZOA. FSH + testosterone needed."',svg:'spermatogenesisSVG'},
-        {term:'Sperm anatomy',def:'Head: acrosome (enzymes to penetrate egg — hyaluronidase + acrosin) + nucleus (23 chromosomes). Midpiece: mitochondria (ATP for movement). Tail: flagellum for motility. Normal sperm count: >20 million/mL. Abnormal: oligospermia (↓), azoospermia (absent).',mnemonic:'"Sperm: Head (DNA + acrosome = entry tools), Midpiece (mitochondria = engine), Tail (propeller)."',svg:'spermAnatomySVG'},
-        {term:'Male reproductive tract and glands',def:'Sperm path (SEVEN UP): Seminiferous tubules → Epididymis (maturation + storage) → Vas deferens → Ejaculatory duct → Nothing (urethra) → Urethra → Penis. Accessory glands: seminal vesicles (60% of semen — fructose, prostaglandins, fibrinogen), prostate (30% — citric acid, enzymes, PSA), bulbourethral glands (5% — alkaline mucus, pre-ejaculate).',mnemonic:'"SEVEN UP mnemonic for sperm path. Seminal vesicles = most semen (60% fructose). PSA from prostate."',svg:''},
-        {term:'Male hormonal regulation',def:'Hypothalamus → GnRH (pulsatile) → anterior pituitary → LH + FSH. LH → Leydig cells → testosterone → negative feedback on hypo/pituitary + male secondary sex characteristics + spermatogenesis. FSH → Sertoli cells → sperm support. Inhibin (from Sertoli) → negative feedback on FSH.',mnemonic:'"GnRH → LH + FSH. LH → testosterone (Leydig). FSH → spermatogenesis (Sertoli). Inhibin shuts off FSH."',svg:'maleHormoneSVG'},
+        {term:'Male anatomy overview',def:'Testes in scrotum (2-3 degrees cooler for spermatogenesis). Epididymis: sperm maturation and storage (2-3 weeks). Ductus deferens (vas deferens): from epididymis to ejaculatory duct. Seminal vesicles: 60% of semen, fructose and prostaglandins. Prostate: 30% of semen, citric acid and enzymes. Bulbourethral glands: pre-ejaculatory fluid.',mnemonic:'SEVEN UP: Seminal vesicles, Epididymis, Vas deferens, Ejaculatory duct, Nothing, Urethra, Penis.',svg:''},
+        {term:'Spermatogenesis',def:'In seminiferous tubules. Spermatogonia (2n) to primary spermatocyte (2n, DNA replicated) to 2 secondary spermatocytes (n, meiosis I) to 4 spermatids (n, meiosis II) to 4 spermatozoa. Sertoli cells: blood-testis barrier, nourish sperm, secrete inhibin (inhibits FSH). Leydig/interstitial cells: secrete testosterone (stimulated by LH).',mnemonic:'Leydig = testosterone (LH stimulus). Sertoli = nourish sperm (FSH stimulus).',svg:''},
       ]},
       { title:'Female Reproductive System', items:[
-        {term:'Female reproductive organs',def:'Ovaries (produce eggs + hormones), uterine tubes/fallopian tubes (catch and transport oocyte — fertilization usually in ampulla of uterine tube), uterus (implantation + fetal development: fundus, body, cervix; layers = perimetrium, myometrium, endometrium), vagina (birth canal + receives semen).',mnemonic:'"Ovaries → tubes (fertilization in ampulla) → uterus (implantation) → vagina. Endometrium = uterine lining shed in menstruation."',svg:'femaleReproductiveSVG'},
-        {term:'Oogenesis',def:'Begins in fetal life — oogonia undergo mitosis → primary oocytes arrested in prophase I before birth. At puberty: 1 primary oocyte/month completes meiosis I → secondary oocyte + polar body. Secondary oocyte arrested in metaphase II until fertilization. Meiosis II completed only if fertilized → ovum + second polar body.',mnemonic:'"Born with all primary oocytes (arrested in meiosis I). Ovulation releases secondary oocyte. Fertilization completes meiosis II."',svg:'oogenesisSVG'},
-        {term:'Ovarian cycle',def:'Follicular phase (days 1-13): FSH → primordial → primary → secondary → tertiary/antral follicle → mature Graafian follicle. Dominant follicle produces estrogen → LH surge. Ovulation (day 14): LH surge → oocyte released. Luteal phase (days 15-28): corpus luteum forms → produces progesterone (+ estrogen) → prepares endometrium. If no fertilization, corpus luteum regresses → menstruation.',mnemonic:'"Follicular phase: FSH builds follicle. LH surge = ovulation. Luteal phase: corpus luteum = progesterone."',svg:'ovarianCycleSVG'},
-        {term:'Menstrual cycle (uterine)',def:'Menstrual phase (days 1-5): falling progesterone → endometrium shed. Proliferative phase (days 6-14): rising estrogen → endometrium thickens, regenerates. Secretory phase (days 15-28): progesterone → endometrium secretes glycogen, becomes vascular (prepares for implantation). If no fertilization → menstruation.',mnemonic:'"Menstrual cycle: Period → Proliferate (estrogen) → Secrete (progesterone) → Period. PPS pattern."',svg:'menstrualCycleSVG'},
-        {term:'Female hormonal regulation',def:'GnRH → LH + FSH. Estrogen: negative feedback (usually), but HIGH estrogen → POSITIVE feedback → LH surge → ovulation. Progesterone: negative feedback on LH + FSH. Inhibin (from granulosa cells): negative feedback on FSH.',mnemonic:'"Estrogen usually negative feedback EXCEPT peak just before ovulation = POSITIVE feedback = LH surge."',svg:'femaleHormoneSVG'},
-        {term:'Estrogen and progesterone effects',def:'Estrogen: female secondary sex characteristics (breast development, fat distribution, pubic/axillary hair), endometrial proliferation, bone density (with calcitonin), negative feedback (usually) on hypothalamus/pituitary, LDL↓ HDL↑. Progesterone: maintain endometrium for implantation, inhibit uterine contractions, thicken cervical mucus, stimulate breast development for lactation.',mnemonic:'"Estrogen = builds up endometrium. Progesterone = maintains it (pro-gestation = for pregnancy)."',svg:''},
+        {term:'Female anatomy overview',def:'Ovaries: cortex has follicles, medulla has blood vessels. Uterine tubes: fimbriae, infundibulum, ampulla (fertilization site), isthmus. Uterus: fundus (top), body, cervix. Uterine wall: perimetrium (serosa), myometrium (smooth muscle for contractions), endometrium (stratum functionalis sheds in menstruation, stratum basalis remains).',mnemonic:'Ampulla = fertilization site. Endometrium sheds. Myometrium contracts during birth.',svg:''},
+        {term:'Oogenesis',def:'All primary oocytes formed before birth, arrested in prophase I. At puberty one per month completes meiosis I to form secondary oocyte (arrested in metaphase II) and first polar body. Ovulation releases the secondary oocyte. Meiosis II completes only if fertilized, producing ovum and second polar body. Asymmetric division produces one large egg.',mnemonic:'Oogenesis starts before birth. Meiosis II only completes if fertilized.',svg:''},
+        {term:'Ovarian and uterine cycles',def:'Follicular phase (days 1-14): FSH stimulates follicle development, estrogen rises, LH surge triggers ovulation at day 14. Luteal phase (days 14-28): LH converts ruptured follicle to corpus luteum, which produces progesterone and estrogen to maintain endometrium. No fertilization: corpus luteum degenerates, hormone levels drop, menstruation begins. Uterine cycle: menstrual (1-5), proliferative (6-14, estrogen), secretory (15-28, progesterone).',mnemonic:'FSH grows follicle, estrogen rises, LH surge, ovulation, corpus luteum, progesterone.',svg:''},
       ]},
-      { title:'Fertilization & Pregnancy', items:[
-        {term:'Fertilization',def:'Sperm + secondary oocyte in ampulla of uterine tube (~12-24 hours after ovulation). Capacitation: sperm acquire ability to fertilize in female reproductive tract. Acrosomal reaction: acrosomal enzymes digest zona pellucida. Cortical reaction: prevents polyspermy (zona reaction). Fertilization → zygote → meiosis II completed → 2 pro-nuclei → 1st cleavage.',mnemonic:'"Fertilization: sperm + oocyte in ampulla. Acrosome reaction = enzyme digestion of zona pellucida. Cortical reaction = prevents extra sperm."',svg:'fertilizationSVG'},
-        {term:'Cleavage and implantation',def:'Zygote → cleavage (mitotic divisions, no growth) → 2-cell → 4-cell → morula (solid ball) → blastocyst (hollow, ~day 4-5): inner cell mass (embryoblast → embryo) + trophoblast (→ placenta). Blastocyst implants in uterine endometrium day 6-10. hCG produced by trophoblast → maintains corpus luteum → progesterone production continues.',mnemonic:'"Morula → Blastocyst (hollow). Inner cell mass = baby. Trophoblast = placenta. hCG = "I\'m pregnant" signal."',svg:'cleavageSVG'},
-        {term:'Placenta',def:'Develops from trophoblast + endometrial decidua. Functions: gas exchange (O₂/CO₂), nutrient/waste exchange, hormone production (hCG, progesterone, estrogen, HPL), immune protection (IgG across to fetus). Placental barrier: selective but NOT absolute. Fully functional by week 12.',mnemonic:'"Placenta = fetal life support. Makes hCG (1st trimester), then progesterone (after corpus luteum fades)."',svg:'placentaSVG'},
-        {term:'Embryonic period (weeks 3-8)',def:'Critical period: all major organs established. Week 3: gastrulation → 3 primary germ layers: ectoderm (nervous system, epidermis), mesoderm (muscle, bone, cardiovascular, kidneys), endoderm (GI, respiratory linings). Neurulation (week 3-4): neural tube → brain + spinal cord. Organogenesis: weeks 4-8 — heart beats by day 22, limb buds appear week 4.',mnemonic:'"3 germ layers: Ecto = outside (skin/nerves), Meso = middle (muscle/bone), Endo = inside (gut/lungs)."',svg:'germLayersSVG'},
-        {term:'Fetal period (week 9 - birth)',def:'Growth and maturation of structures established in embryonic period. Week 9-12: kidneys produce urine, sex determinable by ultrasound. Week 20: quickening (mother feels movement). Week 26-28: surfactant begins, lungs capable of gas exchange (viability). Week 38-40: full term. Teratogens most dangerous during embryonic period (organogenesis).',mnemonic:'"Embryonic period = set up organs. Fetal period = grow them. Teratogens worst in weeks 3-8."',svg:''},
-        {term:'Parturition (labor)',def:'Positive feedback loop. Estrogen ↑ near term (ratio reversal → progesterone withdrawal). Fetal hormones (cortisol) + ↑ estrogen → uterine oxytocin receptors ↑. Oxytocin (from posterior pituitary) → uterine contractions → fetal head stretches cervix → more oxytocin → stronger contractions → birth → positive feedback loop ends.',mnemonic:'"Labor = oxytocin positive feedback. Estrogen primes. Stretch → oxytocin → more stretch → birth."',svg:'parturitionSVG'},
-        {term:'Lactation',def:'During pregnancy: high progesterone + estrogen inhibit lactation despite prolactin. After delivery: progesterone drops → prolactin (from anterior pituitary) can act → milk synthesis. Infant suckling → oxytocin → milk ejection (let-down reflex). Prolactin inhibits GnRH → contraceptive effect (lactational amenorrhea).',mnemonic:'"Prolactin = milk PRODUCTION. Oxytocin = milk EJECTION. Suckling stimulates both via positive feedback."',svg:''},
+      { title:'Development and Fetal Circulation', items:[
+        {term:'Fertilization to implantation',def:'Fertilization in ampulla produces zygote (2n). Cleavage produces morula (solid ball), then blastocyst (inner cell mass becomes embryo, trophoblast becomes placenta). Implantation in endometrium days 6-10. Trophoblast secretes hCG to maintain corpus luteum and progesterone production, preventing menstruation. Basis of pregnancy test.',mnemonic:'Fertilization to zygote to morula to blastocyst to implantation. hCG = pregnancy hormone.',svg:''},
+        {term:'Embryonic and fetal development',def:'Weeks 1-2: pre-embryonic. Weeks 3-8: embryonic, organogenesis occurs, most vulnerable to teratogens. Gastrulation: ectoderm (nervous system, skin), mesoderm (muscle, bone, cardiovascular), endoderm (GI, respiratory, urinary lining). Week 9 onward: fetal period, growth and maturation. Placenta exchanges O2 and nutrients for CO2 and waste via umbilical vessels.',mnemonic:'Ectoderm = outside (skin, nerves). Mesoderm = middle (muscle, bone). Endoderm = inside linings.',svg:''},
+        {term:'Fetal circulation shunts',def:'Fetal lungs are non-functional and fluid-filled, so blood bypasses them. Foramen ovale: opening in atrial septum, blood flows from right atrium to left atrium. Ductus arteriosus: connects pulmonary trunk to aorta, bypasses lungs. Ductus venosus: umbilical vein to IVC, bypasses liver. At birth: lungs inflate, O2 rises, shunts close. Adult remnants: fossa ovalis, ligamentum arteriosum, ligamentum venosum, ligamentum teres.',mnemonic:'Three shunts: foramen ovale, ductus arteriosus, ductus venosus. All bypass pulmonary circulation.',svg:''},
+        {term:'Placental hormones',def:'hCG: maintains corpus luteum first trimester, detected in pregnancy tests. hPL (human placental lactogen): prepares breasts and alters maternal metabolism. Estrogen: increases uterine sensitivity and breast development. Progesterone: maintains endometrium and prevents uterine contractions. Late pregnancy: increased oxytocin receptors trigger positive feedback contraction cycle for birth.',mnemonic:'hCG = early signal. Progesterone = pregnancy maintainer. Oxytocin = birth trigger.',svg:''},
       ]},
     ]
   },
@@ -2485,7 +2470,6 @@ function showPage(page) {
   document.getElementById('page-'+page).classList.add('active');
   event.currentTarget.classList.add('active');
   if(page === 'notes') renderNotes();
-  if(page === 'flashcards') renderFlashcards();
   if(page === 'quiz') renderQuizSetup();
   if(page === 'dashboard') renderDashboard();
 }
@@ -2607,137 +2591,55 @@ function selectNote(id) {
 // ═══════════════════════════════════════════
 // FLASHCARDS
 // ═══════════════════════════════════════════
-function renderFlashcards() {
-  state.sessions++;
-  saveState();
-  const chCats = CHAPTERS.map(c => c.label.split('. ')[1] || c.label);
-  const agCats = ANATOMY_GROUPS.map(g => g.label);
-  const cats = ['All', ...chCats, ...agCats];
-  document.getElementById('fcFilterRow').innerHTML = cats.map(function(cat) {
-    const ag = ANATOMY_GROUPS.find(function(g){ return g.label === cat; });
-    const isActive = cat === state.fcActiveFilter;
-    const aStyle = (isActive && ag) ? 'background:' + ag.color + '33;border-color:' + ag.color + ';color:' + ag.color : '';
-    return '<button class="filter-btn ' + (isActive ? 'active' : '') + '" style="' + aStyle + '" onclick="fcSetFilter(\'' + cat + '\')">' + (ag ? ag.icon + ' ' : '') + cat + '</button>';
-  }).join('');
-  document.getElementById('fcMastered').textContent = state.mastered.length;
-  document.getElementById('fcNeedsReview').textContent = state.review.length;
-  document.getElementById('fcTotal').textContent = ALL_CARDS.length;
-  renderFCCard();
-}
 
-function fcSetFilter(cat) {
-  state.fcActiveFilter = cat;
-  state.fcIndex = 0;
-  state.fcFlipped = false;
-  if(cat === 'All') {
-    state.fcFilteredCards = [...ALL_CARDS];
-  } else {
-    state.fcFilteredCards = ALL_CARDS.filter(function(card) {
-      var label = card.chapter.includes('. ') ? card.chapter.split('. ')[1] : card.chapter;
-      return label === cat || card.chapter === cat;
-    });
+function showPage2(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const idx = {dashboard:0,notes:1,quiz:2,science:3}[page];
+  if(idx !== undefined) {
+    document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+    document.getElementById('page-'+page).classList.add('active');
   }
-  document.querySelectorAll('.filter-btn').forEach(function(b) {
-    b.classList.remove('active');
-    if(b.textContent.replace(/^[^a-zA-Z0-9]*/, '').trim() === cat || b.textContent.trim() === cat) b.classList.add('active');
-  });
-  renderFCCard();
+  if(page==='quiz') renderQuizSetup();
 }
 
-function renderFCCard() {
-  const cards = state.fcFilteredCards;
-  if(!cards.length) return;
-  const idx = state.fcIndex % cards.length;
-  const card = cards[idx];
-  document.getElementById('fcCounter').textContent = `${idx+1} / ${cards.length}`;
-  document.getElementById('fcInner').className = 'fc-inner' + (state.fcFlipped ? ' flipped' : '');
-  const isMastered = state.mastered.includes(card.term);
-  const isReview = state.review.includes(card.term);
-  document.getElementById('fcFront').innerHTML = `
-    ${card.svg ? `<div class="fc-visual">${getSVG(card.svg)}</div>` : `<div style="font-size:40px;margin-bottom:12px">${getChapterIcon(card.chapterId)}</div>`}
-    <div class="fc-term">${card.term}</div>
-    <div class="fc-category-tag">${card.chapter}</div>
-    ${isMastered ? '<div style="margin-top:10px;font-size:11px;color:var(--green)">✓ Mastered</div>' : ''}
-    ${isReview ? '<div style="margin-top:10px;font-size:11px;color:var(--coral)">↺ Needs review</div>' : ''}
-    <div class="fc-hint">tap to flip</div>`;
-  document.getElementById('fcBack').innerHTML = `
-    <div class="fc-def">${card.def}</div>
-    ${card.mnemonic ? `<div class="fc-mnemonic"><div class="fc-mnemonic-label">Memory tip</div>${card.mnemonic}</div>` : ''}
-    ${card.svg ? `<div style="margin-top:10px">${getSVG(card.svg)}</div>` : ''}
-    <div class="fc-hint">tap to flip back</div>`;
-}
-
-function getChapterIcon(id) {
-  return (CHAPTERS.find(c=>c.id===id)||{icon:'📖'}).icon;
-}
-
-function flipFC() { state.fcFlipped = !state.fcFlipped; renderFCCard(); }
-function fcNav(dir) {
-  state.fcIndex = (state.fcIndex + dir + state.fcFilteredCards.length) % state.fcFilteredCards.length;
-  state.fcFlipped = false;
-  renderFCCard();
-}
-function fcMark(type) {
-  const card = state.fcFilteredCards[state.fcIndex % state.fcFilteredCards.length];
-  if(type === 'mastered') {
-    state.mastered = [...new Set([...state.mastered, card.term])];
-    state.review = state.review.filter(t=>t!==card.term);
-  } else {
-    state.review = [...new Set([...state.review, card.term])];
-    state.mastered = state.mastered.filter(t=>t!==card.term);
-  }
-  saveState();
-  document.getElementById('fcMastered').textContent = state.mastered.length;
-  document.getElementById('fcNeedsReview').textContent = state.review.length;
-  fcNav(1);
-}
 
 // ═══════════════════════════════════════════
 // QUIZ
 // ═══════════════════════════════════════════
 let quizMode = 'mixed';
+
 function selectQuizMode(el, mode) {
   quizMode = mode;
-  document.querySelectorAll('.quiz-opt-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.quiz-opt-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById('chapterSelectForQuiz').style.display = mode === 'chapter' ? 'block' : 'none';
 }
 
 function renderQuizSetup() {
   const sel = document.getElementById('quizChapterSelect');
-  const chOpts = CHAPTERS.map(function(ch){ return '<option value="ch:' + ch.id + '">' + ch.label + '</option>'; }).join('');
-  const agOpts = ANATOMY_GROUPS.map(function(g){ return '<option value="ag:' + g.id + '">' + g.icon + ' ' + g.label + '</option>'; }).join('');
-  sel.innerHTML = '<optgroup label="A&P 1 Chapters">' + chOpts + '</optgroup><optgroup label="Anatomy Atlas">' + agOpts + '</optgroup>';
+  sel.innerHTML = CHAPTERS.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
   document.getElementById('quizSetup').style.display = 'block';
   document.getElementById('quizActive').style.display = 'none';
 }
 
 function startQuiz() {
   let pool;
-  if(quizMode === 'chapter') {
-    const val = document.getElementById('quizChapterSelect').value;
-    if(val.startsWith('ag:')) {
-      const agId = val.replace('ag:','');
-      const ag = ANATOMY_GROUPS.find(function(g){ return g.id===agId; });
-      pool = ag.cards.map(function(card){ return {term:card.term,def:card.def,mnemonic:card.mnemonic||'',chapter:ag.label,chapterId:ag.id}; });
-    } else {
-      const chId = val.replace('ch:','') || val;
-      const ch = CHAPTERS.find(function(c){ return c.id===chId; });
-      pool = ch.sections.flatMap(function(s){ return s.items; }).map(function(i){ return {...i,chapter:ch.label,chapterId:ch.id}; });
-    }
-  } else if(quizMode === 'anatomy') {
-    pool = ANATOMY_GROUPS.flatMap(function(g){ return g.cards.map(function(card){ return {term:card.term,def:card.def,mnemonic:card.mnemonic||'',chapter:g.label,chapterId:g.id}; }); });
-  } else if(quizMode === 'weak') {
-    pool = ALL_CARDS.filter(c=>state.review.includes(c.term));
-    if(!pool.length) { pool = [...ALL_CARDS]; }
+  if (quizMode === 'chapter') {
+    const chId = document.getElementById('quizChapterSelect').value;
+    const ch = CHAPTERS.find(c => c.id === chId);
+    pool = ch.sections.flatMap(s => s.items).map(i => ({...i, chapter: ch.label, chapterId: ch.id}));
+  } else if (quizMode === 'weak') {
+    pool = ALL_CARDS.filter(c => state.review.includes(c.term));
+    if (!pool.length) pool = [...ALL_CARDS];
   } else {
     pool = [...ALL_CARDS];
   }
   const count = quizMode === 'speed' ? 20 : 10;
-  const selected = pool.sort(()=>Math.random()-0.5).slice(0, Math.min(count, pool.length));
+  const selected = pool.sort(() => Math.random() - 0.5).slice(0, Math.min(count, pool.length));
   state.quizQuestions = selected.map(fc => {
-    const wrong = ALL_CARDS.filter(c=>c.term!==fc.term).sort(()=>Math.random()-0.5).slice(0,3);
-    const choices = [...wrong.map(c=>c.def), fc.def].sort(()=>Math.random()-0.5);
+    const wrong = ALL_CARDS.filter(c => c.term !== fc.term).sort(() => Math.random() - 0.5).slice(0, 3);
+    const choices = [...wrong.map(c => c.def), fc.def].sort(() => Math.random() - 0.5);
     return {question: fc.term, answer: fc.def, choices, term: fc.term};
   });
   state.quizCurrent = 0;
@@ -2751,38 +2653,38 @@ function startQuiz() {
 function renderQuizQuestion() {
   const qs = state.quizQuestions;
   const cur = state.quizCurrent;
-  if(cur >= qs.length) { renderQuizResults(); return; }
+  if (cur >= qs.length) { renderQuizResults(); return; }
   const q = qs[cur];
-  const pct = Math.round(cur/qs.length*100);
+  const pct = Math.round(cur / qs.length * 100);
   document.getElementById('quizActive').innerHTML = `
     <div class="quiz-question-area">
       <div class="quiz-q-header">
-        <span class="quiz-progress-label">Question ${cur+1} of ${qs.length}</span>
+        <span class="quiz-progress-label">Question ${cur + 1} of ${qs.length}</span>
         <span class="quiz-score">${state.quizScore} correct</span>
       </div>
       <div class="quiz-q-bar"><div class="quiz-q-fill" style="width:${pct}%"></div></div>
       <div class="quiz-question">Define: <em style="color:var(--accent)">${q.question}</em></div>
       <div class="quiz-choices">
-        ${q.choices.map((c,i)=>`<button class="quiz-choice" onclick="answerQuiz(this,'${c.replace(/'/g,"\\'")}')">${c}</button>`).join('')}
+        ${q.choices.map(c => `<button class="quiz-choice" onclick="answerQuiz(this,'${c.replace(/'/g, "\\'")}')">${c}</button>`).join('')}
       </div>
     </div>`;
 }
 
 function answerQuiz(el, answer) {
-  if(state.quizAnswered) return;
+  if (state.quizAnswered) return;
   state.quizAnswered = true;
   const q = state.quizQuestions[state.quizCurrent];
   const correct = answer === q.answer;
-  if(correct) state.quizScore++;
+  if (correct) state.quizScore++;
   document.querySelectorAll('.quiz-choice').forEach(btn => {
     btn.disabled = true;
-    if(btn.textContent.trim() === q.answer) btn.classList.add('correct');
-    else if(btn.textContent.trim() === answer && !correct) btn.classList.add('wrong');
+    if (btn.textContent.trim() === q.answer) btn.classList.add('correct');
+    else if (btn.textContent.trim() === answer && !correct) btn.classList.add('wrong');
   });
-  const area = document.querySelector('.quiz-question-area');
-  area.innerHTML += `<button class="quiz-next-btn" onclick="nextQuizQ()">
-    ${state.quizCurrent < state.quizQuestions.length-1 ? 'Next question →' : 'See results →'}
-  </button>`;
+  document.querySelector('.quiz-question-area').innerHTML +=
+    `<button class="quiz-next-btn" onclick="nextQuizQ()">
+      ${state.quizCurrent < state.quizQuestions.length - 1 ? 'Next question \u2192' : 'See results \u2192'}
+    </button>`;
 }
 
 function nextQuizQ() {
@@ -2792,34 +2694,25 @@ function nextQuizQ() {
 }
 
 function renderQuizResults() {
-  const pct = Math.round(state.quizScore/state.quizQuestions.length*100);
-  if(state.bestScore === null || pct > state.bestScore) { state.bestScore = pct; saveState(); }
-  const grade = pct >= 90 ? '🎉 Excellent!' : pct >= 70 ? '👍 Good work!' : pct >= 50 ? '📚 Keep studying' : '🔄 Review needed';
+  const pct = Math.round(state.quizScore / state.quizQuestions.length * 100);
+  if (state.bestScore === null || pct > state.bestScore) { state.bestScore = pct; saveState(); }
+  const grade = pct >= 90 ? '\uD83C\uDF89 Excellent!' : pct >= 70 ? '\uD83D\uDC4D Good work!' : pct >= 50 ? '\uD83D\uDCDA Keep studying' : '\uD83D\uDD04 Review needed';
   document.getElementById('quizActive').innerHTML = `
     <div class="quiz-results">
       <div class="quiz-score-big"><span class="quiz-score-pct">${pct}%</span></div>
       <div style="font-size:20px;margin-bottom:8px">${grade}</div>
       <div style="font-size:14px;color:var(--text2);margin-bottom:24px">${state.quizScore} of ${state.quizQuestions.length} correct</div>
       <div class="results-breakdown">
-        <div><span>${pct >= 90 ? '⭐' : pct >= 70 ? '✅' : '❌'}</span>Score</div>
+        <div><span>${pct >= 90 ? '\u2B50' : pct >= 70 ? '\u2705' : '\u274C'}</span>Score</div>
         <div><span>${state.bestScore}%</span>Best ever</div>
         <div><span>${state.mastered.length}</span>Mastered</div>
       </div>
       <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="startQuiz()">Retake Quiz</button>
         <button class="btn" onclick="renderQuizSetup()">New Quiz</button>
-        <button class="btn" onclick="showPage2('flashcards')">Review Flashcards</button>
+        <button class="btn" onclick="window.location.href='anatomy-flashcards.html'">Open Flashcard App</button>
       </div>
     </div>`;
-}
-
-function showPage2(page) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const idx = {dashboard:0,notes:1,flashcards:2,quiz:3,science:4}[page];
-  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
-  document.getElementById('page-'+page).classList.add('active');
-  if(page==='flashcards') renderFlashcards();
 }
 
 // ── INIT ──
