@@ -714,6 +714,7 @@
   </nav>
   <div style="display:flex;align-items:center;gap:8px">
     <a href="anatomy-atlas.html" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid rgba(82,209,138,0.4);background:rgba(82,209,138,0.08);color:var(--green);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap">🗺️ Atlas</a>
+    <a href="anatomy-flashcards.html" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid rgba(245,200,66,0.4);background:rgba(245,200,66,0.08);color:var(--amber);text-decoration:none;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;white-space:nowrap">🃏 Anatomy Cards</a>
     <button onclick="openSyncModal()" style="padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all 0.15s" title="Sync progress between devices">⇄ Sync</button>
     <div class="streak-badge" id="streakBadge">🔥 <span id="streakNum">1</span> day streak</div>
   </div>
@@ -755,7 +756,7 @@
 <div id="page-dashboard" class="page active">
   <div class="welcome-hero">
     <h1>Welcome to your<br><em>A&amp;P Review</em> lab.</h1>
-    <p>You've got one week before A&amp;P 2. This app uses spaced repetition, active recall, and visual learning to get everything back in long-term memory — not just cramming.</p>
+    <p>You’ve got one week before A&amp;P 2. This app uses spaced repetition, active recall, and visual learning to get everything back in long-term memory — not just cramming.</p>
   </div>
   <div class="stats-row" id="statsRow">
     <div class="stat-card"><div class="stat-label">Cards Mastered</div><div class="stat-value green" id="masteredCount">0</div></div>
@@ -765,7 +766,7 @@
   </div>
   <div class="section-title">Chapters to Review</div>
   <div class="chapter-grid" id="chapterGrid"></div>
-  <div class="section-title">Today's Study Plan</div>
+  <div class="section-title">Today’s Study Plan</div>
   <div class="schedule-table">
     <table>
       <thead><tr><th>Time</th><th>Activity</th><th>Goal</th><th>Why it works</th></tr></thead>
@@ -871,7 +872,7 @@
     <div class="science-card">
       <div class="science-card-icon">🧩</div>
       <h3>Active Recall</h3>
-      <p>Don't re-read — test yourself. Retrieving information from memory strengthens it far more than passive review. Every flashcard flip, every quiz question, every "brain dump" is active recall. Re-reading gives you fluency illusions without retention.</p>
+      <p>Don’t re-read — test yourself. Retrieving information from memory strengthens it far more than passive review. Every flashcard flip, every quiz question, every "brain dump" is active recall. Re-reading gives you fluency illusions without retention.</p>
       <span class="science-tag tag-green">Core technique</span>
     </div>
     <div class="science-card">
@@ -883,7 +884,7 @@
     <div class="science-card">
       <div class="science-card-icon">🎨</div>
       <h3>Dual Coding</h3>
-      <p>Pair verbal information with visual diagrams. When you read "sarcomere" AND see the A/I band diagram, you create two memory traces that reinforce each other. The diagrams on these flashcards are there for this exact reason — don't skip them.</p>
+      <p>Pair verbal information with visual diagrams. When you read "sarcomere" AND see the A/I band diagram, you create two memory traces that reinforce each other. The diagrams on these flashcards are there for this exact reason — don’t skip them.</p>
       <span class="science-tag tag-purple">Visual memory</span>
     </div>
     <div class="science-card">
@@ -895,13 +896,13 @@
     <div class="science-card">
       <div class="science-card-icon">🧱</div>
       <h3>Interleaving</h3>
-      <p>Don't study all of one chapter, then all of another. Mix topics in each session. It feels harder — that's the point. "Desirable difficulty" forces your brain to discriminate between concepts, building stronger retrieval cues. Use the Mixed mode in quiz.</p>
+      <p>Don’t study all of one chapter, then all of another. Mix topics in each session. It feels harder — that’s the point. "Desirable difficulty" forces your brain to discriminate between concepts, building stronger retrieval cues. Use the Mixed mode in quiz.</p>
       <span class="science-tag tag-coral">Counterintuitive</span>
     </div>
     <div class="science-card">
       <div class="science-card-icon">🗣️</div>
       <h3>The Feynman Technique</h3>
-      <p>Pick a concept. Explain it out loud as if teaching a 10-year-old, using no jargon. Wherever you stumble, that's your knowledge gap. Go back, learn it, explain again. This technique exposes shallow understanding faster than any test.</p>
+      <p>Pick a concept. Explain it out loud as if teaching a 10-year-old, using no jargon. Wherever you stumble, that’s your knowledge gap. Go back, learn it, explain again. This technique exposes shallow understanding faster than any test.</p>
       <span class="science-tag tag-blue">Self-teaching</span>
     </div>
     <div class="science-card">
@@ -913,7 +914,7 @@
     <div class="science-card">
       <div class="science-card-icon">✍️</div>
       <h3>Write It By Hand</h3>
-      <p>Handwriting activates more of the brain than typing. For complex diagrams (neuron, sarcomere, nephron), draw and label them from memory repeatedly. Each time you redraw it, you're doing active recall AND dual coding simultaneously.</p>
+      <p>Handwriting activates more of the brain than typing. For complex diagrams (neuron, sarcomere, nephron), draw and label them from memory repeatedly. Each time you redraw it, you’re doing active recall AND dual coding simultaneously.</p>
       <span class="science-tag tag-green">Proven technique</span>
     </div>
   </div>
@@ -1144,6 +1145,155 @@ CHAPTERS.forEach(ch => {
   ch.sections.forEach(sec => {
     sec.items.forEach(item => {
       ALL_CARDS.push({...item, chapter: ch.label, chapterId: ch.id, chapterColor: ch.color});
+    });
+  });
+});
+
+// ═══════════════════════════════════════════
+// ANATOMY ATLAS FLASHCARDS
+// Muscles, Nerves, Ligaments, Tendons, Eye, Ear
+// ═══════════════════════════════════════════
+
+const ANATOMY_GROUPS = [
+  // ── MUSCLES ────────────────────────────────────────────────────────────────
+  { id:'muscles', label:'Muscles', color:'#b084f5', icon:'💪', cards:[
+    {term:'Sternocleidomastoid (SCM)',def:'Origin: manubrium + medial clavicle. Insertion: mastoid process + superior nuchal line. Action: bilateral = neck flexion; unilateral = ipsilateral lateral flex + contralateral rotation. Nerve: CN XI.',mnemonic:'"SCM: turns head the OTHER way." Damage CN XI → dropped shoulder, can\'t shrug or turn.'},
+    {term:'Trapezius',def:'Origin: EOP, nuchal ligament, C7–T12 spinous processes. Insertion: lateral clavicle, acromion, spine of scapula. Upper = elevate; middle = retract; lower = depress scapula. Nerve: CN XI.',mnemonic:'"TRAP: Three Parts, Three Actions." Largest back muscle.'},
+    {term:'Supraspinatus',def:'Origin: supraspinous fossa. Insertion: superior facet, greater tubercle. Action: initiates abduction 0–15°. Nerve: suprascapular (C5,C6).',mnemonic:'"Super initiates." Most commonly torn rotator cuff muscle. "Empty can" test.'},
+    {term:'Infraspinatus',def:'Origin: infraspinous fossa. Insertion: middle facet, greater tubercle. Action: lateral rotation of humerus. Nerve: suprascapular (C5,C6).',mnemonic:'"Infra = external rotation." 2nd most torn rotator cuff.'},
+    {term:'Teres minor',def:'Origin: lateral border scapula (upper 2/3). Insertion: inferior facet, greater tubercle. Action: lateral rotation; GH stabilizer. Nerve: axillary nerve (C5,C6).',mnemonic:'Part of SITS — works with infraspinatus for lateral rotation.'},
+    {term:'Subscapularis',def:'Origin: subscapular fossa (anterior scapula). Insertion: lesser tubercle. Action: medial (internal) rotation + adduction. Nerve: upper + lower subscapular (C5–C7).',mnemonic:'"SUBscapularis = SUBstitutes for internal rotation." Only anterior SITS muscle.'},
+    {term:'Deltoid',def:'Origin: lateral clavicle (ant), acromion (mid), spine of scapula (post). Insertion: deltoid tuberosity. Action: ant=flex+IR; mid=abduct; post=extend+ER. Nerve: axillary (C5,C6).',mnemonic:'"Delta = triangular. Three parts, three actions." Axillary nerve at surgical neck.'},
+    {term:'Biceps brachii',def:'Origin: long head=supraglenoid tubercle; short head=coracoid process. Insertion: radial tuberosity. Action: elbow flexion + supination. Nerve: musculocutaneous (C5,C6).',mnemonic:'"Biceps = bend and twist (supinate)." Long head rupture = "Popeye sign."'},
+    {term:'Triceps brachii',def:'Origin: long head=infraglenoid tubercle; lateral+medial heads=posterior humerus. Insertion: olecranon. Action: elbow extension. Nerve: radial (C6,C7,C8).',mnemonic:'"Tri = three heads, one job: extension." Radial nerve in spiral groove → wrist drop.'},
+    {term:'Brachialis',def:'Origin: anterior distal humerus (lower 2/3). Insertion: coronoid process + ulnar tuberosity. Action: elbow flexion (most powerful — works in ALL forearm positions). Nerve: musculocutaneous (C5,C6).',mnemonic:'"Brachialis = best flexor." Works even in pronation unlike biceps.'},
+    {term:'Pronator teres',def:'Origin: medial epicondyle + coronoid process. Insertion: lateral mid-shaft radius. Action: forearm pronation + assists elbow flexion. Nerve: median (C6,C7).',mnemonic:'Forms medial border of cubital fossa. Pronator syndrome = median nerve compression.'},
+    {term:'Pectoralis major',def:'Origin: medial clavicle + sternum + costal cartilages 1–6. Insertion: lateral lip intertubercular groove. Action: adduction + medial rotation of humerus. Nerve: medial + lateral pectoral (C5–T1).',mnemonic:'"Pecs pull arm in and across." Clavicular head flexes; sternal head extends from flexion.'},
+    {term:'Serratus anterior',def:'Origin: outer ribs 1–8. Insertion: costal surface medial border of scapula. Action: protracts scapula against thorax; upward rotation; essential for arm elevation >90°. Nerve: long thoracic (C5,C6,C7).',mnemonic:'"Boxer\'s muscle." Long thoracic nerve injury → WINGED SCAPULA.'},
+    {term:'Rectus abdominis',def:'Origin: pubic crest + symphysis. Insertion: costal cartilages 5–7 + xiphoid. Action: trunk flexion; compresses abdomen. Nerve: intercostal T7–T12.',mnemonic:'"6-pack." Enclosed in rectus sheath. Linea alba = midline separation.'},
+    {term:'External oblique',def:'Origin: external ribs 5–12. Insertion: linea alba + iliac crest + inguinal ligament. Action: trunk flexion; CONTRAlateral rotation. Nerve: intercostal T7–T12.',mnemonic:'"Hands in front pockets — fingers point DOWN = external oblique fiber direction."'},
+    {term:'Gluteus maximus',def:'Origin: posterior ilium + sacrum + coccyx. Insertion: IT band + gluteal tuberosity. Action: hip extension + lateral rotation. Nerve: inferior gluteal (L5,S1,S2).',mnemonic:'"Largest, most powerful muscle. NOT active in normal walking — activates on stairs + running."'},
+    {term:'Gluteus medius',def:'Origin: external ilium between anterior + posterior gluteal lines. Insertion: greater trochanter (lateral). Action: hip abduction + medial rotation; stabilizes pelvis single-leg stance. Nerve: superior gluteal (L4,L5,S1).',mnemonic:'"TRENDELENBURG: glute med weak → pelvis drops to OPPOSITE side." Critical for gait.'},
+    {term:'Iliopsoas',def:'Origin: iliacus=iliac fossa; psoas=T12–L5 vertebral bodies. Insertion: lesser trochanter. Action: hip flexion (most powerful). Nerve: femoral L2–L4 + lumbar plexus.',mnemonic:'"Hip flexor." Only muscle connecting spine to lower limb. Tight = anterior pelvic tilt.'},
+    {term:'Rectus femoris',def:'Origin: AIIS + acetabular rim. Insertion: tibial tuberosity via patellar tendon. Action: knee extension + hip flexion (crosses BOTH joints). Nerve: femoral (L2,L3,L4).',mnemonic:'"Rectus = straight. Only quad crossing hip AND knee." Vulnerable to strain near AIIS.'},
+    {term:'Vastus lateralis',def:'Origin: greater trochanter + lateral linea aspera. Insertion: lateral patella + tibial tuberosity. Action: knee extension; pulls patella laterally. Nerve: femoral (L2,L3,L4).',mnemonic:'"Largest quadriceps. IM injection site in infants (vastus lateralis)."'},
+    {term:'Vastus medialis',def:'Origin: intertrochanteric line + medial linea aspera. Insertion: medial patella + tibial tuberosity. Action: knee extension; VMO = medial patellar stabilizer. Nerve: femoral (L2,L3,L4).',mnemonic:'"VMO = last to recover, first to atrophy with knee injury." Teardrop shape.'},
+    {term:'Biceps femoris',def:'Origin: long head=ischial tuberosity; short head=lateral linea aspera. Insertion: fibular head + lateral tibial condyle. Action: knee flexion + lateral rotation; hip extension. Nerve: long head=tibial; short head=common fibular.',mnemonic:'"2 heads, 2 nerves." Lateral hamstring. Common fibular at fibular head = vulnerable.'},
+    {term:'Semitendinosus',def:'Origin: ischial tuberosity. Insertion: medial tibia (pes anserinus). Action: knee flexion + medial rotation; hip extension. Nerve: tibial (L5–S2).',mnemonic:'"Pes anserinus (goose foot) = Semitendinosus + Gracilis + Sartorius on medial tibia."'},
+    {term:'Semimembranosus',def:'Origin: ischial tuberosity. Insertion: posterior medial tibial condyle. Action: knee flexion + medial rotation; hip extension. Nerve: tibial (L5–S2).',mnemonic:'"Flat membranous tendon of origin." Forms popliteal fossa floor.'},
+    {term:'Gastrocnemius',def:'Origin: medial + lateral femoral condyles (2 heads). Insertion: calcaneus via Achilles tendon. Action: plantarflexion + assists knee flexion (crosses knee). Nerve: tibial (S1,S2).',mnemonic:'"ONLY leg muscle crossing knee." Thompson test for Achilles rupture.'},
+    {term:'Soleus',def:'Origin: posterior fibular head + soleal line of tibia. Insertion: calcaneus via Achilles tendon. Action: plantarflexion ONLY (does NOT cross knee — works even in knee flexion). Nerve: tibial (S1,S2).',mnemonic:'"Postural pump." DVT most common in soleus sinuses. Triceps surae = gastroc + soleus.'},
+    {term:'Tibialis anterior',def:'Origin: lateral condyle + upper 2/3 tibia. Insertion: medial cuneiform + base 1st metatarsal. Action: dorsiflexion + inversion. Nerve: deep fibular (L4,L5).',mnemonic:'"Primary dorsiflexor." Foot drop = L4 or deep fibular nerve injury.'},
+    {term:'Fibularis (Peroneus) longus',def:'Origin: head + upper 2/3 fibula. Insertion: medial cuneiform + base 1st metatarsal (crosses sole diagonally). Action: eversion + assists plantarflexion. Nerve: superficial fibular (L5,S1).',mnemonic:'"Longus crosses the sole — supports transverse arch."'},
+    {term:'Fibularis (Peroneus) brevis',def:'Origin: lower 2/3 fibula. Insertion: tuberosity of 5th metatarsal. Action: eversion. Nerve: superficial fibular (L5,S1).',mnemonic:'"Brevis avulses 5th MT tuberosity in inversion sprain — most common ankle X-ray finding."'},
+  ]},
+
+  // ── NERVES ────────────────────────────────────────────────────────────────
+  { id:'nerves', label:'Nerves', color:'#f5c842', icon:'⚡', cards:[
+    {term:'CN I — Olfactory',def:'Type: sensory. Origin: olfactory epithelium. Pathway: cribriform plate → olfactory bulb → olfactory cortex. Function: smell.',mnemonic:'CN I = first sense. Anosmia from head trauma (shear at cribriform plate) or COVID-19.'},
+    {term:'CN II — Optic',def:'Type: sensory. Origin: retinal ganglion cells. Pathway: optic nerve → chiasm (nasal fibers cross) → optic tract → LGN → V1 occipital cortex. Function: vision.',mnemonic:'"CN II = see." Chiasm lesion → bitemporal hemianopia (pituitary tumor). RAPD = CN II lesion.'},
+    {term:'CN III — Oculomotor',def:'Type: motor + parasympathetic. Function: EOM (SR, IR, MR, IO), levator palpebrae. Para: pupil constriction + accommodation. Exits midbrain ventrally.',mnemonic:'"Down-and-out + dilated pupil = CN III palsy." PComm aneurysm. Uncal herniation: dilated pupil FIRST sign.'},
+    {term:'CN IV — Trochlear',def:'Type: motor. Function: superior oblique (intorsion + depression). Only CN exiting POSTERIORLY from brainstem. Longest intracranial course.',mnemonic:'"CN IV = trochlear = only posterior exit." Palsy: vertical diplopia, head tilt AWAY from lesion.'},
+    {term:'CN V — Trigeminal',def:'Type: both (largest CN). 3 divisions: V1=forehead/cornea; V2=midface/upper teeth; V3=lower face + motor to masseter/temporalis/pterygoids. Exits: V1=SOF; V2=foramen rotundum; V3=foramen ovale.',mnemonic:'"V1 SOF, V2 rotundum, V3 ovale." Corneal reflex: afferent=V1, efferent=VII.'},
+    {term:'CN VI — Abducens',def:'Type: motor. Function: lateral rectus (abduction only). Origin: abducens nucleus, pons. Exits via Dorello\'s canal over petrous apex.',mnemonic:'"CN VI = abDUCENS = abDUCTs." Most commonly paralyzed CN in raised ICP. Esotropia on palsy.'},
+    {term:'CN VII — Facial',def:'Type: both. Motor: facial expression muscles. Para: lacrimal, submandibular, sublingual glands. Taste: anterior 2/3 tongue (chorda tympani). Branches: TBZMB.',mnemonic:'"Bell\'s palsy (LMN): forehead INCLUDED. Stroke (UMN): forehead SPARED." To Bell\'s it\'s all bells.'},
+    {term:'CN VIII — Vestibulocochlear',def:'Type: sensory. Cochlear branch: hearing. Vestibular branch: balance + angular/linear acceleration. Passes through internal acoustic meatus.',mnemonic:'"VIII = vestibulo-COCHLEAR = balance + hearing." Acoustic neuroma: unilateral SNHL + tinnitus + imbalance.'},
+    {term:'CN IX — Glossopharyngeal',def:'Type: both. Motor: stylopharyngeus. Para: parotid gland. Sensory: taste posterior 1/3 tongue, carotid sinus/body, pharynx.',mnemonic:'"Gag reflex AFFERENT = IX; efferent = X." Carotid sinus syncope.'},
+    {term:'CN X — Vagus',def:'Type: both. Longest CN. Motor: pharynx/larynx (RLN), soft palate. Para: heart + lungs + GI to splenic flexure. Uvula deviates AWAY from lesion.',mnemonic:'"Vagus = vagabond — wanders everywhere." Hoarseness = RLN injury (left is longer, more vulnerable).'},
+    {term:'CN XI — Accessory',def:'Type: motor. Origin: spinal cord C1–C5. Function: SCM (ipsilateral head rotation) + trapezius (shoulder elevation + retraction).',mnemonic:'"CN XI = Shoulder Shrug + head turn." Posterior triangle biopsy → dropped shoulder.'},
+    {term:'CN XII — Hypoglossal',def:'Type: motor. Function: all intrinsic + extrinsic tongue muscles except palatoglossus. LMN lesion: tongue deviates TOWARD weak side.',mnemonic:'"XII = tongue." LMN: licks the lesion side. ALS → fasciculations + atrophy.'},
+    {term:'Brachial Plexus (C5–T1)',def:'Roots → Trunks (Upper C5–6, Middle C7, Lower C8–T1) → Divisions → Cords (Lateral, Posterior, Medial) → Terminal branches. Erb\'s palsy (C5,6): "waiter\'s tip." Klumpke\'s (C8,T1): claw hand.',mnemonic:'"Read The Damn Cadaver Book" = Roots, Trunks, Divisions, Cords, Branches.'},
+    {term:'Radial nerve (C5–T1)',def:'From posterior cord. Runs in spiral groove of humerus. Motor: triceps + all wrist/finger extensors. Sensory: posterior arm/forearm + dorsal hand (radial 3.5 digits).',mnemonic:'"WRIST DROP = radial nerve." Saturday night palsy. Humeral shaft fracture.'},
+    {term:'Median nerve (C6–T1)',def:'From lateral + medial cords. Motor: LOAF muscles (Lumbricals 1+2, Opponens pollicis, Abductor pollicis brevis, Flexor pollicis brevis) + forearm flexors. Sensory: volar thumb/index/middle/radial ring.',mnemonic:'"LOAF hand = median." Carpal tunnel syndrome. "Ape hand" = thenar wasting.'},
+    {term:'Ulnar nerve (C8–T1)',def:'From medial cord. Behind medial epicondyle (cubital tunnel) → Guyon\'s canal. Motor: intrinsic hand muscles + FCU + medial FDP. Sensory: little + medial ring finger.',mnemonic:'"CLAW HAND (ring + little) = ulnar." Ulnar paradox: higher lesion = LESS claw.'},
+    {term:'Axillary nerve (C5–C6)',def:'From posterior cord. Through quadrilateral space around surgical neck of humerus. Motor: deltoid + teres minor. Sensory: lateral arm (regimental badge area).',mnemonic:'"Surgical neck fracture or shoulder dislocation → axillary nerve → flat shoulder."'},
+    {term:'Femoral nerve (L2–L4)',def:'Under inguinal ligament LATERAL to femoral artery (NAVEL: Nerve, Artery, Vein, Empty, Lymphatics). Motor: iliacus, sartorius, quadriceps. Sensory: anterior thigh + medial leg (saphenous).',mnemonic:'"Femoral = front of thigh." Psoas hematoma → femoral neuropathy. Patellar reflex = L4.'},
+    {term:'Sciatic nerve (L4–S3)',def:'Largest nerve in body. Exits greater sciatic foramen → posterior thigh → popliteal fossa → tibial + common fibular nerves. Motor: hamstrings + all leg/foot. Sensory: posterior thigh + leg/foot.',mnemonic:'"SLR test for sciatica." L4/5 or L5/S1 disc herniation. "Safe" IM injection = upper outer quadrant.'},
+    {term:'Common fibular nerve (L4–S2)',def:'Wraps around fibular neck. Deep fibular: dorsiflexion + toe extension. Superficial fibular: eversion. Sensory: dorsum foot + 1st web space (deep).',mnemonic:'"FOOT DROP = common fibular." Most commonly injured nerve at knee. Fibular neck fracture.'},
+    {term:'Tibial nerve (L4–S3)',def:'Posterior compartment. Tarsal tunnel behind medial malleolus → medial + lateral plantar nerves. Motor: plantarflexion + all intrinsic foot muscles. Sensory: sole of foot.',mnemonic:'"Tarsal tunnel = foot\'s carpal tunnel." Absent ankle jerk = S1 lesion.'},
+    {term:'Phrenic nerve (C3,4,5)',def:'From cervical plexus. C3,4,5 keep diaphragm alive. Motor: entire diaphragm. Sensory: diaphragmatic pleura + pericardium. Referred pain to shoulder (C4).',mnemonic:'"C3,4,5 keeps the diaphragm alive." Lesion above C3 = ventilator dependency.'},
+  ]},
+
+  // ── LIGAMENTS ─────────────────────────────────────────────────────────────
+  { id:'ligaments', label:'Ligaments', color:'#f07060', icon:'🔗', cards:[
+    {term:'Glenohumeral ligaments (SGHL, MGHL, IGHL)',def:'Glenoid labrum → humeral neck (3 bands). Anterior GH stability. IGHL most important at 90° abduction. Bankart lesion = anterior labral avulsion with anterior shoulder dislocation.',mnemonic:'"IGHL = most important. Bankart with anterior dislocation."'},
+    {term:'Coracoacromial ligament',def:'Coracoid process → acromion. Forms coracoacromial arch. Supraspinatus impinges under it (subacromial impingement syndrome). May be released in impingement surgery.',mnemonic:'"CA arch = supraspinatus enemy." Not a joint ligament — a roof.'},
+    {term:'UCL of elbow (Tommy John ligament)',def:'Medial epicondyle → coronoid process + olecranon. PRIMARY valgus stabilizer of elbow. Torn in overhead throwing athletes. Reconstruction = "Tommy John surgery" with palmaris longus or gracilis graft.',mnemonic:'"Tommy John = UCL of elbow." Medial elbow pain in pitchers.'},
+    {term:'Annular ligament (elbow)',def:'Encircles radial head; attached to radial notch of ulna. Holds radial head in place; allows pivot for pronation/supination. Nursemaid\'s elbow = slips over radial head in children <5 with traction.',mnemonic:'"Annular = ring around radial head." Nursemaid\'s → reduce by supination.'},
+    {term:'Flexor retinaculum (transverse carpal ligament)',def:'Pisiform + hook of hamate → scaphoid tubercle + trapezium ridge. Roof of carpal tunnel. Contains 9 tendons + median nerve. Carpal tunnel syndrome = median nerve compressed here.',mnemonic:'"Carpal tunnel contents: 4 FDS + 4 FDP + FPL + median nerve = 10 structures."'},
+    {term:'Iliofemoral ligament (Y-ligament of Bigelow)',def:'AIIS + acetabular rim → intertrochanteric line. STRONGEST ligament in body (~350N). Limits hip extension + ER. Allows standing with minimal muscle effort.',mnemonic:'"Y-ligament of Bigelow = strongest in body." Prevents hyperextension of hip.'},
+    {term:'ACL — Anterior Cruciate Ligament',def:'Anterior intercondylar tibia → posterior medial surface of LATERAL femoral condyle. Prevents anterior tibial translation + tibial IR. Lachman test (most sensitive), anterior drawer, pivot shift.',mnemonic:'"ACL = most commonly injured knee ligament." Pop + immediate hemarthrosis. Lachman best test.'},
+    {term:'PCL — Posterior Cruciate Ligament',def:'Posterior intercondylar tibia → anterior medial surface of MEDIAL femoral condyle. Prevents posterior tibial translation. STRONGEST knee ligament (2× ACL). Dashboard injury (MVA).',mnemonic:'"PCL = dashboard injury." Posterior drawer test + posterior sag sign.'},
+    {term:'MCL — Medial Collateral Ligament',def:'Medial femoral condyle → medial tibia (4–5cm below joint line). Primary valgus stabilizer. Deep fibers attach to medial meniscus. "Unhappy triad": ACL + MCL + medial meniscus. Usually heals without surgery.',mnemonic:'"Valgus = MCL." Blow to lateral knee. Unhappy triad.'},
+    {term:'LCL — Lateral Collateral Ligament',def:'Lateral femoral condyle → fibular head. Primary varus stabilizer. Does NOT attach to lateral meniscus (unlike MCL). Part of posterolateral corner (PLC) complex.',mnemonic:'"Varus = LCL." Cord-like (not flat). PLC complex injury.'},
+    {term:'Lateral ankle ligaments (ATFL, CFL, PTFL)',def:'ATFL: fibula → anterior talus. CFL: fibula → calcaneus. PTFL: fibula → posterior talus. ATFL most commonly torn (70% of sprains). PTFL strongest + rarely torn. Inversion mechanism.',mnemonic:'"ATFL first, CFL second, PTFL almost never." Most common ligament injury in body.'},
+    {term:'Deltoid ligament (medial ankle)',def:'4 parts: tibionavicular, tibiocalcaneal, anterior + posterior tibiotalar. Medial malleolus → navicular, calcaneus, talus. PRIMARY medial ankle stabilizer. Very strong — often avulses bone rather than tearing.',mnemonic:'"Deltoid = medial ankle stability." Eversion injury. Much less common than lateral sprain.'},
+    {term:'Transverse ligament of atlas',def:'Holds dens (odontoid process of C2) against the anterior arch of C1. Critical for atlantoaxial stability. Torn in rheumatoid arthritis or trauma → atlantoaxial instability → cord compression risk.',mnemonic:'"Transverse lig holds the dens." RA + Down syndrome = high risk of rupture.'},
+    {term:'Interspinous / supraspinous ligaments',def:'Connect spinous processes of adjacent vertebrae. Interspinous: between processes. Supraspinous: tips of spinous processes (becomes nuchal ligament in cervical). Limit flexion of spine.',mnemonic:'"Flexion tears posterior ligaments first — supraspinous → interspinous → posterior longitudinal."'},
+  ]},
+
+  // ── TENDONS ───────────────────────────────────────────────────────────────
+  { id:'tendons', label:'Tendons', color:'#52d18a', icon:'🩹', cards:[
+    {term:'Rotator cuff tendons (SITS)',def:'Supraspinatus → superior facet greater tubercle. Infraspinatus → middle facet. Teres minor → inferior facet. Subscapularis → lesser tubercle. Dynamic GH joint stability; depress humeral head.',mnemonic:'"SITS = Supra, Infra, Teres minor, Subscapularis." Supraspinatus torn most (impingement zone).'},
+    {term:'Biceps tendon — long head',def:'From supraglenoid tubercle; runs through bicipital groove (intertubercular groove); intra-articular but extrasynovial. Assists shoulder flexion + head depression. Rupture = "Popeye sign." Speed\'s test for tendinopathy.',mnemonic:'"Long head of biceps = SLAP tears + Popeye." Speed\'s test = resisted forward flexion.'},
+    {term:'Achilles tendon',def:'Gastrocnemius + soleus (triceps surae) → calcaneal tuberosity. Strongest tendon in body. "Watershed zone" 2–6cm above insertion = poor blood supply → most common rupture site. Thompson test: squeeze calf → no plantarflexion = positive.',mnemonic:'"Thompson test = positive = ruptured Achilles." Fluoroquinolone antibiotics increase risk.'},
+    {term:'Patellar ligament (tendon)',def:'Inferior pole of patella → tibial tuberosity. Transmits quadriceps force for knee extension. Technically bone-to-bone = ligament, but functions as tendon. Patellar tendinopathy ("jumper\'s knee") at inferior pole. Osgood-Schlatter at tibial tuberosity.',mnemonic:'"Patellar TENDON ruptured = gap BELOW patella." vs "Quad tendon ruptured = gap ABOVE patella."'},
+    {term:'IT Band (Iliotibial band)',def:'Dense fascia: iliac crest/TFL + gluteus maximus → Gerdy\'s tubercle of lateral tibia. Lateral knee stabilizer. IT band syndrome = friction at lateral femoral condyle at 30° knee flexion ("runner\'s knee").',mnemonic:'"IT band syndrome = lateral knee pain in runners at 30° flex." Noble compression test.'},
+    {term:'Quadriceps tendon',def:'All 4 quad muscles converge → superior pole of patella → continues as patellar ligament → tibial tuberosity. Rupture = inability to extend knee + gap above patella. Occurs in patients >40 vs patellar tendon rupture in younger athletes.',mnemonic:'"Quad tendon rupture = gap ABOVE patella + high-riding patella (patella alta-ish)."'},
+    {term:'Plantar fascia',def:'Medial calcaneal tuberosity → bases of proximal phalanges (5 bands). Supports medial longitudinal arch. Windlass mechanism: toe dorsiflexion tightens fascia → raises arch. Plantar fasciitis: worst pain first steps in morning.',mnemonic:'"Plantar fasciitis = worst in morning (fascia tightens during sleep)." Windlass test positive.'},
+    {term:'Flexor digitorum tendons (FDS + FDP)',def:'FDS: medial epicondyle → middle phalanges (PIP flexion). FDP: medial epicondyle/ulna → distal phalanges (DIP flexion). FDP passes through split in FDS tendon ("Camper\'s chiasm"). Jersey finger = FDP avulsion.',mnemonic:'"FDS = Superficialis = Stops at middle phalanx. FDP = Profundus = Passes through to distal."'},
+    {term:'Extensor tendons (hand)',def:'All cross dorsum of hand under extensor retinaculum. Mallet finger = FDP avulsion OR extensor tendon rupture at DIP → drooping distal phalanx. Boutonnière = central slip rupture → PIP flexion + DIP extension.',mnemonic:'"Mallet = DIP droop (terminal tendon). Boutonnière = PIP flexion (central slip)."'},
+    {term:'Tibialis posterior tendon',def:'Origin: posterior tibia + fibula + interosseous membrane. Inserts navicular (primary) + multiple tarsals/metatarsals. Primary dynamic stabilizer of medial longitudinal arch. Dysfunction → adult-acquired flatfoot.',mnemonic:'"Tibialis posterior = arch supporter." "Too many toes sign" = tibialis posterior dysfunction.'},
+    {term:'Peroneal (fibularis) tendons',def:'Peroneus longus + brevis run behind lateral malleolus in peroneal groove held by superior + inferior peroneal retinacula. Longus crosses sole. Brevis inserts 5th MT tuberosity. Eversion of foot.',mnemonic:'"Peroneal tendons = behind lateral malleolus." Avulsion 5th MT = brevis. Longus crosses sole.'},
+  ]},
+
+  // ── EYE ───────────────────────────────────────────────────────────────────
+  { id:'eye', label:'Eye Anatomy', color:'#4ecdc4', icon:'👁️', cards:[
+    {term:'Cornea',def:'Transparent anterior fibrous tunic (1/6 of eye). ~70% of refractive power. AVASCULAR — O₂ from aqueous humor + tears. 5 layers: epithelium → Bowman\'s layer → stroma (90%) → Descemet\'s membrane → endothelium. Sensory: CN V1 (corneal reflex afferent).',mnemonic:'"Cornea = 70% of refraction." 5 layers: "Every Brave Student Deserves Excellence" (Epithelium, Bowman\'s, Stroma, Descemet\'s, Endothelium).'},
+    {term:'Sclera',def:'"White of eye." Posterior 5/6 fibrous tunic. Dense CT maintains globe shape. Attachment for all 6 extraocular muscles. Pierced by optic nerve posteriorly at lamina cribrosa.',mnemonic:'"Sclera = shell of the eye." 5/6 of fibrous tunic. Muscles attach here.'},
+    {term:'Iris + Pupil',def:'Colored diaphragm controlling light entry. Sphincter pupillae (circular, CN III para) → MIOSIS (constriction). Dilator pupillae (radial, sympathetic) → MYDRIASIS (dilation). Iris color = melanin in stroma.',mnemonic:'"CN III para = constrict (miosis). Sympathetic = dilate (mydriasis)." Horner\'s = miosis + ptosis.'},
+    {term:'Ciliary body',def:'Ring of smooth muscle + ciliary processes. Ciliary muscle contraction (CN III para) → relaxes zonule fibers → lens rounds up → more diopters → NEAR vision (accommodation). Ciliary processes secrete aqueous humor.',mnemonic:'"Ciliary contracts → near vision." Accommodation: ciliary contracts, zonules relax, lens rounds.'},
+    {term:'Lens',def:'Biconvex transparent elastic structure. Held by zonule fibers (suspensory ligaments) from ciliary body. Avascular + aneuronal. Presbyopia = age hardening → loss of accommodation. Cataracts = protein aggregation → opacity.',mnemonic:'"Lens = changes shape for focus." Presbyopia (age), cataracts (opacity). Grows throughout life.'},
+    {term:'Retina',def:'Inner neural tunic. RODS (120M): peripheral, scotopic/low-light, B&W. CONES (6M): macula/fovea, photopic/color + acuity. Fovea centralis: highest cone density, sharpest vision, no rods. Optic disc = blind spot (no photoreceptors).',mnemonic:'"Fovea = focus point (cones). Rods = dark room vision. Optic disc = blind spot."'},
+    {term:'Aqueous humor',def:'Clear fluid. Ciliary processes → posterior chamber → through pupil → anterior chamber → trabecular meshwork → canal of Schlemm → venous system. Maintains IOP (~10–21 mmHg). Glaucoma = impaired drainage → IOP↑ → optic nerve damage.',mnemonic:'"Aqueous drains via trabecular meshwork." Glaucoma = drainage blocked → IOP↑ → optic nerve cupping.'},
+    {term:'Vitreous humor',def:'Gel (99% water + hyaluronic acid + collagen fibrils). Fills vitreous chamber (posterior segment). NOT replaced throughout life. Floaters = condensed collagen fibers. Posterior vitreous detachment (PVD) → risk of retinal tear.',mnemonic:'"Vitreous = permanent gel." PVD → floaters + flashes → risk of retinal detachment.'},
+    {term:'Extraocular muscles (6) — LR6 SO4 R3',def:'Lateral rectus: CN VI (abduction). Superior oblique: CN IV (intorsion + depression in adduction). ALL others (SR, IR, MR, IO): CN III. SO = intorsion + depression. IO = extorsion + elevation.',mnemonic:'"LR6 SO4 R3." Testing CN IV: look down + in. Testing CN VI: lateral gaze.'},
+    {term:'Pupillary light reflex',def:'Afferent: CN II → pretectal nucleus (midbrain). Efferent: Edinger-Westphal nucleus → CN III → ciliary ganglion → sphincter pupillae. Direct: same eye. Consensual: opposite eye. RAPD (Marcus Gunn pupil): CN II lesion.',mnemonic:'"Afferent = CN II (retina). Efferent = CN III (constriction)." RAPD = CN II lesion.'},
+    {term:'Accommodation reflex (near triad)',def:'Near object triggers 3 simultaneous responses: (1) Accommodation: ciliary muscle contracts, lens rounds (CN III para). (2) Convergence: bilateral medial recti (CN III). (3) Miosis: sphincter pupillae (CN III para).',mnemonic:'"Near triad = 3 C\'s: Ciliary (lens), Convergence (eyes), Constriction (pupil). All CN III."'},
+    {term:'Visual pathway',def:'Retina → optic nerve (CN II) → optic chiasm (nasal fibers cross) → optic tract → LGN thalamus → optic radiation → primary visual cortex V1 (calcarine sulcus, occipital lobe). Temporal visual field → nasal retina → crosses at chiasm.',mnemonic:'"Chiasm lesion = bitemporal hemianopia (nasal fibers from both eyes cross here)."'},
+    {term:'Glaucoma',def:'Elevated IOP → progressive optic nerve damage → peripheral visual field loss (arcuate scotomas → tunnel vision). Open-angle (gradual, painless — most common) vs narrow-angle (acute: red eye + cloudy cornea + fixed mid-dilated pupil + severe pain + nausea).',mnemonic:'"Glaucoma = silent thief of peripheral vision (open-angle)." Narrow-angle = emergency: RSVP (Red, Severe pain, Vomiting, Prodromal halos).'},
+    {term:'Retinal detachment',def:'"Curtain" or "shade" coming across visual field + floaters + photopsia (flashing lights). Vitreous fluid seeps under neurosensory retina → separation from RPE. Surgical emergency (pneumatic retinopexy, scleral buckle, vitrectomy).',mnemonic:'"Curtain of darkness + floaters + flashes = retinal detachment." Surgical emergency.'},
+  ]},
+
+  // ── EAR ───────────────────────────────────────────────────────────────────
+  { id:'ear', label:'Ear Anatomy', color:'#f472b6', icon:'👂', cards:[
+    {term:'Tympanic membrane (eardrum)',def:'3 layers: outer epithelium (CN X), fibrous middle, inner mucosa (CN IX). Landmarks: umbo (center — tip of malleus), cone of light (anteroinferior), pars tensa (most of TM), pars flaccida/Shrapnell\'s (superior). Central perforation = safe; marginal = unsafe (cholesteatoma).',mnemonic:'"Umbo = center of TM (malleus tip)." Cone of light = anteroinferior = normal.'},
+    {term:'Ossicles (3 smallest bones)',def:'MALLEUS (handle attached to TM) → INCUS (bridge) → STAPES (footplate in oval window). Amplify sound pressure ~17×. Tensor tympani (CN V3) dampens malleus; stapedius (CN VII) dampens stapes — acoustic reflex.',mnemonic:'"My Interesting Stapes." Smallest bones in body. Otosclerosis = stapes fixation → conductive HL.'},
+    {term:'Eustachian (pharyngotympanic) tube',def:'Connects middle ear to nasopharynx. Normally CLOSED; opens with swallowing/yawning (tensor veli palatini = CN V3). Equalizes middle ear pressure. Children: shorter + more horizontal → higher otitis media rate.',mnemonic:'"Eustachian = pressure equalizer." Pop ears while landing? Eustachian tube opening.'},
+    {term:'Cochlea (hearing)',def:'2.5 turns. 3 channels: scala vestibuli (perilymph, top), scala media/cochlear duct (endolymph — organ of Corti), scala tympani (perilymph, bottom). Helicotrema = apex connection. TONOTOPY: HIGH frequencies at BASE; LOW at APEX.',mnemonic:'"HIGH = BASE, LOW = APEX." Like a piano — high notes at one end, low at other.'},
+    {term:'Organ of Corti',def:'Sensory transducer of hearing. On basilar membrane inside cochlear duct. Inner hair cells (3,500): primary auditory afferents. Outer hair cells (12,000): amplify + tune (electromotility via prestin). Tectorial membrane overlies stereocilia. K⁺-rich endolymph drives depolarization.',mnemonic:'"Organ of Corti = hearing transducer on basilar membrane." Outer HCs amplify; inner HCs sense.'},
+    {term:'Semicircular canals',def:'3 canals in mutually perpendicular planes: anterior, posterior, lateral/horizontal. Detect ANGULAR acceleration (head rotation). Each has ampulla with crista ampullaris: hair cells + gelatinous cupula. Endolymph movement → cupula deflects → CN VIII vestibular nerve.',mnemonic:'"3 canals, 3 planes, detect rotation." BPPV = canalithiasis in posterior canal (most common).'},
+    {term:'Utricle and saccule (otolith organs)',def:'Utricle: horizontal plane → lateral head tilt + horizontal linear acceleration. Saccule: vertical plane → vertical acceleration. Maculae contain hair cells + otolithic membrane with otoconia (calcium carbonate crystals = "ear rocks"). BPPV = otoconia displaced into semicircular canal.',mnemonic:'"Utricle = horizontal. Saccule = vertical." Otoconia = ear rocks. BPPV = rocks in wrong place.'},
+    {term:'Auditory pathway',def:'Sound → TM → ossicles → oval window → perilymph → basilar membrane vibrates (tonotopic) → organ of Corti → CN VIII → cochlear nuclei (pons) → superior olivary nuclei (BILATERAL!) → inferior colliculus (midbrain) → medial geniculate nucleus (thalamus) → auditory cortex A1 (Heschl\'s gyri).',mnemonic:'"Bilateral representation at superior olivary level." Unilateral cortical lesion = subtle deficits only.'},
+    {term:'Rinne test',def:'Vibrating 512Hz fork: mastoid (bone conduction=BC) → when no longer heard, move to ear canal (air conduction=AC). Normal + SNHL: AC > BC (Rinne POSITIVE). Conductive HL: BC > AC (Rinne NEGATIVE).',mnemonic:'"Negative Rinne = Conductive." BC > AC = something blocking air route.'},
+    {term:'Weber test',def:'Vibrating fork on midline forehead. Normal: midline. SNHL: lateralizes to BETTER ear. Conductive HL: lateralizes to WORSE/AFFECTED ear (less ambient masking + enhanced BC).',mnemonic:'"SNHL Weber to Well ear; Conductive Weber to Crummy ear." Weber goes to the winning side in SNHL, the broken side in CHL.'},
+    {term:'Conductive vs sensorineural hearing loss',def:'Conductive HL: outer/middle ear problem (cerumen, otitis media, otosclerosis, TM perforation). Rinne negative; Weber to worse ear. SNHL: cochlea or CN VIII (noise, presbycusis, Meniere\'s, acoustic neuroma). Rinne positive; Weber to better ear.',mnemonic:'"Conductive = blocked pathway. Sensorineural = damaged transducer." Presbycusis = SNHL, high freq first.'},
+    {term:'BPPV (Benign Paroxysmal Positional Vertigo)',def:'Otoconia (calcium carbonate crystals) displaced into posterior semicircular canal (most common). Brief (<1 min) rotational vertigo with position change. Positive Dix-Hallpike test. Treatment: Epley maneuver (repositions otoconia back to utricle).',mnemonic:'"BPPV = rocks in wrong canal." Epley maneuver = roll the rocks back. Dix-Hallpike = diagnosis.'},
+    {term:'Meniere\'s disease',def:'Endolymphatic hydrops (↑ endolymph volume). Classic triad: episodic VERTIGO (hours) + fluctuating low-frequency SNHL + TINNITUS + aural fullness. Diagnosis by triad. Low-sodium diet + diuretics ± intratympanic injections.',mnemonic:'"Meniere\'s = vertigo + hearing loss + tinnitus." Low-sodium diet. Episodes last hours (not seconds like BPPV).'},
+  ]},
+];
+
+// Push all anatomy cards into ALL_CARDS
+ANATOMY_GROUPS.forEach(group => {
+  group.cards.forEach(card => {
+    ALL_CARDS.push({
+      term: card.term,
+      def: card.def,
+      mnemonic: card.mnemonic || '',
+      svg: '',
+      chapter: group.label,
+      chapterId: group.id,
+      chapterColor: group.color,
     });
   });
 });
@@ -1658,7 +1808,7 @@ function getSVG(id) {
       <rect x="250" y="25" width="60" height="40" rx="8" fill="#1a1e28" stroke="#f07060" stroke-width="2"/>
       <text x="280" y="45" text-anchor="middle" fill="#f07060" font-size="10" font-weight="700">ENERGY</text>
       <text x="280" y="58" text-anchor="middle" fill="#f07060" font-size="8">released</text>
-      <text x="160" y="100" text-anchor="middle" fill="#9099b0" font-size="8">ATP = cell's energy currency — powers all cellular work</text>
+      <text x="160" y="100" text-anchor="middle" fill="#9099b0" font-size="8">ATP = cell’s energy currency — powers all cellular work</text>
     </svg>`,
 
     burnsSVG: `<svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" ${S}>
@@ -1702,18 +1852,35 @@ function renderDashboard() {
   document.getElementById('sessionsToday').textContent = state.sessions;
   document.getElementById('streakNum').textContent = state.streak;
   const grid = document.getElementById('chapterGrid');
-  grid.innerHTML = CHAPTERS.map(ch => {
+  const colorBarMap = {blue:'var(--accent)',teal:'var(--teal)',purple:'var(--purple)',amber:'var(--amber)',coral:'var(--coral)',pink:'var(--pink)',green:'var(--green)'};
+  // A&P 1 chapters
+  let html = CHAPTERS.map(ch => {
     const total = ch.sections.reduce((a,s)=>a+s.items.length,0);
     const mastered = ch.sections.reduce((a,s)=>a+s.items.filter(i=>state.mastered.includes(i.term)).length,0);
     const pct = total > 0 ? Math.round(mastered/total*100) : 0;
+    const bar = colorBarMap[ch.color] || 'var(--accent)';
     return `<div class="chapter-card ${ch.color}" onclick="goToNotes('${ch.id}')">
       <div class="chapter-card-icon">${ch.icon}</div>
       <h3>${ch.label}</h3>
       <p>${ch.desc}</p>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:var(--${ch.color==='blue'?'accent':ch.color==='teal'?'teal':ch.color==='purple'?'purple':ch.color==='amber'?'amber':ch.color==='coral'?'coral':ch.color==='pink'?'pink':'accent'})"></div></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${bar}"></div></div>
       <div style="font-size:11px;color:var(--text3);margin-top:6px">${mastered}/${total} mastered</div>
     </div>`;
   }).join('');
+  // Anatomy atlas groups
+  html += ANATOMY_GROUPS.map(g => {
+    const total = g.cards.length;
+    const mastered = g.cards.filter(c => state.mastered.includes(c.term)).length;
+    const pct = total > 0 ? Math.round(mastered/total*100) : 0;
+    return `<div class="chapter-card" style="border-top:3px solid ${g.color}" onclick="fcFromGroup('${g.id}')">
+      <div class="chapter-card-icon">${g.icon}</div>
+      <h3>${g.label}</h3>
+      <p>Anatomy atlas — ${total} flashcards</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${g.color}"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px">${mastered}/${total} mastered</div>
+    </div>`;
+  }).join('');
+  grid.innerHTML = html;
 }
 
 function goToNotes(chId) {
@@ -1723,6 +1890,17 @@ function goToNotes(chId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-notes').classList.add('active');
   renderNotes();
+}
+
+function fcFromGroup(groupId) {
+  const group = ANATOMY_GROUPS.find(g => g.id === groupId);
+  if (!group) return;
+  state.fcActiveFilter = group.label;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn')[2].classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-flashcards').classList.add('active');
+  renderFlashcards();
 }
 
 // ═══════════════════════════════════════════
@@ -1794,11 +1972,18 @@ function renderFlashcards() {
   state.sessions++;
   saveState();
 
-  // Chapter filter buttons
-  const cats = ['All', ...CHAPTERS.map(c => c.label.split('. ')[1] || c.label)];
-  document.getElementById('fcFilterRow').innerHTML = cats.map(c => `
-    <button class="filter-btn ${c === state.fcActiveFilter ? 'active' : ''}" onclick="fcSetFilter('${c}')">${c}</button>
-  `).join('');
+  // Chapter filter buttons — include anatomy groups
+  const chapterCats = CHAPTERS.map(c => c.label.split('. ')[1] || c.label);
+  const anatomyCats = ANATOMY_GROUPS.map(g => g.label);
+  const cats = ['All', ...chapterCats, '─', ...anatomyCats];
+  document.getElementById('fcFilterRow').innerHTML = cats.map(c => {
+    if (c === '─') return `<span style="color:var(--color-border-secondary);margin:0 4px;align-self:center">│</span>`;
+    const group = ANATOMY_GROUPS.find(g => g.label === c);
+    const activeStyle = c === state.fcActiveFilter && group
+      ? `background:${group.color}33;border-color:${group.color};color:${group.color}`
+      : '';
+    return `<button class="filter-btn ${c === state.fcActiveFilter ? 'active' : ''}" style="${activeStyle}" onclick="fcSetFilter('${c}')">${group ? group.icon + ' ' : ''}${c}</button>`;
+  }).join('');
 
   // Card mode selector row — rendered just below filters
   let modeRow = document.getElementById('fcModeRow');
@@ -1828,10 +2013,17 @@ function renderFlashcards() {
 }
 
 function rebuildDeck() {
-  // Filter by chapter
-  const sourceCards = state.fcActiveFilter === 'All'
-    ? ALL_CARDS
-    : ALL_CARDS.filter(c => c.chapter.includes(state.fcActiveFilter));
+  // Filter by chapter/group
+  let sourceCards;
+  if (state.fcActiveFilter === 'All') {
+    sourceCards = ALL_CARDS;
+  } else {
+    // Match by chapter label (works for both CHAPTERS and ANATOMY_GROUPS)
+    sourceCards = ALL_CARDS.filter(c => {
+      const chLabel = c.chapter.includes('. ') ? c.chapter.split('. ')[1] : c.chapter;
+      return chLabel === state.fcActiveFilter || c.chapter === state.fcActiveFilter;
+    });
+  }
 
   // Build deck with selected modes
   let deck = buildDeck(sourceCards);
@@ -1848,8 +2040,10 @@ function rebuildDeck() {
 
 function fcSetFilter(cat) {
   state.fcActiveFilter = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    if (!b.closest('#fcModeRow')) b.classList.toggle('active', b.textContent.trim() === cat);
+  document.querySelectorAll('#fcFilterRow .filter-btn').forEach(b => {
+    const isActive = b.textContent.replace(/^[^\w]*/, '').trim() === cat ||
+                     b.textContent.trim() === cat;
+    b.classList.toggle('active', b.textContent.includes(cat) && cat !== 'All' || b.textContent.trim() === cat);
   });
   rebuildDeck();
 }
@@ -1931,7 +2125,11 @@ function renderFCCard() {
 }
 
 function getChapterIcon(id) {
-  return (CHAPTERS.find(c => c.id === id) || { icon: '📖' }).icon;
+  const chapter = CHAPTERS.find(c => c.id === id);
+  if (chapter) return chapter.icon;
+  const group = ANATOMY_GROUPS.find(g => g.id === id);
+  if (group) return group.icon;
+  return '📖';
 }
 
 function flipFC() { state.fcFlipped = !state.fcFlipped; renderFCCard(); }
