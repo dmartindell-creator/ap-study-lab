@@ -89,6 +89,34 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
 
 .section-header{grid-column:1/-1;font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin:16px 0 8px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--text2)}
 .section-grid{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-bottom:8px}
+
+/* ── AI Image Generation ── */
+.ai-img-wrap { width:100%; max-width:420px; margin:0 auto; }
+.ai-img-wrap img { width:100%; border-radius:8px; border:1px solid #d8c8a0; box-shadow:0 2px 12px rgba(0,0,0,.12); }
+.ai-gen-btn {
+  display:inline-flex; align-items:center; gap:7px;
+  background:linear-gradient(135deg,#6e56cf,#a855f7);
+  color:#fff; border:none; border-radius:20px; padding:9px 20px;
+  font-size:13px; font-family:inherit; cursor:pointer;
+  transition:opacity .2s, transform .1s; margin-top:10px;
+}
+.ai-gen-btn:hover { opacity:.88; }
+.ai-gen-btn:active { transform:scale(.97); }
+.ai-gen-btn:disabled { opacity:.5; cursor:not-allowed; }
+.ai-spinner {
+  display:inline-block; width:16px; height:16px;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff; border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.ai-img-placeholder {
+  width:100%; min-height:180px; background:#f0ead8;
+  border:2px dashed #c8b890; border-radius:8px;
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:8px; color:#8a7a58; font-size:13px;
+}
+.ai-img-error { color:#c04040; font-size:12px; margin-top:6px; }
 </style>
 </head>
 <body>
@@ -637,803 +665,13 @@ const CARD_GROUPS = [
 // BUILD DECK FROM GROUPS (3 CARD TYPES)
 // ═══════════════════════════════════
 
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// GRAY’S ANATOMY STYLE SVG LIBRARY
+// Medical illustration aesthetic: cream paper, ivory bone,
+// pencil shading, serif labels, thin callout lines
+// ═══════════════════════════════════════════════════════════
 
-const CARD_SVGS = {
 
-// ══ SKULL BONES ══
-'Frontal bone': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="skullGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient><radialGradient id="hLight" cx="30%" cy="25%"><stop offset="0%" stop-color="#fff" stop-opacity=".4"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Frontal Bone — Anterior View</text>
-  <!-- Skull outline -->
-  <path d="M160,35 C110,35 65,65 55,110 C45,155 55,185 80,205 C100,220 125,228 160,230 C195,228 220,220 240,205 C265,185 275,155 265,110 C255,65 210,35 160,35 Z" fill="url(#skullGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <path d="M160,35 C110,35 65,65 55,110 C45,155 55,185 80,205 C100,220 125,228 160,230 C195,228 220,220 240,205 C265,185 275,155 265,110 C255,65 210,65 160,35 Z" fill="url(#hLight)"/>
-  <!-- Frontal bone highlighted -->
-  <path d="M160,38 C118,38 75,62 62,100 C55,122 58,140 70,152 L250,152 C262,140 265,122 258,100 C245,62 202,38 160,38 Z" fill="#7ab8e8" fill-opacity=".55" stroke="#4a90d9" stroke-width="2"/>
-  <!-- Orbital ridges -->
-  <path d="M90,148 C105,143 125,140 160,140 C195,140 215,143 230,148" fill="none" stroke="#2a5080" stroke-width="2.5"/>
-  <!-- Nasal spine area -->
-  <path d="M148,152 L152,168 L160,172 L168,168 L172,152" fill="#c8a870" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Orbit outlines -->
-  <ellipse cx="125" cy="175" rx="32" ry="24" fill="#1a1e2a" fill-opacity=".5" stroke="#8a7a60" stroke-width="2"/>
-  <ellipse cx="195" cy="175" rx="32" ry="24" fill="#1a1e2a" fill-opacity=".5" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Coronal suture line -->
-  <path d="M70,152 C90,148 125,145 160,145 C195,145 230,148 250,152" fill="none" stroke="#c8a870" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <!-- Labels -->
-  <line x1="160" y1="80" x2="30" y2="55" stroke="#7ab8e8" stroke-width="1"/><circle cx="30" cy="55" r="2" fill="#7ab8e8"/>
-  <text x="25" y="48" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Frontal bone</text>
-  <line x1="160" y1="145" x2="30" y2="130" stroke="#c8a870" stroke-width="1"/><circle cx="30" cy="130" r="2" fill="#c8a870"/>
-  <text x="25" y="123" fill="#c8a870" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Coronal</text>
-  <text x="25" y="133" fill="#c8a870" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">suture</text>
-  <line x1="125" y1="175" x2="30" y2="185" stroke="#e8eaf2" stroke-width="1"/>
-  <text x="22" y="185" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Orbit</text>
-  <line x1="160" y1="165" x2="290" y2="150" stroke="#f5c842" stroke-width="1"/>
-  <text x="295" y="148" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Nasal</text>
-  <text x="295" y="158" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">spine</text>
-  <text x="135" y="255" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Supraorbital ridge (glabella at midline)</text>
-</svg>`,
-
-'Parietal bone': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="pGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Parietal Bone — Lateral View</text>
-  <path d="M160,35 C100,35 55,75 50,125 C45,170 65,200 100,218 C125,230 150,235 185,232 C225,228 265,205 275,165 C285,125 270,75 230,50 C210,38 185,32 160,35 Z" fill="url(#pGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Parietal highlighted -->
-  <path d="M160,38 C108,38 68,72 62,115 C56,155 70,182 100,200 C125,214 155,220 185,216 C218,212 248,192 260,158 C272,124 258,80 225,54 C208,42 185,35 160,38 Z" fill="#b084f5" fill-opacity=".4" stroke="#8854d0" stroke-width="2"/>
-  <!-- Suture lines -->
-  <path d="M160,38 C140,38 120,40 105,45 C85,52 68,68 62,90" fill="none" stroke="#c8a870" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="75" y="55" fill="#c8a870" font-family="DM Sans,sans-serif" font-size="8">Coronal suture</text>
-  <path d="M260,158 C252,178 235,196 210,208 C190,218 165,222 140,220" fill="none" stroke="#52d18a" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="230" y="228" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="8">Lambdoid suture</text>
-  <path d="M62,140 C62,155 65,170 70,182" fill="none" stroke="#f07060" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="22" y="160" fill="#f07060" font-family="DM Sans,sans-serif" font-size="8">Squamous</text>
-  <text x="22" y="170" fill="#f07060" font-family="DM Sans,sans-serif" font-size="8">suture</text>
-  <!-- Parietal eminence -->
-  <circle cx="170" cy="130" r="8" fill="#b084f5" fill-opacity=".7" stroke="#8854d0" stroke-width="1.5"/>
-  <line x1="170" y1="122" x2="210" y2="80" stroke="#b084f5" stroke-width="1"/>
-  <text x="215" y="78" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Parietal eminence</text>
-  <line x1="160" y1="100" x2="30" y2="70" stroke="#b084f5" stroke-width="1"/>
-  <text x="20" y="65" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Parietal</text>
-  <text x="20" y="75" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">bone</text>
-</svg>`,
-
-'Temporal bone': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="tGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Temporal Bone — Lateral View</text>
-  <!-- Skull outline faded -->
-  <path d="M160,35 C100,35 55,75 50,125 C45,170 65,200 100,218 L240,218 C275,200 285,165 275,125 C265,75 220,35 160,35 Z" fill="url(#tGrad)" fill-opacity=".4" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Temporal bone highlighted -->
-  <path d="M55,130 C55,160 65,185 90,202 L145,218 L145,155 L80,155 L75,130 Z" fill="#f07060" fill-opacity=".45" stroke="#c04040" stroke-width="2"/>
-  <!-- Zygomatic process -->
-  <path d="M80,165 L175,160 L185,150 L175,140 L80,145 Z" fill="#f5c842" fill-opacity=".55" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- External acoustic meatus -->
-  <ellipse cx="90" cy="175" rx="18" ry="14" fill="#1a1e2a" fill-opacity=".8" stroke="#c04040" stroke-width="2"/>
-  <text x="90" y="179" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="7" font-weight="600">EAM</text>
-  <!-- Mastoid process -->
-  <ellipse cx="85" cy="215" rx="18" ry="15" fill="#f07060" fill-opacity=".6" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Styloid process -->
-  <line x1="100" y1="208" x2="108" y2="238" stroke="#c04040" stroke-width="3" stroke-linecap="round"/>
-  <!-- Labels -->
-  <line x1="90" y1="165" x2="30" y2="130" stroke="#f07060" stroke-width="1"/>
-  <text x="25" y="123" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Temporal</text>
-  <text x="25" y="133" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">bone</text>
-  <line x1="130" y1="150" x2="200" y2="118" stroke="#f5c842" stroke-width="1"/>
-  <text x="205" y="116" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Zygomatic process</text>
-  <line x1="85" y1="215" x2="30" y2="225" stroke="#52d18a" stroke-width="1"/>
-  <text x="25" y="223" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Mastoid</text>
-  <text x="25" y="233" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">process</text>
-  <line x1="108" y1="235" x2="185" y2="245" stroke="#b084f5" stroke-width="1"/>
-  <text x="188" y="248" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Styloid process</text>
-</svg>`,
-
-'Ethmoid bone': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="eGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#d8e8f0"/><stop offset="100%" stop-color="#a0b8c8"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Ethmoid Bone — Superior/Sagittal View</text>
-  <!-- Cribriform plate (top) -->
-  <rect x="95" y="45" width="130" height="40" rx="4" fill="#7ab8e8" fill-opacity=".6" stroke="#4a90d9" stroke-width="2"/>
-  <!-- Crista galli -->
-  <path d="M155,45 L160,25 L165,45 Z" fill="#f5c842" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- Perpendicular plate (vertical) -->
-  <rect x="152" y="85" width="16" height="90" rx="2" fill="#52d18a" fill-opacity=".6" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Lateral masses / labyrinths -->
-  <rect x="80" y="85" width="70" height="75" rx="6" fill="#b084f5" fill-opacity=".5" stroke="#8854d0" stroke-width="1.5"/>
-  <rect x="170" y="85" width="70" height="75" rx="6" fill="#b084f5" fill-opacity=".5" stroke="#8854d0" stroke-width="1.5"/>
-  <!-- Ethmoid air cells (little squares in labyrinths) -->
-  <g fill="#1a1e2a" fill-opacity=".3" stroke="#8854d0" stroke-width=".5">
-    <rect x="85" y="90" width="15" height="12" rx="1"/><rect x="103" y="90" width="15" height="12" rx="1"/><rect x="121" y="90" width="20" height="12" rx="1"/>
-    <rect x="85" y="105" width="15" height="12" rx="1"/><rect x="103" y="105" width="15" height="12" rx="1"/><rect x="121" y="105" width="20" height="12" rx="1"/>
-    <rect x="85" y="120" width="15" height="12" rx="1"/><rect x="103" y="120" width="15" height="12" rx="1"/><rect x="121" y="120" width="20" height="12" rx="1"/>
-    <rect x="175" y="90" width="15" height="12" rx="1"/><rect x="193" y="90" width="15" height="12" rx="1"/><rect x="211" y="90" width="20" height="12" rx="1"/>
-    <rect x="175" y="105" width="15" height="12" rx="1"/><rect x="193" y="105" width="15" height="12" rx="1"/><rect x="211" y="105" width="20" height="12" rx="1"/>
-    <rect x="175" y="120" width="15" height="12" rx="1"/><rect x="193" y="120" width="15" height="12" rx="1"/><rect x="211" y="120" width="20" height="12" rx="1"/>
-  </g>
-  <!-- Conchae -->
-  <path d="M82,148 C90,155 105,162 120,158 C135,154 142,145 140,138" fill="none" stroke="#f07060" stroke-width="2" stroke-linecap="round"/>
-  <path d="M82,162 C92,170 108,176 125,172 C140,168 148,158 146,150" fill="none" stroke="#f5c842" stroke-width="2" stroke-linecap="round"/>
-  <!-- Labels -->
-  <line x1="160" y1="35" x2="290" y2="22" stroke="#f5c842" stroke-width="1"/>
-  <text x="292" y="20" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Crista galli</text>
-  <line x1="160" y1="65" x2="290" y2="55" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="292" y="53" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9">Cribriform plate</text>
-  <text x="292" y="63" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9">(CN I passes through)</text>
-  <line x1="160" y1="130" x2="290" y2="118" stroke="#52d18a" stroke-width="1"/>
-  <text x="292" y="116" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Perpendicular</text>
-  <text x="292" y="126" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">plate (nasal septum)</text>
-  <line x1="115" y1="110" x2="30" y2="100" stroke="#b084f5" stroke-width="1"/>
-  <text x="25" y="98" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Ethmoid</text>
-  <text x="25" y="108" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">labyrinth</text>
-  <line x1="115" y1="155" x2="30" y2="155" stroke="#f07060" stroke-width="1"/>
-  <text x="25" y="153" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Superior</text>
-  <text x="25" y="163" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">nasal concha</text>
-  <line x1="120" y1="168" x2="30" y2="178" stroke="#f5c842" stroke-width="1"/>
-  <text x="25" y="180" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Middle nasal</text>
-  <text x="25" y="190" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">concha</text>
-</svg>`,
-
-'Sphenoid bone': `<svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
-  <defs><radialGradient id="spGrad" cx="40%" cy="40%"><stop offset="0%" stop-color="#e0d8f0"/><stop offset="100%" stop-color="#b0a0d0"/></radialGradient></defs>
-  <rect width="340" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="170" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Sphenoid Bone — Superior View</text>
-  <!-- Body (central) -->
-  <rect x="130" y="80" width="80" height="70" rx="8" fill="#b084f5" fill-opacity=".55" stroke="#8854d0" stroke-width="2"/>
-  <!-- Sella turcica (depression in body) -->
-  <ellipse cx="170" cy="112" rx="22" ry="15" fill="#1a1e2a" fill-opacity=".6" stroke="#f5c842" stroke-width="2"/>
-  <text x="170" y="116" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="8" font-weight="600">Sella turcica</text>
-  <!-- Lesser wings -->
-  <path d="M130,88 C110,82 80,78 50,85 C40,88 35,95 42,100 L130,100 Z" fill="#7ab8e8" fill-opacity=".5" stroke="#4a90d9" stroke-width="1.5"/>
-  <path d="M210,88 C230,82 260,78 290,85 C300,88 305,95 298,100 L210,100 Z" fill="#7ab8e8" fill-opacity=".5" stroke="#4a90d9" stroke-width="1.5"/>
-  <!-- Greater wings -->
-  <path d="M130,120 C108,128 75,138 45,145 C30,150 22,158 28,165 C35,172 55,168 80,158 L130,140 Z" fill="#52d18a" fill-opacity=".5" stroke="#2a8a5a" stroke-width="1.5"/>
-  <path d="M210,120 C232,128 265,138 295,145 C310,150 318,158 312,165 C305,172 285,168 260,158 L210,140 Z" fill="#52d18a" fill-opacity=".5" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Pterygoid processes -->
-  <rect x="118" y="148" width="22" height="55" rx="3" fill="#f07060" fill-opacity=".6" stroke="#c04040" stroke-width="1.5"/>
-  <rect x="200" y="148" width="22" height="55" rx="3" fill="#f07060" fill-opacity=".6" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Optic canal -->
-  <circle cx="148" cy="94" r="6" fill="#1a1e2a" stroke="#f5c842" stroke-width="1.5"/>
-  <circle cx="192" cy="94" r="6" fill="#1a1e2a" stroke="#f5c842" stroke-width="1.5"/>
-  <!-- Labels -->
-  <line x1="170" y1="83" x2="170" y2="35" stroke="#b084f5" stroke-width="1"/>
-  <text x="170" y="30" text-anchor="middle" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Body</text>
-  <line x1="80" y1="90" x2="40" y2="55" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="35" y="50" text-anchor="middle" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9">Lesser wing</text>
-  <line x1="80" y1="148" x2="25" y2="165" stroke="#52d18a" stroke-width="1"/>
-  <text x="20" y="175" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Greater wing</text>
-  <line x1="129" y1="175" x2="90" y2="220" stroke="#f07060" stroke-width="1"/>
-  <text x="85" y="235" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Pterygoid</text>
-  <text x="85" y="245" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">process</text>
-  <line x1="148" y1="94" x2="110" y2="62" stroke="#f5c842" stroke-width="1"/>
-  <text x="105" y="58" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Optic</text>
-  <text x="105" y="68" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">canal (CN II)</text>
-  <text x="170" y="255" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Butterfly-shaped bone forming floor of middle cranial fossa</text>
-</svg>`,
-
-'Occipital bone': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="oGrad" cx="50%" cy="40%"><stop offset="0%" stop-color="#e8f0e0"/><stop offset="100%" stop-color="#b0c8a0"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Occipital Bone — Posterior/Inferior View</text>
-  <!-- Main occipital shape -->
-  <path d="M160,40 C110,40 65,70 55,115 C45,155 60,195 100,220 L160,235 L220,220 C260,195 275,155 265,115 C255,70 210,40 160,40 Z" fill="url(#oGrad)" stroke="#8a9a78" stroke-width="2"/>
-  <!-- Occipital highlighted -->
-  <path d="M160,42 C115,42 75,68 65,105 C55,142 65,178 100,204 L160,218 L220,204 C255,178 265,142 255,105 C245,68 205,42 160,42 Z" fill="#52d18a" fill-opacity=".35" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Foramen magnum -->
-  <ellipse cx="160" cy="168" rx="40" ry="32" fill="#1a1e2a" fill-opacity=".75" stroke="#f5c842" stroke-width="2.5"/>
-  <text x="160" y="172" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Foramen</text>
-  <text x="160" y="183" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">magnum</text>
-  <!-- Occipital condyles -->
-  <ellipse cx="128" cy="200" rx="18" ry="10" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5" transform="rotate(-20,128,200)"/>
-  <ellipse cx="192" cy="200" rx="18" ry="10" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5" transform="rotate(20,192,200)"/>
-  <!-- External occipital protuberance -->
-  <circle cx="160" cy="100" r="12" fill="#b084f5" fill-opacity=".7" stroke="#8854d0" stroke-width="1.5"/>
-  <text x="160" y="104" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="7">EOP</text>
-  <!-- Nuchal lines -->
-  <path d="M80,105 C110,98 140,96 160,96 C180,96 210,98 240,105" fill="none" stroke="#c8a870" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <!-- Labels -->
-  <line x1="160" y1="88" x2="260" y2="55" stroke="#b084f5" stroke-width="1"/>
-  <text x="262" y="53" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">External occipital</text>
-  <text x="262" y="63" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">protuberance (EOP)</text>
-  <line x1="128" y1="200" x2="30" y2="215" stroke="#f07060" stroke-width="1"/>
-  <text x="25" y="213" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Occipital</text>
-  <text x="25" y="223" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">condyles</text>
-  <line x1="155" y1="100" x2="30" y2="88" stroke="#c8a870" stroke-width="1"/>
-  <text x="25" y="86" fill="#c8a870" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Nuchal lines</text>
-  <text x="160" y="253" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Foramen magnum: brainstem + vertebral arteries + CN XI pass through</text>
-</svg>`,
-
-// ══ VERTEBRAL COLUMN ══
-'Cervical vertebrae': `<svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
-  <defs><radialGradient id="vertGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#e8f0f8"/><stop offset="100%" stop-color="#b0c8e0"/></radialGradient></defs>
-  <rect width="340" height="280" fill="#1a1e2a" rx="8"/>
-  <text x="170" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Cervical Vertebra (C3-C7) — Superior View</text>
-  <!-- Vertebral body -->
-  <ellipse cx="170" cy="160" rx="58" ry="45" fill="url(#vertGrad)" stroke="#8a9ab0" stroke-width="2"/>
-  <!-- Vertebral foramen -->
-  <ellipse cx="170" cy="155" rx="28" ry="25" fill="#1a1e2a" fill-opacity=".7" stroke="#7ab8e8" stroke-width="2"/>
-  <text x="170" y="158" text-anchor="middle" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="8">Vertebral</text>
-  <text x="170" y="168" text-anchor="middle" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="8">foramen</text>
-  <!-- Spinous process (bifid) -->
-  <path d="M170,130 L168,85 L158,70 L168,75 L170,68 L172,75 L182,70 L172,85 L170,130 Z" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Transverse processes with foramina -->
-  <path d="M112,158 C95,152 78,148 65,155 L68,170 C80,163 96,168 112,168 Z" fill="#52d18a" fill-opacity=".6" stroke="#2a8a5a" stroke-width="1.5"/>
-  <path d="M228,158 C245,152 262,148 275,155 L272,170 C260,163 244,168 228,168 Z" fill="#52d18a" fill-opacity=".6" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Transverse foramina -->
-  <circle cx="75" cy="162" r="8" fill="#1a1e2a" fill-opacity=".7" stroke="#f5c842" stroke-width="1.5"/>
-  <circle cx="265" cy="162" r="8" fill="#1a1e2a" fill-opacity=".7" stroke="#f5c842" stroke-width="1.5"/>
-  <!-- Articular processes -->
-  <ellipse cx="140" cy="138" rx="14" ry="10" fill="#b084f5" fill-opacity=".6" stroke="#8854d0" stroke-width="1.5" transform="rotate(-25,140,138)"/>
-  <ellipse cx="200" cy="138" rx="14" ry="10" fill="#b084f5" fill-opacity=".6" stroke="#8854d0" stroke-width="1.5" transform="rotate(25,200,138)"/>
-  <!-- Labels -->
-  <line x1="170" y1="115" x2="290" y2="80" stroke="#f07060" stroke-width="1"/>
-  <text x="292" y="78" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Bifid spinous process</text>
-  <text x="292" y="88" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">(unique to C2-C6)</text>
-  <line x1="75" y1="162" x2="30" y2="145" stroke="#f5c842" stroke-width="1"/>
-  <text x="25" y="143" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Transverse</text>
-  <text x="25" y="153" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">foramen</text>
-  <text x="25" y="163" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">(vertebral a.)</text>
-  <line x1="90" y1="160" x2="30" y2="190" stroke="#52d18a" stroke-width="1"/>
-  <text x="25" y="200" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">Transverse</text>
-  <text x="25" y="210" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">process</text>
-  <line x1="145" y1="140" x2="220" y2="108" stroke="#b084f5" stroke-width="1"/>
-  <text x="222" y="106" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Superior articular</text>
-  <text x="222" y="116" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">facet</text>
-  <line x1="170" y1="185" x2="170" y2="255" stroke="#e8eaf2" stroke-width="1"/>
-  <text x="170" y="265" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">C1=Atlas (no body), C2=Axis (dens), C7=vertebra prominens</text>
-</svg>`,
-
-// ══ HEART ══
-'Heart chambers & valves': `<svg viewBox="0 0 380 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px">
-  <defs>
-    <radialGradient id="heartGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#c04040"/><stop offset="100%" stop-color="#7a1515"/></radialGradient>
-    <radialGradient id="raGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#5080c0"/><stop offset="100%" stop-color="#2a4080"/></radialGradient>
-  </defs>
-  <rect width="380" height="300" fill="#1a1e2a" rx="8"/>
-  <text x="190" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Heart — Anterior Cross-Section</text>
-  <!-- Pericardium outline -->
-  <path d="M190,285 C130,255 50,215 45,155 C42,110 68,78 108,78 L272,78 C312,78 338,110 335,155 C330,215 250,255 190,285 Z" fill="#2a1a1a" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Right atrium -->
-  <path d="M108,90 C80,95 60,115 58,145 C56,170 68,190 90,200 L155,200 L155,100 Z" fill="url(#raGrad)" fill-opacity=".85" stroke="#4a70b0" stroke-width="1.5"/>
-  <text x="100" y="148" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">RIGHT</text>
-  <text x="100" y="160" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">ATRIUM</text>
-  <!-- Left atrium -->
-  <path d="M225,90 L225,200 L272,200 C308,185 330,165 332,145 C334,120 320,98 295,90 Z" fill="#8a2020" fill-opacity=".8" stroke="#c04040" stroke-width="1.5"/>
-  <text x="280" y="148" text-anchor="middle" fill="#ffb0b0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">LEFT</text>
-  <text x="280" y="160" text-anchor="middle" fill="#ffb0b0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">ATRIUM</text>
-  <!-- Right ventricle -->
-  <path d="M60,200 C50,240 75,275 120,282 L188,282 L188,200 Z" fill="url(#raGrad)" fill-opacity=".85" stroke="#4a70b0" stroke-width="1.5"/>
-  <text x="118" y="248" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">RIGHT</text>
-  <text x="118" y="260" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">VENTRICLE</text>
-  <!-- Left ventricle (thicker wall) -->
-  <path d="M192,200 L192,282 L262,282 C305,272 330,245 330,200 Z" fill="#8a2020" fill-opacity=".85" stroke="#c04040" stroke-width="2.5"/>
-  <text x="262" y="248" text-anchor="middle" fill="#ffb0b0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">LEFT</text>
-  <text x="262" y="260" text-anchor="middle" fill="#ffb0b0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">VENTRICLE</text>
-  <!-- Interventricular septum -->
-  <line x1="190" y1="88" x2="190" y2="282" stroke="#e8d080" stroke-width="2.5" stroke-dasharray="5,3"/>
-  <!-- Tricuspid valve -->
-  <path d="M155,195 L175,188 L185,200 L175,210 L155,200 Z" fill="#f5c842" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- Mitral valve -->
-  <path d="M195,195 L210,188 L225,200 L210,210 L195,200 Z" fill="#f5c842" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- SVC -->
-  <rect x="80" y="40" width="30" height="52" rx="5" fill="#4a70b0" stroke="#9ab8f0" stroke-width="1.5"/>
-  <text x="95" y="36" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="8">SVC</text>
-  <!-- Aorta -->
-  <path d="M215,78 L215,30 L260,30 L260,58" fill="none" stroke="#c04040" stroke-width="10" stroke-linecap="round"/>
-  <text x="265" y="28" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Aorta</text>
-  <!-- Pulmonary trunk -->
-  <path d="M165,78 L165,38 L140,38" fill="none" stroke="#4a70b0" stroke-width="8" stroke-linecap="round"/>
-  <text x="80" y="36" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="9">Pulm.</text>
-  <text x="80" y="46" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="9">trunk</text>
-  <!-- Labels -->
-  <line x1="170" y1="197" x2="50" y2="180" stroke="#f5c842" stroke-width="1"/>
-  <text x="45" y="178" text-anchor="end" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Tricuspid</text>
-  <text x="45" y="188" text-anchor="end" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">(right AV)</text>
-  <line x1="210" y1="197" x2="330" y2="178" stroke="#f5c842" stroke-width="1"/>
-  <text x="332" y="178" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Mitral</text>
-  <text x="332" y="188" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">(left AV)</text>
-  <text x="190" y="297" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">🔵 Deoxygenated   🔴 Oxygenated   LV wall = thickest</text>
-</svg>`,
-
-// ══ NEPHRON ══
-'Glomerulus': `<svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:340px">
-  <defs><radialGradient id="glomGrad" cx="40%" cy="40%"><stop offset="0%" stop-color="#e0f0f8"/><stop offset="100%" stop-color="#a0c8e0"/></radialGradient></defs>
-  <rect width="340" height="280" fill="#1a1e2a" rx="8"/>
-  <text x="170" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Renal Corpuscle — Glomerulus</text>
-  <!-- Bowman’s capsule -->
-  <circle cx="170" cy="145" r="85" fill="#1a2535" stroke="#7ab8e8" stroke-width="2.5"/>
-  <text x="230" y="72" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Bowman’s</text>
-  <text x="230" y="82" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">capsule</text>
-  <!-- Bowman’s space -->
-  <circle cx="170" cy="145" r="70" fill="#0d1520" stroke="#4a6080" stroke-width="1"/>
-  <!-- Glomerular capillary tuft -->
-  <circle cx="170" cy="145" r="52" fill="#2a1020" stroke="#f07060" stroke-width="1.5"/>
-  <!-- Capillary loops (multiple circles) -->
-  <circle cx="165" cy="130" r="22" fill="none" stroke="#f07060" stroke-width="3" fill-opacity="0"/>
-  <circle cx="165" cy="130" r="22" fill="#7c2020" fill-opacity=".5"/>
-  <circle cx="185" cy="148" r="18" fill="#7c2020" fill-opacity=".5" stroke="#f07060" stroke-width="2.5"/>
-  <circle cx="158" cy="160" r="16" fill="#7c2020" fill-opacity=".5" stroke="#f07060" stroke-width="2"/>
-  <circle cx="178" cy="130" r="14" fill="#c04040" fill-opacity=".5" stroke="#f07060" stroke-width="1.5"/>
-  <!-- Afferent arteriole -->
-  <path d="M90,100 C115,115 135,128 148,130" fill="none" stroke="#f07060" stroke-width="6" stroke-linecap="round"/>
-  <text x="52" y="92" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Afferent</text>
-  <text x="52" y="102" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">arteriole</text>
-  <!-- Efferent arteriole -->
-  <path d="M182,125 C200,120 220,115 248,108" fill="none" stroke="#4a70b0" stroke-width="4" stroke-linecap="round"/>
-  <text x="250" y="106" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Efferent</text>
-  <text x="250" y="116" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">arteriole</text>
-  <!-- PCT exiting -->
-  <path d="M215,170 C230,185 245,205 260,215" fill="none" stroke="#52d18a" stroke-width="5" stroke-linecap="round"/>
-  <text x="262" y="218" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">→ PCT</text>
-  <!-- Filtration arrows -->
-  <line x1="155" y1="100" x2="155" y2="80" stroke="#f5c842" stroke-width="1.5" marker-end="url(#arrowY3)"/>
-  <line x1="185" y1="100" x2="190" y2="80" stroke="#f5c842" stroke-width="1.5"/>
-  <text x="155" y="75" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="8">Filtration</text>
-  <text x="170" y="65" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="8">into Bowman’s space</text>
-  <!-- Podocytes label -->
-  <line x1="205" y1="152" x2="280" y2="175" stroke="#b084f5" stroke-width="1"/>
-  <text x="282" y="173" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Podocytes</text>
-  <text x="282" y="183" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">(filtration slits)</text>
-  <!-- GFR note -->
-  <text x="170" y="255" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">GFR = 125 mL/min | 180L filtered/day | Proteins blocked</text>
-  <defs><marker id="arrowY3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f5c842"/></marker></defs>
-</svg>`,
-
-}; // end CARD_SVGS
-
-// Helper to get SVG for a term
-function getCardSVG(term) {
-  return CARD_SVGS[term] || null;
-}
-
-// Additional SVGs — bones, organs, systems
-Object.assign(CARD_SVGS, {
-
-'Vertebral column regions': `<svg viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
-  <rect width="300" height="380" fill="#1a1e2a" rx="8"/>
-  <text x="150" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Vertebral Column — Lateral View</text>
-  <!-- Spine curve -->
-  <path d="M165,35 C175,55 180,80 172,110 C164,140 155,155 162,185 C169,215 178,235 172,265 C166,290 155,310 158,335" fill="none" stroke="#8a9ab0" stroke-width="3"/>
-  <!-- Cervical region (7 vertebrae) - lordosis -->
-  <g fill="#7ab8e8" fill-opacity=".7" stroke="#4a90d9" stroke-width="1.5">
-    <ellipse cx="168" cy="45" rx="22" ry="8" transform="rotate(-5,168,45)"/>
-    <ellipse cx="172" cy="62" rx="22" ry="8" transform="rotate(-3,172,62)"/>
-    <ellipse cx="174" cy="79" rx="22" ry="8"/>
-    <ellipse cx="173" cy="96" rx="22" ry="8" transform="rotate(2,173,96)"/>
-    <ellipse cx="170" cy="113" rx="22" ry="8" transform="rotate(4,170,113)"/>
-    <ellipse cx="166" cy="130" rx="22" ry="8" transform="rotate(5,166,130)"/>
-    <ellipse cx="162" cy="147" rx="22" ry="8" transform="rotate(3,162,147)"/>
-  </g>
-  <!-- Thoracic region (12 vertebrae) - kyphosis -->
-  <g fill="#52d18a" fill-opacity=".7" stroke="#2a8a5a" stroke-width="1.5">
-    <ellipse cx="158" cy="165" rx="24" ry="9" transform="rotate(2,158,165)"/>
-    <ellipse cx="155" cy="183" rx="25" ry="9" transform="rotate(5,155,183)"/>
-    <ellipse cx="153" cy="201" rx="25" ry="9" transform="rotate(6,153,201)"/>
-    <ellipse cx="153" cy="219" rx="25" ry="9" transform="rotate(6,153,219)"/>
-    <ellipse cx="155" cy="237" rx="25" ry="9" transform="rotate(5,155,237)"/>
-    <ellipse cx="157" cy="255" rx="25" ry="9" transform="rotate(3,157,255)"/>
-    <ellipse cx="160" cy="272" rx="24" ry="9"/>
-    <ellipse cx="163" cy="289" rx="24" ry="9" transform="rotate(-2,163,289)"/>
-  </g>
-  <!-- Lumbar region (5 vertebrae) - lordosis -->
-  <g fill="#f5c842" fill-opacity=".7" stroke="#c8a030" stroke-width="1.5">
-    <ellipse cx="167" cy="307" rx="28" ry="10" transform="rotate(-5,167,307)"/>
-    <ellipse cx="168" cy="327" rx="28" ry="10" transform="rotate(-3,168,327)"/>
-    <ellipse cx="168" cy="347" rx="28" ry="10"/>
-  </g>
-  <!-- Sacrum -->
-  <path d="M148,360 C148,368 155,374 168,374 C181,374 188,368 188,360 L182,350 L154,350 Z" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Labels -->
-  <text x="38" y="95" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Cervical</text>
-  <text x="38" y="107" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">C1–C7</text>
-  <text x="38" y="117" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="8" text-anchor="middle">Lordosis</text>
-  <line x1="55" y1="95" x2="145" y2="95" stroke="#7ab8e8" stroke-width="0.5"/>
-  <text x="38" y="228" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Thoracic</text>
-  <text x="38" y="240" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">T1–T12</text>
-  <text x="38" y="250" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="8" text-anchor="middle">Kyphosis</text>
-  <line x1="55" y1="228" x2="128" y2="228" stroke="#52d18a" stroke-width="0.5"/>
-  <text x="248" y="328" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Lumbar</text>
-  <text x="248" y="340" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">L1–L5</text>
-  <text x="248" y="350" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="8" text-anchor="middle">Lordosis</text>
-  <line x1="200" y1="328" x2="232" y2="328" stroke="#f5c842" stroke-width="0.5"/>
-  <text x="248" y="367" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" text-anchor="middle">Sacrum</text>
-  <text x="248" y="377" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">S1–S5 fused</text>
-  <line x1="200" y1="365" x2="232" y2="365" stroke="#f07060" stroke-width="0.5"/>
-</svg>`,
-
-'Atlas (C1)': `<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="atlasGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#e8f0f8"/><stop offset="100%" stop-color="#b0c8e0"/></radialGradient></defs>
-  <rect width="320" height="260" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Atlas (C1) — Superior View</text>
-  <!-- Anterior arch -->
-  <path d="M100,130 C100,108 120,94 160,92 C200,90 220,108 220,130" fill="url(#atlasGrad)" fill-opacity=".7" stroke="#7ab8e8" stroke-width="2.5"/>
-  <!-- Posterior arch -->
-  <path d="M100,130 C100,152 120,168 160,170 C200,168 220,152 220,130" fill="url(#atlasGrad)" fill-opacity=".7" stroke="#7ab8e8" stroke-width="2.5"/>
-  <!-- Vertebral foramen (large - triangular) -->
-  <path d="M160,105 C130,108 112,120 112,135 C112,150 128,160 160,162 C192,160 208,150 208,135 C208,120 190,108 160,105 Z" fill="#1a1e2a" fill-opacity=".7" stroke="#4a90d9" stroke-width="1.5"/>
-  <!-- Lateral masses -->
-  <ellipse cx="112" cy="130" rx="20" ry="26" fill="#b084f5" fill-opacity=".6" stroke="#8854d0" stroke-width="2"/>
-  <ellipse cx="208" cy="130" rx="20" ry="26" fill="#b084f5" fill-opacity=".6" stroke="#8854d0" stroke-width="2"/>
-  <!-- Superior articular facets (concave - for occipital condyles) -->
-  <ellipse cx="112" cy="125" rx="16" ry="12" fill="#52d18a" fill-opacity=".5" stroke="#2a8a5a" stroke-width="1.5" transform="rotate(-10,112,125)"/>
-  <ellipse cx="208" cy="125" rx="16" ry="12" fill="#52d18a" fill-opacity=".5" stroke="#2a8a5a" stroke-width="1.5" transform="rotate(10,208,125)"/>
-  <!-- Transverse processes -->
-  <path d="M92,130 L65,130 L62,118 L68,108 L85,118 L92,130 Z" fill="#f5c842" fill-opacity=".6" stroke="#c8a030" stroke-width="1.5"/>
-  <path d="M228,130 L255,130 L258,118 L252,108 L235,118 L228,130 Z" fill="#f5c842" fill-opacity=".6" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- Transverse foramen in each process -->
-  <circle cx="72" cy="120" r="7" fill="#1a1e2a" fill-opacity=".8" stroke="#f5c842" stroke-width="1.2"/>
-  <circle cx="248" cy="120" r="7" fill="#1a1e2a" fill-opacity=".8" stroke="#f5c842" stroke-width="1.2"/>
-  <!-- Anterior tubercle -->
-  <circle cx="160" cy="95" r="8" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Labels -->
-  <line x1="160" y1="87" x2="160" y2="40" stroke="#f07060" stroke-width="1"/>
-  <text x="160" y="36" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Anterior tubercle</text>
-  <text x="160" y="46" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(no body, no spinous process)</text>
-  <line x1="112" y1="122" x2="50" y2="90" stroke="#52d18a" stroke-width="1"/>
-  <text x="45" y="88" text-anchor="end" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Superior articular facet</text>
-  <text x="45" y="98" text-anchor="end" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">(receives occipital condyle)</text>
-  <line x1="112" y1="138" x2="40" y2="165" stroke="#b084f5" stroke-width="1"/>
-  <text x="35" y="172" text-anchor="end" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Lateral mass</text>
-  <line x1="72" y1="120" x2="30" y2="140" stroke="#f5c842" stroke-width="1"/>
-  <text x="25" y="148" text-anchor="end" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Transverse foramen</text>
-  <text x="160" y="255" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">C1 = no body + no spinous process. Nodding = YES joint (atlanto-occipital)</text>
-</svg>`,
-
-'Femur': `<svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-  <defs><radialGradient id="femGrad" cx="30%" cy="25%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient><radialGradient id="femHL" cx="25%" cy="20%"><stop offset="0%" stop-color="#fff" stop-opacity=".5"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
-  <rect width="280" height="380" fill="#1a1e2a" rx="8"/>
-  <text x="140" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Femur — Anterior View</text>
-  <!-- Shaft -->
-  <path d="M118,108 L118,280 C118,280 125,295 140,298 C155,295 162,280 162,280 L162,108 Z" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <path d="M118,108 L118,280 C118,280 125,295 140,298 C155,295 162,280 162,280 L162,108 Z" fill="url(#femHL)"/>
-  <!-- Femoral head -->
-  <circle cx="100" cy="80" r="35" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <circle cx="100" cy="80" r="35" fill="url(#femHL)"/>
-  <!-- Articular cartilage on head -->
-  <path d="M68,60 C78,48 95,42 110,48 C120,52 126,60 122,70" fill="#52d18a" fill-opacity=".5" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Fovea capitis -->
-  <circle cx="105" cy="75" r="5" fill="#8a7a60" stroke="#5a4a38" stroke-width="1"/>
-  <!-- Femoral neck -->
-  <path d="M118,108 C112,95 108,85 100,78" fill="none" stroke="#c8b89a" stroke-width="8" stroke-linecap="round"/>
-  <!-- Greater trochanter -->
-  <path d="M162,100 C175,92 185,88 192,92 C198,97 196,110 188,118 L162,122 Z" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Lesser trochanter -->
-  <path d="M118,142 C108,138 100,136 96,140 C92,145 95,153 103,158 L118,155 Z" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Linea aspera (posterior feature, shown as line) -->
-  <line x1="140" y1="140" x2="140" y2="270" stroke="#8a7a60" stroke-width="2.5" stroke-dasharray="3,3"/>
-  <!-- Medial condyle -->
-  <ellipse cx="124" cy="302" rx="28" ry="22" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Lateral condyle -->
-  <ellipse cx="162" cy="298" rx="28" ry="22" fill="url(#femGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Patellar surface (intercondylar) -->
-  <path d="M124,285 C130,278 150,276 162,282" fill="none" stroke="#52d18a" stroke-width="2.5"/>
-  <!-- Medial + lateral epicondyles -->
-  <circle cx="108" cy="300" r="6" fill="#f07060" fill-opacity=".8" stroke="#c04040" stroke-width="1.5"/>
-  <circle cx="178" cy="296" r="6" fill="#f07060" fill-opacity=".8" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Labels -->
-  <line x1="100" y1="58" x2="40" y2="38" stroke="#f5c842" stroke-width="1"/>
-  <text x="35" y="36" text-anchor="end" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Femoral head</text>
-  <text x="35" y="46" text-anchor="end" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">(fovea capitis)</text>
-  <line x1="185" y1="105" x2="240" y2="88" stroke="#b084f5" stroke-width="1"/>
-  <text x="242" y="86" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Greater trochanter</text>
-  <text x="242" y="96" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(glut. med. inserts)</text>
-  <line x1="100" y1="148" x2="40" y2="165" stroke="#52d18a" stroke-width="1"/>
-  <text x="35" y="173" text-anchor="end" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Lesser trochanter</text>
-  <text x="35" y="183" text-anchor="end" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(iliopsoas inserts)</text>
-  <line x1="108" y1="300" x2="40" y2="295" stroke="#f07060" stroke-width="1"/>
-  <text x="35" y="293" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Medial epicondyle</text>
-  <line x1="178" y1="296" x2="240" y2="295" stroke="#f07060" stroke-width="1"/>
-  <text x="242" y="293" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Lateral epicondyle</text>
-  <text x="140" y="370" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Longest + strongest bone in body</text>
-</svg>`,
-
-'Humerus': `<svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-  <defs><radialGradient id="humGrad" cx="30%" cy="25%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient></defs>
-  <rect width="280" height="380" fill="#1a1e2a" rx="8"/>
-  <text x="140" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Humerus — Anterior View</text>
-  <!-- Shaft -->
-  <path d="M120,112 L125,300 L145,308 L155,300 L155,112 Z" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Humeral head -->
-  <path d="M110,70 C108,42 128,28 148,30 C168,32 178,50 175,72 L155,88 L120,88 Z" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Articular surface -->
-  <path d="M118,70 C118,50 132,40 148,42 C162,44 170,55 168,70" fill="#52d18a" fill-opacity=".4" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Greater tubercle -->
-  <path d="M155,60 C168,55 182,58 188,68 C194,78 190,95 180,100 L155,98 Z" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Lesser tubercle -->
-  <path d="M120,72 C108,68 100,72 98,82 C96,92 102,100 112,102 L120,100 Z" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Bicipital groove (between tubercles) -->
-  <path d="M120,80 L138,85 L155,80" fill="none" stroke="#8a7060" stroke-width="2"/>
-  <!-- Surgical neck (fracture zone) -->
-  <path d="M118,106 L155,106" stroke="#f07060" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <!-- Deltoid tuberosity -->
-  <path d="M148,178 C158,172 168,172 174,178 C180,184 178,196 168,200 L148,195 Z" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="1.2"/>
-  <!-- Medial epicondyle -->
-  <path d="M125,298 C112,292 105,282 110,270 L125,272 Z" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Lateral epicondyle -->
-  <path d="M155,295 C168,288 175,278 170,266 L155,268 Z" fill="#f07060" fill-opacity=".7" stroke="#c04040" stroke-width="1.5"/>
-  <!-- Trochlea + capitulum -->
-  <ellipse cx="128" cy="316" rx="20" ry="14" fill="url(#humGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <ellipse cx="155" cy="313" rx="16" ry="14" fill="url(#humGrad)" stroke="#52d18a" stroke-width="1.5"/>
-  <!-- Labels -->
-  <line x1="148" y1="42" x2="220" y2="30" stroke="#f5c842" stroke-width="1"/>
-  <text x="222" y="28" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Humeral head</text>
-  <line x1="180" y1="80" x2="245" y2="65" stroke="#b084f5" stroke-width="1"/>
-  <text x="247" y="63" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9">Greater tubercle</text>
-  <text x="247" y="73" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(RC muscles)</text>
-  <line x1="118" y1="108" x2="40" y2="112" stroke="#f07060" stroke-width="1"/>
-  <text x="35" y="110" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Surgical neck</text>
-  <text x="35" y="120" text-anchor="end" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(axillary n. here)</text>
-  <line x1="168" y1="188" x2="235" y2="200" stroke="#52d18a" stroke-width="1"/>
-  <text x="237" y="198" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Deltoid tuberosity</text>
-  <line x1="112" y1="295" x2="40" y2="308" stroke="#f07060" stroke-width="1"/>
-  <text x="35" y="306" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Medial epicondyle</text>
-  <line x1="155" y1="313" x2="235" y2="325" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="237" y="323" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9">Capitulum (radius)</text>
-  <line x1="128" y1="318" x2="55" y2="335" stroke="#c8a870" stroke-width="1"/>
-  <text x="50" y="333" text-anchor="end" fill="#c8a870" font-family="DM Sans,sans-serif" font-size="9">Trochlea (ulna)</text>
-</svg>`,
-
-'Tibia': `<svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px">
-  <defs><radialGradient id="tibGrad" cx="35%" cy="30%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient></defs>
-  <rect width="280" height="380" fill="#1a1e2a" rx="8"/>
-  <text x="140" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Tibia — Anterior View</text>
-  <!-- Shaft (triangular cross-section) -->
-  <path d="M128,140 L125,320 C125,320 132,335 140,337 C148,335 152,320 152,320 L148,140 Z" fill="url(#tibGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Lateral condyle (top) -->
-  <ellipse cx="155" cy="95" rx="32" ry="22" fill="url(#tibGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Medial condyle (top) -->
-  <ellipse cx="118" cy="98" rx="32" ry="22" fill="url(#tibGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Intercondylar eminence -->
-  <path d="M133,78 L136,60 L138,72 L140,55 L142,72 L144,60 L147,78 Z" fill="#f5c842" fill-opacity=".8" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- Tibial tuberosity -->
-  <path d="M128,140 C120,132 118,122 125,115 L140,115 L152,118 C158,125 155,135 148,140 Z" fill="#b084f5" fill-opacity=".7" stroke="#8854d0" stroke-width="2"/>
-  <!-- Articular surfaces (green) -->
-  <ellipse cx="115" cy="88" rx="28" ry="16" fill="#52d18a" fill-opacity=".4" stroke="#2a8a5a" stroke-width="1.2"/>
-  <ellipse cx="152" cy="84" rx="28" ry="16" fill="#52d18a" fill-opacity=".4" stroke="#2a8a5a" stroke-width="1.2"/>
-  <!-- Anterior crest (shin) -->
-  <path d="M138,140 L134,260 L140,275 L146,260 L142,140 Z" fill="#c8a870" fill-opacity=".4" stroke="#8a7a60" stroke-width="1"/>
-  <!-- Medial malleolus -->
-  <path d="M125,318 C112,314 106,306 110,296 L125,298 Z" fill="url(#tibGrad)" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Soleal line (posterior, shown dashed) -->
-  <path d="M148,148 C155,158 158,172 155,188" fill="none" stroke="#9099b0" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <!-- Labels -->
-  <line x1="115" y1="82" x2="40" y2="60" stroke="#52d18a" stroke-width="1"/>
-  <text x="35" y="58" text-anchor="end" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">Medial condyle</text>
-  <line x1="152" y1="78" x2="230" y2="55" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="232" y="53" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9">Lateral condyle</text>
-  <line x1="140" y1="60" x2="200" y2="40" stroke="#f5c842" stroke-width="1"/>
-  <text x="202" y="38" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Intercondylar</text>
-  <text x="202" y="48" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">eminence</text>
-  <line x1="140" y1="128" x2="60" y2="140" stroke="#b084f5" stroke-width="1"/>
-  <text x="55" y="138" text-anchor="end" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Tibial tuberosity</text>
-  <text x="55" y="148" text-anchor="end" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(patellar lig. attaches)</text>
-  <line x1="112" y1="310" x2="40" y2="315" stroke="#f07060" stroke-width="1"/>
-  <text x="35" y="313" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Medial malleolus</text>
-  <text x="140" y="370" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">2nd largest bone | Weight-bearing | Fibula = lateral companion</text>
-</svg>`,
-
-// ══ MUSCLES ══
-'Deltoid': `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px">
-  <defs><radialGradient id="musGrad" cx="35%" cy="30%"><stop offset="0%" stop-color="#c8a0d0"/><stop offset="100%" stop-color="#7840a0"/></radialGradient></defs>
-  <rect width="300" height="300" fill="#1a1e2a" rx="8"/>
-  <text x="150" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Deltoid Muscle — Lateral View</text>
-  <!-- Skeleton outline (shoulder + upper arm) -->
-  <!-- Clavicle -->
-  <path d="M40,70 C65,60 100,65 128,72" fill="none" stroke="#c8b89a" stroke-width="5" stroke-linecap="round"/>
-  <!-- Scapular spine + acromion -->
-  <path d="M230,75 C200,72 172,70 148,70 C132,70 128,75 130,82" fill="none" stroke="#c8b89a" stroke-width="5" stroke-linecap="round"/>
-  <!-- Humerus shaft -->
-  <rect x="128" y="128" width="28" height="140" rx="6" fill="#c8b89a" stroke="#8a7a60" stroke-width="1.5"/>
-  <!-- Deltoid muscle (3 parts) -->
-  <!-- Anterior part (blue) -->
-  <path d="M80,72 C90,80 108,95 125,112 C128,125 130,135 140,140 C130,130 115,118 105,108 C92,95 80,82 80,72 Z" fill="#7ab8e8" fill-opacity=".7" stroke="#4a90d9" stroke-width="1.5"/>
-  <!-- Middle part (purple) -->
-  <path d="M148,72 C160,78 170,95 168,118 C165,135 155,142 140,145 C155,140 165,132 168,115 C170,92 160,75 148,72 Z" fill="url(#musGrad)" fill-opacity=".8" stroke="#8854d0" stroke-width="2"/>
-  <!-- Posterior part (green) -->
-  <path d="M195,80 C210,90 220,108 215,128 C210,142 198,148 185,148 C195,142 205,135 208,122 C212,105 202,88 195,80 Z" fill="#52d18a" fill-opacity=".7" stroke="#2a8a5a" stroke-width="1.5"/>
-  <!-- Deltoid tuberosity insertion -->
-  <ellipse cx="142" cy="195" rx="10" ry="7" fill="#f5c842" fill-opacity=".8" stroke="#c8a030" stroke-width="1.5"/>
-  <!-- Labels -->
-  <line x1="90" y1="88" x2="30" y2="72" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="25" y="70" text-anchor="end" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Anterior</text>
-  <text x="25" y="80" text-anchor="end" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(flex + IR)</text>
-  <line x1="170" y1="100" x2="240" y2="78" stroke="#b084f5" stroke-width="1"/>
-  <text x="242" y="76" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Middle</text>
-  <text x="242" y="86" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(abduct 15-180°)</text>
-  <line x1="210" y1="118" x2="255" y2="115" stroke="#52d18a" stroke-width="1"/>
-  <text x="257" y="113" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Posterior</text>
-  <text x="257" y="123" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">(extend + ER)</text>
-  <line x1="142" y1="192" x2="215" y2="205" stroke="#f5c842" stroke-width="1"/>
-  <text x="217" y="203" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9">Deltoid tuberosity</text>
-  <text x="150" y="290" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Nerve: Axillary (C5,C6) — at surgical neck</text>
-</svg>`,
-
-// ══ KNEE LIGAMENTS ══
-'ACL — Anterior Cruciate Ligament': `<svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px">
-  <defs><radialGradient id="kneeGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#f0e8d0"/><stop offset="100%" stop-color="#c8b89a"/></radialGradient></defs>
-  <rect width="320" height="300" fill="#1a1e2a" rx="8"/>
-  <text x="160" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Knee Ligaments — Anterior View</text>
-  <!-- Femur condyles -->
-  <ellipse cx="125" cy="95" rx="40" ry="30" fill="url(#kneeGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <ellipse cx="195" cy="90" rx="40" ry="30" fill="url(#kneeGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- Tibia plateau -->
-  <rect x="80" y="178" width="160" height="35" rx="8" fill="url(#kneeGrad)" stroke="#8a7a60" stroke-width="2"/>
-  <!-- ACL (highlighted - most important) -->
-  <path d="M148,178 C152,158 158,140 172,112" fill="none" stroke="#f07060" stroke-width="5" stroke-linecap="round"/>
-  <text x="90" y="145" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="700">ACL</text>
-  <!-- PCL -->
-  <path d="M172,178 C168,158 162,140 148,112" fill="none" stroke="#7ab8e8" stroke-width="4" stroke-linecap="round"/>
-  <text x="192" y="145" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="10" font-weight="700">PCL</text>
-  <!-- MCL -->
-  <path d="M82,130 C85,148 85,165 84,178" fill="none" stroke="#52d18a" stroke-width="5" stroke-linecap="round"/>
-  <text x="35" y="158" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" text-anchor="middle">MCL</text>
-  <!-- LCL -->
-  <path d="M238,126 C238,145 238,162 236,178" fill="none" stroke="#b084f5" stroke-width="5" stroke-linecap="round"/>
-  <text x="265" y="158" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" text-anchor="middle">LCL</text>
-  <!-- Menisci -->
-  <path d="M88,180 C100,175 118,173 135,175" fill="none" stroke="#f5c842" stroke-width="3" stroke-linecap="round"/>
-  <path d="M165,174 C182,172 200,174 215,180" fill="none" stroke="#f5c842" stroke-width="3" stroke-linecap="round"/>
-  <!-- Patella -->
-  <ellipse cx="160" cy="148" rx="25" ry="20" fill="#c8b89a" fill-opacity=".6" stroke="#8a7a60" stroke-width="1.5"/>
-  <text x="160" y="152" text-anchor="middle" fill="#8a7a60" font-family="DM Sans,sans-serif" font-size="8">Patella</text>
-  <!-- Labels -->
-  <line x1="164" y1="140" x2="240" y2="112" stroke="#f07060" stroke-width="1"/>
-  <text x="242" y="110" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Femoral attachment:</text>
-  <text x="242" y="120" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">LATERAL condyle</text>
-  <line x1="150" y1="178" x2="80" y2="218" stroke="#f07060" stroke-width="1"/>
-  <text x="75" y="228" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">Tibial attachment:</text>
-  <text x="75" y="238" text-anchor="end" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">ANTERIOR intercondylar</text>
-  <text x="95" y="275" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Prevents anterior tibial translation</text>
-  <text x="95" y="285" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Lachman test | Cannot self-heal | ACL-R needed</text>
-</svg>`,
-
-// ══ A&P 2 SYSTEMS ══
-'Blood composition': `<svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px">
-  <defs>
-    <radialGradient id="rbcGrad" cx="35%" cy="30%"><stop offset="0%" stop-color="#e05050"/><stop offset="100%" stop-color="#801010"/></radialGradient>
-    <radialGradient id="wbcGrad" cx="35%" cy="30%"><stop offset="0%" stop-color="#90b8f0"/><stop offset="100%" stop-color="#3060b0"/></radialGradient>
-  </defs>
-  <rect width="380" height="280" fill="#1a1e2a" rx="8"/>
-  <text x="190" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Blood Composition &amp; Formed Elements</text>
-  <!-- Test tube -->
-  <rect x="25" y="35" width="65" height="220" rx="8" fill="#1a2030" stroke="#7ab8e8" stroke-width="2"/>
-  <!-- Plasma (top 55%) -->
-  <rect x="27" y="37" width="61" height="121" rx="6" fill="#3060a0" fill-opacity=".6"/>
-  <text x="57" y="95" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Plasma</text>
-  <text x="57" y="108" text-anchor="middle" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="9">55%</text>
-  <!-- Buffy coat -->
-  <rect x="27" y="158" width="61" height="12" fill="#f5c842" fill-opacity=".8"/>
-  <text x="57" y="167" text-anchor="middle" fill="#0d0f14" font-family="DM Sans,sans-serif" font-size="7" font-weight="600">WBC+Plt</text>
-  <!-- RBCs (45%) -->
-  <rect x="27" y="170" width="61" height="83" rx="4" fill="#801010" fill-opacity=".8"/>
-  <text x="57" y="210" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">RBCs</text>
-  <text x="57" y="222" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9">45%</text>
-  <!-- Hematocrit bracket -->
-  <line x1="18" y1="170" x2="22" y2="170" stroke="#9099b0" stroke-width="1"/>
-  <line x1="18" y1="253" x2="22" y2="253" stroke="#9099b0" stroke-width="1"/>
-  <line x1="18" y1="170" x2="18" y2="253" stroke="#9099b0" stroke-width="1"/>
-  <text x="12" y="215" text-anchor="end" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7" transform="rotate(-90,12,215)">Hematocrit</text>
-  <!-- RBC detail -->
-  <text x="125" y="35" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Erythrocyte (RBC)</text>
-  <ellipse cx="150" cy="75" rx="30" ry="20" fill="url(#rbcGrad)" stroke="#c04040" stroke-width="1.5"/>
-  <ellipse cx="150" cy="75" rx="14" ry="7" fill="#1a1e2a" fill-opacity=".5"/>
-  <text x="150" y="105" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Biconcave disc</text>
-  <text x="150" y="115" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">No nucleus | 280M Hb/cell</text>
-  <!-- Neutrophil -->
-  <text x="230" y="35" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Neutrophil</text>
-  <circle cx="255" cy="75" r="22" fill="url(#wbcGrad)" fill-opacity=".6" stroke="#4a90d9" stroke-width="1.5"/>
-  <!-- Multi-lobed nucleus -->
-  <circle cx="245" cy="70" r="8" fill="#3060a0" opacity=".8"/>
-  <circle cx="258" cy="68" r="7" fill="#3060a0" opacity=".8"/>
-  <circle cx="266" cy="76" r="7" fill="#3060a0" opacity=".8"/>
-  <line x1="252" y1="70" x2="258" y2="69" stroke="#9ab8f0" stroke-width="1.5"/>
-  <line x1="260" y1="70" x2="264" y2="74" stroke="#9ab8f0" stroke-width="1.5"/>
-  <text x="255" y="108" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Multi-lobed nucleus</text>
-  <text x="255" y="118" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">60-70% | First responder</text>
-  <!-- Platelet -->
-  <text x="118" y="140" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Platelet (Thrombocyte)</text>
-  <ellipse cx="145" cy="175" rx="12" ry="8" fill="#f5c842" fill-opacity=".7" stroke="#c8a030" stroke-width="1.5"/>
-  <ellipse cx="165" cy="170" rx="10" ry="7" fill="#f5c842" fill-opacity=".7" stroke="#c8a030" stroke-width="1.5"/>
-  <ellipse cx="155" cy="185" rx="9" ry="6" fill="#f5c842" fill-opacity=".7" stroke="#c8a030" stroke-width="1.5"/>
-  <text x="150" y="205" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Cell fragments (no nucleus)</text>
-  <text x="150" y="215" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">150-400K/µL | Hemostasis</text>
-  <!-- Lymphocyte -->
-  <text x="238" y="140" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Lymphocyte</text>
-  <circle cx="265" cy="178" r="20" fill="#1a3040" stroke="#52d18a" stroke-width="1.5"/>
-  <circle cx="265" cy="176" r="14" fill="#1a5030" stroke="#2a8a5a" stroke-width="1.5"/>
-  <text x="265" y="178" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="8">T/B</text>
-  <text x="265" y="208" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">Large round nucleus</text>
-  <text x="265" y="218" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">20-30% | Immunity</text>
-  <text x="190" y="270" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Never Let Monkeys Eat Bananas: N/L/M/E/B (% order)</text>
-</svg>`,
-
-'Nephron': `<svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px">
-  <rect width="380" height="320" fill="#1a1e2a" rx="8"/>
-  <text x="190" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Nephron — Complete Structure</text>
-  <!-- Bowman’s capsule -->
-  <circle cx="80" cy="80" r="38" fill="#1a2535" stroke="#7ab8e8" stroke-width="2.5"/>
-  <circle cx="80" cy="80" r="24" fill="#2a1020" stroke="#f07060" stroke-width="2"/>
-  <!-- Glomerulus -->
-  <circle cx="80" cy="80" r="16" fill="#7c2020" fill-opacity=".7"/>
-  <circle cx="75" cy="75" r="8" fill="#c04040" fill-opacity=".5"/>
-  <text x="80" y="77" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="7" font-weight="600">Glom.</text>
-  <!-- Afferent/efferent arterioles -->
-  <path d="M42,60 C55,68 65,74 68,78" fill="none" stroke="#f07060" stroke-width="4" stroke-linecap="round"/>
-  <path d="M88,72 C98,66 110,62 122,60" fill="none" stroke="#4a70b0" stroke-width="3" stroke-linecap="round"/>
-  <text x="30" y="55" fill="#f07060" font-family="DM Sans,sans-serif" font-size="7">Afferent a.</text>
-  <text x="123" y="58" fill="#9ab8f0" font-family="DM Sans,sans-serif" font-size="7">Efferent a.</text>
-  <!-- PCT (convoluted yellow-green) -->
-  <path d="M85,115 C105,120 125,112 140,118 C155,124 162,138 152,148 C142,158 125,155 112,145 C100,136 92,138 88,150 C84,162 88,178 100,185" fill="none" stroke="#52d18a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="160" y="128" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">PCT</text>
-  <text x="160" y="138" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7">65% reabsorption</text>
-  <!-- Loop of Henle -->
-  <path d="M100,188 C108,210 112,235 112,258 C112,275 108,285 100,290 C92,295 84,290 80,278 C76,265 78,248 80,228 C82,210 85,195 88,188" fill="none" stroke="#f5c842" stroke-width="5" stroke-linecap="round"/>
-  <text x="128" y="258" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Loop of</text>
-  <text x="128" y="270" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Henle</text>
-  <text x="128" y="282" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7">Conc. gradient</text>
-  <!-- Cortex/Medulla dividers -->
-  <line x1="25" y1="195" x2="370" y2="195" stroke="#4a6080" stroke-width="1" stroke-dasharray="5,4"/>
-  <text x="28" y="192" fill="#4a6080" font-family="DM Sans,sans-serif" font-size="8">CORTEX</text>
-  <text x="28" y="206" fill="#4a6080" font-family="DM Sans,sans-serif" font-size="8">MEDULLA</text>
-  <!-- DCT -->
-  <path d="M88,188 C185,185 220,190 248,178 C268,170 272,155 260,148 C248,142 230,145 215,152 C200,160 188,162 178,155 C168,148 168,135 178,128" fill="none" stroke="#b084f5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="270" y="168" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">DCT</text>
-  <text x="270" y="178" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7">ADH+Aldosterone</text>
-  <!-- Collecting duct -->
-  <path d="M178,128 C210,122 248,118 278,112 C300,108 318,105 330,115 C340,125 338,150 325,175 C315,195 305,218 308,248 C310,268 316,282 325,290" fill="none" stroke="#f07060" stroke-width="5" stroke-linecap="round"/>
-  <text x="335" y="200" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Collecting</text>
-  <text x="335" y="212" fill="#f07060" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Duct</text>
-  <text x="335" y="225" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7">ADH controls</text>
-  <text x="335" y="235" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="7">water permeability</text>
-  <!-- Bowman’s label -->
-  <line x1="40" y1="55" x2="42" y2="45" stroke="#7ab8e8" stroke-width="1"/>
-  <text x="42" y="40" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Bowman’s capsule</text>
-  <!-- Flow arrow -->
-  <text x="190" y="312" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="9">Glomerulus → PCT → Loop of Henle → DCT → Collecting Duct → Ureter</text>
-</svg>`,
-
-'Insulin': `<svg viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px">
-  <rect width="360" height="280" fill="#1a1e2a" rx="8"/>
-  <text x="180" y="18" text-anchor="middle" fill="#e8eaf2" font-family="DM Sans,sans-serif" font-size="11" font-weight="600">Blood Glucose Regulation</text>
-  <!-- High glucose arrow -->
-  <rect x="130" y="35" width="100" height="30" rx="6" fill="#f07060" fill-opacity=".3" stroke="#f07060" stroke-width="1.5"/>
-  <text x="180" y="54" text-anchor="middle" fill="#f07060" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">High Blood Glucose</text>
-  <!-- Pancreas / beta cells -->
-  <ellipse cx="180" cy="115" rx="55" ry="38" fill="#1a3020" stroke="#52d18a" stroke-width="2"/>
-  <text x="180" y="108" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">Pancreas</text>
-  <text x="180" y="120" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9">β cells release</text>
-  <text x="180" y="131" text-anchor="middle" fill="#f5c842" font-family="DM Sans,sans-serif" font-size="10" font-weight="700">INSULIN</text>
-  <!-- Arrows from high glucose to pancreas -->
-  <line x1="180" y1="65" x2="180" y2="78" stroke="#f07060" stroke-width="2" marker-end="url(#arrowR4)"/>
-  <!-- Insulin effects -->
-  <!-- Muscle/fat cell -->
-  <rect x="30" y="180" width="90" height="55" rx="8" fill="#1a2535" stroke="#7ab8e8" stroke-width="1.5"/>
-  <text x="75" y="203" text-anchor="middle" fill="#7ab8e8" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Muscle/Fat</text>
-  <text x="75" y="215" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">↑ GLUT4 uptake</text>
-  <text x="75" y="225" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">↑ glycogen synthesis</text>
-  <!-- Liver -->
-  <rect x="145" y="180" width="70" height="55" rx="8" fill="#1a3020" stroke="#52d18a" stroke-width="1.5"/>
-  <text x="180" y="203" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Liver</text>
-  <text x="180" y="215" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">↑ glycogen</text>
-  <text x="180" y="225" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">storage</text>
-  <!-- Fat tissue -->
-  <rect x="240" y="180" width="90" height="55" rx="8" fill="#2a1a30" stroke="#b084f5" stroke-width="1.5"/>
-  <text x="285" y="203" text-anchor="middle" fill="#b084f5" font-family="DM Sans,sans-serif" font-size="9" font-weight="600">Adipose</text>
-  <text x="285" y="215" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">↑ fat storage</text>
-  <text x="285" y="225" text-anchor="middle" fill="#9099b0" font-family="DM Sans,sans-serif" font-size="8">↓ lipolysis</text>
-  <!-- Insulin arrows to tissues -->
-  <line x1="148" y1="145" x2="75" y2="180" stroke="#f5c842" stroke-width="2" marker-end="url(#arrowY4)"/>
-  <line x1="180" y1="153" x2="180" y2="180" stroke="#f5c842" stroke-width="2" marker-end="url(#arrowY4)"/>
-  <line x1="212" y1="145" x2="285" y2="180" stroke="#f5c842" stroke-width="2" marker-end="url(#arrowY4)"/>
-  <!-- Result -->
-  <rect x="115" y="245" width="130" height="24" rx="6" fill="#52d18a" fill-opacity=".2" stroke="#52d18a" stroke-width="1.5"/>
-  <text x="180" y="260" text-anchor="middle" fill="#52d18a" font-family="DM Sans,sans-serif" font-size="10" font-weight="600">↓ Blood Glucose (normal)</text>
-  <defs>
-    <marker id="arrowR4" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#f07060"/></marker>
-    <marker id="arrowY4" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#f5c842"/></marker>
-  </defs>
-</svg>`,
-
-});
 
 const ALL_DECK = [];
 CARD_GROUPS.forEach(g => {
@@ -1442,10 +680,7 @@ CARD_GROUPS.forEach(g => {
     ALL_DECK.push({...base, mode:'term→def'});
     ALL_DECK.push({...base, mode:'def→term'});
     ALL_DECK.push({...base, mode:'identify'});
-    // Mode 4: image only if an SVG exists for this term
-    if (getCardSVG(c.t)) {
-      ALL_DECK.push({...base, mode:'image'});
-    }
+    ALL_DECK.push({...base, mode:'image'}); // AI generates image for all cards
   });
 });
 
@@ -1494,13 +729,13 @@ function renderHome() {
 
   function renderSection(groups) {
     return groups.map(g => {
-      const svgCount = g.cards.filter(c => getCardSVG(c.t)).length; const total = g.cards.length * 3 + svgCount;
+      const total = g.cards.length * 4;
       const m = g.cards.filter(c => mastered.includes(c.t + '|' + g.id)).length * 3;
       const pct = total > 0 ? Math.round(m/total*100) : 0;
       return '<div class="gcard" style="border-top-color:' + g.color + '" onclick="startGroup(\'' + g.id + '\')">' +
         '<div class="gcard-icon">' + g.icon + '</div>' +
         '<h3>' + g.label + '</h3>' +
-        '<p>' + g.cards.length + ' terms × 3' + (svgCount ? '+' + svgCount + ' img' : '') + ' = ' + total + ' cards</p>' +
+        '<p>' + g.cards.length + ' terms × 4 modes = ' + total + ' cards</p>' +
         '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + g.color + '"></div></div>' +
         '<div style="font-size:10px;color:var(--text3);margin-top:5px">' + m + '/' + total + ' mastered</div>' +
         '</div>';
@@ -1599,7 +834,6 @@ function renderCard() {
   const key = c.term + '|' + c.gid;
   const isMastered = mastered.includes(key);
   const isReview = review.includes(key);
-  const svg = getCardSVG(c.term);
 
   document.getElementById('fcCounter').textContent = (idx + 1) + ' / ' + total;
   document.getElementById('progFill').style.width = pct + '%';
@@ -1663,19 +897,12 @@ function renderCard() {
       + '</div>';
 
   } else if (c.mode === 'identify') {
-    // FRONT: image if available, otherwise clue snippet
-    if (svg) {
-      frontHTML = '<div class="fc-question-wrap">'
-        + '<div class="fc-prompt-label">Identify the structure:</div>'
-        + '<div class="fc-svg-wrap">' + svg + '</div>'
-        + '</div>';
-    } else {
-      frontHTML = '<div class="fc-question-wrap">'
-        + '<div class="fc-prompt-label">Identify the structure:</div>'
-        + '<div class="fc-def-front">' + shortDef + '</div>'
-        + '<div class="fc-group-label">Group: ' + c.group + '</div>'
-        + '</div>';
-    }
+    // FRONT: AI image with manual generate button
+    frontHTML = '<div class="fc-question-wrap">'
+      + '<div class="fc-prompt-label">Identify the structure:</div>'
+      + imgHTML(c.term, c.group, false)
+      + '<div class="fc-group-label">Group: ' + c.group + '</div>'
+      + '</div>';
     // BACK: term + short def + mnemonic
     backHTML = '<div class="fc-answer-wrap">'
       + '<div class="fc-back-term" style="color:var(--accent)">' + c.term + '</div>'
@@ -1684,11 +911,10 @@ function renderCard() {
       + '</div>';
 
   } else if (c.mode === 'image') {
-    // FRONT: image ONLY, no text label
+    // FRONT: AI image — auto-generates and caches
     frontHTML = '<div class="fc-image-wrap">'
-      + (svg ? '<div class="fc-svg-wrap">' + svg + '</div>'
-             : '<div style="font-size:48px;opacity:.3">🖼️</div><div class="fc-group-label">No image available</div>')
-      + '<div class="fc-prompt-label" style="margin-top:8px">What structure is shown?</div>'
+      + imgHTML(c.term, c.group, true)
+      + '<div class="fc-prompt-label" style="margin-top:10px">What structure is shown?</div>'
       + '</div>';
     // BACK: term + short def + mnemonic
     backHTML = '<div class="fc-answer-wrap">'
@@ -1744,6 +970,106 @@ function mark(type) {
 // ═══════════════════════════════════
 // INIT
 // ═══════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════
+// AI IMAGE GENERATION
+// ═══════════════════════════════════════════════════════════════
+
+// Cache: localStorage key prefix
+const IMG_CACHE_KEY = 'af_aiimg_';
+
+function getImgCache(term) {
+  try { return localStorage.getItem(IMG_CACHE_KEY + term); } catch(e) { return null; }
+}
+function setImgCache(term, dataUrl) {
+  try { localStorage.setItem(IMG_CACHE_KEY + term, dataUrl); } catch(e) {}
+}
+
+// Build a detailed anatomy illustration prompt
+function buildPrompt(term, group) {
+  const isOrgan = ['Heart chambers & valves','Nephron','Glomerulus','Blood composition','Insulin'].includes(term);
+  const style = isOrgan
+    ? 'detailed medical textbook illustration, cross-section diagram, clean white background, labeled diagram style, accurate anatomical colors, educational'
+    : "Gray's Anatomy atlas illustration style, ivory parchment background, pencil-shaded bone drawing, warm bone-colored fills, thin serif callout lines, medical textbook quality, highly detailed";
+  return `A single ${style} illustration of the ${term} (${group}). No text labels, no borders, no decorative frames. Centered subject, clinical accuracy, suitable for anatomy exam study.`;
+}
+
+// Render image HTML — used in card front
+function imgHTML(term, group, autoGenerate) {
+  const cached = getImgCache(term);
+  const safeId = 'aiimg_' + term.replace(/[^a-z0-9]/gi,'_');
+
+  if (cached) {
+    // Already generated — show immediately
+    return '<div class="ai-img-wrap"><img src="' + cached + '" alt="' + term + '"/></div>';
+  }
+
+  if (autoGenerate) {
+    // Mode 4: show spinner, trigger generation after render
+    setTimeout(() => generateImage(term, group, safeId), 100);
+    return '<div class="ai-img-wrap">'
+      + '<div class="ai-img-placeholder" id="' + safeId + '">'
+      + '<div class="ai-spinner"></div>'
+      + '<div>Generating illustration...</div>'
+      + '</div></div>';
+  }
+
+  // Manual trigger button
+  return '<div class="ai-img-wrap">'
+    + '<div class="ai-img-placeholder" id="' + safeId + '">'
+    + '<div style="font-size:32px">🎨</div>'
+    + '<button class="ai-gen-btn" onclick="generateImage(\'' + term.replace(/'/g,"\'") + '\',\'' + group.replace(/'/g,"\'") + '\',\'' + safeId + '\')">'
+    + '<span>✨ Generate Illustration</span>'
+    + '</button>'
+    + '<div style="font-size:11px;opacity:.6;margin-top:4px">AI-generated • saves for future use</div>'
+    + '</div></div>';
+}
+
+async function generateImage(term, group, placeholderId) {
+  const el = document.getElementById(placeholderId);
+  if (!el) return;
+
+  el.innerHTML = '<div class="ai-spinner"></div><div style="font-size:13px;color:#8a7a58;margin-top:6px">Generating illustration...</div>';
+
+  const prompt = buildPrompt(term, group);
+  const encoded = encodeURIComponent(prompt);
+
+  async function tryLoad(seed) {
+    return new Promise((resolve, reject) => {
+      const url = 'https://image.pollinations.ai/prompt/' + encoded
+        + '?width=600&height=600&nologo=true&enhance=true&model=flux&seed=' + seed;
+      const img = new Image();
+      const timer = setTimeout(function() { img.src = ''; reject('timeout'); }, 25000);
+      img.onload = function() { clearTimeout(timer); resolve(url); };
+      img.onerror = function() { clearTimeout(timer); reject('error'); };
+      img.src = url;
+    });
+  }
+
+  const seeds = [Math.floor(Math.random() * 99999), 42, 7];
+  for (let i = 0; i < seeds.length; i++) {
+    try {
+      if (i > 0) {
+        el.innerHTML = '<div class="ai-spinner"></div><div style="font-size:12px;color:#8a7a58;margin-top:6px">Retrying... (attempt ' + (i + 1) + ')</div>';
+      }
+      const url = await tryLoad(seeds[i]);
+      setImgCache(term, url);
+      const wrapper = el.closest('.ai-img-wrap') || el.parentElement;
+      if (wrapper) {
+        wrapper.innerHTML = '<img src="' + url + '" alt="' + term + '" style="width:100%;border-radius:8px;border:1px solid #d8c8a0;box-shadow:0 2px 12px rgba(0,0,0,.12)"/>';
+      }
+      return;
+    } catch(e) {
+      if (i === seeds.length - 1) {
+        el.innerHTML = '<div style="font-size:28px">\uD83D\uDDBC\uFE0F</div>'
+          + '<div class="ai-img-error">Image unavailable \u2014 check connection</div>'
+          + '<button class="ai-gen-btn" style="margin-top:8px" onclick="generateImage(\'' + term.replace(/'/g, '\\\'') + '\',\'' + group.replace(/'/g, '\\\'') + '\',\'' + placeholderId + '\')"> Retry</button>';
+      }
+    }
+  }
+}
+
+
 showHome();
 </script>
 </body>
