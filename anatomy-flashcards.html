@@ -170,6 +170,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:12p
     <button class="fa got" onclick="mark('mastered')">Got It ✓</button>
     <button class="fa" onclick="nav(1)">Next →</button>
   </div>
+  <div style="text-align:center;margin-top:4px">
+    <button onclick="clearImgCache()" style="background:none;border:none;color:#8a7a58;font-size:11px;cursor:pointer;opacity:.6;text-decoration:underline">🗑 Clear image cache</button>
+  </div>
   <div class="score-row">
     <div>Mastered: <span id="scMastered">0</span></div>
     <div>Review: <span id="scReview">0</span></div>
@@ -981,17 +984,40 @@ const IMG_CACHE_KEY = 'af_aiimg_';
 function getImgCache(term) {
   try { return localStorage.getItem(IMG_CACHE_KEY + term); } catch(e) { return null; }
 }
+function clearImgCache() {
+  const keys = Object.keys(localStorage).filter(k => k.startsWith(IMG_CACHE_KEY));
+  keys.forEach(k => localStorage.removeItem(k));
+  alert('Image cache cleared (' + keys.length + ' images). Images will regenerate on next view.');
+}
+
 function setImgCache(term, dataUrl) {
   try { localStorage.setItem(IMG_CACHE_KEY + term, dataUrl); } catch(e) {}
 }
 
 // Build a detailed anatomy illustration prompt
 function buildPrompt(term, group) {
+  // Category detection for style
   const isOrgan = ['Heart chambers & valves','Nephron','Glomerulus','Blood composition','Insulin'].includes(term);
-  const style = isOrgan
-    ? 'detailed medical textbook illustration, cross-section diagram, clean white background, labeled diagram style, accurate anatomical colors, educational'
-    : "Gray's Anatomy atlas illustration style, ivory parchment background, pencil-shaded bone drawing, warm bone-colored fills, thin serif callout lines, medical textbook quality, highly detailed";
-  return `A single ${style} illustration of the ${term} (${group}). No text labels, no borders, no decorative frames. Centered subject, clinical accuracy, suitable for anatomy exam study.`;
+  const isMuscle = group.toLowerCase().includes('muscle') || ['Deltoid','ACL — Anterior Cruciate Ligament'].includes(term);
+  const isBone = group.toLowerCase().includes('bone') || group.toLowerCase().includes('skeletal') || group.toLowerCase().includes('skull') || group.toLowerCase().includes('vertebr') || group.toLowerCase().includes('limb');
+
+  let style, focus;
+
+  if (isOrgan) {
+    style = "detailed medical textbook cross-section illustration, clean white background, accurate anatomical colors, educational diagram style, Netter's Atlas quality";
+    focus = `The ${term} is the ONLY subject, centered and large, filling 80% of the frame. Use a bright red or orange highlight arrow or colored overlay directly on the ${term} structure to make it immediately obvious which part is being shown.`;
+  } else if (isMuscle) {
+    style = "Gray's Anatomy atlas illustration, parchment background, detailed muscle fiber rendering, warm anatomical colors";
+    focus = `Show the ${term} highlighted in a deeper red-orange color compared to surrounding muscles. The ${term} should be the clear focal point, with surrounding structures lighter/more faded.`;
+  } else if (isBone) {
+    style = "Gray's Anatomy atlas pencil illustration, ivory parchment paper background, warm bone tones, detailed shading";
+    focus = `The ${term} is HIGHLIGHTED — shown in a warmer golden-tan color or with a subtle red outline to distinguish it from surrounding bones. The ${term} fills most of the frame. Surrounding skull/skeleton bones are present but lighter/more faded for context.`;
+  } else {
+    style = "Netter's Atlas of Human Anatomy illustration style, clean white background, professional medical illustration";
+    focus = `The ${term} is the clear focal point, highlighted or colored differently from surrounding structures. Large and centered in the frame.`;
+  }
+
+  return `${style}. ${focus}. Single illustration only, no text labels, no borders, no page frames, no book edges, clinical accuracy for anatomy exam study of the ${term}.`;
 }
 
 // Render image HTML — used in card front
@@ -1030,6 +1056,13 @@ async function generateImage(term, group, placeholderId) {
   if (!el) return;
 
   el.innerHTML = '<div class="ai-spinner"></div><div style="font-size:13px;color:#8a7a58;margin-top:6px">Generating illustration...</div>';
+  // Update message after 8s so user knows it's still working
+  const msgTimer = setTimeout(function() {
+    const spinEl = document.getElementById(placeholderId);
+    if (spinEl && spinEl.querySelector('.ai-spinner')) {
+      spinEl.querySelector('div:last-child').textContent = 'Still rendering... (up to 40s)';
+    }
+  }, 8000);
 
   const prompt = buildPrompt(term, group);
   const encoded = encodeURIComponent(prompt);
@@ -1039,8 +1072,8 @@ async function generateImage(term, group, placeholderId) {
       const url = 'https://image.pollinations.ai/prompt/' + encoded
         + '?width=600&height=600&nologo=true&enhance=true&model=flux&seed=' + seed;
       const img = new Image();
-      const timer = setTimeout(function() { img.src = ''; reject('timeout'); }, 25000);
-      img.onload = function() { clearTimeout(timer); resolve(url); };
+      const timer = setTimeout(function() { img.src = ''; reject('timeout'); }, 40000);
+      img.onload = function() { clearTimeout(timer); try { clearTimeout(msgTimer); } catch(e){} resolve(url); };
       img.onerror = function() { clearTimeout(timer); reject('error'); };
       img.src = url;
     });
